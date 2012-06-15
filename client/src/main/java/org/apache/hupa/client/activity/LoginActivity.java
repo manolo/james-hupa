@@ -2,13 +2,18 @@ package org.apache.hupa.client.activity;
 
 import net.customware.gwt.dispatch.client.DispatchAsync;
 
+import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.HupaEvoCallback;
 import org.apache.hupa.client.mvp.WidgetDisplayable;
 import org.apache.hupa.client.place.MailInboxPlace;
+import org.apache.hupa.shared.events.FlashEvent;
+import org.apache.hupa.shared.events.SessionExpireEvent;
+import org.apache.hupa.shared.events.SessionExpireEventHandler;
 import org.apache.hupa.shared.rpc.LoginUser;
 import org.apache.hupa.shared.rpc.LoginUserResult;
 
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -29,6 +34,7 @@ public class LoginActivity extends AbstractActivity {
 	private final PlaceController placeController;
 	private final Provider<MailInboxPlace> mailInboxPlaceProvider;
 	private DispatchAsync dispatcher;
+    private HupaConstants constants = GWT.create(HupaConstants.class);
 
 	@Inject
 	public LoginActivity(Displayable display, EventBus eventBus, PlaceController placeController,
@@ -53,6 +59,20 @@ public class LoginActivity extends AbstractActivity {
 				doLogin();
 			}
 		});
+		display.getResetClick().addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                doReset();
+            }
+            
+        });
+		eventBus.addHandler(SessionExpireEvent.TYPE, new SessionExpireEventHandler() {
+
+            public void onSessionExpireEvent(SessionExpireEvent event) {
+                eventBus.fireEvent(new FlashEvent(constants.sessionTimedOut(), 4000));
+            }
+            
+        });
 
 	}
 
@@ -76,9 +96,7 @@ public class LoginActivity extends AbstractActivity {
 			public void callbackError(Throwable caught) {
 				display.setLoading(false);
 				Window.alert("error");
-				LoginActivity.this.placeController.goTo(mailInboxPlaceProvider.get());
-				// eventBus.fireEvent(new FlashEvent(constants.loginInvalid(),
-				// 4000));
+				// eventBus.fireEvent(new FlashEvent(constants.loginInvalid(),4000));
 				doReset();
 			}
 		});
