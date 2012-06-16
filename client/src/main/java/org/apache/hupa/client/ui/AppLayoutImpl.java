@@ -26,7 +26,7 @@ public class AppLayoutImpl implements AppLayout {
 	private static AppLayoutUiBinder binder = GWT.create(AppLayoutUiBinder.class);
 
 	@UiField
-	FlowPanel topPanel;
+	SimplePanel topPanel;
 
 	@UiField
 	SimplePanel westPanel;
@@ -45,6 +45,17 @@ public class AppLayoutImpl implements AppLayout {
 		return mainLayoutPanel;
 	}
 
+
+	@Override
+	public AcceptsOneWidget getTopContainer() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				Widget widget = Widget.asWidgetOrNull(w);
+				topPanel.setWidget(widget);
+			}
+		};
+	}
 	@Override
 	public AcceptsOneWidget getWestContainer() {
 		return new AcceptsOneWidget() {

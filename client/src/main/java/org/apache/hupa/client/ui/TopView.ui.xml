@@ -8,6 +8,6 @@
 			overflow: hidden;
 		}
 	</ui:style>
-	<g:FlowPanel addStyleNames="{style.round-corner-panel}">
+	<g:FlowPanel ui:field="topWrapper" addStyleNames="{style.round-corner-panel}">
 	</g:FlowPanel>
 </ui:UiBinder>

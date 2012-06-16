@@ -10,16 +10,19 @@ import org.apache.hupa.client.AppController;
 import org.apache.hupa.client.CachingDispatchAsync;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
 import org.apache.hupa.client.activity.LoginActivity;
+import org.apache.hupa.client.activity.TopActivity;
 import org.apache.hupa.client.activity.WestActivity;
 import org.apache.hupa.client.dnd.PagingScrollTableRowDragController;
 import org.apache.hupa.client.mvp.AppPlaceHistoryMapper;
 import org.apache.hupa.client.mvp.MainContentActivityMapper;
+import org.apache.hupa.client.mvp.TopActivityMapper;
 import org.apache.hupa.client.mvp.WestActivityMapper;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.ui.AppLayout;
 import org.apache.hupa.client.ui.AppLayoutImpl;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.LoginView;
+import org.apache.hupa.client.ui.TopView;
 import org.apache.hupa.client.ui.WestView;
 
 import com.google.gwt.activity.shared.ActivityManager;
@@ -43,6 +46,7 @@ public class AppGinModule extends AbstractGinModule {
 
 		// Activities
 		bind(LoginActivity.Displayable.class).to(LoginView.class);
+		bind(TopActivity.Displayable.class).to(TopView.class);
 		bind(WestActivity.Displayable.class).to(WestView.class);
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		
@@ -61,10 +65,20 @@ public class AppGinModule extends AbstractGinModule {
 		bind(ExceptionHandler.class).to(DefaultExceptionHandler.class);
 	}
 
+
+
+	@Provides
+	@Singleton
+	@Named("TopRegion")
+	public ActivityManager getTopRegionActivityMapper(TopActivityMapper activityMapper,
+			EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+	
 	@Provides
 	@Singleton
 	@Named("WestRegion")
-	public ActivityManager getVerticalMasterRegionActivityMapper(WestActivityMapper activityMapper,
+	public ActivityManager getWestRegionActivityMapper(WestActivityMapper activityMapper,
 			EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
@@ -72,7 +86,7 @@ public class AppGinModule extends AbstractGinModule {
 	@Provides
 	@Singleton
 	@Named("MainContentRegion")
-	public ActivityManager getVerticalMasterRegionActivityMapper(MainContentActivityMapper activityMapper,
+	public ActivityManager getMainContentRegionActivityMapper(MainContentActivityMapper activityMapper,
 			EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
