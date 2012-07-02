@@ -70,16 +70,14 @@ public class IMAPMessageListActivity extends AbstractActivity {
 	private final Displayable display;
 	private final EventBus eventBus;
 	private final PlaceController placeController;
-	private final Provider<MailInboxPlace> mailInboxPlaceProvider;
 	private DispatchAsync dispatcher;
     
 	@Inject
     public IMAPMessageListActivity(Displayable display, EventBus eventBus, PlaceController placeController,
-			Provider<MailInboxPlace> mailInboxPlaceProvider, DispatchAsync dispatcher){
+			 DispatchAsync dispatcher){
 		this.display = display;
 		this.eventBus = eventBus;
 		this.placeController = placeController;
-		this.mailInboxPlaceProvider = mailInboxPlaceProvider;
 		this.dispatcher = dispatcher;
 		
 
@@ -95,8 +93,8 @@ public class IMAPMessageListActivity extends AbstractActivity {
 	}
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		revealDisplay(user, folder, searchValue);
 		bind();
+		revealDisplay(user, folder, searchValue);
 		container.setWidget(display.asWidget());
 	}
 	
@@ -315,9 +313,10 @@ public class IMAPMessageListActivity extends AbstractActivity {
             }
         }); 
     }
-	public IMAPMessageListActivity with(User user){
+	public IMAPMessageListActivity with(User user, IMAPFolder imapFolder, String string){
 		this.user = user;
-		this.folder = new IMAPFolder(user.getSettings().getInboxFolderName());
+		this.folder = imapFolder;
+		this.searchValue = string;
 		return this;
 	}
 

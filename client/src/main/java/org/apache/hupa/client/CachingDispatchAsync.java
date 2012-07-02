@@ -83,9 +83,9 @@ public class CachingDispatchAsync extends StandardDispatchAsync {
             return;
         } else {
             running.add(clz);
-            if (action instanceof FetchMessages) {
-                new RuntimeException().printStackTrace();
-            }
+//            if (action instanceof FetchMessages) {
+//                new RuntimeException().printStackTrace();
+//            }
             super.execute(action, new AsyncCallback<R>() {
                 public void onFailure(Throwable caught) {
                     running.remove(clz);
