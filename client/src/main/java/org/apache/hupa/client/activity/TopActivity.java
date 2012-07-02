@@ -5,6 +5,7 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.HupaEvoCallback;
 import org.apache.hupa.client.mvp.WidgetDisplayable;
+import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.shared.data.User;
 import org.apache.hupa.shared.events.FlashEvent;
 import org.apache.hupa.shared.events.FlashEventHandler;
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class TopActivity extends AbstractActivity {
 
@@ -67,6 +69,7 @@ public class TopActivity extends AbstractActivity {
 				}
 				showLogin(username);
 				noopTimer.cancel();
+				TopActivity.this.placeController.goTo(defaultPlaceProvider.get());
 			}
 
 		});
@@ -155,11 +158,12 @@ public class TopActivity extends AbstractActivity {
 	private Timer noopTimer = new IdleTimer();
 
 	@Inject
-	public TopActivity(Displayable display, EventBus eventBus, PlaceController placeController,
+	public TopActivity(Displayable display, EventBus eventBus, PlaceController placeController, Provider<DefaultPlace> defaultPlaceProvider,
 			HupaConstants constants, DispatchAsync dispatcher) {
 		this.dispatcher = dispatcher;
 		this.display = display;
 		this.eventBus = eventBus;
+		this.defaultPlaceProvider = defaultPlaceProvider;
 		this.constants = constants;
 		this.placeController = placeController;
 
@@ -180,6 +184,7 @@ public class TopActivity extends AbstractActivity {
 	private final EventBus eventBus;
 	private final PlaceController placeController;
 	private final DispatchAsync dispatcher;
+	private final Provider<DefaultPlace> defaultPlaceProvider;
 
 	private User user;
 	private ServerStatus serverStatus = ServerStatus.Available;
