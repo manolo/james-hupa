@@ -1,4 +1,4 @@
-package org.apache.hupa.client.mvp;
+package org.apache.hupa.client.ui;
 
 import com.google.gwt.user.client.ui.Widget;
 

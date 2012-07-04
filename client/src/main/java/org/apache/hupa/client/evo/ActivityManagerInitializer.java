@@ -1,4 +1,4 @@
-package org.apache.hupa.client;
+package org.apache.hupa.client.evo;
 
 import org.apache.hupa.client.ui.AppLayout;
 

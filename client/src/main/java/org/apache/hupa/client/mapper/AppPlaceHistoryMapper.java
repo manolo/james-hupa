@@ -1,4 +1,4 @@
-package org.apache.hupa.client.mvp;
+package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.place.IMAPMessagePlace;

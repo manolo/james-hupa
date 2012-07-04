@@ -1,4 +1,4 @@
-package org.apache.hupa.client;
+package org.apache.hupa.client.evo;
 
 import org.apache.hupa.client.ioc.AppGinjector;
 
@@ -7,7 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class HupaEvolution implements EntryPoint {
+public class HupaEvo implements EntryPoint {
 
 	private final AppGinjector injector = GWT.create(AppGinjector.class);
 	@Override
