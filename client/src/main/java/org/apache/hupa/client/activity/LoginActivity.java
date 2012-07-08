@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class LoginActivity extends AbstractActivity {
 
@@ -81,6 +80,25 @@ public class LoginActivity extends AbstractActivity {
 			return;
 
 		display.setLoading(true);
+//		HupaRequestFactory rf = GWT.create(HupaRequestFactory.class);
+//		rf.initialize(eventBus);
+//		UserRequest userRequest = rf.userRequest();
+//		UserProxy user1 = userRequest.create(UserProxy.class);
+//		user1.setName(user);
+//		user1.setPassword(pass);
+//		userRequest.save(user1).fire(new Receiver<UserProxy>(){
+//
+//			@Override
+//			public void onSuccess(UserProxy user) {
+//				display.setLoading(false);
+//				LoginActivity.this.placeController.goTo(new MailFolderPlace().with(null));
+//				doReset();
+//			}
+//			
+//		});
+		
+		
+		
 		dispatcher.execute(new LoginUser(user, pass), new HupaEvoCallback<LoginUserResult>(dispatcher, eventBus,
 				display) {
 			public void callback(LoginUserResult result) {
@@ -97,6 +115,7 @@ public class LoginActivity extends AbstractActivity {
 				doReset();
 			}
 		});
+		
 	}
 
 	/**

@@ -22,4 +22,6 @@ import com.google.web.bindery.requestfactory.shared.RequestFactory;
 
 public interface HupaRequestFactory extends RequestFactory {
   SubjectRequest subjectRequest();
+  UserRequest userRequest();
+  IMAPFolderRequestContext folderRequest();
 }
