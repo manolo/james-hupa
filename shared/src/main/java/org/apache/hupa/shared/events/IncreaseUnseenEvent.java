@@ -19,8 +19,8 @@
 
 package org.apache.hupa.shared.events;
 
-import org.apache.hupa.shared.data.IMAPFolder;
 import org.apache.hupa.shared.data.User;
+import org.apache.hupa.shared.proxy.IMAPFolderProxy;
 
 import com.google.gwt.event.shared.GwtEvent;
 
@@ -28,20 +28,20 @@ public class IncreaseUnseenEvent extends GwtEvent<IncreaseUnseenEventHandler>{
 
     public final static Type<IncreaseUnseenEventHandler> TYPE = new Type<IncreaseUnseenEventHandler>();
     private User user;
-    private IMAPFolder folder;
+    private IMAPFolderProxy folder;
     private int amount;
     
-    public IncreaseUnseenEvent(User user, IMAPFolder folder) {
+    public IncreaseUnseenEvent(User user, IMAPFolderProxy folder) {
         this(user, folder, 1);
     }
     
-    public IncreaseUnseenEvent(User user, IMAPFolder folder, int amount) {
+    public IncreaseUnseenEvent(User user, IMAPFolderProxy folder, int amount) {
         this.user =user;
         this.folder = folder;
         this.amount = amount;
     }
     
-    public IMAPFolder getFolder() {
+    public IMAPFolderProxy getFolder() {
         return folder;
     }
     

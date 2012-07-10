@@ -5,6 +5,7 @@ import org.apache.hupa.shared.data.IMAPFolder;
 import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.MessageDetails;
 import org.apache.hupa.shared.data.User;
+import org.apache.hupa.shared.proxy.IMAPFolderProxy;
 
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
@@ -14,7 +15,7 @@ public class MessageSendPlace extends Place {
 
 	
 	private User user ;
-	private IMAPFolder folder;
+	private IMAPFolderProxy folder;
 	private Message message;
 	private MessageDetails messageDetails;
 	private Type forward;
@@ -38,7 +39,7 @@ public class MessageSendPlace extends Place {
 		return this.getClass().getName() + "->[MessageSend]";
 	}
 
-	public Place with(User user, IMAPFolder folder, Message message, MessageDetails messageDetails, Type forward) {
+	public Place with(User user, IMAPFolderProxy folder, Message message, MessageDetails messageDetails, Type forward) {
 		this.forward = forward;
 		this.user = user;
 		this.folder = folder;
@@ -51,7 +52,7 @@ public class MessageSendPlace extends Place {
 		return user;
 	}
 
-	public IMAPFolder getFolder() {
+	public IMAPFolderProxy getFolder() {
 		return folder;
 	}
 
