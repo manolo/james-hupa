@@ -61,7 +61,7 @@ public class IMAPFolderService {
     private static void walkFolders(Folder folder, IMAPFolder imapFolder) throws  MessagingException{
         for (Folder f : folder.list()) {
             IMAPFolder iFolder = createIMAPFolder(f);
-            imapFolder.getChildIMAPFolders().add(iFolder);
+            imapFolder.getChildren().add(iFolder);
             walkFolders(f, iFolder);
         }
     }

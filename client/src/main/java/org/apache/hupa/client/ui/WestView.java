@@ -195,7 +195,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
             bindDropController(iTreeItem);
             folderTree.addItem(iTreeItem);
 
-            if (((IMAPFolder) iTreeItem.getUserObject()).getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
+            if (((IMAPFolderProxy) iTreeItem.getUserObject()).getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
                 folderTree.setSelectedItem(iTreeItem, false);
             }
 

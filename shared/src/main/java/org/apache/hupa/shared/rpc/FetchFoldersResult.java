@@ -50,7 +50,7 @@ public class FetchFoldersResult implements Result, Serializable {
         StringBuffer ret = new StringBuffer("");
         for (IMAPFolderProxy folder : folders) {
             ret.append(folder.getFullName()).append("\n");
-            for (IMAPFolderProxy f : folder.getChildIMAPFolders()) {
+            for (IMAPFolderProxy f : folder.getChildren()) {
                 childFolder(f, ret);
             }
         }
@@ -59,7 +59,7 @@ public class FetchFoldersResult implements Result, Serializable {
     
     private void childFolder(IMAPFolderProxy child, StringBuffer ret) {
         ret.append(child.getFullName()).append("\n");
-        for (IMAPFolderProxy folder : child.getChildIMAPFolders()) {
+        for (IMAPFolderProxy folder : child.getChildren()) {
             childFolder(folder, ret);
         }
     }

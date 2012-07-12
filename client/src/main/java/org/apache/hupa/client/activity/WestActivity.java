@@ -201,7 +201,7 @@ public class WestActivity extends AbstractActivity {
             });
             record.setUserObject(iFolder);
 
-            List<IMAPFolderProxy> childFolders = iFolder.getChildIMAPFolders();
+            List<IMAPFolderProxy> childFolders = iFolder.getChildren();
             List<IMAPTreeItem> items = createTreeNodes(childFolders);
             for (IMAPTreeItem item : items) {
                 record.addItem(item);

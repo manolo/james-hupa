@@ -29,40 +29,18 @@ import org.apache.hupa.shared.rf.EntityBase;
  * IMAPFolder
  * 
  */
-public class IMAPFolder extends EntityBase implements Serializable {
-	
-	private Long id;
-	private Long version;
-	
-
-    public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-	
-	
+public class IMAPFolder implements Serializable {
 
 	/**
      * 
      */
     private static final long serialVersionUID = 2084188092060266479L;
 
-    private List<IMAPFolder> childs = new ArrayList<IMAPFolder>();
+    private List<IMAPFolder> children = new ArrayList<IMAPFolder>();
     private String fullName;
     private String delimiter;
-    private int msgCount;
-    private int unseenMsgCount;
+    private int messageCount;
+    private int unseenMessageCount;
     private boolean subscribed = false;
 
     public IMAPFolder() {
@@ -99,10 +77,10 @@ public class IMAPFolder extends EntityBase implements Serializable {
     /**
      * Set the child folders 
      * 
-     * @param childs
+     * @param children
      */
-    public void setChildIMAPFolders(List<IMAPFolder> childs) {
-        this.childs = childs;
+    public void setChildren(List<IMAPFolder> children) {
+        this.children = children;
     }
 
     /**
@@ -110,8 +88,8 @@ public class IMAPFolder extends EntityBase implements Serializable {
      * 
      * @return childs
      */
-    public List<IMAPFolder> getChildIMAPFolders() {
-        return childs;
+    public List<IMAPFolder> getChildren() {
+        return children;
     }
 
     /**
@@ -155,7 +133,7 @@ public class IMAPFolder extends EntityBase implements Serializable {
      * @return msgCount
      */
     public int getMessageCount() {
-        return msgCount;
+        return messageCount;
     }
 
     /**
@@ -164,7 +142,7 @@ public class IMAPFolder extends EntityBase implements Serializable {
      * @param msgCount
      */
     public void setMessageCount(int msgCount) {
-        this.msgCount = msgCount;
+        this.messageCount = msgCount;
     }
 
     /**
@@ -173,7 +151,7 @@ public class IMAPFolder extends EntityBase implements Serializable {
      * @param unseenMsgCount
      */
     public void setUnseenMessageCount(int unseenMsgCount) {
-        this.unseenMsgCount = unseenMsgCount;
+        this.unseenMessageCount = unseenMsgCount;
     }
 
     /**
@@ -181,8 +159,8 @@ public class IMAPFolder extends EntityBase implements Serializable {
      * 
      * @return unseenMsgCount
      */
-    public int getUnseeMessageCount() {
-        return unseenMsgCount;
+    public int getUnseenMessageCount() {
+        return unseenMessageCount;
     }
 
     @Override

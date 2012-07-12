@@ -99,7 +99,7 @@ public class FetchFoldersHandler extends AbstractSessionHandler<FetchFolders, Fe
     private void walkFolders(Folder folder, IMAPFolderProxy imapFolder) throws ActionException, MessagingException{
         for (Folder f : folder.list()) {
         	IMAPFolderProxy iFolder = createIMAPFolder(f);
-            imapFolder.getChildIMAPFolders().add(iFolder);
+            imapFolder.getChildren().add(iFolder);
             walkFolders(f, iFolder);
         }
     }
