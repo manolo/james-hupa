@@ -26,7 +26,7 @@ import org.apache.hupa.shared.events.MessagesReceivedEvent;
 import org.apache.hupa.shared.events.MessagesReceivedEventHandler;
 import org.apache.hupa.shared.events.MoveMessageEvent;
 import org.apache.hupa.shared.events.MoveMessageEventHandler;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.DeleteAllMessages;
 import org.apache.hupa.shared.rpc.DeleteMessageByUid;
 import org.apache.hupa.shared.rpc.DeleteMessageResult;
@@ -63,7 +63,7 @@ public class IMAPMessageListActivity extends AbstractActivity {
 
     private String searchValue;
     private User user;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     private ShowMessageTableListener tableListener = new ShowMessageTableListener();
 
 
@@ -325,7 +325,7 @@ public class IMAPMessageListActivity extends AbstractActivity {
             display.reloadData();  
         }
     }
-    public void revealDisplay(User user, IMAPFolderProxy folder, String searchValue) {
+    public void revealDisplay(User user, ImapFolder folder, String searchValue) {
         this.user = user;
        
         if (this.user == null 

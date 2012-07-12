@@ -21,16 +21,16 @@ package org.apache.hupa.shared.events;
 import java.util.ArrayList;
 
 import org.apache.hupa.shared.data.Message;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 import com.google.gwt.event.shared.GwtEvent;
 
 public class MessagesReceivedEvent extends GwtEvent<MessagesReceivedEventHandler>{
     public final static Type<MessagesReceivedEventHandler> TYPE = new Type<MessagesReceivedEventHandler>();
     private ArrayList<Message> messages;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     
-    public MessagesReceivedEvent(IMAPFolderProxy folder, ArrayList<Message> messages) {
+    public MessagesReceivedEvent(ImapFolder folder, ArrayList<Message> messages) {
         this.messages = messages;
         this.folder = folder;
     }
@@ -39,7 +39,7 @@ public class MessagesReceivedEvent extends GwtEvent<MessagesReceivedEventHandler
         return messages;
     }
     
-    public IMAPFolderProxy getFolder() {
+    public ImapFolder getFolder() {
         return folder;
     }
     

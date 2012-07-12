@@ -25,7 +25,7 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
 
 import org.apache.hupa.client.HupaCallback;
-import org.apache.hupa.shared.data.IMAPFolder;
+import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.User;
 import org.apache.hupa.shared.events.FolderSelectionEvent;
@@ -37,7 +37,7 @@ import org.apache.hupa.shared.events.LoginEventHandler;
 import org.apache.hupa.shared.events.LogoutEvent;
 import org.apache.hupa.shared.events.LogoutEventHandler;
 import org.apache.hupa.shared.events.MessagesReceivedEvent;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.FetchMessages;
 import org.apache.hupa.shared.rpc.FetchMessagesResult;
 
@@ -55,7 +55,7 @@ public class MessageTableModel extends MutableTableModel<Message> {
     private EventBus eventBus;
     private DispatchAsync dispatcher;
     private User user;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     private String searchValue;
 
     @Inject
@@ -85,7 +85,7 @@ public class MessageTableModel extends MutableTableModel<Message> {
             
             public void onLogin(LoginEvent event) {
                 user = event.getUser();
-                folder = (IMAPFolderProxy)new IMAPFolder(user.getSettings().getInboxFolderName());
+                folder = (ImapFolder)new ImapFolderImpl(user.getSettings().getInboxFolderName());
                 searchValue = null;
             }
         });

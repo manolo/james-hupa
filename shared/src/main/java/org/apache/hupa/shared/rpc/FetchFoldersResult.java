@@ -24,7 +24,7 @@ import java.util.List;
 
 import net.customware.gwt.dispatch.shared.Result;
 
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 public class FetchFoldersResult implements Result, Serializable {
 
@@ -32,9 +32,9 @@ public class FetchFoldersResult implements Result, Serializable {
      * 
      */
     private static final long serialVersionUID = -6215610133650989605L;
-    private List<IMAPFolderProxy> folders;
+    private List<ImapFolder> folders;
 
-    public FetchFoldersResult(List<IMAPFolderProxy> folders) {
+    public FetchFoldersResult(List<ImapFolder> folders) {
         this.folders=folders;
     }
     
@@ -42,24 +42,24 @@ public class FetchFoldersResult implements Result, Serializable {
     private FetchFoldersResult() {
     }
     
-    public List<IMAPFolderProxy> getFolders() {
+    public List<ImapFolder> getFolders() {
         return folders;
     }
 
     public String toString() {
         StringBuffer ret = new StringBuffer("");
-        for (IMAPFolderProxy folder : folders) {
+        for (ImapFolder folder : folders) {
             ret.append(folder.getFullName()).append("\n");
-            for (IMAPFolderProxy f : folder.getChildren()) {
+            for (ImapFolder f : folder.getChildren()) {
                 childFolder(f, ret);
             }
         }
         return ret.toString();
     }
     
-    private void childFolder(IMAPFolderProxy child, StringBuffer ret) {
+    private void childFolder(ImapFolder child, StringBuffer ret) {
         ret.append(child.getFullName()).append("\n");
-        for (IMAPFolderProxy folder : child.getChildren()) {
+        for (ImapFolder folder : child.getChildren()) {
             childFolder(folder, ret);
         }
     }

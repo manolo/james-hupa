@@ -25,17 +25,17 @@ import java.util.ArrayList;
 import net.customware.gwt.dispatch.shared.Action;
 
 import org.apache.hupa.shared.data.Message.IMAPFlag;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 public class SetFlag implements Action<GenericResult>, Serializable {
 
     private static final long serialVersionUID = 662741801793895357L;
     private IMAPFlag flag;
     private ArrayList<Long> uids;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     private boolean value;
     
-    public SetFlag(IMAPFolderProxy folder, IMAPFlag flag, boolean value, ArrayList<Long> uids) {
+    public SetFlag(ImapFolder folder, IMAPFlag flag, boolean value, ArrayList<Long> uids) {
         this.flag = flag;
         this.value = value;
         this.uids = uids;
@@ -45,7 +45,7 @@ public class SetFlag implements Action<GenericResult>, Serializable {
     protected SetFlag() {
     }
     
-    public IMAPFolderProxy getFolder() {
+    public ImapFolder getFolder() {
         return folder;
     }
     

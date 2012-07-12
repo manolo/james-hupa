@@ -39,11 +39,11 @@ import org.apache.commons.logging.Log;
 import org.apache.hupa.server.IMAPStoreCache;
 import org.apache.hupa.server.preferences.UserPreferencesStorage;
 import org.apache.hupa.server.utils.MessageUtils;
-import org.apache.hupa.shared.data.IMAPFolder;
+import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.Message.IMAPFlag;
 import org.apache.hupa.shared.data.Tag;
 import org.apache.hupa.shared.data.User;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.FetchMessages;
 import org.apache.hupa.shared.rpc.FetchMessagesResult;
 
@@ -63,9 +63,9 @@ public abstract class AbstractFetchMessagesHandler <A extends FetchMessages> ext
     protected FetchMessagesResult executeInternal(A action,
             ExecutionContext context) throws ActionException {
         User user = getUser();
-        IMAPFolderProxy folder = action.getFolder();
+        ImapFolder folder = action.getFolder();
         if (folder == null) {
-            folder = (IMAPFolderProxy)new IMAPFolder(user.getSettings().getInboxFolderName());
+            folder = (ImapFolder)new ImapFolderImpl(user.getSettings().getInboxFolderName());
         }
         com.sun.mail.imap.IMAPFolder f = null;
         int start = action.getStart();

@@ -22,7 +22,7 @@ package org.apache.hupa.shared.events;
 import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.MessageDetails;
 import org.apache.hupa.shared.data.User;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 import com.google.gwt.event.shared.GwtEvent;
 
@@ -30,7 +30,7 @@ public class ReplyMessageEvent extends GwtEvent<ReplyMessageEventHandler>{
 
     public final static Type<ReplyMessageEventHandler> TYPE = new Type<ReplyMessageEventHandler>();
     private User user;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     private Message message;
     private MessageDetails details;
     private boolean replyAll;
@@ -45,7 +45,7 @@ public class ReplyMessageEvent extends GwtEvent<ReplyMessageEventHandler>{
         return TYPE;
     }
     
-    public ReplyMessageEvent(User user, IMAPFolderProxy folder, Message message, MessageDetails details, boolean replyAll) {
+    public ReplyMessageEvent(User user, ImapFolder folder, Message message, MessageDetails details, boolean replyAll) {
         this.user = user;
         this.folder = folder;
         this.message = message;
@@ -57,7 +57,7 @@ public class ReplyMessageEvent extends GwtEvent<ReplyMessageEventHandler>{
         return user;
     }
     
-    public IMAPFolderProxy getFolder() {
+    public ImapFolder getFolder() {
         return folder;
     }
     

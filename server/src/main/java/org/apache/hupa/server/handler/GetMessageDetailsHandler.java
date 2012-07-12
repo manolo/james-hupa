@@ -66,7 +66,7 @@ import org.apache.hupa.server.IMAPStoreCache;
 import org.apache.hupa.shared.data.MessageAttachment;
 import org.apache.hupa.shared.data.MessageDetails;
 import org.apache.hupa.shared.data.User;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.GetMessageDetails;
 import org.apache.hupa.shared.rpc.GetMessageDetailsResult;
 
@@ -105,7 +105,7 @@ public class GetMessageDetailsHandler extends
         return GetMessageDetails.class;
     }
 
-    protected MessageDetails exposeMessage(User user, IMAPFolderProxy folder,
+    protected MessageDetails exposeMessage(User user, ImapFolder folder,
             long uid) throws ActionException {
         IMAPStore store = null;
         com.sun.mail.imap.IMAPFolder f = null;

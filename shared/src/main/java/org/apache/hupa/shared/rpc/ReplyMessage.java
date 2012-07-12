@@ -21,14 +21,14 @@
 package org.apache.hupa.shared.rpc;
 
 import org.apache.hupa.shared.data.SMTPMessage;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 public class ReplyMessage extends ForwardMessage {
 
     private static final long serialVersionUID = -383135476236902779L;
 
     
-    public ReplyMessage(SMTPMessage msg, IMAPFolderProxy folder, long uid) {
+    public ReplyMessage(SMTPMessage msg, ImapFolder folder, long uid) {
         super(msg, folder, uid);
     }
 

@@ -13,11 +13,11 @@ import org.apache.hupa.client.place.IMAPMessagePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
-import org.apache.hupa.client.rf.IMAPFolderRequestContext;
+import org.apache.hupa.client.rf.ImapFolderRequestContext;
 import org.apache.hupa.client.ui.WidgetContainerDisplayable;
 import org.apache.hupa.client.widgets.HasDialog;
 import org.apache.hupa.client.widgets.IMAPTreeItem;
-import org.apache.hupa.shared.data.IMAPFolder;
+import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.Message.IMAPFlag;
 import org.apache.hupa.shared.data.MessageDetails;
@@ -46,7 +46,7 @@ import org.apache.hupa.shared.events.ReplyMessageEvent;
 import org.apache.hupa.shared.events.ReplyMessageEventHandler;
 import org.apache.hupa.shared.events.SentMessageEvent;
 import org.apache.hupa.shared.events.SentMessageEventHandler;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.CreateFolder;
 import org.apache.hupa.shared.rpc.DeleteFolder;
 import org.apache.hupa.shared.rpc.GenericResult;
@@ -88,7 +88,7 @@ public class WestActivity extends AbstractActivity {
 	
     private DispatchAsync dispatcher;
     private User user;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     private IMAPTreeItem tItem;
     private HasEditable editableTreeItem;
     private String searchValue;
@@ -131,7 +131,7 @@ public class WestActivity extends AbstractActivity {
         
         HupaRequestFactory rf = GWT.create(HupaRequestFactory.class);
 		rf.initialize(eventBus);
-		IMAPFolderRequestContext folderRequest = rf.folderRequest();
+		ImapFolderRequestContext folderRequest = rf.folderRequest();
 //		IMAPFolderProxy folder = folderRequest.create(IMAPFolderProxy.class);
 //		folderRequest.echo("..........Hi++++").fire(new Receiver<String>(){
 //
@@ -140,10 +140,10 @@ public class WestActivity extends AbstractActivity {
 //				System.out.println(response);
 //				
 //			}});
-		folderRequest.requestFolders().fire(new Receiver<List<IMAPFolderProxy>>() {
+		folderRequest.requestFolders().fire(new Receiver<List<ImapFolder>>() {
 
 			@Override
-			public void onSuccess(List<IMAPFolderProxy> response) {
+			public void onSuccess(List<ImapFolder> response) {
               display.bindTreeItems(createTreeNodes(response));
 //              // disable
               display.getDeleteEnable().setEnabled(false);
@@ -173,17 +173,17 @@ public class WestActivity extends AbstractActivity {
      * @param list
      * @return
      */
-    private List<IMAPTreeItem> createTreeNodes(List<IMAPFolderProxy> list) {
+    private List<IMAPTreeItem> createTreeNodes(List<ImapFolder> list) {
         List<IMAPTreeItem> tList = new ArrayList<IMAPTreeItem>();
 
-        for (IMAPFolderProxy iFolder : list) {
+        for (ImapFolder iFolder : list) {
 
             final IMAPTreeItem record = new IMAPTreeItem(iFolder);
             record.addEditHandler(new EditHandler() {
 
                 public void onEditEvent(EditEvent event) {
                     if (event.getEventType().equals(EditEvent.EventType.Stop)) {
-                        IMAPFolder iFolder = new IMAPFolder((String) event.getOldValue());
+                        ImapFolderImpl iFolder = new ImapFolderImpl((String) event.getOldValue());
                         final String newName = (String) event.getNewValue();
                         if (iFolder.getFullName().equalsIgnoreCase(newName) == false) {
                             dispatcher.execute(new RenameFolder(iFolder, newName), new HupaEvoCallback<GenericResult>(dispatcher, eventBus) {
@@ -201,7 +201,7 @@ public class WestActivity extends AbstractActivity {
             });
             record.setUserObject(iFolder);
 
-            List<IMAPFolderProxy> childFolders = iFolder.getChildren();
+            List<ImapFolder> childFolders = iFolder.getChildren();
             List<IMAPTreeItem> items = createTreeNodes(childFolders);
             for (IMAPTreeItem item : items) {
                 record.addItem(item);
@@ -343,7 +343,7 @@ public class WestActivity extends AbstractActivity {
                 tItem = (IMAPTreeItem) event.getSelectedItem();
                 if (tItem.isEdit()) 
                     return;
-                folder = (IMAPFolderProxy) tItem.getUserObject();
+                folder = (ImapFolder) tItem.getUserObject();
                 eventBus.fireEvent(new LoadMessagesEvent(user, folder));
             }
 
@@ -354,7 +354,7 @@ public class WestActivity extends AbstractActivity {
                 tItem = (IMAPTreeItem) event.getSelectedItem();
                 if (tItem.isEdit()) 
                     return;
-                folder = (IMAPFolderProxy) tItem.getUserObject();
+                folder = (ImapFolder) tItem.getUserObject();
                 if (folder.getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
                     display.getDeleteEnable().setEnabled(false);
                     display.getRenameEnable().setEnabled(false);
@@ -405,7 +405,7 @@ public class WestActivity extends AbstractActivity {
                         final IMAPTreeItem item = (IMAPTreeItem) event.getSource();
                         final String newValue = (String) event.getNewValue();
                         if (event.getEventType().equals(EditEvent.EventType.Stop)) {
-                            dispatcher.execute(new CreateFolder(new IMAPFolder(newValue.trim())), new AsyncCallback<GenericResult>() {
+                            dispatcher.execute(new CreateFolder(new ImapFolderImpl(newValue.trim())), new AsyncCallback<GenericResult>() {
 
                                 public void onFailure(Throwable caught) {
                                     GWT.log("Error while create folder", caught);
@@ -427,7 +427,7 @@ public class WestActivity extends AbstractActivity {
 		eventBus.addHandler(MessagesReceivedEvent.TYPE, new MessagesReceivedEventHandler() {
 
             public void onMessagesReceived(MessagesReceivedEvent event) {
-            	IMAPFolderProxy f = event.getFolder();
+            	ImapFolder f = event.getFolder();
                 display.updateTreeItem(f);
             }
 
@@ -468,7 +468,7 @@ public class WestActivity extends AbstractActivity {
         return false;
       };
     }-*/;
-    private void showMessageTable(User user, IMAPFolderProxy folder, String searchValue) {
+    private void showMessageTable(User user, ImapFolder folder, String searchValue) {
         this.user = user;
         this.folder = folder;
         this.searchValue = searchValue;
@@ -478,7 +478,7 @@ public class WestActivity extends AbstractActivity {
 //        placeController.goTo(new MailInboxPlace(folder.getName()).with(user));
     }
 
-    private void showMessage(User user, IMAPFolder folder, Message message, MessageDetails details) {
+    private void showMessage(User user, ImapFolderImpl folder, Message message, MessageDetails details) {
     	placeController.goTo(IMAPMessagePlaceProvider.get());
     }
 
@@ -515,15 +515,15 @@ public class WestActivity extends AbstractActivity {
 
         public HasEnable getNewEnable();
 
-        public void updateTreeItem(IMAPFolderProxy folder);
+        public void updateTreeItem(ImapFolder folder);
 
         public void deleteSelectedFolder();
 
         public HasEditable createFolder(EditHandler handler);
 
-        public void increaseUnseenMessageCount(IMAPFolderProxy folder, int amount);
+        public void increaseUnseenMessageCount(ImapFolder folder, int amount);
 
-        public void decreaseUnseenMessageCount(IMAPFolderProxy folder, int amount);
+        public void decreaseUnseenMessageCount(ImapFolder folder, int amount);
         
         public void setLoadingFolders(boolean loading);
         public void setLoadingMessage(boolean loading);

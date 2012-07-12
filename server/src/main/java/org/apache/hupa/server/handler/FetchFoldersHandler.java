@@ -31,9 +31,9 @@ import net.customware.gwt.dispatch.shared.ActionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.hupa.server.IMAPStoreCache;
-import org.apache.hupa.shared.data.IMAPFolder;
+import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.User;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.FetchFolders;
 import org.apache.hupa.shared.rpc.FetchFoldersResult;
 
@@ -66,11 +66,11 @@ public class FetchFoldersHandler extends AbstractSessionHandler<FetchFolders, Fe
             com.sun.mail.imap.IMAPFolder folder = (com.sun.mail.imap.IMAPFolder) store.getDefaultFolder();
             
             // List of mail 'root' imap folders
-            List<IMAPFolderProxy> imapFolders = new ArrayList<IMAPFolderProxy>();
+            List<ImapFolder> imapFolders = new ArrayList<ImapFolder>();
 
             // Create IMAPFolder tree list
             for (Folder f : folder.list()) {
-            	IMAPFolderProxy imapFolder = createIMAPFolder(f);
+            	ImapFolder imapFolder = createIMAPFolder(f);
                 imapFolders.add(imapFolder);
                 walkFolders(f, imapFolder);
             }
@@ -96,9 +96,9 @@ public class FetchFoldersHandler extends AbstractSessionHandler<FetchFolders, Fe
      * @throws ActionException If an error occurs
      * @throws MessagingException If an error occurs
      */
-    private void walkFolders(Folder folder, IMAPFolderProxy imapFolder) throws ActionException, MessagingException{
+    private void walkFolders(Folder folder, ImapFolder imapFolder) throws ActionException, MessagingException{
         for (Folder f : folder.list()) {
-        	IMAPFolderProxy iFolder = createIMAPFolder(f);
+        	ImapFolder iFolder = createIMAPFolder(f);
             imapFolder.getChildren().add(iFolder);
             walkFolders(f, iFolder);
         }
@@ -119,16 +119,16 @@ public class FetchFoldersHandler extends AbstractSessionHandler<FetchFolders, Fe
      * @throws ActionException If an error occurs
      * @throws MessagingException If an error occurs
      */
-    private IMAPFolderProxy createIMAPFolder(Folder folder) throws ActionException {
+    private ImapFolder createIMAPFolder(Folder folder) throws ActionException {
 
         String fullName = folder.getFullName();
         String delimiter;
-        IMAPFolderProxy iFolder = null;
+        ImapFolder iFolder = null;
         
         try {
             logger.debug("Creating folder: " + fullName + " for user: " + getUser());
             delimiter = String.valueOf(folder.getSeparator());
-            iFolder = (IMAPFolderProxy)new IMAPFolder(fullName);
+            iFolder = (ImapFolder)new ImapFolderImpl(fullName);
             iFolder.setDelimiter(delimiter);
             if("[Gmail]".equals(folder.getFullName()))
                 return iFolder;

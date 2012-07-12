@@ -23,30 +23,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hupa.shared.rf.EntityBase;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 /**
  * IMAPFolder
  * 
  */
-public class IMAPFolder implements Serializable {
+public class ImapFolderImpl implements ImapFolder {
 
 	/**
      * 
      */
     private static final long serialVersionUID = 2084188092060266479L;
 
-    private List<IMAPFolder> children = new ArrayList<IMAPFolder>();
+    private List<ImapFolder> children = new ArrayList<ImapFolder>();
     private String fullName;
     private String delimiter;
     private int messageCount;
     private int unseenMessageCount;
     private boolean subscribed = false;
 
-    public IMAPFolder() {
+    public ImapFolderImpl() {
     }
 
-    public IMAPFolder(String fullName) {
+    public ImapFolderImpl(String fullName) {
         setFullName(fullName);
     }
 
@@ -79,7 +79,7 @@ public class IMAPFolder implements Serializable {
      * 
      * @param children
      */
-    public void setChildren(List<IMAPFolder> children) {
+    public void setChildren(List<ImapFolder> children) {
         this.children = children;
     }
 
@@ -88,7 +88,7 @@ public class IMAPFolder implements Serializable {
      * 
      * @return childs
      */
-    public List<IMAPFolder> getChildren() {
+    public List<ImapFolder> getChildren() {
         return children;
     }
 
@@ -170,8 +170,8 @@ public class IMAPFolder implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (o instanceof IMAPFolder) {
-            if (((IMAPFolder) o).getFullName().equals(getFullName())) {
+        if (o instanceof ImapFolder) {
+            if (((ImapFolder) o).getFullName().equals(getFullName())) {
                 return true;
             }
         }

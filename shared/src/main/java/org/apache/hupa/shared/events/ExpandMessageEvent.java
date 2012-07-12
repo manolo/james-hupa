@@ -21,7 +21,7 @@ package org.apache.hupa.shared.events;
 
 import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.User;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 import com.google.gwt.event.shared.GwtEvent;
 
@@ -30,9 +30,9 @@ public class ExpandMessageEvent extends GwtEvent<ExpandMessageEventHandler>{
     public final static Type<ExpandMessageEventHandler> TYPE = new Type<ExpandMessageEventHandler>();
     private Message message;
     private User user;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     
-    public ExpandMessageEvent(User user, IMAPFolderProxy folder, Message message) {
+    public ExpandMessageEvent(User user, ImapFolder folder, Message message) {
         this.message = message;
         this.folder = folder;
         this.user = user;
@@ -46,7 +46,7 @@ public class ExpandMessageEvent extends GwtEvent<ExpandMessageEventHandler>{
         return user;
     }
     
-    public IMAPFolderProxy getFolder () {
+    public ImapFolder getFolder () {
         return folder;
     }
     

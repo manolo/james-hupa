@@ -37,7 +37,7 @@ import net.customware.gwt.presenter.client.widget.WidgetPresenter;
 import org.apache.hupa.client.HupaCallback;
 import org.apache.hupa.client.validation.EmailListValidator;
 import org.apache.hupa.shared.Util;
-import org.apache.hupa.shared.data.IMAPFolder;
+import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.MessageAttachment;
 import org.apache.hupa.shared.data.MessageDetails;
@@ -52,7 +52,7 @@ import org.apache.hupa.shared.events.FolderSelectionEventHandler;
 import org.apache.hupa.shared.events.LoadMessagesEvent;
 import org.apache.hupa.shared.events.LoadMessagesEventHandler;
 import org.apache.hupa.shared.events.SentMessageEvent;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.ContactsResult.Contact;
 import org.apache.hupa.shared.rpc.ForwardMessage;
 import org.apache.hupa.shared.rpc.GenericResult;
@@ -77,7 +77,7 @@ public class MessageSendPresenter extends WidgetPresenter<MessageSendPresenter.D
     private DispatchAsync dispatcher;
     private ArrayList<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
     private Type type = Type.NEW;
-    private IMAPFolderProxy folder;
+    private ImapFolder folder;
     private Message oldmessage;
     
     protected SMTPMessage message = null;
@@ -282,7 +282,7 @@ public class MessageSendPresenter extends WidgetPresenter<MessageSendPresenter.D
      * @param type
      *            the type
      */
-    public void revealDisplay(User user, IMAPFolderProxy folder, Message oldmessage, MessageDetails oldDetails, String mailto, Type type) {
+    public void revealDisplay(User user, ImapFolder folder, Message oldmessage, MessageDetails oldDetails, String mailto, Type type) {
         this.reset();
         this.oldmessage = oldmessage;
         this.oldDetails = oldDetails;
@@ -334,7 +334,7 @@ public class MessageSendPresenter extends WidgetPresenter<MessageSendPresenter.D
         display.getEditorFocus().setFocus(true);
     }
 
-    public void revealDisplay(User user, IMAPFolderProxy folder, Message oldmessage, MessageDetails oldDetails, Type type) {
+    public void revealDisplay(User user, ImapFolder folder, Message oldmessage, MessageDetails oldDetails, Type type) {
         this.revealDisplay(user, folder, oldmessage, oldDetails, null, type);
     }
 

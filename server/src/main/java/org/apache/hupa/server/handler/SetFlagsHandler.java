@@ -34,7 +34,7 @@ import net.customware.gwt.dispatch.shared.ActionException;
 import org.apache.commons.logging.Log;
 import org.apache.hupa.server.IMAPStoreCache;
 import org.apache.hupa.shared.data.User;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.GenericResult;
 import org.apache.hupa.shared.rpc.SetFlag;
 
@@ -54,7 +54,7 @@ public class SetFlagsHandler extends AbstractSessionHandler<SetFlag, GenericResu
     protected GenericResult executeInternal(SetFlag action,
             ExecutionContext context) throws ActionException {
         User user = getUser();
-        IMAPFolderProxy folder = action.getFolder();
+        ImapFolder folder = action.getFolder();
         ArrayList<Long> uids = action.getUids();
         com.sun.mail.imap.IMAPFolder f = null;
         try {

@@ -19,7 +19,7 @@
 
 package org.apache.hupa.shared.rpc;
 
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 
 public class FetchRecentMessages extends FetchMessages{
 
@@ -28,7 +28,7 @@ public class FetchRecentMessages extends FetchMessages{
     protected FetchRecentMessages() {
     }
     
-    public FetchRecentMessages(IMAPFolderProxy folder, int start,
+    public FetchRecentMessages(ImapFolder folder, int start,
             int offset, String searchString) {
         super(folder, start, offset, searchString);
     }

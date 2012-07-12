@@ -32,7 +32,7 @@ import org.apache.hupa.client.mvp.IMAPMessageListView;
 import org.apache.hupa.client.widgets.ConfirmDialogBox;
 import org.apache.hupa.client.widgets.HasDialog;
 import org.apache.hupa.client.widgets.IMAPTreeItem;
-import org.apache.hupa.shared.data.IMAPFolder;
+import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.Message.IMAPFlag;
 import org.apache.hupa.shared.data.User;
@@ -41,7 +41,7 @@ import org.apache.hupa.shared.events.LoginEventHandler;
 import org.apache.hupa.shared.events.LogoutEvent;
 import org.apache.hupa.shared.events.LogoutEventHandler;
 import org.apache.hupa.shared.events.MoveMessageEvent;
-import org.apache.hupa.shared.proxy.IMAPFolderProxy;
+import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.widgets.event.EditEvent;
 import org.apache.hupa.widgets.event.EditHandler;
 import org.apache.hupa.widgets.ui.EnableHyperlink;
@@ -195,7 +195,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
             bindDropController(iTreeItem);
             folderTree.addItem(iTreeItem);
 
-            if (((IMAPFolderProxy) iTreeItem.getUserObject()).getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
+            if (((ImapFolder) iTreeItem.getUserObject()).getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
                 folderTree.setSelectedItem(iTreeItem, false);
             }
 
@@ -299,7 +299,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
                 oldTreeItem.decreaseUnseenMessageCount();
                 item.increaseUnseenMessageCount();
             }
-            bus.fireEvent(new MoveMessageEvent(user, (IMAPFolder) oldTreeItem.getUserObject(), (IMAPFolder) item.getUserObject(), message));
+            bus.fireEvent(new MoveMessageEvent(user, (ImapFolder) oldTreeItem.getUserObject(), (ImapFolder) item.getUserObject(), message));
         }
 
         /**
@@ -418,7 +418,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
         // Select the INBOX after delete folder
         for (int i = 0; i < folderTree.getItemCount(); i++) {
             IMAPTreeItem item = (IMAPTreeItem) folderTree.getItem(i);
-            if (((IMAPFolder) item.getUserObject()).getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
+            if (((ImapFolder) item.getUserObject()).getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
                 folderTree.setSelectedItem(item, true);
                 break;
             }
@@ -439,11 +439,11 @@ public class WestView extends Composite implements WestActivity.Displayable {
         if (selected.isEdit())
             return null;
         
-        IMAPFolderProxy oldFolder = (IMAPFolderProxy) selected.getUserObject();
+        ImapFolder oldFolder = (ImapFolder) selected.getUserObject();
 
         // Generate a new folder with a whitespace as name, this is needed as
         // workaround
-        IMAPFolderProxy folder = (IMAPFolderProxy)new IMAPFolder(oldFolder.getFullName() + oldFolder.getDelimiter() + " ");
+        ImapFolder folder = (ImapFolder)new ImapFolderImpl(oldFolder.getFullName() + oldFolder.getDelimiter() + " ");
         folder.setDelimiter(oldFolder.getDelimiter());
 
         final IMAPTreeItem newItem = new IMAPTreeItem(folder);
@@ -487,7 +487,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
      * @seeorg.apache.hupa.client.mvp.IMAPFolderPresenter.Display#
      * decreaseUnseenMessageCount(org.apache.hupa.shared.data.IMAPFolder, int)
      */
-    public void decreaseUnseenMessageCount(IMAPFolderProxy folder, int amount) {
+    public void decreaseUnseenMessageCount(ImapFolder folder, int amount) {
         int count = folderTree.getItemCount();
         for (int i = 0; i < count; i++) {
             IMAPTreeItem item = findTreeItemForFolder((IMAPTreeItem) folderTree.getItem(i), folder);
@@ -505,7 +505,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
      * @seeorg.apache.hupa.client.mvp.IMAPFolderPresenter.Display#
      * increaseUnseenMessageCount(org.apache.hupa.shared.data.IMAPFolder, int)
      */
-    public void increaseUnseenMessageCount(IMAPFolderProxy folder, int amount) {
+    public void increaseUnseenMessageCount(ImapFolder folder, int amount) {
         int count = folderTree.getItemCount();
         for (int i = 0; i < count; i++) {
             IMAPTreeItem item = findTreeItemForFolder((IMAPTreeItem) folderTree.getItem(i), folder);
@@ -518,8 +518,8 @@ public class WestView extends Composite implements WestActivity.Displayable {
     }
 
     
-    private IMAPTreeItem findTreeItemForFolder(IMAPTreeItem item, IMAPFolderProxy folder) {
-        if (folder.getFullName().equalsIgnoreCase(((IMAPFolder) item.getUserObject()).getFullName())) {
+    private IMAPTreeItem findTreeItemForFolder(IMAPTreeItem item, ImapFolder folder) {
+        if (folder.getFullName().equalsIgnoreCase(((ImapFolder) item.getUserObject()).getFullName())) {
             return item;
         }
         for (int i = 0; i < item.getChildCount(); i++) {
@@ -535,7 +535,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
      * (non-Javadoc)
      * @see org.apache.hupa.client.mvp.MainPresenter.Display#updateTreeItem(org.apache.hupa.shared.data.IMAPFolder)
      */
-    public void updateTreeItem(IMAPFolderProxy folder) {
+    public void updateTreeItem(ImapFolder folder) {
         int count = folderTree.getItemCount();
         for (int i = 0; i < count; i++) {
             IMAPTreeItem item = findTreeItemForFolder((IMAPTreeItem) folderTree.getItem(i), folder);
