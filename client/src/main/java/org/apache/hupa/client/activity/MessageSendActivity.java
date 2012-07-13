@@ -54,7 +54,6 @@ import com.google.inject.Inject;
 
 public class MessageSendActivity extends AbstractActivity {
 
-    private DispatchAsync dispatcher;
     private ArrayList<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
     private Type type = Type.NEW;
     private ImapFolder folder;
@@ -63,9 +62,11 @@ public class MessageSendActivity extends AbstractActivity {
     protected SMTPMessage message = null;
     @SuppressWarnings("unused")
     private MessageDetails oldDetails;
-	private final Displayable display;
-	private final EventBus eventBus;
-	private final PlaceController placeController;
+    
+	@Inject private DispatchAsync dispatcher;
+    @Inject private Displayable display;
+    @Inject private EventBus eventBus;
+    @Inject private PlaceController placeController;
 	
 	private MessageSendPlace place;
 	
@@ -76,15 +77,6 @@ public class MessageSendActivity extends AbstractActivity {
 		bind();
 		revealDisplay(user, folder, oldmessage, oldDetails, type);
 		container.setWidget(display.asWidget());
-	}
-	@Inject
-	public MessageSendActivity(Displayable display, EventBus eventBus, PlaceController placeController,
-			 DispatchAsync dispatcher){
-		this.dispatcher = dispatcher;
-		this.display = display;
-		this.eventBus = eventBus;
-		this.placeController = placeController;
-		
 	}
 	
 	public MessageSendActivity with(MessageSendPlace place){

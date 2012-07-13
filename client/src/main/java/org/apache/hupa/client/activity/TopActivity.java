@@ -40,7 +40,6 @@ import com.google.inject.Provider;
 public class TopActivity extends AbstractActivity {
 
 	private static final int IDLE_INTERVAL = 150000;
-	HupaConstants constants;
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
@@ -157,17 +156,6 @@ public class TopActivity extends AbstractActivity {
 	}
 	private Timer noopTimer = new IdleTimer();
 
-	@Inject
-	public TopActivity(Displayable display, EventBus eventBus, PlaceController placeController, Provider<DefaultPlace> defaultPlaceProvider,
-			HupaConstants constants, DispatchAsync dispatcher) {
-		this.dispatcher = dispatcher;
-		this.display = display;
-		this.eventBus = eventBus;
-		this.defaultPlaceProvider = defaultPlaceProvider;
-		this.constants = constants;
-		this.placeController = placeController;
-
-	}
 	public interface Displayable extends WidgetDisplayable {
 		public HasClickHandlers getLogoutClick();
 		public HasClickHandlers getContactsClick();
@@ -180,12 +168,13 @@ public class TopActivity extends AbstractActivity {
 		public void showMessage(String message, int millisecs);
 	}
 
-	private final Displayable display;
-	private final EventBus eventBus;
-	private final PlaceController placeController;
-	private final DispatchAsync dispatcher;
-	private final Provider<DefaultPlace> defaultPlaceProvider;
-
+	@Inject private Displayable display;
+	@Inject private EventBus eventBus;
+	@Inject private PlaceController placeController;
+	@Inject private DispatchAsync dispatcher;
+	@Inject private Provider<DefaultPlace> defaultPlaceProvider;
+	@Inject private HupaConstants constants;
+	
 	private User user;
 	private ServerStatus serverStatus = ServerStatus.Available;
 

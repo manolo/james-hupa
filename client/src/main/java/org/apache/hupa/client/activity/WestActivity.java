@@ -79,14 +79,22 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 
 public class WestActivity extends AbstractActivity {
 
-	private final Displayable display;
-	private final EventBus eventBus;
-	private final PlaceController placeController;
-	private final Provider<IMAPMessagePlace> IMAPMessagePlaceProvider;
-	private final Provider<MessageSendPlace> messageSendPlaceProvider;
-	private final Provider<IMAPMessagePlace> messagePlaceProvider;
+	@Override
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		display.setUser(user);
+		loadTreeItems();
+		bind();
+		container.setWidget(display.asWidget());
+	}
 	
-    private DispatchAsync dispatcher;
+	@Inject private DispatchAsync dispatcher;
+	@Inject private Displayable display;
+	@Inject private EventBus eventBus;
+	@Inject private PlaceController placeController;
+	@Inject private Provider<IMAPMessagePlace> IMAPMessagePlaceProvider;
+	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
+	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
+	
     private User user;
     private ImapFolder folder;
     private IMAPTreeItem tItem;
@@ -98,28 +106,7 @@ public class WestActivity extends AbstractActivity {
     public void setCurrentPlace(Place place){
     	this.currentPlace = place;
     }
-    
-    @Inject
-    public WestActivity(Displayable display, EventBus eventBus, PlaceController placeController,
-			DispatchAsync dispatcher,Provider<IMAPMessagePlace> IMAPMessagePlaceProvider,Provider<MessageSendPlace> messageSendPlaceProvider,Provider<IMAPMessagePlace> messagePlaceProvider){
-    	this.dispatcher = dispatcher;
-    	this.display = display;
-    	this.eventBus = eventBus;
-    	this.placeController = placeController;
-    	this.IMAPMessagePlaceProvider = IMAPMessagePlaceProvider;
-    	this.messageSendPlaceProvider = messageSendPlaceProvider;
-    	this.messagePlaceProvider = messagePlaceProvider;
     	
-    }
-
-	@Override
-	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		display.setUser(user);
-		loadTreeItems();
-		bind();
-		container.setWidget(display.asWidget());
-	}
-	
     public WestActivity with(MailFolderPlace place){
     	this.currentPlace = place;
     	this.user = place.getUser();

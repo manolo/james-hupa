@@ -109,24 +109,14 @@ public class IMAPMessageActivity  extends AbstractActivity {
     	
     }
     
-    @Inject
-    public IMAPMessageActivity(Displayable display, EventBus eventBus, PlaceController placeController,
-    		 CachingDispatchAsync dispatcher){
-    	this.display = display;
-    	this.dispatcher = dispatcher;
-    	this.eventBus = eventBus;
-    	this.placeController = placeController;
-    	
-    	
-    }
     private MessageDetails messageDetails;
     private Message message;
-    private CachingDispatchAsync dispatcher;
     private ImapFolder folder;
     private User user;
-	private final Displayable display;
-	private final EventBus eventBus;
-	private final PlaceController placeController;
+    @Inject private CachingDispatchAsync dispatcher;
+    @Inject private Displayable display;
+    @Inject private EventBus eventBus;
+    @Inject private PlaceController placeController;
 	public interface Displayable extends WidgetDisplayable{
         public void setHeaders(Message msg);
         public void setAttachments(List<MessageAttachment> attachements, String folder,  long uid);

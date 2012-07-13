@@ -13,7 +13,6 @@ import org.apache.hupa.shared.rpc.LoginUser;
 import org.apache.hupa.shared.rpc.LoginUserResult;
 
 import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -27,20 +26,11 @@ import com.google.inject.Inject;
 
 public class LoginActivity extends AbstractActivity {
 
-	private final Displayable display;
-	private final EventBus eventBus;
-	private final PlaceController placeController;
-	private DispatchAsync dispatcher;
-	private HupaConstants constants = GWT.create(HupaConstants.class);
-
-	@Inject
-	public LoginActivity(Displayable display, EventBus eventBus, PlaceController placeController,
-			DispatchAsync dispatcher) {
-		this.display = display;
-		this.eventBus = eventBus;
-		this.placeController = placeController;
-		this.dispatcher = dispatcher;
-	}
+	@Inject private Displayable display;
+	@Inject private EventBus eventBus;
+	@Inject private PlaceController placeController;
+	@Inject private DispatchAsync dispatcher;
+	@Inject private HupaConstants constants;
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
