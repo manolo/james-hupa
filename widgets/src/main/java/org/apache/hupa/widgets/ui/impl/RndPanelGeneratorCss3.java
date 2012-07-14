@@ -1,5 +1,5 @@
 /****************************************************************
- * Licensed to the Apache Software Foundation (ASF) under one   *
+  * Licensed to the Apache Software Foundation (ASF) under one   *
  * or more contributor license agreements.  See the NOTICE file *
  * distributed with this work for additional information        *
  * regarding copyright ownership.  The ASF licenses this file   *
@@ -16,22 +16,41 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-package org.apache.hupa.client.validation;
 
-import org.apache.hupa.client.HupaGwtTestCase;
+package org.apache.hupa.widgets.ui.impl;
 
-public class EmailListValidatorTest extends HupaGwtTestCase {
+import org.apache.hupa.widgets.WidgetsCSS;
 
-    public void testEmailValidator() {
-        assertTrue(EmailListValidator.isValidAddressList("abc@abc.def"));
-        assertTrue(EmailListValidator.isValidAddressList(" abc@abc.def"));
-        assertTrue(EmailListValidator.isValidAddressList("<abc@abc.def>"));
-        assertTrue(EmailListValidator.isValidAddressList(" AAA <abc@abc.def> "));
-        assertTrue(EmailListValidator.isValidAddressList(", , ,"));
-        assertFalse(EmailListValidator.isValidAddressList("abc@abc.def ; ; MMM <mcm@aa>;;;"));
-        assertTrue(EmailListValidator.isValidAddressList("abc@abc.def ; ; MMM <mcm@aa.co>;;;"));
-        assertTrue(EmailListValidator.isValidAddressList("abc@abc.def\nMMM <mcm@aa.co>;;;"));
-        assertTrue(EmailListValidator.isValidAddressList("server-dev-sc.1342023625.aldemmhlhmcipjmoflol-abc=gmail.com@james.apache.org"));
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
+
+/**
+ * Simple generator of rounded panels using css.
+ * It works in FF, safari, chrome and opera.
+ * 
+ * It is needed to define this in your css.
+ * <pre>
+ *  div.hupa-rounded {
+ *       border: 1px solid #7FAAFF; 
+ *       border-radius: 8px;
+ *     }
+ * </pre>
+ *
+ */
+public class RndPanelGeneratorCss3 implements RndPanelGenerator {
+
+    public Panel roundPanel(Panel panel) {
+        panel.addStyleName(WidgetsCSS.C_hupa_rnd_container);
+        return panel;
     }
 
+    public FlowPanel createPanel() {
+        return new FlowPanel() {
+            @Override
+            public void setStyleName(String style) {
+                super.setStyleName(style);
+                super.addStyleName(WidgetsCSS.C_hupa_rnd_container);
+            }
+        };
+    }
 }

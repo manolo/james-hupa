@@ -1,5 +1,5 @@
 /****************************************************************
- * Licensed to the Apache Software Foundation (ASF) under one   *
+  * Licensed to the Apache Software Foundation (ASF) under one   *
  * or more contributor license agreements.  See the NOTICE file *
  * distributed with this work for additional information        *
  * regarding copyright ownership.  The ASF licenses this file   *
@@ -16,22 +16,25 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-package org.apache.hupa.client.validation;
 
-import org.apache.hupa.client.HupaGwtTestCase;
+package org.apache.hupa.widgets.ui.impl;
 
-public class EmailListValidatorTest extends HupaGwtTestCase {
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 
-    public void testEmailValidator() {
-        assertTrue(EmailListValidator.isValidAddressList("abc@abc.def"));
-        assertTrue(EmailListValidator.isValidAddressList(" abc@abc.def"));
-        assertTrue(EmailListValidator.isValidAddressList("<abc@abc.def>"));
-        assertTrue(EmailListValidator.isValidAddressList(" AAA <abc@abc.def> "));
-        assertTrue(EmailListValidator.isValidAddressList(", , ,"));
-        assertFalse(EmailListValidator.isValidAddressList("abc@abc.def ; ; MMM <mcm@aa>;;;"));
-        assertTrue(EmailListValidator.isValidAddressList("abc@abc.def ; ; MMM <mcm@aa.co>;;;"));
-        assertTrue(EmailListValidator.isValidAddressList("abc@abc.def\nMMM <mcm@aa.co>;;;"));
-        assertTrue(EmailListValidator.isValidAddressList("server-dev-sc.1342023625.aldemmhlhmcipjmoflol-abc=gmail.com@james.apache.org"));
+/**
+ * Simple generator of rounded panels using DecoratedPanels in GWT 2.0.
+ * It works in all browsers
+ */
+public class RndPanelGeneratorDecorator implements RndPanelGenerator {
+    public Panel roundPanel(Panel panel) {
+        DecoratorPanel ret = new DecoratorPanel();
+        ret.setWidget(panel);
+        return ret;
     }
 
+    public FlowPanel createPanel() {
+        return new FlowPanel();
+    }
 }
