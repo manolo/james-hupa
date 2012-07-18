@@ -21,7 +21,7 @@
 package org.apache.hupa.shared.rpc;
 
 import org.apache.hupa.shared.data.SMTPMessage;
-import org.apache.hupa.shared.proxy.ImapFolder;
+import org.apache.hupa.shared.domain.ImapFolder;
 
 public class ReplyMessage extends ForwardMessage {
 

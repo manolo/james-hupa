@@ -1,6 +1,9 @@
-package org.apache.hupa.shared.proxy;
+package org.apache.hupa.shared.domain;
 
 import java.util.List;
+
+import org.apache.hupa.shared.proxy.AbstractEntityProxy;
+import org.apache.hupa.shared.proxy.ImapFolderLocator;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 

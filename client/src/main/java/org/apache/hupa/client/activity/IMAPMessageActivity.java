@@ -12,11 +12,11 @@ import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.MessageAttachment;
 import org.apache.hupa.shared.data.MessageDetails;
 import org.apache.hupa.shared.data.User;
+import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.events.BackEvent;
 import org.apache.hupa.shared.events.ForwardMessageEvent;
 import org.apache.hupa.shared.events.LoadMessagesEvent;
 import org.apache.hupa.shared.events.ReplyMessageEvent;
-import org.apache.hupa.shared.proxy.ImapFolder;
 import org.apache.hupa.shared.rpc.DeleteMessageByUid;
 import org.apache.hupa.shared.rpc.DeleteMessageResult;
 

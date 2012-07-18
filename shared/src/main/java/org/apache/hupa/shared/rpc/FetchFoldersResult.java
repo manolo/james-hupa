@@ -24,7 +24,7 @@ import java.util.List;
 
 import net.customware.gwt.dispatch.shared.Result;
 
-import org.apache.hupa.shared.proxy.ImapFolder;
+import org.apache.hupa.shared.domain.ImapFolder;
 
 public class FetchFoldersResult implements Result, Serializable {
 

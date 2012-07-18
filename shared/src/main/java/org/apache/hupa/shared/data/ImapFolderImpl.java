@@ -23,7 +23,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hupa.shared.proxy.ImapFolder;
+import org.apache.hupa.shared.domain.ImapFolder;
+
 
 /**
  * IMAPFolder

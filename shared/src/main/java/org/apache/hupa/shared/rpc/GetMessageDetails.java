@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 import net.customware.gwt.dispatch.shared.Action;
 
-import org.apache.hupa.shared.proxy.ImapFolder;
+import org.apache.hupa.shared.domain.ImapFolder;
 
 public class GetMessageDetails implements Action<GetMessageDetailsResult>, Serializable {
 

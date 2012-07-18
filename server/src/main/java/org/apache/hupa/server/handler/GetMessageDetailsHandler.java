@@ -66,7 +66,7 @@ import org.apache.hupa.server.IMAPStoreCache;
 import org.apache.hupa.shared.data.MessageAttachment;
 import org.apache.hupa.shared.data.MessageDetails;
 import org.apache.hupa.shared.data.User;
-import org.apache.hupa.shared.proxy.ImapFolder;
+import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.rpc.GetMessageDetails;
 import org.apache.hupa.shared.rpc.GetMessageDetailsResult;
 
