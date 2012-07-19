@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.Message;
-import org.apache.hupa.shared.data.User;
+import org.apache.hupa.shared.domain.User;
 
 import com.google.gwt.event.shared.GwtEvent;
 

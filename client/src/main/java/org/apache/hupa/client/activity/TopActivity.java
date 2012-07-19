@@ -1,12 +1,9 @@
 package org.apache.hupa.client.activity;
 
-import net.customware.gwt.dispatch.client.DispatchAsync;
-
 import org.apache.hupa.client.HupaConstants;
-import org.apache.hupa.client.evo.HupaEvoCallback;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.ui.WidgetDisplayable;
-import org.apache.hupa.shared.data.User;
+import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.FlashEvent;
 import org.apache.hupa.shared.events.FlashEventHandler;
 import org.apache.hupa.shared.events.LoginEvent;
@@ -16,12 +13,6 @@ import org.apache.hupa.shared.events.LogoutEventHandler;
 import org.apache.hupa.shared.events.ServerStatusEvent;
 import org.apache.hupa.shared.events.ServerStatusEvent.ServerStatus;
 import org.apache.hupa.shared.events.ServerStatusEventHandler;
-import org.apache.hupa.shared.rpc.CheckSession;
-import org.apache.hupa.shared.rpc.CheckSessionResult;
-import org.apache.hupa.shared.rpc.Idle;
-import org.apache.hupa.shared.rpc.IdleResult;
-import org.apache.hupa.shared.rpc.LogoutUser;
-import org.apache.hupa.shared.rpc.LogoutUserResult;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
@@ -31,7 +22,6 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.inject.Inject;
@@ -44,7 +34,7 @@ public class TopActivity extends AbstractActivity {
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
 		bind();
-		checkSession();
+//		checkSession();
 	}
 
 	private void bind() {
@@ -68,7 +58,7 @@ public class TopActivity extends AbstractActivity {
 				}
 				showLogin(username);
 				noopTimer.cancel();
-				TopActivity.this.placeController.goTo(defaultPlaceProvider.get());
+//				TopActivity.this.placeController.goTo(defaultPlaceProvider.get());
 			}
 
 		});
@@ -114,31 +104,32 @@ public class TopActivity extends AbstractActivity {
 	}
 
 	private void checkSession() {
-		dispatcher.execute(new CheckSession(), new AsyncCallback<CheckSessionResult>() {
-			public void onFailure(Throwable caught) {
-				serverStatus = ServerStatus.Unavailable;
-				display.setServerStatus(serverStatus);
-				showLogin(null);
-			}
-			public void onSuccess(CheckSessionResult result) {
-				serverStatus = ServerStatus.Available;
-				display.setServerStatus(serverStatus);
-				if (result.isValid()) {
-					eventBus.fireEvent(new LoginEvent(result.getUser()));
-				} else {
-					showLogin(null);
-				}
-			}
-		});
+		System.out.println("+++++++++++++");
+//		dispatcher.execute(new CheckSession(), new AsyncCallback<CheckSessionResult>() {
+//			public void onFailure(Throwable caught) {
+//				serverStatus = ServerStatus.Unavailable;
+//				display.setServerStatus(serverStatus);
+//				showLogin(null);
+//			}
+//			public void onSuccess(CheckSessionResult result) {
+//				serverStatus = ServerStatus.Available;
+//				display.setServerStatus(serverStatus);
+//				if (result.isValid()) {
+//					eventBus.fireEvent(new LoginEvent(result.getUser()));
+//				} else {
+//					showLogin(null);
+//				}
+//			}
+//		});
 	}
 	private void doLogout() {
-		if (user != null) {
-			dispatcher.execute(new LogoutUser(), new HupaEvoCallback<LogoutUserResult>(dispatcher, eventBus) {
-				public void callback(LogoutUserResult result) {
-					eventBus.fireEvent(new LogoutEvent(result.getUser()));
-				}
-			});
-		}
+//		if (user != null) {
+//			dispatcher.execute(new LogoutUser(), new HupaEvoCallback<LogoutUserResult>(dispatcher, eventBus) {
+//				public void callback(LogoutUserResult result) {
+//					eventBus.fireEvent(new LogoutEvent(result.getUser()));
+//				}
+//			});
+//		}
 	}
 
 	private void showMain(User user) {
@@ -171,8 +162,8 @@ public class TopActivity extends AbstractActivity {
 	@Inject private Displayable display;
 	@Inject private EventBus eventBus;
 	@Inject private PlaceController placeController;
-	@Inject private DispatchAsync dispatcher;
-	@Inject private Provider<DefaultPlace> defaultPlaceProvider;
+//	@Inject private DispatchAsync dispatcher;
+//	@Inject private Provider<DefaultPlace> defaultPlaceProvider;
 	@Inject private HupaConstants constants;
 	
 	private User user;
@@ -183,20 +174,20 @@ public class TopActivity extends AbstractActivity {
 		public void run() {
 			if (!running) {
 				running = true;
-				dispatcher.execute(new Idle(), new HupaEvoCallback<IdleResult>(dispatcher, eventBus) {
-					public void callback(IdleResult result) {
-						running = false;
-						// check if the server is not supporting the Idle
-						// command.
-						// if so cancel this Timer
-						if (result.isSupported() == false) {
-							IdleTimer.this.cancel();
-						}
-						// Noop
-						// TODO: put code here to read new events from server
-						// (new messages ...)
-					}
-				});
+//				dispatcher.execute(new Idle(), new HupaEvoCallback<IdleResult>(dispatcher, eventBus) {
+//					public void callback(IdleResult result) {
+//						running = false;
+//						// check if the server is not supporting the Idle
+//						// command.
+//						// if so cancel this Timer
+//						if (result.isSupported() == false) {
+//							IdleTimer.this.cancel();
+//						}
+//						// Noop
+//						// TODO: put code here to read new events from server
+//						// (new messages ...)
+//					}
+//				});
 			}
 		}
 	}

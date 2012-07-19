@@ -9,8 +9,6 @@ import gwtupload.client.IUploader.OnStatusChangedHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.customware.gwt.dispatch.client.DispatchAsync;
-import net.customware.gwt.dispatch.shared.Action;
 
 import org.apache.hupa.client.evo.HupaEvoCallback;
 import org.apache.hupa.client.place.MessageSendPlace;
@@ -22,8 +20,8 @@ import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.data.MessageAttachment;
 import org.apache.hupa.shared.data.MessageDetails;
 import org.apache.hupa.shared.data.SMTPMessage;
-import org.apache.hupa.shared.data.User;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.BackEvent;
 import org.apache.hupa.shared.events.ContactsUpdatedEvent;
 import org.apache.hupa.shared.events.ContactsUpdatedEventHandler;
@@ -63,7 +61,7 @@ public class MessageSendActivity extends AbstractActivity {
     @SuppressWarnings("unused")
     private MessageDetails oldDetails;
     
-	@Inject private DispatchAsync dispatcher;
+//	@Inject private DispatchAsync dispatcher;
     @Inject private Displayable display;
     @Inject private EventBus eventBus;
     @Inject private PlaceController placeController;
@@ -139,7 +137,7 @@ public class MessageSendActivity extends AbstractActivity {
                 } else {
                     command = new ReplyMessage(message, folder, oldmessage.getUid());
                 }
-                dispatchMessage(dispatcher, eventBus, command);
+//                dispatchMessage(dispatcher, eventBus, command);
             }
         }
     };
@@ -165,20 +163,20 @@ public class MessageSendActivity extends AbstractActivity {
     }
 
     // Although dispatcher and eventBus parameters are not necessary, they are needed for testability
-    protected void dispatchMessage(DispatchAsync dispatcher, final EventBus eventBus, Action<GenericResult> command) {
-        display.setLoading(true);
-        dispatcher.execute(command, new HupaEvoCallback<GenericResult>(dispatcher, eventBus) {
-            public void callback(GenericResult result) {
-                if (result.isSuccess()) {
-                    eventBus.fireEvent(new SentMessageEvent());
-                    reset();
-                } else {
-                    eventBus.fireEvent(new FlashEvent(result.getMessage(), 6000));
-                }
-                display.setLoading(false);
-            }
-        });
-    }
+//    protected void dispatchMessage(DispatchAsync dispatcher, final EventBus eventBus, Action<GenericResult> command) {
+//        display.setLoading(true);
+//        dispatcher.execute(command, new HupaEvoCallback<GenericResult>(dispatcher, eventBus) {
+//            public void callback(GenericResult result) {
+//                if (result.isSuccess()) {
+//                    eventBus.fireEvent(new SentMessageEvent());
+//                    reset();
+//                } else {
+//                    eventBus.fireEvent(new FlashEvent(result.getMessage(), 6000));
+//                }
+//                display.setLoading(false);
+//            }
+//        });
+//    }
     
     public void revealDisplay(User user, ImapFolder folder, Message oldmessage, MessageDetails oldDetails, String mailto, Type type) {
         this.reset();

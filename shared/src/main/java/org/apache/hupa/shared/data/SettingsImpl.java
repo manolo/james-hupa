@@ -19,9 +19,10 @@
 
 package org.apache.hupa.shared.data;
 
-import java.io.Serializable;
+import org.apache.hupa.shared.domain.Settings;
 
-public class Settings implements Serializable{
+
+public class SettingsImpl implements Settings{
 
     public static final String DEFAULT_INBOX = "INBOX"; 
     public static final String DEFAULT_TRASH = "Trash"; 

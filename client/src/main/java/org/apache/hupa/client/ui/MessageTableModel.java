@@ -26,8 +26,8 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 import org.apache.hupa.client.evo.HupaEvoCallback;
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.Message;
-import org.apache.hupa.shared.data.User;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.FolderSelectionEvent;
 import org.apache.hupa.shared.events.FolderSelectionEventHandler;
 import org.apache.hupa.shared.events.LoadMessagesEvent;
@@ -53,16 +53,16 @@ import com.google.inject.Inject;
 public class MessageTableModel extends MutableTableModel<Message> {
 
     private EventBus eventBus;
-    private DispatchAsync dispatcher;
+//    private DispatchAsync dispatcher;
     private User user;
     private ImapFolder folder;
     private String searchValue;
 
     @Inject
-    public MessageTableModel(EventBus eventBus, DispatchAsync dispatcher){
+    public MessageTableModel(EventBus eventBus){
         
         this.eventBus = eventBus;
-        this.dispatcher = dispatcher;
+//        this.dispatcher = dispatcher;
 
         // bind some Events 
         eventBus.addHandler(LoadMessagesEvent.TYPE, new LoadMessagesEventHandler() {
@@ -118,28 +118,28 @@ public class MessageTableModel extends MutableTableModel<Message> {
             });
         }
         
-        dispatcher.execute(new FetchMessages(folder, request.getStartRow(), request.getNumRows(), searchValue),new HupaEvoCallback<FetchMessagesResult>(dispatcher, eventBus) {
-            public void callback(final FetchMessagesResult result) {
-                // Update folder information before notifying presenter
-                folder.setMessageCount(result.getRealCount());
-                folder.setUnseenMessageCount(result.getRealUnreadCount());
-                
-                setRowCount(result.getRealCount());
-                callback.onRowsReady(request, new TableModelHelper.Response<Message>() {
-                    @Override
-                    public Iterator<Message> getRowValues() {
-                        if (result != null && result.getMessages() != null) {
-                            return result.getMessages().iterator();
-                        } else {
-                            return new ArrayList<Message>().iterator();
-                        }
-                    }
-                });
-                
-                // Notify presenter to update folder tree view
-                eventBus.fireEvent(new MessagesReceivedEvent(folder, result.getMessages()));
-            }
-        }); 
+//        dispatcher.execute(new FetchMessages(folder, request.getStartRow(), request.getNumRows(), searchValue),new HupaEvoCallback<FetchMessagesResult>(dispatcher, eventBus) {
+//            public void callback(final FetchMessagesResult result) {
+//                // Update folder information before notifying presenter
+//                folder.setMessageCount(result.getRealCount());
+//                folder.setUnseenMessageCount(result.getRealUnreadCount());
+//                
+//                setRowCount(result.getRealCount());
+//                callback.onRowsReady(request, new TableModelHelper.Response<Message>() {
+//                    @Override
+//                    public Iterator<Message> getRowValues() {
+//                        if (result != null && result.getMessages() != null) {
+//                            return result.getMessages().iterator();
+//                        } else {
+//                            return new ArrayList<Message>().iterator();
+//                        }
+//                    }
+//                });
+//                
+//                // Notify presenter to update folder tree view
+//                eventBus.fireEvent(new MessagesReceivedEvent(folder, result.getMessages()));
+//            }
+//        }); 
     }
 
     @Override

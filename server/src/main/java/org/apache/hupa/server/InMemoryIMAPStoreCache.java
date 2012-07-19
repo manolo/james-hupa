@@ -29,7 +29,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 
 import org.apache.commons.logging.Log;
-import org.apache.hupa.shared.data.User;
+import org.apache.hupa.shared.domain.User;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -133,7 +133,6 @@ public class InMemoryIMAPStoreCache implements IMAPStoreCache {
         if (cstore.getStore().isConnected() == false) {
             try {
                 cstore.getStore().connect(address, port, username, password);
-                System.out.println(address +"ImMemory"+ port);
             } catch (MessagingException e) {
                     throw (e);
             }

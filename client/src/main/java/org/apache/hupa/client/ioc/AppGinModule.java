@@ -2,11 +2,6 @@ package org.apache.hupa.client.ioc;
 
 import java.util.logging.Logger;
 
-import net.customware.gwt.dispatch.client.DefaultExceptionHandler;
-import net.customware.gwt.dispatch.client.DispatchAsync;
-import net.customware.gwt.dispatch.client.ExceptionHandler;
-
-import org.apache.hupa.client.CachingDispatchAsync;
 import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
 import org.apache.hupa.client.activity.LoginActivity;
@@ -20,6 +15,7 @@ import org.apache.hupa.client.mapper.CachingTopActivityMapper;
 import org.apache.hupa.client.mapper.CachingWestActivityMapper;
 import org.apache.hupa.client.mapper.MainContentActivityMapper;
 import org.apache.hupa.client.place.DefaultPlace;
+import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
 import org.apache.hupa.client.ui.AppLayoutImpl;
 import org.apache.hupa.client.ui.IMAPMessageListView;
@@ -30,6 +26,7 @@ import org.apache.hupa.client.ui.TopView;
 import org.apache.hupa.client.ui.WestView;
 
 import com.google.gwt.activity.shared.ActivityManager;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.inject.client.AbstractGinModule;
@@ -55,8 +52,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);
 		bind(IMAPMessageActivity.Displayable.class).to(IMAPMessageView.class);
-		
-		
+
 		bind(PagingScrollTableRowDragController.class).in(Singleton.class);
 
 		// Places
@@ -67,25 +63,21 @@ public class AppGinModule extends AbstractGinModule {
 
 		// Application Controller
 		bind(AppController.class).in(Singleton.class);
-		
-		bind(ExceptionHandler.class).to(DefaultExceptionHandler.class);
+
+		// bind(ExceptionHandler.class).to(DefaultExceptionHandler.class);
 	}
-
-
 
 	@Provides
 	@Singleton
 	@Named("TopRegion")
-	public ActivityManager getTopRegionActivityMapper(CachingTopActivityMapper activityMapper,
-			EventBus eventBus) {
+	public ActivityManager getTopRegionActivityMapper(CachingTopActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
-	
+
 	@Provides
 	@Singleton
 	@Named("WestRegion")
-	public ActivityManager getWestRegionActivityMapper(CachingWestActivityMapper activityMapper,
-			EventBus eventBus) {
+	public ActivityManager getWestRegionActivityMapper(CachingWestActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
 
@@ -93,15 +85,16 @@ public class AppGinModule extends AbstractGinModule {
 	@Singleton
 	@Named("MainContentRegion")
 	public ActivityManager getMainContentRegionActivityMapper(MainContentActivityMapper activityMapper,
-			EventBus eventBus) {
+	        EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
 
-	@Provides
-	@Singleton
-	protected DispatchAsync provideDispatchAsync(ExceptionHandler exceptionHandler) {
-		return new CachingDispatchAsync(exceptionHandler);
-	}
+	// @Provides
+	// @Singleton
+	// protected DispatchAsync provideDispatchAsync(ExceptionHandler
+	// exceptionHandler) {
+	// return new CachingDispatchAsync(exceptionHandler);
+	// }
 
 	@Provides
 	@Singleton
@@ -112,10 +105,18 @@ public class AppGinModule extends AbstractGinModule {
 	@Provides
 	@Singleton
 	public PlaceHistoryHandler getHistoryHandler(PlaceController placeController, PlaceHistoryMapper historyMapper,
-			EventBus eventBus) {
+	        EventBus eventBus) {
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
 		historyHandler.register(placeController, eventBus, new DefaultPlace());
 		return historyHandler;
+	}
+
+	@Provides
+	@Singleton
+	HupaRequestFactory getRequestFactory(EventBus eventBus) {
+		HupaRequestFactory rf = GWT.create(HupaRequestFactory.class);
+		rf.initialize(eventBus);
+		return rf;
 	}
 
 }
