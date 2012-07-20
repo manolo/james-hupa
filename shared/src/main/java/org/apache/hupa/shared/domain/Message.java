@@ -16,42 +16,57 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-package org.apache.hupa.shared.events;
+
+package org.apache.hupa.shared.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import org.apache.hupa.shared.domain.ImapFolder;
-import org.apache.hupa.shared.domain.Message;
+import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
+import org.apache.hupa.shared.data.Tag;
 
-import com.google.gwt.event.shared.GwtEvent;
+import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
-public class MessagesReceivedEvent extends GwtEvent<MessagesReceivedEventHandler>{
-    public final static Type<MessagesReceivedEventHandler> TYPE = new Type<MessagesReceivedEventHandler>();
-    private ArrayList<Message> messages;
-    private ImapFolder folder;
-    
-    public MessagesReceivedEvent(ImapFolder folder, ArrayList<Message> messages) {
-        this.messages = messages;
-        this.folder = folder;
-    }
-    
-    public ArrayList<Message> getMessages() {
-        return messages;
-    }
-    
-    public ImapFolder getFolder() {
-        return folder;
-    }
-    
-    
-    @Override
-    protected void dispatch(MessagesReceivedEventHandler handler) {
-        handler.onMessagesReceived(this);
-    }
+@ProxyFor(Message.class)
+public interface Message extends ValueProxy {
 
-    @Override
-    public com.google.gwt.event.shared.GwtEvent.Type<MessagesReceivedEventHandler> getAssociatedType() {
-        return TYPE;
-    }
+	ArrayList<IMAPFlag> getFlags();
 
+	Date getReceivedDate();
+
+	boolean hasAttachment();
+
+	String getFrom();
+
+	void setFrom(String cellValue);
+
+	void setReceivedDate(Date cellValue);
+
+	String getSubject();
+
+	void setSubject(String cellValue);
+
+	List<String> getCc();
+
+	List<String> getTo();
+
+	void setTo(ArrayList<String> to);
+
+	void setCc(ArrayList<String> cc);
+
+	void setReplyto(String string);
+
+	void setUid(long uid);
+
+	void setFlags(ArrayList<IMAPFlag> iFlags);
+
+	void setTags(ArrayList<Tag> tags);
+
+	void setHasAttachments(boolean hasAttachment);
+
+	long getUid();
+
+	String getReplyto();
 }

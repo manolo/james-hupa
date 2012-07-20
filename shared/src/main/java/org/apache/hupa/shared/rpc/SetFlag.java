@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 import net.customware.gwt.dispatch.shared.Action;
 
-import org.apache.hupa.shared.data.Message.IMAPFlag;
+import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
 import org.apache.hupa.shared.domain.ImapFolder;
 
 public class SetFlag implements Action<GenericResult>, Serializable {

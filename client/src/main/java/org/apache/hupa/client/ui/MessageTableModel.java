@@ -25,8 +25,8 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 
 import org.apache.hupa.client.evo.HupaEvoCallback;
 import org.apache.hupa.shared.data.ImapFolderImpl;
-import org.apache.hupa.shared.data.Message;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.FolderSelectionEvent;
 import org.apache.hupa.shared.events.FolderSelectionEventHandler;
@@ -53,7 +53,6 @@ import com.google.inject.Inject;
 public class MessageTableModel extends MutableTableModel<Message> {
 
     private EventBus eventBus;
-//    private DispatchAsync dispatcher;
     private User user;
     private ImapFolder folder;
     private String searchValue;

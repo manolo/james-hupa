@@ -22,11 +22,13 @@ package org.apache.hupa.shared.data;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.hupa.shared.domain.Message;
+
 /**
  * 
  *
  */
-public class Message extends AbstractMessage {
+public class MessageImpl extends AbstractMessage implements Message{
 
     /**
      * 
@@ -82,8 +84,8 @@ public class Message extends AbstractMessage {
     }
     
     public boolean equals(Object obj) {
-        if (obj instanceof Message) {
-            if (((Message)obj).getUid() == getUid()) {
+        if (obj instanceof MessageImpl) {
+            if (((MessageImpl)obj).getUid() == getUid()) {
                 return true;
             }
         }
