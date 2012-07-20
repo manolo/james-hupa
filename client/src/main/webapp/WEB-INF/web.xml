@@ -44,7 +44,7 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>org.apache.hupa.server.guice.GuiceServletConfig</listener-class>
+        <listener-class>org.apache.hupa.server.ioc.GuiceListener</listener-class>
     </listener>
 
     <!-- Gwt remote logging -->
