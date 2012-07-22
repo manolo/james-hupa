@@ -17,32 +17,13 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.shared.data;
+package org.apache.hupa.shared.domain;
 
-public class Tag {
+import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
-    public final static String PREFIX = "TAG.";
-    private String tagName;
-    
-    @SuppressWarnings("unused")
-    private Tag() {
-        
-    }
-    
-    public Tag(String tagName) {
-        this.tagName = tagName;
-    }
-    
-    public String getName() {
-        return tagName;
-    }
-    
-    public String getPrefix() {
-        return PREFIX;
-    }
-    
-    public String toString() {
-        return PREFIX + tagName;
-    }
-    
+@ProxyFor(Tag.class)
+public interface Tag extends ValueProxy{
+	String getName();
+	String getPrefix();
 }

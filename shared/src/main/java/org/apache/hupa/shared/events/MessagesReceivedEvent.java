@@ -18,7 +18,7 @@
  ****************************************************************/
 package org.apache.hupa.shared.events;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
@@ -27,15 +27,15 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class MessagesReceivedEvent extends GwtEvent<MessagesReceivedEventHandler>{
     public final static Type<MessagesReceivedEventHandler> TYPE = new Type<MessagesReceivedEventHandler>();
-    private ArrayList<Message> messages;
+    private List<Message> messages;
     private ImapFolder folder;
     
-    public MessagesReceivedEvent(ImapFolder folder, ArrayList<Message> messages) {
+    public MessagesReceivedEvent(ImapFolder folder, List<Message> messages) {
         this.messages = messages;
         this.folder = folder;
     }
     
-    public ArrayList<Message> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
     

@@ -1,6 +1,7 @@
 package org.apache.hupa.client.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hupa.client.HandlerRegistrationAdapter;
 import org.apache.hupa.client.activity.MessageSendActivity.Type;
@@ -336,7 +337,7 @@ public class IMAPMessageListActivity extends AbstractActivity {
         public HasEnable getDeleteEnable();
         public void reloadData();
         public void removeMessages(ArrayList<Message> messages);
-        public ArrayList<Message> getSelectedMessages();
+        public List<Message> getSelectedMessages();
         public void reset();
         public HasDialog getConfirmDeleteDialog();
         public HasDialog getConfirmDeleteAllDialog();
@@ -359,7 +360,7 @@ public class IMAPMessageListActivity extends AbstractActivity {
         public HasChangeHandlers getRowsPerPageChange();     
         public HasClickHandlers getSearchClick();
         public HasValue<String> getSearchValue();
-        public void fillSearchOracle(ArrayList<Message> messages);
+        public void fillSearchOracle(List<Message> messages);
         public void setExpandLoading(boolean expanding);
 
     }

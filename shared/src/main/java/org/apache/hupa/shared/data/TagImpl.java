@@ -16,14 +16,33 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-package org.apache.hupa.client.rf;
 
-import com.google.web.bindery.requestfactory.shared.RequestFactory;
+package org.apache.hupa.shared.data;
 
-public interface HupaRequestFactory extends RequestFactory {
-	SubjectRequest subjectRequest();
-	ImapFolderRequest folderRequest();
-	CheckSessionRequest sessionRequest();
-	LoginUserRequest loginRequest();
-	FetchMessagesRequest messagesRequest();
+import org.apache.hupa.shared.domain.Tag;
+
+public class TagImpl implements Tag {
+
+	public final static String PREFIX = "TAG.";
+	private String tagName;
+
+	public TagImpl() {
+	}
+
+	public TagImpl(String tagName) {
+		this.tagName = tagName;
+	}
+
+	public String getName() {
+		return tagName;
+	}
+
+	public String getPrefix() {
+		return PREFIX;
+	}
+
+	public String toString() {
+		return PREFIX + tagName;
+	}
+
 }

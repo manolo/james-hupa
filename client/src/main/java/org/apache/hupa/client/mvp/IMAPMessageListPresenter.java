@@ -20,6 +20,7 @@
 package org.apache.hupa.client.mvp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
@@ -89,8 +90,8 @@ public class IMAPMessageListPresenter extends WidgetPresenter<IMAPMessageListPre
         public HasClickHandlers getDeleteAllClick();
         public HasEnable getDeleteEnable();
         public void reloadData();
-        public void removeMessages(ArrayList<Message> messages);
-        public ArrayList<Message> getSelectedMessages();
+        public void removeMessages(List<Message> messages);
+        public List<Message> getSelectedMessages();
         public void reset();
         public HasDialog getConfirmDeleteDialog();
         public HasDialog getConfirmDeleteAllDialog();
@@ -113,7 +114,7 @@ public class IMAPMessageListPresenter extends WidgetPresenter<IMAPMessageListPre
         public HasChangeHandlers getRowsPerPageChange();     
         public HasClickHandlers getSearchClick();
         public HasValue<String> getSearchValue();
-        public void fillSearchOracle(ArrayList<Message> messages);
+        public void fillSearchOracle(List<Message> messages);
         public void setExpandLoading(boolean expanding);
 
     }

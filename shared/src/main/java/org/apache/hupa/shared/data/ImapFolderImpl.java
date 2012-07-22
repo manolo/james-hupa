@@ -24,17 +24,7 @@ import java.util.List;
 
 import org.apache.hupa.shared.domain.ImapFolder;
 
-
-/**
- * IMAPFolder
- * 
- */
 public class ImapFolderImpl implements ImapFolder {
-
-	/**
-     * 
-     */
-    private static final long serialVersionUID = 2084188092060266479L;
 
     private List<ImapFolder> children = new ArrayList<ImapFolder>();
     private String fullName;

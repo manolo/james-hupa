@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
-import org.apache.hupa.shared.data.Tag;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
@@ -32,7 +31,7 @@ import com.google.web.bindery.requestfactory.shared.ValueProxy;
 @ProxyFor(Message.class)
 public interface Message extends ValueProxy {
 
-	ArrayList<IMAPFlag> getFlags();
+	List<IMAPFlag> getFlags();
 
 	Date getReceivedDate();
 
@@ -52,17 +51,17 @@ public interface Message extends ValueProxy {
 
 	List<String> getTo();
 
-	void setTo(ArrayList<String> to);
+	void setTo(List<String> to);
 
-	void setCc(ArrayList<String> cc);
+	void setCc(List<String> cc);
 
 	void setReplyto(String string);
 
 	void setUid(long uid);
 
-	void setFlags(ArrayList<IMAPFlag> iFlags);
+	void setFlags(List<IMAPFlag> iFlags);
 
-	void setTags(ArrayList<Tag> tags);
+	void setTags(List<Tag> tags);
 
 	void setHasAttachments(boolean hasAttachment);
 
