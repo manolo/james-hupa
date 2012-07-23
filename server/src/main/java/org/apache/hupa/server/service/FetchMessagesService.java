@@ -4,5 +4,5 @@ import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
 
 public interface FetchMessagesService {
-	public FetchMessagesResult fetch(FetchMessagesAction action);
+	FetchMessagesResult fetch(FetchMessagesAction action);
 }

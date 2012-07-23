@@ -26,4 +26,5 @@ public interface HupaRequestFactory extends RequestFactory {
 	CheckSessionRequest sessionRequest();
 	LoginUserRequest loginRequest();
 	FetchMessagesRequest messagesRequest();
+	CreateFolderRequest createFolderRequest();
 }

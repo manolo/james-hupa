@@ -9,6 +9,7 @@ import org.apache.hupa.client.activity.MessageSendActivity.Type;
 import org.apache.hupa.client.place.IMAPMessagePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
+import org.apache.hupa.client.rf.CreateFolderRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.ImapFolderRequest;
 import org.apache.hupa.client.ui.WidgetContainerDisplayable;
@@ -17,6 +18,8 @@ import org.apache.hupa.client.widgets.IMAPTreeItem;
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.MessageDetails;
 import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
+import org.apache.hupa.shared.domain.CreateFolderAction;
+import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.User;
@@ -66,6 +69,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class WestActivity extends AbstractActivity {
 
@@ -83,6 +87,7 @@ public class WestActivity extends AbstractActivity {
 	@Inject private Provider<IMAPMessagePlace> IMAPMessagePlaceProvider;
 	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
 	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
+	@Inject private HupaRequestFactory requestFactory;
 
 	private User user;
 	private ImapFolder folder;
@@ -137,16 +142,17 @@ public class WestActivity extends AbstractActivity {
 						ImapFolderImpl iFolder = new ImapFolderImpl((String) event.getOldValue());
 						final String newName = (String) event.getNewValue();
 						if (iFolder.getFullName().equalsIgnoreCase(newName) == false) {
-//							dispatcher.execute(new RenameFolder(iFolder, newName), new HupaEvoCallback<GenericResult>(
-//									dispatcher, eventBus) {
-//								public void callback(GenericResult result) {
-//									folder.setFullName(newName);
-//								}
-//
-//								public void callbackError(Throwable caught) {
-//									record.cancelEdit();
-//								}
-//							});
+							// dispatcher.execute(new RenameFolder(iFolder,
+							// newName), new HupaEvoCallback<GenericResult>(
+							// dispatcher, eventBus) {
+							// public void callback(GenericResult result) {
+							// folder.setFullName(newName);
+							// }
+							//
+							// public void callbackError(Throwable caught) {
+							// record.cancelEdit();
+							// }
+							// });
 						}
 					}
 				}
@@ -185,7 +191,7 @@ public class WestActivity extends AbstractActivity {
 
 			public void onLoadMessagesEvent(LoadMessagesEvent loadMessagesEvent) {
 				showMessageTable(loadMessagesEvent.getUser(), loadMessagesEvent.getFolder(),
-						loadMessagesEvent.getSearchValue());
+				        loadMessagesEvent.getSearchValue());
 			}
 
 		});
@@ -364,28 +370,27 @@ public class WestActivity extends AbstractActivity {
 
 			public void onClick(ClickEvent event) {
 				editableTreeItem = display.createFolder(new EditHandler() {
-
 					public void onEditEvent(EditEvent event) {
 						final IMAPTreeItem item = (IMAPTreeItem) event.getSource();
 						final String newValue = (String) event.getNewValue();
-						// if
-						// (event.getEventType().equals(EditEvent.EventType.Stop))
-						// {
-						// dispatcher.execute(new CreateFolder(new
-						// ImapFolderImpl(newValue.trim())), new
-						// AsyncCallback<GenericResult>() {
-						//
-						// public void onFailure(Throwable caught) {
-						// GWT.log("Error while create folder", caught);
-						// item.cancelEdit();
-						// }
-						//
-						// public void onSuccess(GenericResult result) {
-						// // Nothing todo
-						// }
-						//
-						// });
-						// }
+						if (event.getEventType().equals(EditEvent.EventType.Stop)) {
+							CreateFolderRequest req = requestFactory.createFolderRequest();
+							final CreateFolderAction action = req.create(CreateFolderAction.class);
+							ImapFolder folder = req.create(ImapFolder.class);
+							folder.setFullName(newValue.trim());
+							action.setFolder(folder);
+							req.create(action).fire(new Receiver<GenericResult>() {
+								@Override
+								public void onSuccess(GenericResult response) {
+									// Nothing todo
+								}
+								@Override
+								public void onFailure(ServerFailure error) {
+									GWT.log("Error while create folder" + error.getStackTraceString());
+									item.cancelEdit();
+								}
+							});
+						}
 					}
 
 				});
@@ -424,19 +429,19 @@ public class WestActivity extends AbstractActivity {
 	}
 
 	private native void exportJSMethods(WestActivity westactivity) /*-{
-																	$wnd.openLink = function(url) {
-																	try {
-																	westactivity.@org.apache.hupa.client.activity.WestActivity::openLink(Ljava/lang/String;) (url);
-																	} catch(e) {}
-																	return false;
-																	};
-																	$wnd.mailTo = function(mail) {
-																	try {
-																	westactivity.@org.apache.hupa.client.activity.WestActivity::mailTo(Ljava/lang/String;) (mail);
-																	} catch(e) {}
-																	return false;
-																	};
-																	}-*/;
+	                                                               $wnd.openLink = function(url) {
+	                                                               try {
+	                                                               westactivity.@org.apache.hupa.client.activity.WestActivity::openLink(Ljava/lang/String;) (url);
+	                                                               } catch(e) {}
+	                                                               return false;
+	                                                               };
+	                                                               $wnd.mailTo = function(mail) {
+	                                                               try {
+	                                                               westactivity.@org.apache.hupa.client.activity.WestActivity::mailTo(Ljava/lang/String;) (mail);
+	                                                               } catch(e) {}
+	                                                               return false;
+	                                                               };
+	                                                               }-*/;
 
 	private void showMessageTable(User user, ImapFolder folder, String searchValue) {
 		this.user = user;
@@ -459,12 +464,12 @@ public class WestActivity extends AbstractActivity {
 
 	private void showForwardMessage(ForwardMessageEvent event) {
 		placeController.goTo(this.messageSendPlaceProvider.get().with(event.getUser(), event.getFolder(),
-				event.getMessage(), event.getMessageDetails(), Type.FORWARD));
+		        event.getMessage(), event.getMessageDetails(), Type.FORWARD));
 	}
 
 	private void showReplyMessage(ReplyMessageEvent event) {
 		placeController.goTo(this.messageSendPlaceProvider.get().with(event.getUser(), event.getFolder(),
-				event.getMessage(), event.getMessageDetails(), event.getReplyAll() ? Type.REPLY_ALL : Type.REPLY));
+		        event.getMessage(), event.getMessageDetails(), event.getReplyAll() ? Type.REPLY_ALL : Type.REPLY));
 	}
 
 	public interface Displayable extends WidgetContainerDisplayable {

@@ -173,5 +173,11 @@ public class ImapFolderImpl implements ImapFolder {
         return getFullName().hashCode();
     }
 
+    // FIXME Could not locate setter for property name in type ImapFolderImpl
+	@Override
+    public void setName(String name) {
+	    this.fullName = name;
+    }
+
     
 }

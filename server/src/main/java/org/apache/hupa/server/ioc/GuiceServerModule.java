@@ -14,19 +14,25 @@ import org.apache.hupa.server.preferences.InImapUserPreferencesStorage;
 import org.apache.hupa.server.preferences.UserPreferencesStorage;
 import org.apache.hupa.server.service.CheckSessionService;
 import org.apache.hupa.server.service.CheckSessionServiceImpl;
+import org.apache.hupa.server.service.CreateFolderService;
+import org.apache.hupa.server.service.CreateFolderServiceImpl;
 import org.apache.hupa.server.service.FetchMessagesService;
 import org.apache.hupa.server.service.FetchMessagesServiceImpl;
 import org.apache.hupa.server.service.ImapFolderService;
 import org.apache.hupa.server.service.ImapFolderServiceImpl;
 import org.apache.hupa.server.service.LoginUserService;
 import org.apache.hupa.server.service.LoginUserServiceImpl;
+import org.apache.hupa.shared.data.CreateFolderActionImpl;
 import org.apache.hupa.shared.data.FetchMessagesActionImpl;
 import org.apache.hupa.shared.data.FetchMessagesResultImpl;
+import org.apache.hupa.shared.data.GenericResultImpl;
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.TagImpl;
 import org.apache.hupa.shared.data.UserImpl;
+import org.apache.hupa.shared.domain.CreateFolderAction;
 import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
+import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Settings;
 import org.apache.hupa.shared.domain.Tag;
@@ -70,11 +76,14 @@ public class GuiceServerModule extends AbstractModule {
 		bind(FetchMessagesAction.class).to(FetchMessagesActionImpl.class);
 		bind(FetchMessagesResult.class).to(FetchMessagesResultImpl.class);
 		bind(Tag.class).to(TagImpl.class);
+		bind(GenericResult.class).to(GenericResultImpl.class);
+		bind(CreateFolderAction.class).to(CreateFolderActionImpl.class);
 		
 		bind(CheckSessionService.class).to(CheckSessionServiceImpl.class);
 		bind(LoginUserService.class).to(LoginUserServiceImpl.class);
 		bind(ImapFolderService.class).to(ImapFolderServiceImpl.class);
 		bind(FetchMessagesService.class).to(FetchMessagesServiceImpl.class);
+		bind(CreateFolderService.class).to(CreateFolderServiceImpl.class);
 		
 		bind(IMAPStoreCache.class).to(getIMAPStoreCacheClass()).in(Singleton.class);
 
