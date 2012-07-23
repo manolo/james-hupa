@@ -3,28 +3,34 @@ package org.apache.hupa.server.service;
 import javax.mail.Folder;
 
 import org.apache.hupa.shared.data.GenericResultImpl;
-import org.apache.hupa.shared.domain.CreateFolderAction;
+import org.apache.hupa.shared.domain.DeleteFolderAction;
 import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.User;
 
 import com.sun.mail.imap.IMAPStore;
 
-public class CreateFolderServiceImpl extends AbstractService implements CreateFolderService {
+public class DeleteFolderServiceImpl extends AbstractService implements DeleteFolderService {
 
 	@Override
-	public GenericResult create(CreateFolderAction action) throws Exception {
+	public GenericResult delete(DeleteFolderAction action) throws Exception {
 		User user = getUser();
 		ImapFolder folder = action.getFolder();
 		IMAPStore store = cache.get(user);
+
 		Folder f = store.getFolder(folder.getFullName());
-		if (f.create(Folder.HOLDS_MESSAGES)) {
-			logger.info("Successfully create folder " + folder + " for user " + user);
+
+		// close the folder if its open
+		if (f.isOpen()) {
+			f.close(false);
+		}
+
+		// recursive delete the folder
+		if (f.delete(true)) {
+			logger.info("Successfully delete folder " + folder + " for user " + user);
 			return new GenericResultImpl();
 		} else {
-			logger.info("Unable to create folder " + folder + " for user " + user);
-			throw new Exception("Unable to create folder " + folder + " for user " + user);
-
+			throw new Exception("Unable to delete folder " + folder + " for user " + user);
 		}
 	}
 
