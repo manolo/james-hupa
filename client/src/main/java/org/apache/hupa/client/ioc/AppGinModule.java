@@ -22,6 +22,7 @@ import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
 import org.apache.hupa.client.ui.LoginView;
 import org.apache.hupa.client.ui.MessageSendView;
+import org.apache.hupa.client.ui.MessageTableModel;
 import org.apache.hupa.client.ui.TopView;
 import org.apache.hupa.client.ui.WestView;
 
@@ -52,6 +53,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);
 		bind(IMAPMessageActivity.Displayable.class).to(IMAPMessageView.class);
+		bind(MessageTableModel.class).in(Singleton.class);
 
 		bind(PagingScrollTableRowDragController.class).in(Singleton.class);
 
