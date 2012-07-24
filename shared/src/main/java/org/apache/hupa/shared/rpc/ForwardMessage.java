@@ -28,6 +28,8 @@ public class ForwardMessage extends SendMessage {
     private static final long serialVersionUID = 1656671247843122192L;
     private long uid;
     private ImapFolder folder;
+    private String inReplyTo;
+    private String references;
 
     public ForwardMessage(SMTPMessage msg, ImapFolder folder, long uid) {
         super(msg);
@@ -45,4 +47,24 @@ public class ForwardMessage extends SendMessage {
     public ImapFolder getFolder() {
         return folder;
     }
+    
+    @Override
+    public String getInReplyTo() {
+		return inReplyTo;
+	}
+
+    @Override
+    public String getReferences() {
+		return references;
+	}
+
+  public ForwardMessage setInReplyTo(String inReplyTo) {
+		this.inReplyTo = inReplyTo;
+		return this;
+	}
+   
+  public ForwardMessage setReferences(String references) {
+		this.references = references;
+		return this;
+	}
 }

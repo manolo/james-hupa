@@ -47,9 +47,11 @@ import static org.apache.hupa.server.utils.RegexPatterns.replaceAllRecursive;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.mail.Flags;
 import javax.mail.Flags.Flag;
+import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -73,6 +75,8 @@ import org.apache.hupa.shared.rpc.GetMessageDetailsResult;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.sun.mail.imap.IMAPStore;
+
+
 
 public class GetMessageDetailsHandler extends
         AbstractSessionHandler<GetMessageDetails, GetMessageDetailsResult> {
@@ -168,7 +172,11 @@ public class GetMessageDetailsHandler extends
 
         mDetails.setMessageAttachments(attachmentList);
 
-        mDetails.setRawHeader(message.getAllHeaders().toString());
+        for (@SuppressWarnings("unchecked")
+        Enumeration<Header> en = message.getAllHeaders(); en.hasMoreElements();) {
+            Header header = en.nextElement();
+            mDetails.addHeader(header.getName(), header.getValue());
+        }
         
         return mDetails;
     }
