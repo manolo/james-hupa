@@ -27,6 +27,7 @@ import org.apache.hupa.shared.domain.ImapFolder;
 public class ImapFolderImpl implements ImapFolder {
 
     private List<ImapFolder> children = new ArrayList<ImapFolder>();
+    private String name;
     private String fullName;
     private String delimiter;
     private int messageCount;
@@ -48,7 +49,6 @@ public class ImapFolderImpl implements ImapFolder {
         return subscribed;
     }
     
-    
     /**
      * Get the name of the folder
      * 
@@ -58,10 +58,12 @@ public class ImapFolderImpl implements ImapFolder {
         if (delimiter != null) {
             String fParts[] = getFullName().split("\\" + delimiter);
             if (fParts != null && fParts.length > 0) {
-                return fParts[fParts.length - 1];
+                name = fParts[fParts.length - 1];
+                return name;
             }
         }
-        return fullName;
+        name = fullName;
+        return name;
     }
 
     /**
@@ -176,7 +178,7 @@ public class ImapFolderImpl implements ImapFolder {
     // FIXME Could not locate setter for property name in type ImapFolderImpl
 	@Override
     public void setName(String name) {
-	    this.fullName = name;
+	    this.name = name;
     }
 
     

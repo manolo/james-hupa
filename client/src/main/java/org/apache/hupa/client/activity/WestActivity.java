@@ -11,6 +11,7 @@ import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.CreateFolderRequest;
 import org.apache.hupa.client.rf.DeleteFolderRequest;
+import org.apache.hupa.client.rf.FetchMessagesRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.ImapFolderRequest;
 import org.apache.hupa.client.rf.RenameFolderRequest;
@@ -143,7 +144,7 @@ public class WestActivity extends AbstractActivity {
 
 				public void onEditEvent(EditEvent event) {
 					if (event.getEventType().equals(EditEvent.EventType.Stop)) {
-						ImapFolderImpl iFolder = new ImapFolderImpl((String) event.getOldValue());
+						ImapFolder iFolder = new ImapFolderImpl((String) event.getOldValue());
 						final String newName = (String) event.getNewValue();
 						if (iFolder.getFullName().equalsIgnoreCase(newName) == false) {
 							RenameFolderRequest req = requestFactory.renameFolderRequest();
@@ -320,18 +321,12 @@ public class WestActivity extends AbstractActivity {
 				tItem = (IMAPTreeItem) event.getSelectedItem();
 				if (tItem.isEdit())
 					return;
-				folder = (ImapFolder) tItem.getUserObject();
+				ImapFolder editableFolder = (ImapFolder) tItem.getUserObject();
+				FetchMessagesRequest req = requestFactory.messagesRequest();
+				folder = req.edit(editableFolder);
+
+//				folder = (ImapFolder) tItem.getUserObject();
 				eventBus.fireEvent(new LoadMessagesEvent(user, folder));
-			}
-
-		});
-		display.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
-
-			public void onSelection(SelectionEvent<TreeItem> event) {
-				tItem = (IMAPTreeItem) event.getSelectedItem();
-				if (tItem.isEdit())
-					return;
-				folder = (ImapFolder) tItem.getUserObject();
 				if (folder.getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
 					display.getDeleteEnable().setEnabled(false);
 					display.getRenameEnable().setEnabled(false);
@@ -342,6 +337,24 @@ public class WestActivity extends AbstractActivity {
 			}
 
 		});
+		//FIXME why another?
+//		display.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
+//
+//			public void onSelection(SelectionEvent<TreeItem> event) {
+//				tItem = (IMAPTreeItem) event.getSelectedItem();
+//				if (tItem.isEdit())
+//					return;
+//				folder = (ImapFolder) tItem.getUserObject();
+//				if (folder.getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
+//					display.getDeleteEnable().setEnabled(false);
+//					display.getRenameEnable().setEnabled(false);
+//				} else {
+//					display.getDeleteEnable().setEnabled(true);
+//					display.getRenameEnable().setEnabled(true);
+//				}
+//			}
+//
+//		});
 		display.getRenameClick().addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -456,6 +469,8 @@ public class WestActivity extends AbstractActivity {
 		this.user = user;
 		this.folder = folder;
 		this.searchValue = searchValue;
+		
+		// FIXME goto?
 		placeController.goTo(new MailFolderPlace().with(user, folder, searchValue));
 		// placeController.goTo(mailInboxPlaceProvider.get().with(user));
 		// System.out.println("111");
