@@ -29,4 +29,6 @@ public interface HupaRequestFactory extends RequestFactory {
 	CreateFolderRequest createFolderRequest();
 	DeleteFolderRequest deleteFolderRequest();
 	RenameFolderRequest renameFolderRequest();
+	DeleteMessageByUidRequest deleteMessageByUidRequest();
+	DeleteMessageAllRequest deleteMessageAllRequest();
 }

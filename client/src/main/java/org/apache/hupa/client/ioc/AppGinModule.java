@@ -12,8 +12,8 @@ import org.apache.hupa.client.dnd.PagingScrollTableRowDragController;
 import org.apache.hupa.client.evo.AppController;
 import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
 import org.apache.hupa.client.mapper.CachingTopActivityMapper;
-import org.apache.hupa.client.mapper.CachingWestActivityMapper;
 import org.apache.hupa.client.mapper.MainContentActivityMapper;
+import org.apache.hupa.client.mapper.WestActivityMapper;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
@@ -57,6 +57,8 @@ public class AppGinModule extends AbstractGinModule {
 
 		bind(PagingScrollTableRowDragController.class).in(Singleton.class);
 
+		bind(WestActivity.class).in(Singleton.class);
+		
 		// Places
 		bind(PlaceHistoryMapper.class).to(AppPlaceHistoryMapper.class).in(Singleton.class);
 
@@ -79,7 +81,7 @@ public class AppGinModule extends AbstractGinModule {
 	@Provides
 	@Singleton
 	@Named("WestRegion")
-	public ActivityManager getWestRegionActivityMapper(CachingWestActivityMapper activityMapper, EventBus eventBus) {
+	public ActivityManager getWestRegionActivityMapper(WestActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
 

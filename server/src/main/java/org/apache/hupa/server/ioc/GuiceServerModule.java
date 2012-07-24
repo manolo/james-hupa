@@ -18,6 +18,10 @@ import org.apache.hupa.server.service.CreateFolderService;
 import org.apache.hupa.server.service.CreateFolderServiceImpl;
 import org.apache.hupa.server.service.DeleteFolderService;
 import org.apache.hupa.server.service.DeleteFolderServiceImpl;
+import org.apache.hupa.server.service.DeleteMessageAllService;
+import org.apache.hupa.server.service.DeleteMessageAllServiceImpl;
+import org.apache.hupa.server.service.DeleteMessageByUidService;
+import org.apache.hupa.server.service.DeleteMessageByUidServiceImpl;
 import org.apache.hupa.server.service.FetchMessagesService;
 import org.apache.hupa.server.service.FetchMessagesServiceImpl;
 import org.apache.hupa.server.service.ImapFolderService;
@@ -28,6 +32,8 @@ import org.apache.hupa.server.service.RenameFolderService;
 import org.apache.hupa.server.service.RenameFolderServiceImpl;
 import org.apache.hupa.shared.data.CreateFolderActionImpl;
 import org.apache.hupa.shared.data.DeleteFolderActionImpl;
+import org.apache.hupa.shared.data.DeleteMessageAllActionImpl;
+import org.apache.hupa.shared.data.DeleteMessageByUidActionImpl;
 import org.apache.hupa.shared.data.FetchMessagesActionImpl;
 import org.apache.hupa.shared.data.FetchMessagesResultImpl;
 import org.apache.hupa.shared.data.GenericResultImpl;
@@ -37,6 +43,8 @@ import org.apache.hupa.shared.data.TagImpl;
 import org.apache.hupa.shared.data.UserImpl;
 import org.apache.hupa.shared.domain.CreateFolderAction;
 import org.apache.hupa.shared.domain.DeleteFolderAction;
+import org.apache.hupa.shared.domain.DeleteMessageAllAction;
+import org.apache.hupa.shared.domain.DeleteMessageByUidAction;
 import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
 import org.apache.hupa.shared.domain.GenericResult;
@@ -88,6 +96,8 @@ public class GuiceServerModule extends AbstractModule {
 		bind(CreateFolderAction.class).to(CreateFolderActionImpl.class);
 		bind(DeleteFolderAction.class).to(DeleteFolderActionImpl.class);
 		bind(RenameFolderAction.class).to(RenameFolderActionImpl.class);
+		bind(DeleteMessageAllAction.class).to(DeleteMessageAllActionImpl.class);
+		bind(DeleteMessageByUidAction.class).to(DeleteMessageByUidActionImpl.class);
 		
 		bind(CheckSessionService.class).to(CheckSessionServiceImpl.class);
 		bind(LoginUserService.class).to(LoginUserServiceImpl.class);
@@ -96,6 +106,8 @@ public class GuiceServerModule extends AbstractModule {
 		bind(CreateFolderService.class).to(CreateFolderServiceImpl.class);
 		bind(DeleteFolderService.class).to(DeleteFolderServiceImpl.class);
 		bind(RenameFolderService.class).to(RenameFolderServiceImpl.class);
+		bind(DeleteMessageAllService.class).to(DeleteMessageAllServiceImpl.class);
+		bind(DeleteMessageByUidService.class).to(DeleteMessageByUidServiceImpl.class);
 		
 		bind(IMAPStoreCache.class).to(getIMAPStoreCacheClass()).in(Singleton.class);
 
