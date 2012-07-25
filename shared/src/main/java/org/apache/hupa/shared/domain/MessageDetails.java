@@ -16,20 +16,31 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-package org.apache.hupa.client.rf;
 
-import com.google.web.bindery.requestfactory.shared.RequestFactory;
+package org.apache.hupa.shared.domain;
 
-public interface HupaRequestFactory extends RequestFactory {
-	SubjectRequest subjectRequest();
-	ImapFolderRequest folderRequest();
-	CheckSessionRequest sessionRequest();
-	LoginUserRequest loginRequest();
-	FetchMessagesRequest messagesRequest();
-	CreateFolderRequest createFolderRequest();
-	DeleteFolderRequest deleteFolderRequest();
-	RenameFolderRequest renameFolderRequest();
-	DeleteMessageByUidRequest deleteMessageByUidRequest();
-	DeleteMessageAllRequest deleteMessageAllRequest();
-	GetMessageDetailsRequest messageDetailsRequest();
-}
+import java.util.List;
+
+import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.google.web.bindery.requestfactory.shared.ValueProxy;
+
+@ProxyFor(MessageDetails.class)
+public interface MessageDetails extends ValueProxy {
+
+	void setUid(long uid);
+
+	void setText(String filterHtmlDocument);
+
+	void setMessageAttachments(List<MessageAttachment> attachmentList);
+
+	void setMailHeader(MailHeader mailHeader);
+
+	List<MessageAttachment> getMessageAttachments();
+
+	String getText();
+
+	long getUid();
+
+	String getMessageId();
+
+	String getReferences();}

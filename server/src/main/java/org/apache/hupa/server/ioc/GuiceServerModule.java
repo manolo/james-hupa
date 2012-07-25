@@ -24,6 +24,8 @@ import org.apache.hupa.server.service.DeleteMessageByUidService;
 import org.apache.hupa.server.service.DeleteMessageByUidServiceImpl;
 import org.apache.hupa.server.service.FetchMessagesService;
 import org.apache.hupa.server.service.FetchMessagesServiceImpl;
+import org.apache.hupa.server.service.GetMessageDetailsService;
+import org.apache.hupa.server.service.GetMessageDetailsServiceImpl;
 import org.apache.hupa.server.service.ImapFolderService;
 import org.apache.hupa.server.service.ImapFolderServiceImpl;
 import org.apache.hupa.server.service.LoginUserService;
@@ -37,7 +39,12 @@ import org.apache.hupa.shared.data.DeleteMessageByUidActionImpl;
 import org.apache.hupa.shared.data.FetchMessagesActionImpl;
 import org.apache.hupa.shared.data.FetchMessagesResultImpl;
 import org.apache.hupa.shared.data.GenericResultImpl;
+import org.apache.hupa.shared.data.GetMessageDetailsActionImpl;
+import org.apache.hupa.shared.data.GetMessageDetailsResultImpl;
 import org.apache.hupa.shared.data.ImapFolderImpl;
+import org.apache.hupa.shared.data.MailHeaderImpl;
+import org.apache.hupa.shared.data.MessageAttachmentImpl;
+import org.apache.hupa.shared.data.MessageDetailsImpl;
 import org.apache.hupa.shared.data.RenameFolderActionImpl;
 import org.apache.hupa.shared.data.TagImpl;
 import org.apache.hupa.shared.data.UserImpl;
@@ -48,7 +55,12 @@ import org.apache.hupa.shared.domain.DeleteMessageByUidAction;
 import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
 import org.apache.hupa.shared.domain.GenericResult;
+import org.apache.hupa.shared.domain.GetMessageDetailsAction;
+import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.domain.MailHeader;
+import org.apache.hupa.shared.domain.MessageAttachment;
+import org.apache.hupa.shared.domain.MessageDetails;
 import org.apache.hupa.shared.domain.RenameFolderAction;
 import org.apache.hupa.shared.domain.Settings;
 import org.apache.hupa.shared.domain.Tag;
@@ -86,18 +98,25 @@ public class GuiceServerModule extends AbstractModule {
 		bind(ServiceLayerDecorator.class).to(IocRfServiceDecorator.class);
 		bind(IocRfServiceLocator.class);
 		
+		bind(MailHeader.class).to(MailHeaderImpl.class);
+		
 		bind(User.class).to(UserImpl.class);
 		bind(Settings.class).toProvider(DefaultUserSettingsProvider.class).in(Singleton.class);
 		bind(ImapFolder.class).to(ImapFolderImpl.class);
+		bind(Tag.class).to(TagImpl.class);
+		bind(MessageDetails.class).to(MessageDetailsImpl.class);
+		bind(MessageAttachment.class).to(MessageAttachmentImpl.class);
+		bind(GenericResult.class).to(GenericResultImpl.class);
 		bind(FetchMessagesAction.class).to(FetchMessagesActionImpl.class);
 		bind(FetchMessagesResult.class).to(FetchMessagesResultImpl.class);
-		bind(Tag.class).to(TagImpl.class);
-		bind(GenericResult.class).to(GenericResultImpl.class);
 		bind(CreateFolderAction.class).to(CreateFolderActionImpl.class);
 		bind(DeleteFolderAction.class).to(DeleteFolderActionImpl.class);
 		bind(RenameFolderAction.class).to(RenameFolderActionImpl.class);
 		bind(DeleteMessageAllAction.class).to(DeleteMessageAllActionImpl.class);
 		bind(DeleteMessageByUidAction.class).to(DeleteMessageByUidActionImpl.class);
+		bind(GetMessageDetailsAction.class).to(GetMessageDetailsActionImpl.class);
+		bind(GetMessageDetailsResult.class).to(GetMessageDetailsResultImpl.class);
+		
 		
 		bind(CheckSessionService.class).to(CheckSessionServiceImpl.class);
 		bind(LoginUserService.class).to(LoginUserServiceImpl.class);
@@ -108,6 +127,7 @@ public class GuiceServerModule extends AbstractModule {
 		bind(RenameFolderService.class).to(RenameFolderServiceImpl.class);
 		bind(DeleteMessageAllService.class).to(DeleteMessageAllServiceImpl.class);
 		bind(DeleteMessageByUidService.class).to(DeleteMessageByUidServiceImpl.class);
+		bind(GetMessageDetailsService.class).to(GetMessageDetailsServiceImpl.class);
 		
 		bind(IMAPStoreCache.class).to(getIMAPStoreCacheClass()).in(Singleton.class);
 

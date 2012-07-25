@@ -44,8 +44,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.hupa.server.FileItemRegistry;
 import org.apache.hupa.server.handler.AbstractSendMessageHandler;
 import org.apache.hupa.server.mock.MockIMAPFolder;
-import org.apache.hupa.shared.data.MessageAttachment;
+import org.apache.hupa.shared.data.MessageAttachmentImpl;
 import org.apache.hupa.shared.data.SMTPMessage;
+import org.apache.hupa.shared.domain.MessageAttachment;
 
 import com.sun.mail.imap.IMAPStore;
 
@@ -183,7 +184,7 @@ public class TestUtils extends TestCase {
             fileItem = TestUtils.createMockFileItem("uploadedFile_" + i + ".bin");
             registry.add(fileItem);
 
-            MessageAttachment msgAttach = new MessageAttachment();
+            MessageAttachment msgAttach = new MessageAttachmentImpl();
             msgAttach.setName(fileItem.getFieldName());
             msgAttach.setContentType(fileItem.getContentType());
             msgAttach.setSize((int) fileItem.getSize());

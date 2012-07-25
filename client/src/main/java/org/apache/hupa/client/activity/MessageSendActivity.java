@@ -9,31 +9,26 @@ import gwtupload.client.IUploader.OnStatusChangedHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.hupa.client.evo.HupaEvoCallback;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.client.validation.EmailListValidator;
 import org.apache.hupa.shared.Util;
-import org.apache.hupa.shared.data.ImapFolderImpl;
-import org.apache.hupa.shared.data.MessageAttachment;
-import org.apache.hupa.shared.data.MessageDetails;
+import org.apache.hupa.shared.data.MessageAttachmentImpl;
 import org.apache.hupa.shared.data.SMTPMessage;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
+import org.apache.hupa.shared.domain.MessageAttachment;
+import org.apache.hupa.shared.domain.MessageDetails;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.BackEvent;
 import org.apache.hupa.shared.events.ContactsUpdatedEvent;
 import org.apache.hupa.shared.events.ContactsUpdatedEventHandler;
-import org.apache.hupa.shared.events.FlashEvent;
 import org.apache.hupa.shared.events.FolderSelectionEvent;
 import org.apache.hupa.shared.events.FolderSelectionEventHandler;
 import org.apache.hupa.shared.events.LoadMessagesEvent;
 import org.apache.hupa.shared.events.LoadMessagesEventHandler;
-import org.apache.hupa.shared.events.SentMessageEvent;
 import org.apache.hupa.shared.rpc.ContactsResult.Contact;
 import org.apache.hupa.shared.rpc.ForwardMessage;
-import org.apache.hupa.shared.rpc.GenericResult;
 import org.apache.hupa.shared.rpc.ReplyMessage;
 import org.apache.hupa.shared.rpc.SendMessage;
 import org.apache.hupa.widgets.ui.HasEnable;
@@ -314,7 +309,7 @@ public class MessageSendActivity extends AbstractActivity {
         public void onFinish(IUploader uploader) {
             if (uploader.getStatus() == Status.SUCCESS) {
                 String name = uploader.getInputName();
-                MessageAttachment attachment = new MessageAttachment();
+                MessageAttachment attachment = new MessageAttachmentImpl();
                 attachment.setName(name);
                 attachments.add(attachment);
                 display.getSendEnable().setEnabled(true);

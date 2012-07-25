@@ -65,9 +65,12 @@ import net.customware.gwt.dispatch.shared.ActionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.hupa.server.IMAPStoreCache;
-import org.apache.hupa.shared.data.MessageAttachment;
-import org.apache.hupa.shared.data.MessageDetails;
+import org.apache.hupa.shared.data.MailHeaderImpl;
+import org.apache.hupa.shared.data.MessageAttachmentImpl;
+import org.apache.hupa.shared.data.MessageDetailsImpl;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.domain.MessageAttachment;
+import org.apache.hupa.shared.domain.MessageDetails;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.rpc.GetMessageDetails;
 import org.apache.hupa.shared.rpc.GetMessageDetailsResult;
@@ -152,7 +155,7 @@ public class GetMessageDetailsHandler extends
     protected MessageDetails mimeToDetails(MimeMessage message, String folderName, long uid)
             throws IOException, MessagingException,
             UnsupportedEncodingException {
-        MessageDetails mDetails = new MessageDetails();
+        MessageDetails mDetails = new MessageDetailsImpl();
 
         
         Object con = message.getContent();
@@ -175,7 +178,8 @@ public class GetMessageDetailsHandler extends
         for (@SuppressWarnings("unchecked")
         Enumeration<Header> en = message.getAllHeaders(); en.hasMoreElements();) {
             Header header = en.nextElement();
-            mDetails.addHeader(header.getName(), header.getValue());
+            mDetails.setMailHeader(new MailHeaderImpl(header.getName(), header.getValue()));
+//            mDetails.addHeader(header.getName(), header.getValue());
         }
         
         return mDetails;
@@ -237,7 +241,7 @@ public class GetMessageDetailsHandler extends
                             // Inline images are not added to the attachment list
                             // TODO: improve the in-line images detection 
                             if (part.getHeader("Content-ID") == null) {
-                                MessageAttachment attachment = new MessageAttachment();
+                                MessageAttachment attachment = new MessageAttachmentImpl();
                                 attachment.setName(MimeUtility.decodeText(part.getFileName()));
                                 attachment.setContentType(part.getContentType());
                                 attachment.setSize(part.getSize());

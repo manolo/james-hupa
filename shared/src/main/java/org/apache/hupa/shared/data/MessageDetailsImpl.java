@@ -19,32 +19,41 @@
 
 package org.apache.hupa.shared.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.hupa.shared.SConsts;
+import org.apache.hupa.shared.domain.MailHeader;
+import org.apache.hupa.shared.domain.MessageAttachment;
+import org.apache.hupa.shared.domain.MessageDetails;
 
-public class MessageDetails implements Serializable{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class MessageDetailsImpl implements MessageDetails{
 
 	private String text;
-    private ArrayList<MessageAttachment> aList;
+    private List<MessageAttachment> messageAttachments;
     private long uid;
     private String raw;
     private Map<String, List<String>> headers = new HashMap<String, List<String>>();
+    private MailHeader mailHeader;
 
     
-    public String toString() {
+    public MailHeader getMailHeader() {
+    	return mailHeader;
+    }
+
+
+	public void setMailHeader(MailHeader mailHeader) {
+    	this.mailHeader = mailHeader;
+    }
+
+
+	public String toString() {
         return "uid=" + String.valueOf(getUid()) +
         " text.length=" + (text != null ? text.length() : 0) + 
         " raw.length=" + (raw != null ? raw.length() : 0) + 
-        " attachments=" + (aList != null ? aList.size() : 0) + 
+        " attachments=" + (messageAttachments != null ? messageAttachments.size() : 0) + 
         " headers=" + (headers != null ? headers.size() : 0); 
     }
     
@@ -110,10 +119,10 @@ public class MessageDetails implements Serializable{
     /**
      * Set the attachments 
      * 
-     * @param aList
+     * @param messageAttachments
      */
-    public void setMessageAttachments(ArrayList<MessageAttachment> aList) {
-        this.aList = aList;
+    public void setMessageAttachments(List<MessageAttachment> messageAttachments) {
+        this.messageAttachments = messageAttachments;
     }
 
     /**
@@ -125,6 +134,7 @@ public class MessageDetails implements Serializable{
     }
 
     public String getHeaderValue(String key) {
+    	addHeader(mailHeader.getName(), mailHeader.getValue());
         List<String> h = headers.get(key);
         return h != null && !h.isEmpty() ? h.get(0) : null;
     }
@@ -146,14 +156,14 @@ public class MessageDetails implements Serializable{
      * 
      * @return aList
      */
-    public ArrayList<MessageAttachment> getMessageAttachments() {
-        return aList;
+    public List<MessageAttachment> getMessageAttachments() {
+        return messageAttachments;
     }
 
 
     public boolean equals(Object obj) {
-        if (obj instanceof MessageDetails) {
-            if (((MessageDetails)obj).getUid() == getUid()) {
+        if (obj instanceof MessageDetailsImpl) {
+            if (((MessageDetailsImpl)obj).getUid() == getUid()) {
                 return true;
             }
         }

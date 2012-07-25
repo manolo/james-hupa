@@ -17,33 +17,25 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.shared.rpc;
+package org.apache.hupa.shared.domain;
 
-import java.io.Serializable;
+import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
-import org.apache.hupa.shared.domain.MessageDetails;
 
-import net.customware.gwt.dispatch.shared.Result;
+@ProxyFor(MessageAttachment.class)
+public interface MessageAttachment extends ValueProxy {
 
-public class GetMessageDetailsResult implements Result, Serializable {
+	String getName();
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 6738085246457556043L;
-    private MessageDetails message;
-    
-    @SuppressWarnings("unused")
-    private GetMessageDetailsResult() {
-        
-    }
-    
-    public GetMessageDetailsResult(MessageDetails message) {
-        this.message = message;
-    }
-    
-    public MessageDetails getMessageDetails() {
-        return message;
-    }
+	void setName(String decodeText);
 
+	void setContentType(String contentType);
+
+	void setSize(int size);
+
+	int getSize();
+
+	boolean isImage();
+	
 }
