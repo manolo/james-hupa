@@ -96,6 +96,8 @@ public class WestActivity extends AbstractActivity {
 	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
 	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
 	@Inject private HupaRequestFactory requestFactory;
+	
+	private FetchMessagesRequest messageRequest;
 
 	private User user;
 	private ImapFolder folder;
@@ -220,8 +222,9 @@ public class WestActivity extends AbstractActivity {
 				}
 
 				display.setLoadingMessage(true);
-				GetMessageDetailsRequest req = requestFactory.messageDetailsRequest();
+				GetMessageDetailsRequest req = messageRequest.append(requestFactory.messageDetailsRequest());
 				GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
+//				ImapFolder imapFolder = req.edit(event.getFolder());
 				action.setFolder(event.getFolder());
 				action.setUid(message.getUid());
 				req.get(action).fire(new Receiver<GetMessageDetailsResult>() {
@@ -344,8 +347,8 @@ public class WestActivity extends AbstractActivity {
 				if (tItem.isEdit())
 					return;
 				ImapFolder editableFolder = (ImapFolder) tItem.getUserObject();
-				FetchMessagesRequest req = requestFactory.messagesRequest();
-				folder = req.edit(editableFolder);
+				messageRequest = requestFactory.messagesRequest();
+				folder = messageRequest.edit(editableFolder);
 
 				// folder = (ImapFolder) tItem.getUserObject();
 				eventBus.fireEvent(new LoadMessagesEvent(user, folder));
