@@ -96,8 +96,8 @@ public class WestActivity extends AbstractActivity {
 	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
 	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
 	@Inject private HupaRequestFactory requestFactory;
-	
-	private FetchMessagesRequest messageRequest;
+
+	private FetchMessagesRequest messagesRequest;
 
 	private User user;
 	private ImapFolder folder;
@@ -222,9 +222,12 @@ public class WestActivity extends AbstractActivity {
 				}
 
 				display.setLoadingMessage(true);
-				GetMessageDetailsRequest req = messageRequest.append(requestFactory.messageDetailsRequest());
+				if(messagesRequest == null){
+					messagesRequest = requestFactory.messagesRequest();
+				}
+				GetMessageDetailsRequest req = messagesRequest.append(requestFactory.messageDetailsRequest());
 				GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
-//				ImapFolder imapFolder = req.edit(event.getFolder());
+				// ImapFolder imapFolder = req.edit(event.getFolder());
 				action.setFolder(event.getFolder());
 				action.setUid(message.getUid());
 				req.get(action).fire(new Receiver<GetMessageDetailsResult>() {
@@ -236,7 +239,8 @@ public class WestActivity extends AbstractActivity {
 							eventBus.fireEvent(new DecreaseUnseenEvent(user, folder));
 						}
 						display.setLoadingMessage(false);
-//						showMessage(user, folder, message, response.getMessageDetails());
+						// showMessage(user, folder, message,
+						// response.getMessageDetails());
 
 						placeController.goTo(messagePlaceProvider.get().with(user, folder, message,
 						        response.getMessageDetails()));
@@ -347,11 +351,22 @@ public class WestActivity extends AbstractActivity {
 				if (tItem.isEdit())
 					return;
 				ImapFolder editableFolder = (ImapFolder) tItem.getUserObject();
-				messageRequest = requestFactory.messagesRequest();
-				folder = messageRequest.edit(editableFolder);
+				messagesRequest = requestFactory.messagesRequest();
+				folder = messagesRequest.edit(editableFolder);
 
 				// folder = (ImapFolder) tItem.getUserObject();
 				eventBus.fireEvent(new LoadMessagesEvent(user, folder));
+			}
+
+		});
+		// FIXME why same?
+		display.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
+
+			public void onSelection(SelectionEvent<TreeItem> event) {
+				tItem = (IMAPTreeItem) event.getSelectedItem();
+				if (tItem.isEdit())
+					return;
+				// folder = (ImapFolder) tItem.getUserObject();
 				if (folder.getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName())) {
 					display.getDeleteEnable().setEnabled(false);
 					display.getRenameEnable().setEnabled(false);
@@ -362,27 +377,6 @@ public class WestActivity extends AbstractActivity {
 			}
 
 		});
-		// FIXME why another?
-		// display.getTree().addSelectionHandler(new
-		// SelectionHandler<TreeItem>() {
-		//
-		// public void onSelection(SelectionEvent<TreeItem> event) {
-		// tItem = (IMAPTreeItem) event.getSelectedItem();
-		// if (tItem.isEdit())
-		// return;
-		// folder = (ImapFolder) tItem.getUserObject();
-		// if
-		// (folder.getFullName().equalsIgnoreCase(user.getSettings().getInboxFolderName()))
-		// {
-		// display.getDeleteEnable().setEnabled(false);
-		// display.getRenameEnable().setEnabled(false);
-		// } else {
-		// display.getDeleteEnable().setEnabled(true);
-		// display.getRenameEnable().setEnabled(true);
-		// }
-		// }
-		//
-		// });
 		display.getRenameClick().addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

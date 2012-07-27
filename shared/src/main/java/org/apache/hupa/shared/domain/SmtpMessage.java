@@ -17,43 +17,41 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.shared.rpc;
+package org.apache.hupa.shared.domain;
 
+import java.util.List;
 
-import java.io.Serializable;
+import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
-import net.customware.gwt.dispatch.shared.Action;
+@ProxyFor(SmtpMessage.class)
+public interface SmtpMessage extends ValueProxy {
 
-import org.apache.hupa.shared.domain.SmtpMessage;
+	String getFrom();
 
-public class SendMessage implements Action<GenericResult>, Serializable {
-    
-    private static final long serialVersionUID = 973668124208945015L;
+	List<String> getTo();
 
-    private SmtpMessage msg;
-    
-    public SendMessage(SmtpMessage msg) {
-        this.msg = msg;
-    }
-    
-    protected SendMessage() {
-        
-    }
-    
-    public SmtpMessage getMessage() {
-        return msg;
-    }
-    
-    public void setMessage(SmtpMessage msg) {
-        this.msg = msg;
-    }
-    
-    public String getInReplyTo() {
-		return null;
-	}
+	List<String> getCc();
 
-    public String getReferences() {
-		return null;
-	}
+	List<String> getBcc();
 
+	String getSubject();
+
+	String getText();
+
+	List<MessageAttachment> getMessageAttachments();
+
+	void setFrom(String name);
+
+	void setTo(List<String> arrayList);
+
+	void setCc(List<String> arrayList);
+
+	void setBcc(List<String> arrayList);
+
+	void setSubject(String string);
+
+	void setText(String string);
+
+	void setMessageAttachments(List<MessageAttachment> attachments);
 }

@@ -1,6 +1,5 @@
 package org.apache.hupa.client.place;
 
-import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.MessageDetails;
@@ -11,13 +10,13 @@ import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
 public class IMAPMessagePlace extends Place {
-	
+
 	private Message message;
 	private MessageDetails messageDetails;
 	private ImapFolder folder;
 	private User user;
 
-  public Message getMessage() {
+	public Message getMessage() {
 		return message;
 	}
 
@@ -33,30 +32,30 @@ public class IMAPMessagePlace extends Place {
 		return user;
 	}
 
-@Prefix("message")
-  public static class Tokenizer implements PlaceTokenizer<IMAPMessagePlace> {
+	@Prefix("message")
+	public static class Tokenizer implements PlaceTokenizer<IMAPMessagePlace> {
 
-    @Override
-    public IMAPMessagePlace getPlace(String token) {
-      return new IMAPMessagePlace();
-    }
+		@Override
+		public IMAPMessagePlace getPlace(String token) {
+			return new IMAPMessagePlace();
+		}
 
-    @Override
-    public String getToken(IMAPMessagePlace place) {
-      return String.valueOf(place.getMessage().getUid());
-    }
-  }
-  
-  public String toString(){
-	  return this.getClass().getName()+"->[IMAPMessage]";
-  }
+		@Override
+		public String getToken(IMAPMessagePlace place) {
+			return String.valueOf(place.getMessage().getUid());
+		}
+	}
 
-	public IMAPMessagePlace with(User user, ImapFolder folder, Message message, MessageDetails messageDetails){
-      this.message = message;
-      this.messageDetails = messageDetails;
-      this.folder = folder;
-      this.user = user;
-      return this;
+	public String toString() {
+		return this.getClass().getName() + "->[IMAPMessage]";
+	}
+
+	public IMAPMessagePlace with(User user, ImapFolder folder, Message message, MessageDetails messageDetails) {
+		this.message = message;
+		this.messageDetails = messageDetails;
+		this.folder = folder;
+		this.user = user;
+		return this;
 	}
 
 }

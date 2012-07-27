@@ -37,7 +37,7 @@ public abstract class FetchMessagesBaseServiceImpl extends AbstractService{
         User user = getUser();
         ImapFolder folder = action.getFolder();
         if (folder == null) {
-            folder = (ImapFolder)new ImapFolderImpl(user.getSettings().getInboxFolderName());
+            folder = new ImapFolderImpl(user.getSettings().getInboxFolderName());
         }
         com.sun.mail.imap.IMAPFolder f = null;
         int start = action.getStart();

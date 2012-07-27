@@ -19,7 +19,6 @@
 
 package org.apache.hupa.client.widgets;
 
-import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.widgets.event.EditEvent;
 import org.apache.hupa.widgets.ui.EditableTreeItem;

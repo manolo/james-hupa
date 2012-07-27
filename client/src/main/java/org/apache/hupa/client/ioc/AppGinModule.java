@@ -53,13 +53,12 @@ public class AppGinModule extends AbstractGinModule {
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);
 		bind(IMAPMessageActivity.Displayable.class).to(IMAPMessageView.class);
-		bind(MessageTableModel.class).in(Singleton.class);
-
-		bind(PagingScrollTableRowDragController.class).in(Singleton.class);
 
 		bind(WestActivity.class).in(Singleton.class);
 		bind(TopActivity.class).in(Singleton.class);
-		
+
+		bind(PagingScrollTableRowDragController.class).in(Singleton.class);
+		bind(MessageTableModel.class).in(Singleton.class);
 		// Places
 		bind(PlaceHistoryMapper.class).to(AppPlaceHistoryMapper.class).in(Singleton.class);
 

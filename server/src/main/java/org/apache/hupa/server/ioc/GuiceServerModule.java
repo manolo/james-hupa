@@ -32,6 +32,12 @@ import org.apache.hupa.server.service.LoginUserService;
 import org.apache.hupa.server.service.LoginUserServiceImpl;
 import org.apache.hupa.server.service.RenameFolderService;
 import org.apache.hupa.server.service.RenameFolderServiceImpl;
+import org.apache.hupa.server.service.SendForwardMessageService;
+import org.apache.hupa.server.service.SendForwardMessageServiceImpl;
+import org.apache.hupa.server.service.SendMessageBaseServiceImpl;
+import org.apache.hupa.server.service.SendMessageService;
+import org.apache.hupa.server.service.SendReplyMessageService;
+import org.apache.hupa.server.service.SendReplyMessageServiceImpl;
 import org.apache.hupa.shared.data.CreateFolderActionImpl;
 import org.apache.hupa.shared.data.DeleteFolderActionImpl;
 import org.apache.hupa.shared.data.DeleteMessageAllActionImpl;
@@ -46,6 +52,10 @@ import org.apache.hupa.shared.data.MailHeaderImpl;
 import org.apache.hupa.shared.data.MessageAttachmentImpl;
 import org.apache.hupa.shared.data.MessageDetailsImpl;
 import org.apache.hupa.shared.data.RenameFolderActionImpl;
+import org.apache.hupa.shared.data.SendForwardMessageActionImpl;
+import org.apache.hupa.shared.data.SendMessageActionImpl;
+import org.apache.hupa.shared.data.SendReplyMessageActionImpl;
+import org.apache.hupa.shared.data.SmtpMessageImpl;
 import org.apache.hupa.shared.data.TagImpl;
 import org.apache.hupa.shared.data.UserImpl;
 import org.apache.hupa.shared.domain.CreateFolderAction;
@@ -62,6 +72,10 @@ import org.apache.hupa.shared.domain.MailHeader;
 import org.apache.hupa.shared.domain.MessageAttachment;
 import org.apache.hupa.shared.domain.MessageDetails;
 import org.apache.hupa.shared.domain.RenameFolderAction;
+import org.apache.hupa.shared.domain.SendForwardMessageAction;
+import org.apache.hupa.shared.domain.SendMessageAction;
+import org.apache.hupa.shared.domain.SendReplyMessageAction;
+import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.Settings;
 import org.apache.hupa.shared.domain.Tag;
 import org.apache.hupa.shared.domain.User;
@@ -106,6 +120,8 @@ public class GuiceServerModule extends AbstractModule {
 		bind(Tag.class).to(TagImpl.class);
 		bind(MessageDetails.class).to(MessageDetailsImpl.class);
 		bind(MessageAttachment.class).to(MessageAttachmentImpl.class);
+		bind(SmtpMessage.class).to(SmtpMessageImpl.class);
+		
 		bind(GenericResult.class).to(GenericResultImpl.class);
 		bind(FetchMessagesAction.class).to(FetchMessagesActionImpl.class);
 		bind(FetchMessagesResult.class).to(FetchMessagesResultImpl.class);
@@ -116,6 +132,9 @@ public class GuiceServerModule extends AbstractModule {
 		bind(DeleteMessageByUidAction.class).to(DeleteMessageByUidActionImpl.class);
 		bind(GetMessageDetailsAction.class).to(GetMessageDetailsActionImpl.class);
 		bind(GetMessageDetailsResult.class).to(GetMessageDetailsResultImpl.class);
+		bind(SendMessageAction.class).to(SendMessageActionImpl.class);
+		bind(SendForwardMessageAction.class).to(SendForwardMessageActionImpl.class);
+		bind(SendReplyMessageAction.class).to(SendReplyMessageActionImpl.class);
 		
 		
 		bind(CheckSessionService.class).to(CheckSessionServiceImpl.class);
@@ -128,14 +147,16 @@ public class GuiceServerModule extends AbstractModule {
 		bind(DeleteMessageAllService.class).to(DeleteMessageAllServiceImpl.class);
 		bind(DeleteMessageByUidService.class).to(DeleteMessageByUidServiceImpl.class);
 		bind(GetMessageDetailsService.class).to(GetMessageDetailsServiceImpl.class);
+		bind(SendMessageService.class).to(SendMessageBaseServiceImpl.class);
+		bind(SendForwardMessageService.class).to(SendForwardMessageServiceImpl.class);
+		bind(SendReplyMessageService.class).to(SendReplyMessageServiceImpl.class);
 		
 		bind(IMAPStoreCache.class).to(getIMAPStoreCacheClass()).in(Singleton.class);
 
 		bind(Log.class).toProvider(LogProvider.class).in(Singleton.class);
 		bind(Session.class).toProvider(JavaMailSessionProvider.class);
-//		bind(HttpSession.class).toProvider(HttpSessionProvider.class);
-		bind(Properties.class).toInstance(properties);
         bind(UserPreferencesStorage.class).to(InImapUserPreferencesStorage.class);
+		bind(Properties.class).toInstance(properties);
 	}
 
 	protected Class<? extends IMAPStoreCache> getIMAPStoreCacheClass() {

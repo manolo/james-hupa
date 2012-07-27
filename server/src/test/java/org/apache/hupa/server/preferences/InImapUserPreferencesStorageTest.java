@@ -31,7 +31,7 @@ import org.apache.hupa.server.guice.providers.LogProvider;
 import org.apache.hupa.server.utils.SessionUtils;
 import org.apache.hupa.server.utils.TestUtils;
 import org.apache.hupa.shared.data.ImapFolderImpl;
-import org.apache.hupa.shared.data.SMTPMessage;
+import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.rpc.FetchMessages;
 import org.apache.hupa.shared.rpc.FetchMessagesResult;
 import org.apache.hupa.shared.rpc.SendMessage;
@@ -164,7 +164,7 @@ public class InImapUserPreferencesStorageTest extends HupaGuiceTestCase {
         assertEquals(0, userPreferences.getContacts().length);
 
         // Send an email to only one email
-        SMTPMessage smtpmsg = TestUtils.createMockSMTPMessage(SessionUtils.getSessionRegistry(logger, httpSession), 2);
+        SmtpMessage smtpmsg = TestUtils.createMockSMTPMessage(SessionUtils.getSessionRegistry(logger, httpSession), 2);
         smtpmsg.setFrom(testUser.getName());
         smtpmsg.setTo(new ArrayList<String>(Arrays.asList(testUser.getName())));
         smtpmsg.setCc(new ArrayList<String>());

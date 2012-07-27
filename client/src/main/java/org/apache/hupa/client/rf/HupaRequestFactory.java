@@ -32,4 +32,7 @@ public interface HupaRequestFactory extends RequestFactory {
 	DeleteMessageByUidRequest deleteMessageByUidRequest();
 	DeleteMessageAllRequest deleteMessageAllRequest();
 	GetMessageDetailsRequest messageDetailsRequest();
+	SendMessageRequest sendMessageRequest();
+	SendForwardMessageRequest sendForwardMessageRequest();
+	SendReplyMessageRequest sendReplyMessageRequest();
 }

@@ -21,7 +21,7 @@ package org.apache.hupa.shared.data;
 
 import java.util.List;
 
-public class AbstractMessage{
+public class AbstractMessageImpl{
     private String from;
     private String subject;
     private String replyto;

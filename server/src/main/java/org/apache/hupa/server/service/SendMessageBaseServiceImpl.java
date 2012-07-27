@@ -1,23 +1,4 @@
-/****************************************************************
- * Licensed to the Apache Software Foundation (ASF) under one   *
- * or more contributor license agreements.  See the NOTICE file *
- * distributed with this work for additional information        *
- * regarding copyright ownership.  The ASF licenses this file   *
- * to you under the Apache License, Version 2.0 (the            *
- * "License"); you may not use this file except in compliance   *
- * with the License.  You may obtain a copy of the License at   *
- *                                                              *
- *   http://www.apache.org/licenses/LICENSE-2.0                 *
- *                                                              *
- * Unless required by applicable law or agreed to in writing,   *
- * software distributed under the License is distributed on an  *
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       *
- * KIND, either express or implied.  See the License for the    *
- * specific language governing permissions and limitations      *
- * under the License.                                           *
- ****************************************************************/
-
-package org.apache.hupa.server.handler;
+package org.apache.hupa.server.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,13 +24,10 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpSession;
 
-import net.customware.gwt.dispatch.server.ExecutionContext;
 import net.customware.gwt.dispatch.shared.ActionException;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.logging.Log;
 import org.apache.hupa.server.FileItemRegistry;
 import org.apache.hupa.server.IMAPStoreCache;
 import org.apache.hupa.server.preferences.UserPreferencesStorage;
@@ -57,47 +35,45 @@ import org.apache.hupa.server.utils.MessageUtils;
 import org.apache.hupa.server.utils.RegexPatterns;
 import org.apache.hupa.server.utils.SessionUtils;
 import org.apache.hupa.shared.SConsts;
+import org.apache.hupa.shared.data.GenericResultImpl;
+import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.MessageAttachment;
+import org.apache.hupa.shared.domain.SendMessageAction;
 import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.User;
-import org.apache.hupa.shared.rpc.GenericResult;
-import org.apache.hupa.shared.rpc.SendMessage;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
 
-/**
- * Handle sending of email messages
- * 
- */
-public abstract class AbstractSendMessageHandler<A extends SendMessage> extends AbstractSessionHandler<A,GenericResult> {
+public class SendMessageBaseServiceImpl extends AbstractService implements SendMessageService{
 
-    private final boolean auth;
-    private final String address;
-    private final int port;
-    private boolean useSSL = false;
-    UserPreferencesStorage userPreferences;
-    Session session;
+	private final boolean auth;
+	private final String address;
+	private final int port;
+	private boolean useSSL = false;
+	UserPreferencesStorage userPreferences;
+	Session session;
 
-    @Inject
-    public AbstractSendMessageHandler(Log logger, IMAPStoreCache store, Provider<HttpSession> provider, UserPreferencesStorage preferences, @Named("SMTPServerAddress") String address, @Named("SMTPServerPort") int port, @Named("SMTPAuth") boolean auth, @Named("SMTPS") boolean useSSL) {
-        super(store,logger,provider);
-        this.auth = auth;
-        this.address = address;
-        this.port = port;
-        this.useSSL  = useSSL;
-        this.userPreferences = preferences;
-        this.session = store.getMailSession();
-        session.getProperties().put("mail.smtp.auth", auth);
-    }
+	@Inject
+	public SendMessageBaseServiceImpl(UserPreferencesStorage preferences, @Named("SMTPServerAddress") String address,
+	        @Named("SMTPServerPort") int port, @Named("SMTPAuth") boolean auth, @Named("SMTPS") boolean useSSL, IMAPStoreCache cache) {
+		this.cache = cache;
+		this.auth = auth;
+		this.address = address;
+		this.port = port;
+		this.useSSL = useSSL;
+		this.userPreferences = preferences;
+		this.session = cache.getMailSession();
+		session.getProperties().put("mail.smtp.auth", auth);
+	}
+	
 
-    @Override
-    protected GenericResult executeInternal(A action, ExecutionContext context)
-            throws ActionException {
-        GenericResult result = new GenericResult();
+
+    public GenericResult send(SendMessageAction action)
+            throws Exception {
+        GenericResult result = new GenericResultImpl();
         try {
 
             Message message = createMessage(session, action);
@@ -136,7 +112,7 @@ public abstract class AbstractSendMessageHandler<A extends SendMessage> extends 
      * @throws MessagingException
      * @throws ActionException
      */
-    protected Message createMessage(Session session, A action) throws AddressException, MessagingException {
+    protected Message createMessage(Session session, SendMessageAction action) throws AddressException, MessagingException {
         MimeMessage message = new MimeMessage(session);
         SmtpMessage m = action.getMessage();
         message.setFrom(new InternetAddress(m.getFrom()));
@@ -154,7 +130,7 @@ public abstract class AbstractSendMessageHandler<A extends SendMessage> extends 
         return message;
     }
     
-    protected void updateHeaders(MimeMessage message, A action) {
+    protected void updateHeaders(MimeMessage message, SendMessageAction action) {
         if (action.getInReplyTo() != null) {
             try {
                 message.addHeader(SConsts.HEADER_IN_REPLY_TO, action.getInReplyTo());
@@ -181,7 +157,7 @@ public abstract class AbstractSendMessageHandler<A extends SendMessage> extends 
      * @throws ActionException
      * @throws IOException 
      */
-    protected Message fillBody(Message message, A action) throws MessagingException, ActionException, IOException {
+    protected Message fillBody(Message message, SendMessageAction action) throws MessagingException, IOException {
 
         String html = restoreInlineLinks(action.getMessage().getText());
         
@@ -218,8 +194,8 @@ public abstract class AbstractSendMessageHandler<A extends SendMessage> extends 
      * @return A list of stored attachments
      */
     @SuppressWarnings("rawtypes")
-    protected List getAttachments(A action) throws MessagingException, ActionException {
-        FileItemRegistry registry = SessionUtils.getSessionRegistry(logger, httpSessionProvider.get());
+    protected List getAttachments(SendMessageAction action) throws MessagingException {
+        FileItemRegistry registry = SessionUtils.getSessionRegistry(logger, httpSession);
         List<MessageAttachment> attachments = action.getMessage().getMessageAttachments();
         
         ArrayList<FileItem> items = new ArrayList<FileItem>();
@@ -241,12 +217,12 @@ public abstract class AbstractSendMessageHandler<A extends SendMessage> extends 
      * @throws MessagingException
      * @throws ActionException
      */
-    protected void resetAttachments(A action) throws MessagingException, ActionException {
+    protected void resetAttachments(SendMessageAction action) throws MessagingException {
         SmtpMessage msg = action.getMessage();
         List<MessageAttachment> attachments = msg.getMessageAttachments();
         if (attachments != null && ! attachments.isEmpty()) {
             for(MessageAttachment attach : attachments) 
-                SessionUtils.getSessionRegistry(logger, httpSessionProvider.get()).remove(attach.getName());
+                SessionUtils.getSessionRegistry(logger, httpSession).remove(attach.getName());
         }
     }
     
@@ -443,5 +419,6 @@ public abstract class AbstractSendMessageHandler<A extends SendMessage> extends 
         }
 
     }
+
 
 }

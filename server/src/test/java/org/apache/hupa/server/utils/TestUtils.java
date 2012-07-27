@@ -45,8 +45,9 @@ import org.apache.hupa.server.FileItemRegistry;
 import org.apache.hupa.server.handler.AbstractSendMessageHandler;
 import org.apache.hupa.server.mock.MockIMAPFolder;
 import org.apache.hupa.shared.data.MessageAttachmentImpl;
-import org.apache.hupa.shared.data.SMTPMessage;
+import org.apache.hupa.shared.data.SmtpMessageImpl;
 import org.apache.hupa.shared.domain.MessageAttachment;
+import org.apache.hupa.shared.domain.SmtpMessage;
 
 import com.sun.mail.imap.IMAPStore;
 
@@ -176,7 +177,7 @@ public class TestUtils extends TestCase {
      * @throws MessagingException
      * @throws IOException
      */
-    public static SMTPMessage createMockSMTPMessage(FileItemRegistry registry, int nfiles) throws AddressException, MessagingException, IOException {
+    public static SmtpMessage createMockSMTPMessage(FileItemRegistry registry, int nfiles) throws AddressException, MessagingException, IOException {
         ArrayList<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
 
         for (int i = 1; i <= nfiles; i++) {
@@ -192,7 +193,7 @@ public class TestUtils extends TestCase {
             attachments.add(msgAttach);
         }
 
-        SMTPMessage smtpMessage = new SMTPMessage();
+        SmtpMessage smtpMessage = new SmtpMessageImpl();
         smtpMessage.setFrom("Test user <from@dom.com>");
         smtpMessage.setTo(new ArrayList<String>(Arrays.asList("to@dom.com")));
         smtpMessage.setCc(new ArrayList<String>(Arrays.asList("cc@dom.com")));

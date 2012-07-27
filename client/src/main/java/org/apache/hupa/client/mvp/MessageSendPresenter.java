@@ -39,11 +39,12 @@ import org.apache.hupa.client.validation.EmailListValidator;
 import org.apache.hupa.shared.SConsts;
 import org.apache.hupa.shared.Util;
 import org.apache.hupa.shared.data.MessageAttachmentImpl;
-import org.apache.hupa.shared.data.SMTPMessage;
+import org.apache.hupa.shared.data.SmtpMessageImpl;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.MessageAttachment;
 import org.apache.hupa.shared.domain.MessageDetails;
+import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.BackEvent;
 import org.apache.hupa.shared.events.ContactsUpdatedEvent;
@@ -81,7 +82,7 @@ public class MessageSendPresenter extends WidgetPresenter<MessageSendPresenter.D
     private ImapFolder folder;
     private Message oldmessage;
     
-    protected SMTPMessage message = null;
+    protected SmtpMessage message = null;
     
     private MessageDetails oldDetails;
 
@@ -198,7 +199,7 @@ public class MessageSendPresenter extends WidgetPresenter<MessageSendPresenter.D
     protected ClickHandler sendClickHandler = new ClickHandler() {
         public void onClick(ClickEvent event) {
             if (validate()) {
-                message = new SMTPMessage();
+                message = new SmtpMessageImpl();
                 message.setFrom(display.getFromText().getText());
                 message.setSubject(display.getSubjectText().getText());
                 message.setText(display.getMessageHTML().getHTML());

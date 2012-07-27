@@ -20,8 +20,8 @@
 
 package org.apache.hupa.shared.rpc;
 
-import org.apache.hupa.shared.data.SMTPMessage;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.domain.SmtpMessage;
 
 public class ForwardMessage extends SendMessage {
 
@@ -31,7 +31,7 @@ public class ForwardMessage extends SendMessage {
     private String inReplyTo;
     private String references;
 
-    public ForwardMessage(SMTPMessage msg, ImapFolder folder, long uid) {
+    public ForwardMessage(SmtpMessage msg, ImapFolder folder, long uid) {
         super(msg);
         this.uid = uid;
         this.folder = folder;
