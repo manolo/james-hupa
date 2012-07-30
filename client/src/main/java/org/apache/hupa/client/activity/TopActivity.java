@@ -2,7 +2,13 @@ package org.apache.hupa.client.activity;
 
 import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.place.DefaultPlace;
+import org.apache.hupa.client.rf.HupaRequestFactory;
+import org.apache.hupa.client.rf.IdleRequest;
+import org.apache.hupa.client.rf.LogoutUserRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;
+import org.apache.hupa.shared.domain.IdleAction;
+import org.apache.hupa.shared.domain.IdleResult;
+import org.apache.hupa.shared.domain.LogoutUserResult;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.FlashEvent;
 import org.apache.hupa.shared.events.FlashEventHandler;
@@ -25,16 +31,17 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.web.bindery.requestfactory.shared.Receiver;
 
 public class TopActivity extends AbstractActivity {
 
 	private static final int IDLE_INTERVAL = 150000;
+
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
 		bind();
-//		checkSession();
+		// checkSession();
 	}
 
 	private void bind() {
@@ -58,7 +65,6 @@ public class TopActivity extends AbstractActivity {
 				}
 				showLogin(username);
 				noopTimer.cancel();
-//				TopActivity.this.placeController.goTo(defaultPlaceProvider.get());
 			}
 
 		});
@@ -103,33 +109,16 @@ public class TopActivity extends AbstractActivity {
 		});
 	}
 
-	private void checkSession() {
-		System.out.println("+++++++++++++");
-//		dispatcher.execute(new CheckSession(), new AsyncCallback<CheckSessionResult>() {
-//			public void onFailure(Throwable caught) {
-//				serverStatus = ServerStatus.Unavailable;
-//				display.setServerStatus(serverStatus);
-//				showLogin(null);
-//			}
-//			public void onSuccess(CheckSessionResult result) {
-//				serverStatus = ServerStatus.Available;
-//				display.setServerStatus(serverStatus);
-//				if (result.isValid()) {
-//					eventBus.fireEvent(new LoginEvent(result.getUser()));
-//				} else {
-//					showLogin(null);
-//				}
-//			}
-//		});
-	}
 	private void doLogout() {
-//		if (user != null) {
-//			dispatcher.execute(new LogoutUser(), new HupaEvoCallback<LogoutUserResult>(dispatcher, eventBus) {
-//				public void callback(LogoutUserResult result) {
-//					eventBus.fireEvent(new LogoutEvent(result.getUser()));
-//				}
-//			});
-//		}
+		if (user != null) {
+			LogoutUserRequest req = requestFactory.logoutRequest();
+			req.logout().fire(new Receiver<LogoutUserResult>() {
+				@Override
+				public void onSuccess(LogoutUserResult response) {
+					eventBus.fireEvent(new LogoutEvent(response.getUser()));
+				}
+			});
+		}
 	}
 
 	private void showMain(User user) {
@@ -139,12 +128,14 @@ public class TopActivity extends AbstractActivity {
 
 	private void showLogin(String username) {
 		display.showTopNavigation(false);
+		placeController.goTo(new DefaultPlace());
 	}
 
 	private void showContacts() {
 		display.showTopNavigation(true);
 		display.showMainButton();
 	}
+
 	private Timer noopTimer = new IdleTimer();
 
 	public interface Displayable extends WidgetDisplayable {
@@ -162,32 +153,36 @@ public class TopActivity extends AbstractActivity {
 	@Inject private Displayable display;
 	@Inject private EventBus eventBus;
 	@Inject private PlaceController placeController;
-//	@Inject private DispatchAsync dispatcher;
-//	@Inject private Provider<DefaultPlace> defaultPlaceProvider;
 	@Inject private HupaConstants constants;
-	
+	@Inject private HupaRequestFactory requestFactory;
 	private User user;
 	private ServerStatus serverStatus = ServerStatus.Available;
 
 	private class IdleTimer extends Timer {
 		boolean running = false;
+
 		public void run() {
 			if (!running) {
 				running = true;
-//				dispatcher.execute(new Idle(), new HupaEvoCallback<IdleResult>(dispatcher, eventBus) {
-//					public void callback(IdleResult result) {
-//						running = false;
-//						// check if the server is not supporting the Idle
-//						// command.
-//						// if so cancel this Timer
-//						if (result.isSupported() == false) {
-//							IdleTimer.this.cancel();
-//						}
-//						// Noop
-//						// TODO: put code here to read new events from server
-//						// (new messages ...)
-//					}
-//				});
+				IdleRequest req = requestFactory.idleRequest();
+				IdleAction action = req.create(IdleAction.class);
+				req.idle(action).fire(new Receiver<IdleResult>() {
+
+					@Override
+					public void onSuccess(IdleResult response) {
+						running = false;
+						// check if the server is not supporting the Idle
+						// command.
+						// if so cancel this Timer
+						if (response.isSupported() == false) {
+							IdleTimer.this.cancel();
+						}
+						// Noop
+						// TODO: put code here to read new events from server
+						// (new messages ...)
+
+					}
+				});
 			}
 		}
 	}

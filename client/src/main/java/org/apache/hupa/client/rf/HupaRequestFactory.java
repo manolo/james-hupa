@@ -25,7 +25,9 @@ public interface HupaRequestFactory extends RequestFactory {
 	ImapFolderRequest folderRequest();
 	CheckSessionRequest sessionRequest();
 	LoginUserRequest loginRequest();
+	LogoutUserRequest logoutRequest();
 	FetchMessagesRequest messagesRequest();
+	MoveMessageRequest moveMessageRequest();
 	CreateFolderRequest createFolderRequest();
 	DeleteFolderRequest deleteFolderRequest();
 	RenameFolderRequest renameFolderRequest();
@@ -35,4 +37,6 @@ public interface HupaRequestFactory extends RequestFactory {
 	SendMessageRequest sendMessageRequest();
 	SendForwardMessageRequest sendForwardMessageRequest();
 	SendReplyMessageRequest sendReplyMessageRequest();
+	IdleRequest idleRequest();
+	SetFlagRequest setFlagRequest();
 }

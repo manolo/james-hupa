@@ -246,25 +246,6 @@ public class WestActivity extends AbstractActivity {
 						        response.getMessageDetails()));
 					}
 				});
-				// dispatcher.execute(new
-				// GetMessageDetails(event.getFolder(),
-				// message.getUid()), new
-				// HupaEvoCallback<GetMessageDetailsResult>(dispatcher,
-				// eventBus, display) {
-				// public void callback(GetMessageDetailsResult result)
-				// {
-				// if (decreaseUnseen) {
-				// eventBus.fireEvent(new DecreaseUnseenEvent(user,
-				// folder));
-				// }
-				// display.setLoadingMessage(false);
-				// // showMessage(user, folder, message,
-				// result.getMessageDetails());
-				//
-				// placeController.goTo(messagePlaceProvider.get().with(user,folder,
-				// message,result.getMessageDetails()));
-				// }
-				// });
 			}
 
 		});
