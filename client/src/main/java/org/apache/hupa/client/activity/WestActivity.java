@@ -227,8 +227,16 @@ public class WestActivity extends AbstractActivity {
 				}
 				GetMessageDetailsRequest req = messagesRequest.append(requestFactory.messageDetailsRequest());
 				GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
+				final ImapFolder folder = req.create(ImapFolder.class);
+				folder.setChildren(event.getFolder().getChildren());
+				folder.setDelimiter(event.getFolder().getDelimiter());
+				folder.setFullName(event.getFolder().getFullName());
+				folder.setMessageCount(event.getFolder().getMessageCount());
+				folder.setName(event.getFolder().getName());
+				folder.setSubscribed(event.getFolder().getSubscribed());
+				folder.setUnseenMessageCount(event.getFolder().getUnseenMessageCount());
 				// ImapFolder imapFolder = req.edit(event.getFolder());
-				action.setFolder(event.getFolder());
+				action.setFolder(folder);
 				action.setUid(message.getUid());
 				req.get(action).fire(new Receiver<GetMessageDetailsResult>() {
 

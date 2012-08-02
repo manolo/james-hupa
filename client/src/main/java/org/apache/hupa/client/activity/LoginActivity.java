@@ -6,6 +6,8 @@ import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.LoginUserRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;
+import org.apache.hupa.shared.data.ImapFolderImpl;
+import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.FlashEvent;
 import org.apache.hupa.shared.events.LoginEvent;
@@ -78,7 +80,7 @@ public class LoginActivity extends AbstractActivity {
 		loginRequest.login(user, pass).fire(new Receiver<User>() {
 			@Override
 			public void onSuccess(User response) {
-				placeController.goTo(new MailFolderPlace().with(response));
+				placeController.goTo(new MailFolderPlace().with(response, useDefaultInboxFolder(response), null));
                 eventBus.fireEvent(new LoginEvent(response));
 			}
 			@Override
@@ -87,6 +89,10 @@ public class LoginActivity extends AbstractActivity {
 			}
 		});
 
+	}
+	
+	private ImapFolder useDefaultInboxFolder(User user){
+		return new ImapFolderImpl(user.getSettings().getInboxFolderName());
 	}
 
 	/**
