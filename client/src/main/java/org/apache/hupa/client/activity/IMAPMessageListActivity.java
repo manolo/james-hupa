@@ -335,20 +335,11 @@ public class IMAPMessageListActivity extends AbstractActivity {
 				eventBus.fireEvent(new DecreaseUnseenEvent(user, folder, response.getCount()));
 			}
 		});
-
-		// dispatcher.execute(new DeleteMessageByUid(folder,uids), new
-		// HupaEvoCallback<DeleteMessageResult>(dispatcher, eventBus) {
-		// public void callback(DeleteMessageResult result) {
-		// eventBus.fireEvent(new
-		// DecreaseUnseenEvent(user,folder,result.getCount()));
-		// }
-		// });
 	}
 	public IMAPMessageListActivity with(MailFolderPlace place) {
 		this.user = place.getUser();
 		this.folder = place.getFolder();
 		this.searchValue = place.getSearchValue();
-		display.setImapFolder(folder);
 		return this;
 	}
 
@@ -412,7 +403,6 @@ public class IMAPMessageListActivity extends AbstractActivity {
 		public HasValue<String> getSearchValue();
 		public void fillSearchOracle(List<Message> messages);
 		public void setExpandLoading(boolean expanding);
-		void setImapFolder(ImapFolder folder);
 
 	}
 

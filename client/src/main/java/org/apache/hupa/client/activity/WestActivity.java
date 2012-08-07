@@ -222,7 +222,7 @@ public class WestActivity extends AbstractActivity {
 				}
 
 				display.setLoadingMessage(true);
-				if(messagesRequest == null){
+				if (messagesRequest == null) {
 					messagesRequest = requestFactory.messagesRequest();
 				}
 				GetMessageDetailsRequest req = messagesRequest.append(requestFactory.messageDetailsRequest());
@@ -247,9 +247,6 @@ public class WestActivity extends AbstractActivity {
 							eventBus.fireEvent(new DecreaseUnseenEvent(user, folder));
 						}
 						display.setLoadingMessage(false);
-						// showMessage(user, folder, message,
-						// response.getMessageDetails());
-
 						placeController.goTo(messagePlaceProvider.get().with(user, folder, message,
 						        response.getMessageDetails()));
 					}
@@ -344,6 +341,7 @@ public class WestActivity extends AbstractActivity {
 				folder = messagesRequest.edit(editableFolder);
 
 				// folder = (ImapFolder) tItem.getUserObject();
+				// FIXME not good to find
 				eventBus.fireEvent(new LoadMessagesEvent(user, folder));
 			}
 
@@ -482,7 +480,7 @@ public class WestActivity extends AbstractActivity {
 		this.searchValue = searchValue;
 
 		// FIXME goto?
-//		placeController.goTo(new MailFolderPlace().with(user, folder, searchValue));
+		placeController.goTo(new MailFolderPlace().with(user, folder, searchValue));
 		// placeController.goTo(mailInboxPlaceProvider.get().with(user));
 		// System.out.println("111");
 		// placeController.goTo(new
