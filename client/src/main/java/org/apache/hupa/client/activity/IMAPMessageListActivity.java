@@ -69,7 +69,6 @@ public class IMAPMessageListActivity extends AbstractActivity {
 	private String searchValue;
 	private User user;
 	private ImapFolder folder;
-	private ShowMessageTableListener tableListener = new ShowMessageTableListener();
 
 	@Inject private Displayable display;
 	@Inject private EventBus eventBus;
@@ -273,21 +272,6 @@ public class IMAPMessageListActivity extends AbstractActivity {
 			        }
 
 		        });
-		new HandlerRegistrationAdapter(display.getDataTableSelection().addRowSelectionHandler(
-		        new RowSelectionHandler() {
-			        public void onRowSelection(RowSelectionEvent event) {
-				        if (event.getSelectedRows().size() == 0) {
-					        display.getDeleteEnable().setEnabled(false);
-					        display.getMarkSeenEnable().setEnabled(false);
-					        display.getMarkUnseenEnable().setEnabled(false);
-				        } else {
-					        display.getDeleteEnable().setEnabled(true);
-					        display.getMarkSeenEnable().setEnabled(true);
-					        display.getMarkUnseenEnable().setEnabled(true);
-				        }
-			        }
-
-		        }));
 		display.getRefreshClick().addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -296,14 +280,6 @@ public class IMAPMessageListActivity extends AbstractActivity {
 			}
 
 		});
-		new HandlerRegistrationAdapter(display.getDataTablePageChange().addPageChangeHandler(new PageChangeHandler() {// TODO
-
-			        public void onPageChange(PageChangeEvent event) {
-				        // firePresenterRevealedEvent(true);
-				        // firePresenterChangedEvent();
-			        }
-
-		        }));
 		display.getRowsPerPageChange().addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
@@ -312,7 +288,7 @@ public class IMAPMessageListActivity extends AbstractActivity {
 			}
 
 		});
-		display.addTableListener(tableListener);
+//		display.addTableListener(tableListener);
 	}
 
 	private void deleteMessages() {
@@ -403,27 +379,6 @@ public class IMAPMessageListActivity extends AbstractActivity {
 		public HasValue<String> getSearchValue();
 		public void fillSearchOracle(List<Message> messages);
 		public void setExpandLoading(boolean expanding);
-
-	}
-
-	private final class ShowMessageTableListener implements TableListener {
-
-		public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-
-			display.setExpandLoading(true);
-			Message message = display.getData(row);
-
-			// mark the message as seen and redraw the table to reflect this
-			if (message.getFlags().contains(MessageImpl.IMAPFlag.SEEN) == false) {
-				// add flag, fire event and redraw
-				message.getFlags().add(MessageImpl.IMAPFlag.SEEN);
-				eventBus.fireEvent(new DecreaseUnseenEvent(user, folder, 1));
-
-				display.redraw();
-
-			}
-			eventBus.fireEvent(new ExpandMessageEvent(user, folder, message));
-		}
 
 	}
 }
