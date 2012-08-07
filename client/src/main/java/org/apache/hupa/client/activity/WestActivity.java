@@ -482,7 +482,7 @@ public class WestActivity extends AbstractActivity {
 		this.searchValue = searchValue;
 
 		// FIXME goto?
-		placeController.goTo(new MailFolderPlace().with(user, folder, searchValue));
+//		placeController.goTo(new MailFolderPlace().with(user, folder, searchValue));
 		// placeController.goTo(mailInboxPlaceProvider.get().with(user));
 		// System.out.println("111");
 		// placeController.goTo(new

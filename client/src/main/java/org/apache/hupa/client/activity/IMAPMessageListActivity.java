@@ -348,6 +348,7 @@ public class IMAPMessageListActivity extends AbstractActivity {
 		this.user = place.getUser();
 		this.folder = place.getFolder();
 		this.searchValue = place.getSearchValue();
+		display.setImapFolder(folder);
 		return this;
 	}
 
@@ -411,6 +412,7 @@ public class IMAPMessageListActivity extends AbstractActivity {
 		public HasValue<String> getSearchValue();
 		public void fillSearchOracle(List<Message> messages);
 		public void setExpandLoading(boolean expanding);
+		void setImapFolder(ImapFolder folder);
 
 	}
 
