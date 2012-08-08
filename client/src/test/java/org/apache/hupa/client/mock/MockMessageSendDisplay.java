@@ -19,19 +19,19 @@
 
 package org.apache.hupa.client.mock;
 
+import gwtupload.client.IUploader;
+
+import org.apache.hupa.client.activity.MessageSendActivity.Displayable;
+import org.apache.hupa.shared.rpc.ContactsResult.Contact;
+import org.apache.hupa.widgets.ui.HasEnable;
+
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwtupload.client.IUploader;
-
-import org.apache.hupa.client.mvp.MessageSendPresenter.Display;
-import org.apache.hupa.shared.rpc.ContactsResult.Contact;
-import org.apache.hupa.widgets.ui.HasEnable;
-
-public class MockMessageSendDisplay implements Display {
+public class MockMessageSendDisplay implements Displayable {
 
     HasClickHandlers backClick = new MockWidget();
     HasText bccText = new MockWidget();
