@@ -26,7 +26,6 @@ import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.HupaMessages;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
 import org.apache.hupa.client.bundles.HupaImageBundle;
-import org.apache.hupa.client.dnd.PagingScrollTableRowDragController;
 import org.apache.hupa.client.rf.FetchMessagesRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.widgets.CommandsBar;
@@ -200,8 +199,7 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 	MessagesCellTable table;
 	private boolean pending;
 	@Inject
-	public IMAPMessageListView(final PagingScrollTableRowDragController controller,
-	        final MessageTableModel mTableModel, final HupaConstants constants, final HupaMessages messages,
+	public IMAPMessageListView(final HupaConstants constants, final HupaMessages messages,
 	         final EventBus eventBus, final HupaRequestFactory requestFactory,
 	        final MessagesCellTable table) {
 		this.table = table;
