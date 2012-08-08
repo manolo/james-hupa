@@ -336,11 +336,12 @@ public class WestActivity extends AbstractActivity {
 				tItem = (IMAPTreeItem) event.getSelectedItem();
 				if (tItem.isEdit())
 					return;
-				ImapFolder editableFolder = (ImapFolder) tItem.getUserObject();
-				messagesRequest = requestFactory.messagesRequest();
-				folder = messagesRequest.edit(editableFolder);
+//				ImapFolder editableFolder = (ImapFolder) tItem.getUserObject();
+//				
+//				messagesRequest = requestFactory.messagesRequest();
+//				folder = messagesRequest.edit(editableFolder);
 
-				// folder = (ImapFolder) tItem.getUserObject();
+				 folder = (ImapFolder) tItem.getUserObject();
 				// FIXME not good to find
 				eventBus.fireEvent(new LoadMessagesEvent(user, folder));
 			}
