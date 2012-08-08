@@ -39,6 +39,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+@SuppressWarnings("deprecation")
 public class AppGinModule extends AbstractGinModule {
 	public static Logger logger = Logger.getLogger(AppGinModule.class.getName());
 
@@ -99,13 +100,6 @@ public class AppGinModule extends AbstractGinModule {
 	        EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
-
-	// @Provides
-	// @Singleton
-	// protected DispatchAsync provideDispatchAsync(ExceptionHandler
-	// exceptionHandler) {
-	// return new CachingDispatchAsync(exceptionHandler);
-	// }
 
 	@Provides
 	@Singleton
