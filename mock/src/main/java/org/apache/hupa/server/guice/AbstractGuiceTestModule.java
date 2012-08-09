@@ -21,8 +21,6 @@ package org.apache.hupa.server.guice;
 
 import java.util.Properties;
 
-import net.customware.gwt.dispatch.server.guice.ActionHandlerModule;
-
 import org.apache.hupa.shared.data.SettingsImpl;
 import org.apache.hupa.shared.data.UserImpl;
 
@@ -74,7 +72,7 @@ import com.google.inject.name.Named;
  * @author manolo
  *
  */
-public abstract class AbstractGuiceTestModule extends ActionHandlerModule {
+public abstract class AbstractGuiceTestModule {
 
     protected static class TestUser extends UserImpl {
         private static final long serialVersionUID = 1L;
