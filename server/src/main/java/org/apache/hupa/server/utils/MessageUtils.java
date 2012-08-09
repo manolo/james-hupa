@@ -19,7 +19,10 @@
 
 package org.apache.hupa.server.utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +44,6 @@ import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
-import org.apache.hupa.server.handler.AbstractSendMessageHandler;
 
 
 
@@ -173,12 +175,65 @@ public class MessageUtils {
      */
     public static BodyPart fileitemToBodypart(FileItem item) throws MessagingException {
         MimeBodyPart messageBodyPart = new MimeBodyPart();
-        DataSource source = new AbstractSendMessageHandler.FileItemDataStore(item);
+        DataSource source = new FileItemDataStore(item);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(source.getName());
         return messageBodyPart;
     }
-    
+
+    /**
+     * DataStore which wrap a FileItem
+     * 
+     */
+    public static class FileItemDataStore implements DataSource {
+
+        private FileItem item;
+
+        public FileItemDataStore(FileItem item) {
+            this.item = item;
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see javax.activation.DataSource#getContentType()
+         */
+        public String getContentType() {
+            return item.getContentType();
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see javax.activation.DataSource#getInputStream()
+         */
+        public InputStream getInputStream() throws IOException {
+            return item.getInputStream();
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see javax.activation.DataSource#getName()
+         */
+        public String getName() {
+            String fullName = item.getName();
+            
+            // Strip path from file
+            int index = fullName.lastIndexOf(File.separator);
+            if (index == -1) {
+                return fullName;
+            } else {
+                return fullName.substring(index +1 ,fullName.length());
+            }
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see javax.activation.DataSource#getOutputStream()
+         */
+        public OutputStream getOutputStream() throws IOException {
+            return null;
+        }
+
+    }  
     /**
      * Decode iso-xxxx strings present in subjects and emails like:
      * 
