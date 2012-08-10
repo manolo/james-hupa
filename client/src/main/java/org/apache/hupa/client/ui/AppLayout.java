@@ -20,10 +20,10 @@
 package org.apache.hupa.client.ui;
 
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 
 public interface AppLayout {
-	LayoutPanel getMainLayoutPanel();
+	DockLayoutPanel getMainLayoutPanel();
 	AcceptsOneWidget getTopContainer();
 	AcceptsOneWidget getWestContainer();
 	AcceptsOneWidget getMainContainer();
