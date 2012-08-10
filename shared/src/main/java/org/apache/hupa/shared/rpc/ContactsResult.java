@@ -19,11 +19,16 @@
 
 package org.apache.hupa.shared.rpc;
 
+import java.io.Serializable;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 
 
 public class ContactsResult{
 
-	public static class Contact {
+	public static class Contact implements IsSerializable, Serializable{
+        private static final long serialVersionUID = -8632580327693416473L;
 		public String mail;
 		public String realname;
 
@@ -61,7 +66,6 @@ public class ContactsResult{
 
 	}
 
-	private static final long serialVersionUID = -8740775403377441876L;
 	private Contact[] contacts;
 
 	public ContactsResult() {
