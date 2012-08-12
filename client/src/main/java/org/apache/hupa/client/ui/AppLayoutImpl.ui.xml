@@ -10,24 +10,27 @@
 	language governing permissions and limitations under the License. -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:my='urn:import:org.apache.hupa.client.ui'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:h='urn:import:org.apache.hupa.client.ui'>
 	<ui:style>
 		.Hupa {
 			text-align: left;
 			margin-top: 0px;
 			padding: 0px;
 			width: 100%;
-			min-width: 920px;
-			margin-top: 15px;
-		}
-		
-		* html div.Hupa {
+			min-width: 800px;
 			margin-top: 15px;
 		}
 		
 		.northPanel {
-			padding-left: 80px;
-			padding-right: 8px;
+			clear: both;
+			border: 1px solid #7FAAFF;
+			box-shadow: 0 1px 4px grey;
+			border-radius: 5px;
+			overflow: hidden;
+			background: literal("-moz-linear-gradient(#eaeaea, #fafafa)");
+			background: literal("-webkit-linear-gradient(#eaeaea, #fafafa)");
+			background: literal("-o-linear-gradient(#eaeaea, #fafafa)");
+			margin: 0px 8px 8px 8px;
 		}
 		
 		.topView {
@@ -36,22 +39,14 @@
 			background: literal("-moz-linear-gradient(#FFFFFF, #C5D9FF)");
 			background: literal("-webkit-linear-gradient(#FFFFFF, #C5D9FF)");
 			background: literal("-o-linear-gradient(#FFFFFF, #C5D9FF)");
+			width : 98%
 		}
 		
 		.hupa-logo {
 			width: 90px;
 			height: 64px;
 			float: left;
-			background: url(images/hupa-logo-64-transparent.png) no-repeat;
-		}
-		
-		.hupa-main {
-			clear: both;
-			margin: 8px 8px 8px 8px;
-			min-height: 500px;
-			background: literal("-moz-linear-gradient(#eaeaea, #fafafa)");
-			background: literal("-webkit-linear-gradient(#eaeaea, #fafafa)");
-			background: literal("-o-linear-gradient(#eaeaea, #fafafa)");
+			background: url(hupa-logo-64-transparent.png) no-repeat;
 		}
 		
 		.westPanel {
@@ -67,6 +62,7 @@
 		}
 		
 		.centerPanel {
+			clear: both;
 			border: 1px solid #7FAAFF;
 			box-shadow: 0 1px 4px grey;
 			border-radius: 5px;
@@ -74,26 +70,34 @@
 			background: literal("-moz-linear-gradient(#eaeaea, #fafafa)");
 			background: literal("-webkit-linear-gradient(#eaeaea, #fafafa)");
 			background: literal("-o-linear-gradient(#eaeaea, #fafafa)");
-			clear: both;
-			margin: 8px 8px 8px 8px;
-			min-height: 500px;
+			margin: 0px 8px 8px 8px;
+			min-height: 300px;
+		}
+		.southPanel{
+			text-align: center;
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='EM' addStyleNames="{style.Hupa}">
 		<g:north size='8'>
-			<g:SimplePanel ui:field="northPanel" addStyleNames="{style.northPanel}" />
+			<g:LayoutPanel ui:field="northPanel" addStyleNames="{style.northPanel}">
+			<g:layer left="0px" width="84px" top="0px" height="64">
+				<g:SimplePanel ui:field="logoContainer"/></g:layer>
+			<g:layer right="12px" width="37%" >
+				<g:SimplePanel ui:field="topContainer" /></g:layer>
+			</g:LayoutPanel>
 		</g:north>
 		<g:south size='2'>
-			<g:SimplePanel ui:field="southPanel" />
+			<g:HTMLPanel  ui:field="southPanel" addStyleNames="{style.southPanel}"><g:HTML>You're using <b>Hupa</b> Webmail which is part of the <a target='_blank' href='http://james.apache.org'>Apache-James</a> project.</g:HTML>
+			</g:HTMLPanel>
 		</g:south>
-		<g:west size='18'>
-			<g:SimplePanel ui:field="westPanel" addStyleNames="{style.westPanel}" />
+		<g:west size='12'>
+			<g:SimplePanel ui:field="westPanel" addStyleNames="{style.westPanel}"/>
 		</g:west>
 		<g:east size='0'>
 			<g:SimplePanel ui:field="eastPanel" />
 		</g:east>
 		<g:center>
-			<g:SimplePanel ui:field="centerPanel" addStyleNames="{style.centerPanel}" />
+			<g:LayoutPanel ui:field="centerPanel" addStyleNames="{style.centerPanel}"/>
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

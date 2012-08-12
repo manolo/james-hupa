@@ -91,9 +91,8 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 
 		rPanel.add(formPanel);
 		formPanel.add(flexTable);
-		mainContainer.add(rPanel);
+		mainContainer.add(formPanel);
 		mainContainer.add(loading);
-		initWidget(mainContainer);
 
 		usernameTextBox.addKeyUpHandler(this);
 		usernameTextBox.setFocus(true);
@@ -116,6 +115,7 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 		// loginButton must be in the document to handle the click() method
 		mainContainer.add(loginButton);
 		loginButton.setVisible(false);
+		initWidget(mainContainer);
 	}
 
 	@Override

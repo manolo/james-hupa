@@ -75,15 +75,13 @@ div.Hupa {
 	margin-top: 0px;
 	padding: 0px;
 	width: 100%;
-	min-width: 920px;
+	min-width: 800px;
 }
 * html div.Hupa {
-   margin-top: 15px;
+   margin-top: 0px;
 }
 div.hupa-logo {
-    width: 90px;
 	height: 64px;
-    float: left;
 	background: url(images/hupa-logo-64-transparent.png) no-repeat;
 }
 
@@ -112,6 +110,7 @@ table.hupa-button-bar td div {
 
 div.hupa-loginfo-label, div.hupa-loginfo-user {
 	margin-left: 10px;
+	margin-right: 10px;
 }
 .hupa-loginfo-user {
 	font-style: italic;
@@ -129,7 +128,7 @@ div.hupa-header {
 .hupa-central {
 	clear: both;
 	margin: 8px 8px 8px 8px;
-	min-height: 500px;
+	min-height: 400px;
 }
 
 * html div.cgb-RPC-hupa-main {
@@ -162,18 +161,23 @@ div.hupa-bottom {
 	text-align: center;
 }
 /************[ view: LoginView ]*******************/
-table.hupa-login {
+.hupa-login {
+	margin-top:10%;
+	margin-left:auto;
+	margin-right:auto;
     text-align: right;
-    margin-left: -220px;
     position: relative;
     left: 50%;
-    padding: 40px;
+    padding: 20px;
+	border: 1px solid #7FAAFF;
+	box-shadow: 0 1px 4px grey;
+	border-radius: 5px;
 }
 
-table.hupa-login td {
+.hupa-login td {
 	text-align: center;
 }
-table.hupa-login-form {
+.hupa-login-form {
 	padding: 10px;
 }
 

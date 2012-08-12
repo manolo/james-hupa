@@ -58,6 +58,7 @@ import org.cobogw.gwt.user.client.ui.ButtonBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -72,10 +73,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
@@ -287,8 +288,8 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		searchButton = new Button(constants.searchButton());
 		loading = new Loading(constants.loading());
 
-		VerticalPanel msgListContainer = new VerticalPanel();
-		msgListContainer.addStyleName(HupaCSS.C_msg_list_container);
+		LayoutPanel solidCenterPanel = new LayoutPanel();
+		solidCenterPanel.addStyleName(HupaCSS.C_msg_list_container);
 
 
 		HorizontalPanel buttonBar = new HorizontalPanel();
@@ -333,7 +334,6 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		hPanel.add(searchPanel);
 		hPanel.setCellHorizontalAlignment(searchPanel, HorizontalPanel.ALIGN_RIGHT);
 
-		msgListContainer.add(hPanel);
 
 		CommandsBar commandsBar = new CommandsBar();
 		commandsBar.addLeft(new HTML(constants.select() + ":"));
@@ -344,14 +344,18 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 
 		commandsBar.addRight(pager);
 
-		msgListContainer.add(commandsBar);
+		solidCenterPanel.add(hPanel);
+		solidCenterPanel.add(commandsBar);
+		solidCenterPanel.add(table);
+		solidCenterPanel.setWidgetTopHeight(hPanel, 0, Unit.EM, 3, Unit.EM);
+		solidCenterPanel.setWidgetTopHeight(commandsBar, 3, Unit.EM, 3, Unit.EM);
+		solidCenterPanel.setWidgetTopHeight(table, 6, Unit.EM, 100, Unit.PCT);
 
-		msgListContainer.add(table);
 		// msgListContainer.add(mailTable);
 
 		confirmBox.setText(messages.confirmDeleteMessages());
 		confirmDeleteAllBox.setText(messages.confirmDeleteAllMessages());
-		initWidget(msgListContainer);
+		initWidget(solidCenterPanel);
 	}
 
 	public void reloadData() {

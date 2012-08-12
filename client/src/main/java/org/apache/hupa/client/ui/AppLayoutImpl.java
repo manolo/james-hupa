@@ -19,51 +19,58 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.HupaCSS;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
 public class AppLayoutImpl implements AppLayout {
 
-	private final DockLayoutPanel mainLayoutPanel;
+	private final DockLayoutPanel appLayoutPanel;
 
 	interface AppLayoutUiBinder extends UiBinder<DockLayoutPanel, AppLayoutImpl> {
 	}
 
 	private static AppLayoutUiBinder binder = GWT.create(AppLayoutUiBinder.class);
 
-	@UiField SimplePanel northPanel;
-	@UiField SimplePanel southPanel;
-
+	@UiField LayoutPanel northPanel;
+	@UiField HTMLPanel southPanel;
 	@UiField SimplePanel westPanel;
 	@UiField SimplePanel eastPanel;
-
-	@UiField SimplePanel centerPanel;
+	@UiField LayoutPanel centerPanel;
+	@UiField SimplePanel logoContainer;
+	@UiField SimplePanel topContainer;
 
 	@Inject
 	public AppLayoutImpl() {
-		mainLayoutPanel = binder.createAndBindUi(this);
+		appLayoutPanel = binder.createAndBindUi(this);
+		logoContainer.addStyleName(HupaCSS.C_logo_container);
 		setLoginLayout();
 	}
 
 	@Override
-	public DockLayoutPanel getMainLayoutPanel() {
-		return mainLayoutPanel;
+	public DockLayoutPanel getAppLayoutPanel() {
+		return appLayoutPanel;
 	}
 
 	@Override
-	public AcceptsOneWidget getTopContainer() {
+	public AcceptsOneWidget getNorthContainer() {
 		return new AcceptsOneWidget() {
 			@Override
 			public void setWidget(IsWidget w) {
 				Widget widget = Widget.asWidgetOrNull(w);
-				northPanel.setWidget(widget);
+				if(widget != null){
+					topContainer.add(widget);
+				}
 			}
 		};
 	}
@@ -79,27 +86,37 @@ public class AppLayoutImpl implements AppLayout {
 	}
 
 	@Override
-	public AcceptsOneWidget getMainContainer() {
+	public AcceptsOneWidget getCenterContainer() {
 		return new AcceptsOneWidget() {
 			@Override
 			public void setWidget(IsWidget w) {
 				Widget widget = Widget.asWidgetOrNull(w);
-				centerPanel.setWidget(widget);
+				if(centerPanel.getWidgetCount() > 0){
+					centerPanel.remove(0);
+				}
+				if(widget != null){
+					centerPanel.add(widget);
+				}
 			}
 		};
 	}
 
 	public void setDefaultLayout() {
-		mainLayoutPanel.setWidgetSize(westPanel, 18);
-		mainLayoutPanel.setWidgetSize(northPanel, 8);
-		mainLayoutPanel.setWidgetSize(southPanel, 2);
-		mainLayoutPanel.setWidgetSize(eastPanel, 0);
+		this.arrangeLayout(true);
 	}
 
 	public void setLoginLayout() {
-		mainLayoutPanel.setWidgetSize(westPanel, 0);
-		mainLayoutPanel.setWidgetSize(northPanel, 8);
-		mainLayoutPanel.setWidgetSize(southPanel, 2);
-		mainLayoutPanel.setWidgetSize(eastPanel, 0);
+		this.arrangeLayout(false);
+	}
+	
+	private void arrangeLayout(boolean needWest){
+		this.arrangeLayoutSize(8, 2, needWest ? 15 : 0, 0);
+	}
+	
+	private void arrangeLayoutSize(double n, double s, double w, double e){
+		appLayoutPanel.setWidgetSize(northPanel, n);
+		appLayoutPanel.setWidgetSize(southPanel, s);
+		appLayoutPanel.setWidgetSize(westPanel, w);
+		appLayoutPanel.setWidgetSize(eastPanel, e);
 	}
 }
