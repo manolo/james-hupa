@@ -10,7 +10,7 @@
 	language governing permissions and limitations under the License. -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:my='urn:import:org.apache.hupa.client.ui'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:h='urn:import:org.apache.hupa.client.ui'>
 	<ui:style>
 		.Hupa {
 			text-align: left;
@@ -81,19 +81,19 @@
 	</ui:style>
 	<g:DockLayoutPanel unit='EM' addStyleNames="{style.Hupa}">
 		<g:north size='8'>
-			<g:SimplePanel ui:field="northPanel" addStyleNames="{style.northPanel}" />
+			<g:SimplePanel ui:field="northPanel" addStyleNames="{style.northPanel}"/>
 		</g:north>
 		<g:south size='2'>
 			<g:SimplePanel ui:field="southPanel" />
 		</g:south>
-		<g:west size='18'>
-			<g:SimplePanel ui:field="westPanel" addStyleNames="{style.westPanel}" />
+		<g:west size='12'>
+			<g:SimplePanel ui:field="westPanel" addStyleNames="{style.westPanel}"/>
 		</g:west>
 		<g:east size='0'>
 			<g:SimplePanel ui:field="eastPanel" />
 		</g:east>
 		<g:center>
-			<g:SimplePanel ui:field="centerPanel" addStyleNames="{style.centerPanel}" />
+			<g:LayoutPanel ui:field="centerPanel" addStyleNames="{style.centerPanel}"/>
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

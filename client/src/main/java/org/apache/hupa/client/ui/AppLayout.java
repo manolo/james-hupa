@@ -23,10 +23,10 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 
 public interface AppLayout {
-	DockLayoutPanel getMainLayoutPanel();
-	AcceptsOneWidget getTopContainer();
+	DockLayoutPanel getAppLayoutPanel();
+	AcceptsOneWidget getNorthContainer();
 	AcceptsOneWidget getWestContainer();
-	AcceptsOneWidget getMainContainer();
+	AcceptsOneWidget getCenterContainer();
 	void setLoginLayout();
 	void setDefaultLayout();
 }
