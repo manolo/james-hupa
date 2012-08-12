@@ -65,7 +65,7 @@ public class TopView extends Composite implements TopActivity.Displayable {
 	@Inject
 	@UiConstructor
 	public TopView(HupaConstants constants) {
-		panel.addStyleName(HupaCSS.C_top_container + "-wrap");
+//		panel.addStyleName(HupaCSS.C_top_container + "-wrap");
 		buttonContainer.addStyleName(HupaCSS.C_button_container);
 		infoContainer.addStyleName(HupaCSS.C_info_container);
 		loginInfoPanel.addStyleName(HupaCSS.C_login_info_container);
@@ -96,8 +96,8 @@ public class TopView extends Composite implements TopActivity.Displayable {
 		infoContainer.add(appnameLabel);
 		infoContainer.add(extraLabel);
 		panel.add(buttonContainer);
-		panel.add(infoContainer);
-		panel.add(flashContainer);
+//		panel.add(infoContainer);
+//		panel.add(flashContainer);
 		flashContainer.add(flashLabel);
 		initWidget(panel);
 		showTopNavigation(false);
