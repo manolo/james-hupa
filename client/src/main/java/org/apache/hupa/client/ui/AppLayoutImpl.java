@@ -26,7 +26,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -42,8 +42,8 @@ public class AppLayoutImpl implements AppLayout {
 
 	private static AppLayoutUiBinder binder = GWT.create(AppLayoutUiBinder.class);
 
-	@UiField HorizontalPanel northPanel;
-	@UiField SimplePanel southPanel;
+	@UiField LayoutPanel northPanel;
+	@UiField HTMLPanel southPanel;
 	@UiField SimplePanel westPanel;
 	@UiField SimplePanel eastPanel;
 	@UiField LayoutPanel centerPanel;

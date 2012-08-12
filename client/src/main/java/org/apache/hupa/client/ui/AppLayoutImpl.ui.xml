@@ -26,6 +26,7 @@
 			border: 1px solid #7FAAFF;
 			box-shadow: 0 1px 4px grey;
 			border-radius: 5px;
+			overflow: hidden;
 			background: literal("-moz-linear-gradient(#eaeaea, #fafafa)");
 			background: literal("-webkit-linear-gradient(#eaeaea, #fafafa)");
 			background: literal("-o-linear-gradient(#eaeaea, #fafafa)");
@@ -70,18 +71,24 @@
 			background: literal("-webkit-linear-gradient(#eaeaea, #fafafa)");
 			background: literal("-o-linear-gradient(#eaeaea, #fafafa)");
 			margin: 0px 8px 8px 8px;
-			min-height: 400px;
+			min-height: 300px;
+		}
+		.southPanel{
+			text-align: center;
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='EM' addStyleNames="{style.Hupa}">
 		<g:north size='8'>
-			<g:HorizontalPanel ui:field="northPanel" addStyleNames="{style.northPanel}">
-				<g:SimplePanel ui:field="logoContainer"/>
-				<g:SimplePanel ui:field="topContainer" />
-			</g:HorizontalPanel>
+			<g:LayoutPanel ui:field="northPanel" addStyleNames="{style.northPanel}">
+			<g:layer left="0px" width="84px" top="0px" height="64">
+				<g:SimplePanel ui:field="logoContainer"/></g:layer>
+			<g:layer right="12px" width="37%" >
+				<g:SimplePanel ui:field="topContainer" /></g:layer>
+			</g:LayoutPanel>
 		</g:north>
 		<g:south size='2'>
-			<g:SimplePanel ui:field="southPanel" />
+			<g:HTMLPanel  ui:field="southPanel" addStyleNames="{style.southPanel}"><g:HTML>You're using <b>Hupa</b> Webmail which is part of the <a target='_blank' href='http://james.apache.org'>Apache-James</a> project.</g:HTML>
+			</g:HTMLPanel>
 		</g:south>
 		<g:west size='12'>
 			<g:SimplePanel ui:field="westPanel" addStyleNames="{style.westPanel}"/>
