@@ -74,7 +74,7 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 		submitButton.getElement().setClassName(resetButton.getElement().getClassName());
 		loading = new Loading(constants.loading());
 
-		mainContainer.setStyleName(HupaCSS.C_login_container);
+//		mainContainer.setStyleName(HupaCSS.C_login_container);
 		flexTable.addStyleName(HupaCSS.C_login_form);
 		usernameTextBox.addStyleName(HupaCSS.C_login_box);
 		passwordTextBox.addStyleName(HupaCSS.C_login_box);
@@ -93,7 +93,6 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 		formPanel.add(flexTable);
 		mainContainer.add(rPanel);
 		mainContainer.add(loading);
-		initWidget(mainContainer);
 
 		usernameTextBox.addKeyUpHandler(this);
 		usernameTextBox.setFocus(true);
@@ -116,6 +115,7 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 		// loginButton must be in the document to handle the click() method
 		mainContainer.add(loginButton);
 		loginButton.setVisible(false);
+		initWidget(mainContainer);
 	}
 
 	@Override
