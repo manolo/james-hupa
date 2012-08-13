@@ -33,8 +33,6 @@ import com.sun.mail.imap.IMAPStore;
 
 public class ImapFolderServiceImpl extends AbstractService implements ImapFolderService {
 
-	// List of mail 'root' imap folders
-	List<ImapFolder> imapFolders = new ArrayList<ImapFolder>();
 
 	public List<ImapFolder> requestFolders() throws Exception {
 		User user = getUser();
@@ -42,6 +40,8 @@ public class ImapFolderServiceImpl extends AbstractService implements ImapFolder
 			IMAPStore store = cache.get(user);
 			com.sun.mail.imap.IMAPFolder folder = (com.sun.mail.imap.IMAPFolder) store.getDefaultFolder();
 
+			// List of mail 'root' imap folders TODO can not make this as a field of the class, or the client will get more and more appended folders.
+			List<ImapFolder> imapFolders = new ArrayList<ImapFolder>();
 			// Create IMAPFolder tree list
 			for (Folder f : folder.list()) {
 				ImapFolder imapFolder = createIMAPFolder(f);
@@ -100,23 +100,5 @@ public class ImapFolderServiceImpl extends AbstractService implements ImapFolder
 		}
 
 		return iFolder;
-	}
-
-	public String toString() {
-		StringBuffer ret = new StringBuffer("");
-		for (ImapFolder folder : imapFolders) {
-			ret.append(folder.getFullName()).append("\n");
-			for (ImapFolder f : folder.getChildren()) {
-				childFolder(f, ret);
-			}
-		}
-		return ret.toString();
-	}
-
-	private void childFolder(ImapFolder child, StringBuffer ret) {
-		ret.append(child.getFullName()).append("\n");
-		for (ImapFolder folder : child.getChildren()) {
-			childFolder(folder, ret);
-		}
 	}
 }

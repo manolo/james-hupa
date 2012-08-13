@@ -52,7 +52,6 @@ public class LoginActivity extends AbstractActivity {
 	@Inject private Displayable display;
 	@Inject private EventBus eventBus;
 	@Inject private PlaceController placeController;
-	// @Inject private DispatchAsync dispatcher;
 	@Inject private HupaConstants constants;
 	@Inject private HupaRequestFactory requestFactory;
 
@@ -60,6 +59,7 @@ public class LoginActivity extends AbstractActivity {
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		bind();
 		container.setWidget(display.asWidget());
+		display.setLoading(false);
 
 	}
 

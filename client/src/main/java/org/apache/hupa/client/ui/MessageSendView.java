@@ -19,23 +19,11 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Focusable;
-import com.google.gwt.user.client.ui.HasHTML;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
-
 import eu.maydu.gwt.validation.client.DefaultValidationProcessor;
 import eu.maydu.gwt.validation.client.ValidationProcessor;
 import eu.maydu.gwt.validation.client.i18n.ValidationMessages;
-import gwtupload.client.IFileInput.FileInputType;
 import gwtupload.client.BaseUploadStatus;
+import gwtupload.client.IFileInput.FileInputType;
 import gwtupload.client.IUploadStatus;
 import gwtupload.client.IUploader;
 import gwtupload.client.MultiUploader;
@@ -43,6 +31,7 @@ import gwtupload.client.MultiUploader;
 import org.apache.hupa.client.HupaCSS;
 import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.HupaMessages;
+import org.apache.hupa.client.activity.MessageSendActivity;
 import org.apache.hupa.client.validation.AddStyleAction;
 import org.apache.hupa.client.validation.EmailListValidator;
 import org.apache.hupa.client.validation.NotEmptyValidator;
@@ -53,11 +42,22 @@ import org.apache.hupa.client.widgets.MessageHeaders;
 import org.apache.hupa.shared.SConsts;
 import org.apache.hupa.shared.rpc.ContactsResult.Contact;
 import org.apache.hupa.widgets.editor.Editor;
-import org.apache.hupa.widgets.ui.EnableHyperlink;
 import org.apache.hupa.widgets.ui.HasEnable;
 import org.apache.hupa.widgets.ui.Loading;
 import org.apache.hupa.widgets.ui.MultiValueSuggestArea;
-import org.apache.hupa.client.activity.MessageSendActivity;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Focusable;
+import com.google.gwt.user.client.ui.HasHTML;
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * View which displays a form which handle sending of mails
@@ -84,7 +84,7 @@ public class MessageSendView extends Composite implements MessageSendActivity.Di
     private MultiUploader uploader = null;
     
     private EnableButton sendButton;
-    private EnableHyperlink backButton;
+    private Anchor backButton;
     private Loading loading;
     
     private ValidationProcessor validator;
@@ -93,7 +93,7 @@ public class MessageSendView extends Composite implements MessageSendActivity.Di
     public MessageSendView(HupaConstants constants, HupaMessages messages) {
         
         sendButton = new EnableButton(constants.sendButton());
-        backButton = new EnableHyperlink(constants.backButton(),"");
+        backButton = new Anchor(constants.backButton());
         headers = new MessageHeaders(constants);
         loading = new Loading(constants.loading());
         editor = new Editor(constants);

@@ -134,6 +134,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
 
     private void createWest() {
         west = new VerticalPanel();
+//        folderTree.clear();
         west.add(folderTree);
         west.addStyleName(HupaCSS.C_tree_container);
 
@@ -244,7 +245,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
     public void setLoadingFolders(boolean load) {
         if (load) {
             loader.show();
-//            panel.clear();
+            westPanel.clear();
             westPanel.add(loader);
         } else {
             westPanel.clear();
