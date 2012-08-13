@@ -116,8 +116,6 @@ public class WestActivity extends AbstractActivity {
 	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
 	@Inject private HupaRequestFactory requestFactory;
 
-	private FetchMessagesRequest messagesRequest;
-
 	private User user;
 	private ImapFolder folder;
 	private IMAPTreeItem tItem;
@@ -241,10 +239,7 @@ public class WestActivity extends AbstractActivity {
 				}
 
 				display.setLoadingMessage(true);
-				if (messagesRequest == null) {
-					messagesRequest = requestFactory.messagesRequest();
-				}
-				GetMessageDetailsRequest req = messagesRequest.append(requestFactory.messageDetailsRequest());
+				GetMessageDetailsRequest req = requestFactory.messageDetailsRequest();
 				GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
 				final ImapFolder folder = req.create(ImapFolder.class);
 				folder.setChildren(event.getFolder().getChildren());
@@ -262,9 +257,10 @@ public class WestActivity extends AbstractActivity {
 					@Override
 					public void onSuccess(GetMessageDetailsResult response) {
 
+						/*TODO
 						if (decreaseUnseen) {
 							eventBus.fireEvent(new DecreaseUnseenEvent(user, folder));
-						}
+						}*/
 						display.setLoadingMessage(false);
 						placeController.goTo(messagePlaceProvider.get().with(user, folder, message,
 						        response.getMessageDetails()));

@@ -185,6 +185,7 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		if(message == null) return;
 		setExpandLoading(true);
 
+		/* TODO
 		if (message.getFlags().contains(MessageImpl.IMAPFlag.SEEN) == false) {
 			// add flag, fire event and redraw
 			message.getFlags().add(MessageImpl.IMAPFlag.SEEN);
@@ -192,7 +193,7 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 
 			redraw();
 
-		}
+		}*/
 		eventBus.fireEvent(new ExpandMessageEvent(user, folder, message));
 	    selectionModel.setSelected(message, false);
 	    
