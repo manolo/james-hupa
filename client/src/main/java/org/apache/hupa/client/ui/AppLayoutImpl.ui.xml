@@ -71,7 +71,6 @@
 			background: literal("-webkit-linear-gradient(#eaeaea, #fafafa)");
 			background: literal("-o-linear-gradient(#eaeaea, #fafafa)");
 			margin: 0px 8px 8px 8px;
-			min-height: 300px;
 		}
 		.southPanel{
 			text-align: center;
