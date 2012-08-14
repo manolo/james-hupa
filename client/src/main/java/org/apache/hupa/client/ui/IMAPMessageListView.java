@@ -33,13 +33,11 @@ import org.apache.hupa.client.widgets.ConfirmDialogBox;
 import org.apache.hupa.client.widgets.EnableButton;
 import org.apache.hupa.client.widgets.HasDialog;
 import org.apache.hupa.shared.data.ImapFolderImpl;
-import org.apache.hupa.shared.data.MessageImpl;
 import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.User;
-import org.apache.hupa.shared.events.DecreaseUnseenEvent;
 import org.apache.hupa.shared.events.ExpandMessageEvent;
 import org.apache.hupa.shared.events.FolderSelectionEvent;
 import org.apache.hupa.shared.events.FolderSelectionEventHandler;
@@ -65,20 +63,18 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -290,7 +286,7 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		searchButton = new Button(constants.searchButton());
 		loading = new Loading(constants.loading());
 
-		LayoutPanel solidCenterPanel = new LayoutPanel();
+		DockLayoutPanel solidCenterPanel = new DockLayoutPanel(Unit.EM);
 //		solidCenterPanel.addStyleName(HupaCSS.C_msg_list_container);
 
 
@@ -341,17 +337,14 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		commandsBar.addLeft(new HTML(constants.select() + ":"));
 		commandsBar.addLeft(allLink);
 		commandsBar.addLeft(noneLink);
-		commandsBar.add(loading);
+//		commandsBar.add(loading);
 		// commandsBar.addRight(pagingBar);
 
 		commandsBar.addRight(pager);
 
-		solidCenterPanel.add(hPanel);
-		solidCenterPanel.add(commandsBar);
+		solidCenterPanel.addNorth(hPanel, 3);
+		solidCenterPanel.addSouth(commandsBar, 2);
 		solidCenterPanel.add(table);
-		solidCenterPanel.setWidgetTopHeight(hPanel, 0, Unit.EM, 3, Unit.EM);
-		solidCenterPanel.setWidgetTopHeight(commandsBar, 3, Unit.EM, 3, Unit.EM);
-		solidCenterPanel.setWidgetTopHeight(table, 6, Unit.EM, 100, Unit.PCT);
 
 		// msgListContainer.add(mailTable);
 

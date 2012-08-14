@@ -75,7 +75,7 @@ div.Hupa {
 	margin-top: 0px;
 	padding: 0px;
 	width: 100%;
-	min-width: 800px;
+	min-width: 400px;
 }
 * html div.Hupa {
    margin-top: 0px;
@@ -128,7 +128,7 @@ div.hupa-header {
 .hupa-central {
 	clear: both;
 	margin: 8px 8px 8px 8px;
-	min-height: 400px;
+	min-height: 200px;
 }
 
 * html div.cgb-RPC-hupa-main {
@@ -197,7 +197,6 @@ div.hupa-bottom {
 /************[ widget: CommandsBar ]*********/
 .hupa-commands-bar {
 	width: 100%;
-    padding: 5px 4px 5px 4px;
     background-color: #deeeff;  
 }
 
@@ -244,6 +243,7 @@ input[type=text], input[type=file], textarea {
 
 .hupa-buttons .gwt-ListBox {
 	margin-left: 5px;
+  padding-left: 3px;
 }
 
 /*************[ buttonbars ]*********************/
