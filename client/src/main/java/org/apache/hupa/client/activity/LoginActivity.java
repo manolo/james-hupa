@@ -39,6 +39,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasValue;
@@ -104,7 +105,10 @@ public class LoginActivity extends AbstractActivity {
 			}
 			@Override
 			public void onFailure(ServerFailure error){
-				placeController.goTo(new DefaultPlace());
+				Window.alert(error.getMessage());//TODO a more gentle way
+				display.setLoading(false);
+				doReset();
+//				placeController.goTo(new DefaultPlace());
 			}
 		});
 
