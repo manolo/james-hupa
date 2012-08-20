@@ -21,7 +21,6 @@ package org.apache.hupa.client.activity;
 
 import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.IdleRequest;
 import org.apache.hupa.client.rf.LogoutUserRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;
@@ -39,20 +38,18 @@ import org.apache.hupa.shared.events.ServerStatusEvent;
 import org.apache.hupa.shared.events.ServerStatusEvent.ServerStatus;
 import org.apache.hupa.shared.events.ServerStatusEventHandler;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
-public class TopActivity extends AbstractActivity {
+public class TopActivity extends AppBaseActivity {
 
 	private static final int IDLE_INTERVAL = 150000;
 
@@ -60,7 +57,6 @@ public class TopActivity extends AbstractActivity {
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
 		bind();
-		// checkSession();
 	}
 
 	private void bind() {
@@ -72,10 +68,8 @@ public class TopActivity extends AbstractActivity {
 				showMain(user);
 				display.showMessage(constants.welcome(), 3000);
 			}
-
 		});
 		eventBus.addHandler(LogoutEvent.TYPE, new LogoutEventHandler() {
-
 			public void onLogout(LogoutEvent event) {
 				User u = event.getUser();
 				String username = null;
@@ -85,31 +79,23 @@ public class TopActivity extends AbstractActivity {
 				showLogin(username);
 				noopTimer.cancel();
 			}
-
 		});
-		display.getLogoutClick().addClickHandler(new ClickHandler() {
-
+		registerHandler(display.getLogoutClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				doLogout();
 			}
-
-		});
-		display.getContactsClick().addClickHandler(new ClickHandler() {
-
+		}));
+		registerHandler(display.getContactsClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showContacts();
 			}
-
-		});
-		display.getMainClick().addClickHandler(new ClickHandler() {
-
+		}));
+		registerHandler(display.getMainClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showMain(user);
 			}
-
-		});
+		}));
 		eventBus.addHandler(ServerStatusEvent.TYPE, new ServerStatusEventHandler() {
-
 			public void onServerStatusChange(ServerStatusEvent event) {
 				if (event.getStatus() != serverStatus) {
 					GWT.log("Server status has hanged from " + serverStatus + " to" + event.getStatus(), null);
@@ -117,14 +103,11 @@ public class TopActivity extends AbstractActivity {
 					display.setServerStatus(serverStatus);
 				}
 			}
-
 		});
 		eventBus.addHandler(FlashEvent.TYPE, new FlashEventHandler() {
-
 			public void onFlash(FlashEvent event) {
 				display.showMessage(event.getMessage(), event.getMillisec());
 			}
-
 		});
 	}
 
@@ -157,6 +140,12 @@ public class TopActivity extends AbstractActivity {
 
 	private Timer noopTimer = new IdleTimer();
 
+
+	@Inject private Displayable display;
+	@Inject private HupaConstants constants;
+	private User user;
+	private ServerStatus serverStatus = ServerStatus.Available;
+	
 	public interface Displayable extends WidgetDisplayable {
 		public HasClickHandlers getLogoutClick();
 		public HasClickHandlers getContactsClick();
@@ -168,14 +157,6 @@ public class TopActivity extends AbstractActivity {
 		public void setServerStatus(ServerStatus status);
 		public void showMessage(String message, int millisecs);
 	}
-
-	@Inject private Displayable display;
-	@Inject private EventBus eventBus;
-	@Inject private PlaceController placeController;
-	@Inject private HupaConstants constants;
-	@Inject private HupaRequestFactory requestFactory;
-	private User user;
-	private ServerStatus serverStatus = ServerStatus.Available;
 
 	private class IdleTimer extends Timer {
 		boolean running = false;

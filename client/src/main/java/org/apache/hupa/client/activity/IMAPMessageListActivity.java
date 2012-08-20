@@ -27,7 +27,6 @@ import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.DeleteMessageAllRequest;
 import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
-import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.MoveMessageRequest;
 import org.apache.hupa.client.rf.SetFlagRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;
@@ -62,7 +61,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.inject.Inject;
@@ -70,16 +68,6 @@ import com.google.inject.Provider;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
 public class IMAPMessageListActivity extends AppBaseActivity {
-
-	private String searchValue;
-	private User user;
-	private ImapFolder folder;
-
-	@Inject private Displayable display;
-	@Inject private EventBus eventBus;
-	@Inject private PlaceController placeController;
-	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
-	@Inject private HupaRequestFactory requestFactory;
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
@@ -89,24 +77,18 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 	}
 	private void bind() {
 		eventBus.addHandler(LogoutEvent.TYPE, new LogoutEventHandler() {
-
 			public void onLogout(LogoutEvent logoutEvent) {
 				IMAPMessageListActivity.this.display.reset();
 				IMAPMessageListActivity.this.display.getSearchValue().setValue("");
 			}
-
 		});
 		eventBus.addHandler(MessagesReceivedEvent.TYPE, new MessagesReceivedEventHandler() {
-
 			public void onMessagesReceived(MessagesReceivedEvent event) {
-
 				// fill the oracle
 				display.fillSearchOracle(event.getMessages());
 			}
-
 		});
 		registrations.add(display.getSearchClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				String searchValue = null;
 				if (display.getSearchValue().getValue().trim().length() > 0) {
@@ -114,7 +96,6 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 				}
 				eventBus.fireEvent(new LoadMessagesEvent(user, folder, searchValue));
 			}
-
 		}));
 		eventBus.addHandler(MoveMessageEvent.TYPE, new MoveMessageEventHandler() {
 			public void onMoveMessageHandler(MoveMessageEvent event) {
@@ -133,59 +114,44 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 					}
 				});
 			}
-
 		});
 		registrations.add(display.getSelectAllClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				display.deselectAllMessages();
 				display.selectAllMessages();
 			}
-
 		}));
 		registrations.add(display.getSelectNoneClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				display.deselectAllMessages();
 			}
-
 		}));
 		registrations.add(display.getDeleteClick().addClickHandler(new com.google.gwt.event.dom.client.ClickHandler() {
-
 			public void onClick(com.google.gwt.event.dom.client.ClickEvent event) {
 				if (folder.getFullName().equals(user.getSettings().getTrashFolderName())) {
 					display.getConfirmDeleteDialog().show();
 				} else {
 					deleteMessages();
 				}
-
 			}
-
 		}));
 		registrations.add(display.getConfirmDeleteDialogClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				deleteMessages();
 			}
-
 		}));
 		registrations.add(display.getNewClick().addClickHandler(new com.google.gwt.event.dom.client.ClickHandler() {
-
 			public void onClick(com.google.gwt.event.dom.client.ClickEvent event) {
 				// eventBus.fireEvent(new NewMessageEvent());
 				placeController.goTo(messageSendPlaceProvider.get().with(user, null, null, null, Type.NEW));
 			}
-
 		}));
 		registrations.add(display.getDeleteAllClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				display.getConfirmDeleteAllDialog().center();
 			}
-
 		}));
 		registrations.add(display.getConfirmDeleteAllDialogClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				DeleteMessageAllRequest req = requestFactory.deleteMessageAllRequest();
 				DeleteMessageAllAction action = req.create(DeleteMessageAllAction.class);
@@ -199,7 +165,6 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 					}
 				});
 			}
-
 		}));
 		registrations.add(display.getMarkSeenClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -212,7 +177,6 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 						selectedMessages.remove(m);
 					}
 				}
-
 				SetFlagRequest req = requestFactory.setFlagRequest();
 				SetFlagAction action = req.create(SetFlagAction.class);
 				action.setFlag(IMAPFlag.SEEN);
@@ -232,10 +196,8 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 					}
 				});
 			}
-
 		}));
 		registrations.add(display.getMarkUnseenClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				final ArrayList<Message> selectedMessages = new ArrayList<Message>(display.getSelectedMessages());
 				ArrayList<Long> uids = new ArrayList<Long>();
@@ -262,14 +224,12 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 						}
 						display.redraw();
 						eventBus.fireEvent(new IncreaseUnseenEvent(user, folder, selectedMessages.size()));
-
 					}
 				});
 			}
 
 		}));
 		eventBus.addHandler(FolderSelectionEvent.TYPE, new FolderSelectionEventHandler() {// TODO
-
 			        public void onFolderSelectionEvent(FolderSelectionEvent event) {
 				        folder = event.getFolder();
 				        user = event.getUser();
@@ -277,7 +237,6 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 
 		        });
 		registrations.add(display.getRefreshClick().addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				display.reset();
 				display.reloadData();
@@ -285,14 +244,13 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 
 		}));
 		registrations.add(display.getRowsPerPageChange().addChangeHandler(new ChangeHandler() {
-
 			public void onChange(ChangeEvent event) {
 				// firePresenterRevealedEvent(true);
 				// firePresenterChangedEvent();
 			}
 
 		}));
-//		display.addTableListener(tableListener);
+		// display.addTableListener(tableListener);
 	}
 
 	private void deleteMessages() {
@@ -330,7 +288,6 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 	}
 	public void revealDisplay(User user, ImapFolder folder, String searchValue) {
 		this.user = user;
-
 		if (this.user == null || !this.user.getName().equals(user.getName()) || this.folder == null
 		        || !this.folder.getFullName().equals(folder.getFullName())
 		        || (searchValue == null && this.searchValue != null)
@@ -341,27 +298,39 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 		display.setExpandLoading(false);
 		this.searchValue = searchValue;
 		this.folder = folder;
-
 		onRevealDisplay();
 	}
 
+	private String searchValue;
+	private User user;
+	private ImapFolder folder;
+
+	@Inject private Displayable display;
+	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
+	
 	public interface Displayable extends WidgetDisplayable {
 		public void setPostFetchMessageCount(int count);
+		public void fillSearchOracle(List<Message> messages);
+		public void setExpandLoading(boolean expanding);
+		public void redraw();
+		public void goToPage(int page);
+		public void reloadData();
+		public void removeMessages(List<Message> messages);
+		public void selectAllMessages();
+		public void deselectAllMessages();
+		public void reset();
+		public int getCurrentPage();
+		public int getRowsPerPageIndex();
 		public HasClickHandlers getNewClick();
 		public Message getData(int rowIndex);
 		public HasClickHandlers getDeleteClick();
 		public HasClickHandlers getDeleteAllClick();
 		public HasEnable getDeleteEnable();
-		public void reloadData();
-		public void removeMessages(List<Message> messages);
 		public List<Message> getSelectedMessages();
-		public void reset();
 		public HasDialog getConfirmDeleteDialog();
 		public HasDialog getConfirmDeleteAllDialog();
 		public HasClickHandlers getConfirmDeleteDialogClick();
 		public HasClickHandlers getConfirmDeleteAllDialogClick();
-		public void selectAllMessages();
-		public void deselectAllMessages();
 		public HasClickHandlers getSelectAllClick();
 		public HasClickHandlers getSelectNoneClick();
 		public HasClickHandlers getMarkSeenClick();
@@ -369,15 +338,8 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 		public HasEnable getMarkSeenEnable();
 		public HasEnable getMarkUnseenEnable();
 		public HasClickHandlers getRefreshClick();
-		public void redraw();
-		public void goToPage(int page);
-		public int getCurrentPage();
-		public int getRowsPerPageIndex();
 		public HasChangeHandlers getRowsPerPageChange();
 		public HasClickHandlers getSearchClick();
 		public HasValue<String> getSearchValue();
-		public void fillSearchOracle(List<Message> messages);
-		public void setExpandLoading(boolean expanding);
-
 	}
 }

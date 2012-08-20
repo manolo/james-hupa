@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hupa.client.place.MessageSendPlace;
-import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.SendForwardMessageRequest;
 import org.apache.hupa.client.rf.SendMessageRequest;
 import org.apache.hupa.client.rf.SendReplyMessageRequest;
@@ -72,22 +71,6 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 
 public class MessageSendActivity extends AppBaseActivity {
 
-	private List<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
-	private Type type = Type.NEW;
-	private ImapFolder folder;
-	private Message oldmessage;
-
-	protected SmtpMessage message;
-	private MessageDetails oldDetails;
-
-	@Inject private Displayable display;
-	@Inject private EventBus eventBus;
-	@Inject private HupaRequestFactory requestFactory;
-
-	private MessageSendPlace place;
-
-	private User user;
-
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		bind();
@@ -96,7 +79,6 @@ public class MessageSendActivity extends AppBaseActivity {
 	}
 
 	public MessageSendActivity with(MessageSendPlace place) {
-		this.place = place;
 		this.user = place.getUser();
 		this.folder = place.getFolder();
 		this.oldmessage = place.getMessage();
@@ -127,15 +109,12 @@ public class MessageSendActivity extends AppBaseActivity {
 				eventBus.fireEvent(new BackEvent());
 			}
 		}));
-
 		registrations.add(display.getUploader().addOnStatusChangedHandler(onStatusChangedHandler));
 		registrations.add(display.getUploader().addOnFinishUploadHandler(onFinishUploadHandler));
 		registrations.add(display.getUploader().addOnCancelUploadHandler(onCancelUploadHandler));
-
 		reset();
 	}
 
-	SendMessageRequest sendReq;
 	protected ClickHandler sendClickHandler = new ClickHandler() {
 		public void onClick(ClickEvent event) {
 			if (validate()) {
@@ -390,6 +369,16 @@ public class MessageSendActivity extends AppBaseActivity {
 		}
 	};
 
+	@Inject private Displayable display;
+	private List<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
+	private Type type = Type.NEW;
+	private ImapFolder folder;
+	private Message oldmessage;
+	protected SmtpMessage message;
+	private MessageDetails oldDetails;
+	private User user;
+	private SendMessageRequest sendReq;
+	
 	public interface Displayable extends WidgetDisplayable {
 		public HasText getFromText();
 		public HasText getToText();

@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.hupa.client.place.IMAPMessagePlace;
 import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
-import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.SConsts;
 import org.apache.hupa.shared.domain.DeleteMessageByUidAction;
@@ -44,7 +43,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
@@ -135,17 +133,12 @@ public class IMAPMessageActivity extends AppBaseActivity {
 	private Message message;
 	private ImapFolder folder;
 	private User user;
-	// @Inject private CachingDispatchAsync dispatcher;
 	@Inject private Displayable display;
-	@Inject private EventBus eventBus;
-	@Inject private PlaceController placeController;
-	@Inject private HupaRequestFactory requestFactory;
 
 	public interface Displayable extends WidgetDisplayable {
 		public void setHeaders(Message msg);
 		public void setAttachments(List<MessageAttachment> attachements, String folder, long uid);
 		public void setContent(String content);
-
 		public HasClickHandlers getShowRawMessageClick();
 		public HasClickHandlers getDeleteButtonClick();
 		public HasClickHandlers getReplyButtonClick();

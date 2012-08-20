@@ -22,10 +22,19 @@ package org.apache.hupa.client.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hupa.client.rf.HupaRequestFactory;
+
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.place.shared.PlaceController;
+import com.google.inject.Inject;
 
 public abstract class AppBaseActivity extends AbstractActivity {
+
+	@Inject protected EventBus eventBus;
+	@Inject protected PlaceController placeController;
+	@Inject protected HupaRequestFactory requestFactory;
 
 	protected List<HandlerRegistration> registrations = new ArrayList<HandlerRegistration>();
 
@@ -35,5 +44,16 @@ public abstract class AppBaseActivity extends AbstractActivity {
 			registration.removeHandler();
 		}
 		registrations.clear();
+	}
+
+	protected void registerHandler(HandlerRegistration handlerRegistration) {
+		registrations.add(handlerRegistration);
+	}
+
+	public String mayStop() {
+		return null;
+	}
+
+	public void onCancel() {
 	}
 }
