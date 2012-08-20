@@ -35,7 +35,7 @@ public class LogoutUserServiceImpl extends AbstractService implements LogoutUser
 		cache.delete(user);
 
 		// remove user attributes from session
-		SessionUtils.cleanSessionAttributes(httpSession);
+		SessionUtils.cleanSessionAttributes(httpSessionProvider.get());
 
 		return new LogoutUserResultImpl(user);
 

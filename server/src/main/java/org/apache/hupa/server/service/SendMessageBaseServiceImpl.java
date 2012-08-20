@@ -210,7 +210,7 @@ public class SendMessageBaseServiceImpl extends AbstractService implements SendM
      */
     @SuppressWarnings("rawtypes")
     protected List getAttachments(SendMessageAction action) throws MessagingException {
-        FileItemRegistry registry = SessionUtils.getSessionRegistry(logger, httpSession);
+        FileItemRegistry registry = SessionUtils.getSessionRegistry(logger, httpSessionProvider.get());
         List<MessageAttachment> attachments = action.getMessage().getMessageAttachments();
         
         ArrayList<FileItem> items = new ArrayList<FileItem>();
@@ -237,7 +237,7 @@ public class SendMessageBaseServiceImpl extends AbstractService implements SendM
         List<MessageAttachment> attachments = msg.getMessageAttachments();
         if (attachments != null && ! attachments.isEmpty()) {
             for(MessageAttachment attach : attachments) 
-                SessionUtils.getSessionRegistry(logger, httpSession).remove(attach.getName());
+                SessionUtils.getSessionRegistry(logger, httpSessionProvider.get()).remove(attach.getName());
         }
     }
     

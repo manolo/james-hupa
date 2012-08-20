@@ -27,18 +27,22 @@ import org.apache.hupa.shared.SConsts;
 import org.apache.hupa.shared.domain.User;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public abstract class AbstractService {
 	
     @Inject protected IMAPStoreCache cache;
-    @Inject protected HttpSession httpSession;
+    @Inject protected Provider<HttpSession> httpSessionProvider;
     @Inject protected Log logger;
 
 	protected User getUser() {
-		return (User) getHttpSession().getAttribute(SConsts.USER_SESS_ATTR);
-	}
 
-	protected HttpSession getHttpSession() {
-		return httpSession;
+        User user = (User) httpSessionProvider.get().getAttribute(SConsts.USER_SESS_ATTR);
+//        if (user == null) { TODO exception
+//            throw new Exception("User not found in session with id " + httpSessionProvider.get().getId());
+//        } else {
+//            return user;
+//        }
+        return user;
 	}
 }

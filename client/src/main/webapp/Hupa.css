@@ -162,9 +162,8 @@ div.hupa-bottom {
 }
 /************[ view: LoginView ]*******************/
 .hupa-login {
-	margin-top:10px;
-	margin-left:auto;
-	margin-right:auto;
+	margin: 10pt auto;
+	width: 20%;
     text-align: right;
     position: relative;
     left: 50%;
