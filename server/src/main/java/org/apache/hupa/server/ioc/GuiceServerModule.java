@@ -67,6 +67,9 @@ import org.apache.hupa.server.service.SendReplyMessageService;
 import org.apache.hupa.server.service.SendReplyMessageServiceImpl;
 import org.apache.hupa.server.service.SetFlagService;
 import org.apache.hupa.server.service.SetFlagServiceImpl;
+import org.apache.hupa.server.servlet.DownloadAttachmentServlet;
+import org.apache.hupa.server.servlet.MessageSourceServlet;
+import org.apache.hupa.server.servlet.UploadAttachmentServlet;
 import org.apache.hupa.shared.data.CreateFolderActionImpl;
 import org.apache.hupa.shared.data.DeleteFolderActionImpl;
 import org.apache.hupa.shared.data.DeleteMessageAllActionImpl;
@@ -118,8 +121,8 @@ import org.apache.hupa.shared.domain.SendForwardMessageAction;
 import org.apache.hupa.shared.domain.SendMessageAction;
 import org.apache.hupa.shared.domain.SendReplyMessageAction;
 import org.apache.hupa.shared.domain.SetFlagAction;
-import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.Settings;
+import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.Tag;
 import org.apache.hupa.shared.domain.User;
 
@@ -209,6 +212,10 @@ public class GuiceServerModule extends AbstractModule {
 		
 		bind(IMAPStoreCache.class).to(getIMAPStoreCacheClass()).in(Singleton.class);
 
+        bind(DownloadAttachmentServlet.class).in(Singleton.class);
+        bind(UploadAttachmentServlet.class).in(Singleton.class);
+        bind(MessageSourceServlet.class).in(Singleton.class);
+        
 		bind(Log.class).toProvider(LogProvider.class).in(Singleton.class);
 		bind(Session.class).toProvider(JavaMailSessionProvider.class);
         bind(UserPreferencesStorage.class).to(InImapUserPreferencesStorage.class);
