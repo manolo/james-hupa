@@ -59,7 +59,6 @@ import org.apache.hupa.shared.events.SentMessageEvent;
 import org.apache.hupa.shared.rpc.ContactsResult.Contact;
 import org.apache.hupa.widgets.ui.HasEnable;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -71,7 +70,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
-public class MessageSendActivity extends AbstractActivity {
+public class MessageSendActivity extends AppBaseActivity {
 
 	private List<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
 	private Type type = Type.NEW;
@@ -122,16 +121,16 @@ public class MessageSendActivity extends AbstractActivity {
 				display.fillContactList(event.getContacts());
 			}
 		});
-		display.getSendClick().addClickHandler(sendClickHandler);
-		display.getBackButtonClick().addClickHandler(new ClickHandler() {
+		this.registrations.add(display.getSendClick().addClickHandler(sendClickHandler));
+		registrations.add(display.getBackButtonClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				eventBus.fireEvent(new BackEvent());
 			}
-		});
+		}));
 
-		display.getUploader().addOnStatusChangedHandler(onStatusChangedHandler);
-		display.getUploader().addOnFinishUploadHandler(onFinishUploadHandler);
-		display.getUploader().addOnCancelUploadHandler(onCancelUploadHandler);
+		registrations.add(display.getUploader().addOnStatusChangedHandler(onStatusChangedHandler));
+		registrations.add(display.getUploader().addOnFinishUploadHandler(onFinishUploadHandler));
+		registrations.add(display.getUploader().addOnCancelUploadHandler(onCancelUploadHandler));
 
 		reset();
 	}
@@ -143,7 +142,7 @@ public class MessageSendActivity extends AbstractActivity {
 				sendReq = requestFactory.sendMessageRequest();
 				message = sendReq.create(SmtpMessage.class);
 				List<MessageAttachment> attaches = new ArrayList<MessageAttachment>();
-				for(MessageAttachment attach : attachments){
+				for(MessageAttachment attach : attachments){// we must use this, else console will complain a NullPointerException
 					MessageAttachment attachMent = sendReq.create(MessageAttachment.class);
 					attachMent.setName(attach.getName());
 					attachMent.setSize(attach.getSize());
