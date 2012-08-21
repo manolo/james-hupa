@@ -36,6 +36,16 @@ public class ImapFolderImpl implements ImapFolder {
 
     public ImapFolderImpl() {
     }
+    
+    public ImapFolderImpl(ImapFolder folder){
+    	this.delimiter = folder.getDelimiter();
+    	this.children = folder.getChildren();
+    	this.fullName = folder.getFullName();
+    	this.messageCount = folder.getMessageCount();
+    	this.name = folder.getName();
+    	this.subscribed = folder.getSubscribed();
+    	this.unseenMessageCount = folder.getUnseenMessageCount();
+    }
 
     public ImapFolderImpl(String fullName) {
         setFullName(fullName);
@@ -179,6 +189,18 @@ public class ImapFolderImpl implements ImapFolder {
 	@Override
     public void setName(String name) {
 	    this.name = name;
+    }
+
+	
+	@Override
+    public void setFolderTo(ImapFolder folder) {
+		folder.setChildren(this.children);
+		folder.setDelimiter(this.delimiter);
+		folder.setFullName(this.fullName);
+		folder.setMessageCount(this.messageCount);
+		folder.setName(this.name);
+		folder.setSubscribed(this.subscribed);
+		folder.setUnseenMessageCount(this.unseenMessageCount);
     }
 
     
