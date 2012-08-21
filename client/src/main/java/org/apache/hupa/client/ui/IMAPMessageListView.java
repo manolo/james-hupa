@@ -20,12 +20,12 @@
 package org.apache.hupa.client.ui;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.hupa.client.HupaCSS;
 import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.HupaMessages;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
-import org.apache.hupa.client.bundles.HupaImageBundle;
 import org.apache.hupa.client.rf.FetchMessagesRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.widgets.ConfirmDialogBox;
@@ -78,8 +78,10 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.CellPreviewEvent.Handler;
+import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -88,8 +90,7 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 @SuppressWarnings("deprecation")
 public class IMAPMessageListView extends Composite implements IMAPMessageListActivity.Displayable {
 
-	@SuppressWarnings("unused")
-	private HupaMessages messages;
+	@SuppressWarnings("unused") private HupaMessages messages;
 
 	private EnableButton deleteMailButton;
 	private Button newMailButton;
@@ -179,20 +180,43 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 					setExpandLoading(true);
 					eventBus.fireEvent(new ExpandMessageEvent(user, folder, event.getValue()));
 				}
-
 			}
-
 			private boolean hasClickedButFirstCol(CellPreviewEvent<Message> event) {
 				return "click".equals(event.getNativeEvent().getType()) && 0 != event.getColumn();
 			}
 
 		});
-		table.getCheckboxCol().setFieldUpdater(new FieldUpdater<Message, Boolean>() {
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			@Override
-			public void update(int index, Message object, Boolean value) {
-				selectionModel.setSelected(object, value);
+			public void onSelectionChange(SelectionChangeEvent event) {
+				if (selectedCount() == 0) {
+					toggleButtons(false);
+				} else {
+					toggleButtons(true);
+				}
 			}
 		});
+//		table.getCheckboxCol().setFieldUpdater(new FieldUpdater<Message, Boolean>() {
+//			@Override
+//			public void update(int index, Message object, Boolean value) {
+//				selectionModel.setSelected(object, value);
+//				if (selectedCount() == 0) {
+//					toggleButtons(false);
+//				} else {
+//					toggleButtons(true);
+//				}
+//			}
+//
+//			private int selectedCount() {
+//				return getSelectedMessages().size();
+//			}
+//
+//			private void toggleButtons(boolean b) {
+//				getDeleteEnable().setEnabled(b);
+//				getMarkSeenEnable().setEnabled(b);
+//				getMarkUnseenEnable().setEnabled(b);
+//			}
+//		});
 
 		table.addRangeChangeHandler(new RangeChangeEvent.Handler() {
 			@Override
@@ -278,18 +302,17 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		markButtonBar.add(markUnSeenButton);
 		buttonBar.add(markButtonBar);
 		// buttonBar.add(refreshLink); TODO
-		
 
-        pageBox.addItem("" + MessagesCellTable.PAGE_SIZE);
-        pageBox.addItem("" + (MessagesCellTable.PAGE_SIZE * 2));
-        pageBox.addItem("" + (MessagesCellTable.PAGE_SIZE * 4));
-        pageBox.addChangeHandler(new ChangeHandler() {
-            public void onChange(ChangeEvent event) {
-//                if (pageBox.getSelectedIndex() > 0)
-                	table.setVisibleRange(0, Integer.parseInt(pageBox.getItemText(pageBox.getSelectedIndex())));
-//                    mailTable.setPageSize(Integer.parseInt(pageBox.getItemText(pageBox.getSelectedIndex())));
-            }
-        });
+		pageBox.addItem("" + MessagesCellTable.PAGE_SIZE);
+		pageBox.addItem("" + (MessagesCellTable.PAGE_SIZE * 2));
+		pageBox.addItem("" + (MessagesCellTable.PAGE_SIZE * 4));
+		pageBox.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				// if (pageBox.getSelectedIndex() > 0)
+				table.setVisibleRange(0, Integer.parseInt(pageBox.getItemText(pageBox.getSelectedIndex())));
+				// mailTable.setPageSize(Integer.parseInt(pageBox.getItemText(pageBox.getSelectedIndex())));
+			}
+		});
 
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.addStyleName(HupaCSS.C_buttons);
@@ -314,7 +337,7 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		hPanel.add(searchPanel);
 		hPanel.setCellHorizontalAlignment(searchPanel, HorizontalPanel.ALIGN_RIGHT);
 
-	    HorizontalPanel pagerBar = new HorizontalPanel();
+		HorizontalPanel pagerBar = new HorizontalPanel();
 
 		pagerBar.add(pager);
 		pagerBar.add(pageBox);
@@ -330,6 +353,15 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		initWidget(solidCenterPanel);
 	}
 
+	private int selectedCount() {
+		return getSelectedMessages().size();
+	}
+
+	private void toggleButtons(boolean b) {
+		getDeleteEnable().setEnabled(b);
+		getMarkSeenEnable().setEnabled(b);
+		getMarkUnseenEnable().setEnabled(b);
+	}
 	public void reloadData() {
 	}
 
@@ -471,8 +503,9 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 	 * @see org.apache.hupa.client.mvp.IMAPMessageListPresenter.Display#
 	 * getSelectedMessages()
 	 */
-	public List<Message> getSelectedMessages() {
-		return null;
+	@SuppressWarnings("unchecked")
+	public Set<Message> getSelectedMessages() {
+		return ((MultiSelectionModel<Message>) (table.getSelectionModel())).getSelectedSet();
 	}
 
 	/*
@@ -668,5 +701,10 @@ public class IMAPMessageListView extends Composite implements IMAPMessageListAct
 		} else {
 			loading.hide();
 		}
+	}
+
+	@Override
+	public MessagesCellTable getTable() {
+		return table;
 	}
 }

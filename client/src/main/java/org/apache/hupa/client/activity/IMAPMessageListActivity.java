@@ -21,6 +21,7 @@ package org.apache.hupa.client.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.hupa.client.activity.MessageSendActivity.Type;
 import org.apache.hupa.client.place.MailFolderPlace;
@@ -29,6 +30,7 @@ import org.apache.hupa.client.rf.DeleteMessageAllRequest;
 import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
 import org.apache.hupa.client.rf.MoveMessageRequest;
 import org.apache.hupa.client.rf.SetFlagRequest;
+import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.client.widgets.HasDialog;
 import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
@@ -254,22 +256,33 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 	}
 
 	private void deleteMessages() {
-		List<Message> ml = display.getSelectedMessages();
+		Set<Message> ml = display.getSelectedMessages();
 		final List<Message> selectedMessages = new ArrayList<Message>(ml);
 		List<Long> uids = new ArrayList<Long>();
 		for (Message m : selectedMessages) {
 			uids.add(m.getUid());
+			display.getTable().getSelectionModel().setSelected(m, false); // FIXME should be deSelected, or remove?
 		}
 		// maybe its better to just remove the messages from the table and
 		// expect the removal will work
 		display.removeMessages(selectedMessages);
 		DeleteMessageByUidRequest req = requestFactory.deleteMessageByUidRequest();
 		DeleteMessageByUidAction action = req.create(DeleteMessageByUidAction.class);
+		ImapFolder folder1 = req.create(ImapFolder.class);
+		folder1.setChildren(folder.getChildren());
+		folder1.setDelimiter(folder.getDelimiter());
+		folder1.setFullName(folder.getFullName());
+		folder1.setMessageCount(folder.getMessageCount());
+		folder1.setName(folder.getName());
+		folder1.setSubscribed(folder.getSubscribed());
+		folder1.setUnseenMessageCount(folder.getUnseenMessageCount());
 		action.setMessageUids(uids);
-		action.setFolder(folder);
+		action.setFolder(folder1);
 		req.delete(action).fire(new Receiver<DeleteMessageResult>() {
 			@Override
 			public void onSuccess(DeleteMessageResult response) {
+				display.getTable().setVisibleRangeAndClearData(display.getTable().getVisibleRange(), true);
+				
 				eventBus.fireEvent(new DecreaseUnseenEvent(user, folder, response.getCount()));
 			}
 		});
@@ -326,7 +339,7 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 		public HasClickHandlers getDeleteClick();
 		public HasClickHandlers getDeleteAllClick();
 		public HasEnable getDeleteEnable();
-		public List<Message> getSelectedMessages();
+		public Set<Message> getSelectedMessages();
 		public HasDialog getConfirmDeleteDialog();
 		public HasDialog getConfirmDeleteAllDialog();
 		public HasClickHandlers getConfirmDeleteDialogClick();
@@ -341,5 +354,6 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 		public HasChangeHandlers getRowsPerPageChange();
 		public HasClickHandlers getSearchClick();
 		public HasValue<String> getSearchValue();
+		public MessagesCellTable getTable();
 	}
 }
