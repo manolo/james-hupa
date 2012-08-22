@@ -71,6 +71,15 @@ public class IMAPMessageActivity extends AppBaseActivity {
 		display.setContent(messageDetails.getText());
 	}
 
+	private void cloneFolder(ImapFolder desc, ImapFolder src) {
+	    desc.setChildren(src.getChildren());
+		desc.setDelimiter(src.getDelimiter());
+		desc.setFullName(src.getFullName());
+		desc.setMessageCount(src.getMessageCount());
+		desc.setName(src.getName());
+		desc.setSubscribed(src.getSubscribed());
+		desc.setUnseenMessageCount(src.getUnseenMessageCount());
+    }
 	protected void bind() {
 		registrations.add(display.getDeleteButtonClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -78,8 +87,10 @@ public class IMAPMessageActivity extends AppBaseActivity {
 				uidList.add(message.getUid());
 				DeleteMessageByUidRequest req = requestFactory.deleteMessageByUidRequest();
 				DeleteMessageByUidAction action = req.create(DeleteMessageByUidAction.class);
+				ImapFolder f = req.create(ImapFolder.class);
+				cloneFolder(f, folder);
 				action.setMessageUids(uidList);
-				action.setFolder(folder);
+				action.setFolder(f);
 				req.delete(action).fire(new Receiver<DeleteMessageResult>() {
 					@Override
 					public void onSuccess(DeleteMessageResult response) {
