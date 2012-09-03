@@ -33,6 +33,7 @@ public class ImapFolderImpl implements ImapFolder {
     private int messageCount;
     private int unseenMessageCount;
     private boolean subscribed = false;
+    private boolean hasChildren = false;
 
     public ImapFolderImpl() {
     }
@@ -202,6 +203,16 @@ public class ImapFolderImpl implements ImapFolder {
 		folder.setSubscribed(this.subscribed);
 		folder.setUnseenMessageCount(this.unseenMessageCount);
     }
+
+	@Override
+    public boolean getHasChildren() {
+	    return hasChildren;
+    }
+	
+	@Override
+	public void setHasChildren(boolean hasChildren){
+		this.hasChildren = hasChildren;
+	}
 
     
 }

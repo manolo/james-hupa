@@ -41,6 +41,8 @@ import org.apache.hupa.server.service.DeleteMessageAllService;
 import org.apache.hupa.server.service.DeleteMessageAllServiceImpl;
 import org.apache.hupa.server.service.DeleteMessageByUidService;
 import org.apache.hupa.server.service.DeleteMessageByUidServiceImpl;
+import org.apache.hupa.server.service.FetchFoldersService;
+import org.apache.hupa.server.service.FetchFoldersServiceImpl;
 import org.apache.hupa.server.service.FetchMessagesService;
 import org.apache.hupa.server.service.FetchMessagesServiceImpl;
 import org.apache.hupa.server.service.GetMessageDetailsService;
@@ -194,6 +196,7 @@ public class GuiceServerModule extends AbstractModule {
 		bind(CheckSessionService.class).to(CheckSessionServiceImpl.class);
 		bind(LoginUserService.class).to(LoginUserServiceImpl.class);
 		bind(ImapFolderService.class).to(ImapFolderServiceImpl.class);
+		bind(FetchFoldersService.class).to(FetchFoldersServiceImpl.class);
 		bind(FetchMessagesService.class).to(FetchMessagesServiceImpl.class);
 		bind(CreateFolderService.class).to(CreateFolderServiceImpl.class);
 		bind(DeleteFolderService.class).to(DeleteFolderServiceImpl.class);

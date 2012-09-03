@@ -36,6 +36,7 @@ import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
 import org.apache.hupa.client.ui.AppLayoutImpl;
+import org.apache.hupa.client.ui.FolderTreeViewModel;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
 import org.apache.hupa.client.ui.LoginView;
@@ -81,6 +82,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(IMAPMessageActivity.class).in(Singleton.class);
 
 		bind(MessagesCellTable.class).in(Singleton.class);
+		bind(FolderTreeViewModel.class).in(Singleton.class);
 		// Places
 		bind(PlaceHistoryMapper.class).to(AppPlaceHistoryMapper.class).in(Singleton.class);
 
