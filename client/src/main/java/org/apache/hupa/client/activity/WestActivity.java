@@ -446,9 +446,9 @@ public class WestActivity extends AppBaseActivity {
 		// MailInboxPlace(folder.getName()).with(user));
 	}
 
-	private void showMessage(User user, ImapFolder folder, Message message, MessageDetails details) {
-		placeController.goTo(IMAPMessagePlaceProvider.get());
-	}
+//	private void showMessage(User user, ImapFolder folder, Message message, MessageDetails details) {
+//		placeController.goTo(IMAPMessagePlaceProvider.get());
+//	}
 
 	private void showNewMessage() {
 		placeController.goTo(this.messageSendPlaceProvider.get().with(user, null, null, null, Type.NEW));
@@ -465,7 +465,7 @@ public class WestActivity extends AppBaseActivity {
 	}
 
 	@Inject private Displayable display;
-	@Inject private Provider<IMAPMessagePlace> IMAPMessagePlaceProvider;
+//	@Inject private Provider<IMAPMessagePlace> IMAPMessagePlaceProvider;
 	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
 	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
 	private User user;
