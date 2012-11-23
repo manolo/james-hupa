@@ -125,8 +125,6 @@ public class GetMessageDetailsServiceImpl extends AbstractService implements Get
 
 		boolean isHTML = handleParts(message, con, sbPlain, attachmentList);
 
-		System.out.println(isHTML);
-
 		if (isHTML) {
 			mDetails.setText(filterHtmlDocument(sbPlain.toString(), folderName, uid));
 		} else {

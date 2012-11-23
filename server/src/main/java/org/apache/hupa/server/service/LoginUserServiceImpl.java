@@ -19,6 +19,7 @@
 
 package org.apache.hupa.server.service;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.hupa.server.utils.SessionUtils;
@@ -26,6 +27,7 @@ import org.apache.hupa.shared.SConsts;
 import org.apache.hupa.shared.data.UserImpl;
 import org.apache.hupa.shared.domain.Settings;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,18 +36,13 @@ public class LoginUserServiceImpl extends AbstractService implements LoginUserSe
 
 	@Inject private Provider<Settings> settingsProvider;
 
-	public User login(String username, String password) throws Exception {
+	public User login(String username, String password) throws HupaException, MessagingException {
 		HttpSession httpSession = httpSessionProvider.get();
         SessionUtils.cleanSessionAttributes(httpSession);
 		User user = new UserImpl();
 		user.setName(username);
 		user.setPassword(password);
-		try {
-			cache.get(user);
-		} catch (Exception e) {
-			logger.error("Unable to authenticate user: " + username, e);
-			throw e;
-		}
+		cache.get(user);
 		user.setAuthenticated(true);
 		user.setSettings(settingsProvider.get());
 		httpSession.setAttribute(SConsts.USER_SESS_ATTR, user);

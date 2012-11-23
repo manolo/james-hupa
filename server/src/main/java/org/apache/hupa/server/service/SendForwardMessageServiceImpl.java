@@ -32,6 +32,7 @@ import org.apache.hupa.server.preferences.UserPreferencesStorage;
 import org.apache.hupa.server.utils.MessageUtils;
 import org.apache.hupa.shared.domain.SendForwardMessageAction;
 import org.apache.hupa.shared.domain.SendMessageAction;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -48,7 +49,7 @@ public class SendForwardMessageServiceImpl extends SendMessageBaseServiceImpl im
 
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected List getAttachments(SendMessageAction action) throws MessagingException {
+    protected List getAttachments(SendMessageAction action) throws MessagingException, HupaException {
     	SendForwardMessageAction forwardAction = (SendForwardMessageAction)action;
         List<?> items = new ArrayList();
         IMAPStore store = cache.get(getUser());

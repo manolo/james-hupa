@@ -58,6 +58,7 @@ import org.apache.hupa.shared.domain.MessageAttachment;
 import org.apache.hupa.shared.domain.SendMessageAction;
 import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -171,8 +172,9 @@ public class SendMessageBaseServiceImpl extends AbstractService implements SendM
      * @return filledMessage
      * @throws MessagingException
      * @throws IOException 
+	 * @throws HupaException 
      */
-    protected Message fillBody(Message message, SendMessageAction action) throws MessagingException, IOException {
+    protected Message fillBody(Message message, SendMessageAction action) throws MessagingException, IOException, HupaException {
 
         String html = restoreInlineLinks(action.getMessage().getText());
         
@@ -207,9 +209,10 @@ public class SendMessageBaseServiceImpl extends AbstractService implements SendM
      * 
      * @param action
      * @return A list of stored attachments
+     * @throws HupaException 
      */
     @SuppressWarnings("rawtypes")
-    protected List getAttachments(SendMessageAction action) throws MessagingException {
+    protected List getAttachments(SendMessageAction action) throws MessagingException, HupaException {
         FileItemRegistry registry = SessionUtils.getSessionRegistry(logger, httpSessionProvider.get());
         List<MessageAttachment> attachments = action.getMessage().getMessageAttachments();
         

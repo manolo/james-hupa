@@ -25,6 +25,8 @@ import org.apache.commons.logging.Log;
 import org.apache.hupa.server.IMAPStoreCache;
 import org.apache.hupa.shared.SConsts;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
+import org.apache.hupa.shared.exception.InvalidSessionException;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,14 +37,13 @@ public abstract class AbstractService {
     @Inject protected Provider<HttpSession> httpSessionProvider;
     @Inject protected Log logger;
 
-	protected User getUser() {
+	protected User getUser() throws HupaException{
 
         User user = (User) httpSessionProvider.get().getAttribute(SConsts.USER_SESS_ATTR);
-//        if (user == null) { TODO exception
-//            throw new Exception("User not found in session with id " + httpSessionProvider.get().getId());
-//        } else {
-//            return user;
-//        }
-        return user;
+        if (user == null) {
+            throw new InvalidSessionException("User not found in session with id " + httpSessionProvider.get().getId());
+        } else {
+            return user;
+        }
 	}
 }

@@ -27,13 +27,14 @@ import javax.mail.MessagingException;
 
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.sun.mail.imap.IMAPStore;
 
 public class FetchFoldersServiceImpl extends AbstractService implements FetchFoldersService {
 
 	@Override
-	public List<ImapFolder> fetch(ImapFolder imapFolder) throws MessagingException {
+	public List<ImapFolder> fetch(ImapFolder imapFolder) throws MessagingException, HupaException{
 		try {
 			Folder folder = null;
 			IMAPStore store = cache.get(getUser());

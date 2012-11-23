@@ -26,6 +26,7 @@ import javax.mail.MessagingException;
 import org.apache.hupa.shared.domain.DeleteMessageAction;
 import org.apache.hupa.shared.domain.DeleteMessageAllAction;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
@@ -33,7 +34,7 @@ import com.sun.mail.imap.IMAPStore;
 public class DeleteMessageAllServiceImpl extends DeleteMessageBaseServiceImpl implements DeleteMessageAllService {
 
 	@Override
-	protected Message[] getMessagesToDelete(DeleteMessageAction actionBase) throws Exception {
+	protected Message[] getMessagesToDelete(DeleteMessageAction actionBase) throws HupaException {
 		DeleteMessageAllAction action = (DeleteMessageAllAction) actionBase;
 		User user = getUser();
 		try {
@@ -47,7 +48,7 @@ public class DeleteMessageAllServiceImpl extends DeleteMessageBaseServiceImpl im
 		} catch (MessagingException e) {
 			String errorMsg = "Error while deleting all messages in folder " + action.getFolder() + " for user " + user;
 			logger.error(errorMsg, e);
-			throw new Exception(errorMsg);
+			throw new HupaException(errorMsg);
 
 		}
 

@@ -24,7 +24,8 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.exception.HupaException;
 
 public interface FetchFoldersService {
-	List<ImapFolder> fetch(ImapFolder folder) throws MessagingException;
+	List<ImapFolder> fetch(ImapFolder folder) throws MessagingException, HupaException;
 }

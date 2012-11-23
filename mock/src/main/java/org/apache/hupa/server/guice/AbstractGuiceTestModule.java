@@ -24,6 +24,7 @@ import java.util.Properties;
 import org.apache.hupa.shared.data.SettingsImpl;
 import org.apache.hupa.shared.data.UserImpl;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -72,10 +73,10 @@ import com.google.inject.name.Named;
  * @author manolo
  *
  */
-public abstract class AbstractGuiceTestModule {
+public abstract class AbstractGuiceTestModule extends AbstractModule{
 
     protected static class TestUser extends UserImpl {
-        private static final long serialVersionUID = 1L;
+    	
         @Inject
         public TestUser(@Named("Username") String username, 
                         @Named("Password") String password, 

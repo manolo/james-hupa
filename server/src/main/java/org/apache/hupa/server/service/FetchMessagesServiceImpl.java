@@ -47,6 +47,7 @@ import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
 import org.apache.hupa.shared.domain.Tag;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.google.inject.Inject;
 import com.sun.mail.imap.IMAPFolder;
@@ -57,7 +58,7 @@ public class FetchMessagesServiceImpl extends AbstractService implements FetchMe
 
     @Inject protected UserPreferencesStorage userPreferences;
     
-    public FetchMessagesResult fetch(FetchMessagesAction action){
+    public FetchMessagesResult fetch(FetchMessagesAction action) throws HupaException{
         User user = getUser();
 //        ImapFolder folder = action.getFolder();
         if (action.getFolder() == null) {
@@ -101,7 +102,7 @@ public class FetchMessagesServiceImpl extends AbstractService implements FetchMe
     }
 
 
-    protected MessageConvertArray getMessagesToConvert(IMAPFolder f, FetchMessagesAction action) throws MessagingException {
+    protected MessageConvertArray getMessagesToConvert(IMAPFolder f, FetchMessagesAction action) throws MessagingException, HupaException {
         
         String searchString = action.getSearchString();
         int start = action.getStart();
@@ -155,7 +156,7 @@ public class FetchMessagesServiceImpl extends AbstractService implements FetchMe
         return new MessageConvertArray(exists, messages);
     }
 
-    protected List<org.apache.hupa.shared.domain.Message> convert(int offset, com.sun.mail.imap.IMAPFolder folder, Message[] messages) throws MessagingException {
+    public List<org.apache.hupa.shared.domain.Message> convert(int offset, com.sun.mail.imap.IMAPFolder folder, Message[] messages) throws MessagingException {
         List<org.apache.hupa.shared.domain.Message> mList = new ArrayList<org.apache.hupa.shared.domain.Message>();
         // Setup fetchprofile to limit the stuff which is fetched 
         FetchProfile fp = new FetchProfile();

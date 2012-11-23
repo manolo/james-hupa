@@ -20,19 +20,21 @@
 package org.apache.hupa.server.service;
 
 import javax.mail.Folder;
+import javax.mail.MessagingException;
 
 import org.apache.hupa.shared.data.GenericResultImpl;
 import org.apache.hupa.shared.domain.DeleteFolderAction;
 import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.sun.mail.imap.IMAPStore;
 
 public class DeleteFolderServiceImpl extends AbstractService implements DeleteFolderService {
 
 	@Override
-	public GenericResult delete(DeleteFolderAction action) throws Exception {
+	public GenericResult delete(DeleteFolderAction action) throws HupaException, MessagingException {
 		User user = getUser();
 		ImapFolder folder = action.getFolder();
 		IMAPStore store = cache.get(user);
@@ -49,7 +51,7 @@ public class DeleteFolderServiceImpl extends AbstractService implements DeleteFo
 			logger.info("Successfully delete folder " + folder + " for user " + user);
 			return new GenericResultImpl();
 		} else {
-			throw new Exception("Unable to delete folder " + folder + " for user " + user);
+			throw new HupaException("Unable to delete folder " + folder + " for user " + user);
 		}
 	}
 

@@ -44,6 +44,7 @@ import org.apache.hupa.shared.domain.FetchMessagesResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Tag;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.google.inject.Inject;
 import com.sun.mail.imap.IMAPStore;
@@ -52,7 +53,7 @@ public abstract class FetchMessagesBaseServiceImpl extends AbstractService{
 
     @Inject protected UserPreferencesStorage userPreferences;
     
-    public FetchMessagesResult fetch(FetchMessagesAction action){
+    public FetchMessagesResult fetch(FetchMessagesAction action) throws HupaException{
         User user = getUser();
         ImapFolder folder = action.getFolder();
         if (folder == null) {

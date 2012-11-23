@@ -19,11 +19,14 @@
 
 package org.apache.hupa.server.service;
 
+import javax.mail.MessagingException;
+
 import org.apache.hupa.shared.domain.IdleAction;
 import org.apache.hupa.shared.domain.IdleResult;
+import org.apache.hupa.shared.exception.HupaException;
 
 public interface IdleService {
 
-	IdleResult idle(IdleAction action) throws Exception;
+	IdleResult idle(IdleAction action) throws HupaException, MessagingException;
 
 }

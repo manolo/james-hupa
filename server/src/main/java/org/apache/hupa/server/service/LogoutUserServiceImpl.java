@@ -23,10 +23,11 @@ import org.apache.hupa.server.utils.SessionUtils;
 import org.apache.hupa.shared.data.LogoutUserResultImpl;
 import org.apache.hupa.shared.domain.LogoutUserResult;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 public class LogoutUserServiceImpl extends AbstractService implements LogoutUserService {
 	@Override
-	public LogoutUserResult logout() {
+	public LogoutUserResult logout() throws HupaException {
 
 		User user = getUser();
 		user.setAuthenticated(false);

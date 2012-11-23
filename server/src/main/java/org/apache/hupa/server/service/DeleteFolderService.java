@@ -19,9 +19,12 @@
 
 package org.apache.hupa.server.service;
 
+import javax.mail.MessagingException;
+
 import org.apache.hupa.shared.domain.DeleteFolderAction;
 import org.apache.hupa.shared.domain.GenericResult;
+import org.apache.hupa.shared.exception.HupaException;
 
 public interface DeleteFolderService {
-	GenericResult delete(DeleteFolderAction action) throws Exception;
+	GenericResult delete(DeleteFolderAction action) throws HupaException, MessagingException;
 }

@@ -20,14 +20,15 @@
 package org.apache.hupa.server.service;
 
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 public class CheckSessionServiceImpl extends AbstractService implements CheckSessionService {
 	
-	public User getUser(){
+	public User getUser() throws HupaException{
 		return super.getUser();
 	}
 	
-	public Boolean isValid() {
+	public Boolean isValid()  throws HupaException{
 		return getUser() != null && getUser().getAuthenticated();
 	}
 }

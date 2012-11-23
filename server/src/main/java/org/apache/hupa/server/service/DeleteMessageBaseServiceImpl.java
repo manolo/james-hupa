@@ -28,11 +28,12 @@ import org.apache.hupa.shared.domain.DeleteMessageAction;
 import org.apache.hupa.shared.domain.DeleteMessageResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.sun.mail.imap.IMAPStore;
 
 public abstract class DeleteMessageBaseServiceImpl extends AbstractService{
-	public DeleteMessageResult delete(DeleteMessageAction action) throws Exception {
+	public DeleteMessageResult delete(DeleteMessageAction action) throws HupaException {
     	ImapFolder folder = action.getFolder();
         User user = getUser();
         try {
@@ -84,7 +85,7 @@ public abstract class DeleteMessageBaseServiceImpl extends AbstractService{
         } catch (MessagingException e) {
             logger.error("Error while deleting messages for user " + user
                     + " in folder" + action.getFolder(), e);
-            throw new Exception("Error while deleting messages");
+            throw new HupaException("Error while deleting messages");
         }
     }
 
@@ -95,5 +96,5 @@ public abstract class DeleteMessageBaseServiceImpl extends AbstractService{
      * @param action
      * @return messages
      */
-    protected abstract Message[] getMessagesToDelete(DeleteMessageAction actionBase) throws Exception;
+    protected abstract Message[] getMessagesToDelete(DeleteMessageAction actionBase) throws HupaException;
 }

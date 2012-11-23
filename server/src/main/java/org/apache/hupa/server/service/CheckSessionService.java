@@ -20,8 +20,9 @@
 package org.apache.hupa.server.service;
 
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 public interface CheckSessionService {
-	public User getUser();
-	public Boolean isValid();
+	public User getUser() throws HupaException;
+	public Boolean isValid() throws HupaException;
 }

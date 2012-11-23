@@ -29,13 +29,14 @@ import org.apache.hupa.shared.domain.DeleteMessageAction;
 import org.apache.hupa.shared.domain.DeleteMessageByUidAction;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.sun.mail.imap.IMAPStore;
 
 public class DeleteMessageByUidServiceImpl extends DeleteMessageBaseServiceImpl implements DeleteMessageByUidService{
 
 	@Override
-    protected Message[] getMessagesToDelete(DeleteMessageAction actionBase) throws Exception {
+    protected Message[] getMessagesToDelete(DeleteMessageAction actionBase) throws HupaException {
 		DeleteMessageByUidAction action = (DeleteMessageByUidAction)actionBase;
     	ImapFolder folder = action.getFolder();
         List<Long> uids = action.getMessageUids();
@@ -62,7 +63,7 @@ public class DeleteMessageByUidServiceImpl extends DeleteMessageBaseServiceImpl 
             logger.error("Error while deleting messages with uids "
                     + action.getMessageUids() + " for user " + user
                     + " in folder" + action.getFolder(), e);
-            throw new Exception("Error while deleting messages", e);
+            throw new HupaException("Error while deleting messages", e);
         }
 
     }

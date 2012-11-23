@@ -19,15 +19,18 @@
 
 package org.apache.hupa.server.service;
 
+import javax.mail.MessagingException;
+
 import org.apache.hupa.shared.data.IdleResultImpl;
 import org.apache.hupa.shared.domain.IdleAction;
 import org.apache.hupa.shared.domain.IdleResult;
+import org.apache.hupa.shared.exception.HupaException;
 
 import com.sun.mail.imap.IMAPStore;
 
 public class IdleServiceImpl extends AbstractService implements IdleService {
 	@Override
-	public IdleResult idle(IdleAction action) throws Exception {
+	public IdleResult idle(IdleAction action) throws HupaException, MessagingException {
 		try {
 			IMAPStore store = cache.get(getUser());
 
@@ -41,8 +44,8 @@ public class IdleServiceImpl extends AbstractService implements IdleService {
 				}
 			}
 			return new IdleResultImpl(true);
-		} catch (Exception e) {
-			throw new Exception("Unable to send NOOP " + e.getMessage());
+		} catch (HupaException e) {
+			throw new HupaException("Unable to send NOOP " + e.getMessage());
 		}
 	}
 }
