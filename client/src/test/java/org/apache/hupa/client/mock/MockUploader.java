@@ -19,17 +19,16 @@
 
 package org.apache.hupa.client.mock;
 
+import gwtupload.client.IFileInput;
+import gwtupload.client.IUploadStatus;
+import gwtupload.client.IUploadStatus.Status;
+import gwtupload.client.IUploader;
+
+import java.util.Iterator;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-
-import gwtupload.client.IFileInput;
-import gwtupload.client.IUploadStatus;
-import gwtupload.client.IUploader;
-import gwtupload.client.IUploadStatus.Status;
-import gwtupload.client.IUploader.UploadedInfo;
-
-import java.util.Iterator;
 
 public class MockUploader implements IUploader {
 
