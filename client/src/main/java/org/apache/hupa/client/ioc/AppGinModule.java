@@ -37,7 +37,6 @@ import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
 import org.apache.hupa.client.ui.AppLayoutImpl;
 import org.apache.hupa.client.ui.FoldersTreeViewModel;
-import org.apache.hupa.client.ui.FoldersCellTree;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
 import org.apache.hupa.client.ui.LoginView;
