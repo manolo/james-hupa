@@ -34,7 +34,6 @@ import org.apache.hupa.server.mock.MockConstants;
 import org.apache.hupa.server.mock.MockHttpSessionProvider;
 import org.apache.hupa.server.mock.MockIMAPStore;
 import org.apache.hupa.server.mock.MockLogProvider;
-import org.apache.hupa.server.preferences.InImapUserPreferencesStorage;
 import org.apache.hupa.server.preferences.InSessionUserPreferencesStorage;
 import org.apache.hupa.server.preferences.UserPreferencesStorage;
 import org.apache.hupa.server.service.CheckSessionServiceImpl;
