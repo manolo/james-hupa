@@ -19,16 +19,9 @@
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-	<g:FlowPanel ui:field="topWrapper">
-		<g:HorizontalPanel ui:field="buttonContainer">
-			<g:HorizontalPanel ui:field="loginInfoPanel"></g:HorizontalPanel>
-			<g:Label ui:field="loginUserLabel"></g:Label>
-			<g:Anchor ui:field="mainButton"></g:Anchor>
-			<g:Anchor ui:field="logoutButton"></g:Anchor>
-		</g:HorizontalPanel>
-		<g:HorizontalPanel ui:field="infoContainer">
-			<g:Label ui:field="appnameLabel"></g:Label>
-			<g:Label ui:field="extraLabel"></g:Label>
-		</g:HorizontalPanel>
-	</g:FlowPanel>
+	<g:VerticalPanel ui:field="mainContainer">
+		<g:FormPanel ui:field="formPanel">
+			<g:FlexTable ui:field="flexTable"></g:FlexTable>
+		</g:FormPanel>
+	</g:VerticalPanel>
 </ui:UiBinder>
