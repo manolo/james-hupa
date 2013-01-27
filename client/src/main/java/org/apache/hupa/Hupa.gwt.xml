@@ -45,6 +45,7 @@
   
   <inherits name="com.google.gwt.cell.Cell"/>
   <inherits name="com.google.gwt.editor.Editor"/>
+  <inherits name="com.google.gwt.resources.Resources" />
   
   <inherits name="gwtupload.GWTUpload"/>
   <inherits name="eu.maydu.gwt.validation.ValidationLibrary"/>
@@ -56,11 +57,13 @@
 <!--   <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
 <!--   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
 <!--   <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-  <inherits name='com.google.gwt.user.theme.clean.Clean'/>    
+ <!--  <inherits name='com.google.gwt.user.theme.clean.Clean'/>    --> 
+  
+  <!-- reduce browser inconsistencies -->
+  <stylesheet src="../reset.css"/>
   
   <!-- CSS loaded asynchronously -->
-  <stylesheet src="../Hupa.css"/>
-  <stylesheet src="Upload.css"/>
+  <stylesheet src="../styles.css"/>
   
   <!--  xsiframe would be the default in gwt soon -->
   <add-linker name="xsiframe"/>

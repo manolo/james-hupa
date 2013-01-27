@@ -102,15 +102,11 @@ public class AppLayoutImpl implements AppLayout {
 	}
 
 	public void setDefaultLayout() {
-		this.arrangeLayout(true);
+		arrangeLayoutSize(8, 2, 15, 0);
 	}
 
 	public void setLoginLayout() {
-		this.arrangeLayout(false);
-	}
-	
-	private void arrangeLayout(boolean needWest){
-		this.arrangeLayoutSize(8, 2, needWest ? 15 : 0, 0);
+		arrangeLayoutSize(0, 2, 0, 0);
 	}
 	
 	private void arrangeLayoutSize(double n, double s, double w, double e){

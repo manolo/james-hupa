@@ -19,12 +19,13 @@
 
 package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.HupaCSS;
 import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.activity.LoginActivity;
-import org.apache.hupa.widgets.ui.Loading;
+import org.apache.hupa.client.bundles.HupaResources;
+import org.apache.hupa.client.bundles.HupaResources.Css;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -40,68 +41,40 @@ import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-public class LoginView extends Composite implements KeyUpHandler, LoginActivity.Displayable {
-	@UiField VerticalPanel mainContainer;
-	private Button loginButton = new Button();
-	private SubmitButton submitButton;
-	private Button resetButton;
-	private Loading loading;
-//	FlowPanel rPanel = new FlowPanel();
-	@UiField FlexTable flexTable;
-	Panel buttonBar = new FlowPanel();
-	// We wrap login/password boxes with a form which must be in the html
-	// document,
-	// in this way, the browser knows that we are sending a login form and
-	// offers the save password dialog to the user
-	private TextBox usernameTextBox = TextBox.wrap(DOM.getElementById("email"));
-	private PasswordTextBox passwordTextBox = PasswordTextBox.wrap(DOM.getElementById("password"));
-	// wrap the form after inputs so as they are in the dom when are wrapped
-	@UiField FormPanel formPanel;
+public class LoginView extends Composite implements KeyUpHandler,
+		LoginActivity.Displayable {
 
 	@Inject
 	public LoginView(HupaConstants constants) {
 		initWidget(binder.createAndBindUi(this));
+		mainContainer.addStyleName(css.loginForm());
+		innerBox.addStyleName(css.boxInner());
 		formPanel = FormPanel.wrap(DOM.getElementById("loginForm"), true);
 		submitButton = new SubmitButton(constants.loginButton());
-		resetButton = new Button(constants.resetButton());
-		submitButton.getElement().setClassName(HupaCSS.C_button);
-		resetButton.getElement().setClassName(HupaCSS.C_button);
-		submitButton.getElement().setClassName(resetButton.getElement().getClassName());
-		loading = new Loading(constants.loading());
-
-		mainContainer.setStyleName(HupaCSS.C_login_container);
-//		flexTable.addStyleName(HupaCSS.C_login_form);
-		usernameTextBox.addStyleName(HupaCSS.C_login_box);
-		passwordTextBox.addStyleName(HupaCSS.C_login_box);
-
+		submitButton.setStyleName(css.submitButton());
+		boxBottom.addStyleName(css.boxBottom());
+		messageBox.addStyleName(css.messageBox());
+		bottomLine.addStyleName(css.bottomLine());
 		buttonBar.add(submitButton);
-		buttonBar.add(resetButton);
-
-		flexTable.setText(0, 0, constants.usernameLabel());
-		flexTable.setWidget(0, 1, usernameTextBox);
-		flexTable.setText(1, 0, constants.passwordLabel());
-		flexTable.setWidget(1, 1, passwordTextBox);
+		buttonBar.addStyleName(css.pFormbuttons());
+		createLoginPrompt(constants);
 		flexTable.getFlexCellFormatter().setColSpan(2, 0, 2);
 		flexTable.setWidget(2, 0, buttonBar);
 
-//		rPanel.add(formPanel);
 		formPanel.add(flexTable);
-		mainContainer.add(formPanel);
-		mainContainer.add(loading);
+		innerBox.add(formPanel);
 
 		usernameTextBox.addKeyUpHandler(this);
 		usernameTextBox.setFocus(true);
 		passwordTextBox.addKeyUpHandler(this);
-
-		loading.hide();
 
 		// The user submits the form so as the browser detect it and displays
 		// the save password dialog. Then we click on the hidden loginButton
@@ -109,15 +82,37 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 		// stores the presenter clickHandler.
 		formPanel.addSubmitHandler(new FormPanel.SubmitHandler() {
 			public void onSubmit(SubmitEvent event) {
-				if (!usernameTextBox.getValue().trim().isEmpty() && !passwordTextBox.getValue().trim().isEmpty()) {
+				if (!usernameTextBox.getValue().trim().isEmpty()
+						&& !passwordTextBox.getValue().trim().isEmpty()) {
 					loginButton.click();
 				}
 				// event.cancel();
 			}
 		});
 		// loginButton must be in the document to handle the click() method
-		mainContainer.add(loginButton);
+		innerBox.add(loginButton);
 		loginButton.setVisible(false);
+	}
+
+	private void createLoginPrompt(HupaConstants constants) {
+		Label userNameLabel = new Label(constants.usernameLabel());
+		Label passWordLabel = new Label(constants.passwordLabel());
+		userNameLabel.addStyleName(css.tdTitle());
+		passWordLabel.addStyleName(css.tdTitle());
+		flexTable.setWidget(0, 0, userNameLabel);
+		flexTable.setWidget(0, 1, usernameTextBox);
+		flexTable.setWidget(1, 0, passWordLabel);
+		flexTable.setWidget(1, 1, passwordTextBox);
+		flexTable.getCellFormatter().addStyleName(0, 0, css.tdTitle());
+		flexTable.getCellFormatter().addStyleName(1, 0, css.tdTitle());
+		flexTable.getCellFormatter().addStyleName(0, 1, css.tdInput());
+		flexTable.getCellFormatter().addStyleName(1, 1, css.tdInput());
+	}
+
+	public class PPanel extends SimplePanel {
+		public PPanel() {
+			super(Document.get().createPElement());
+		}
 	}
 
 	@Override
@@ -139,11 +134,6 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 	}
 
 	@Override
-	public HasClickHandlers getResetClick() {
-		return resetButton;
-	}
-
-	@Override
 	public HasValue<String> getUserNameValue() {
 		return usernameTextBox;
 	}
@@ -160,11 +150,6 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 
 	@Override
 	public void setLoading(boolean load) {
-		if (load) {
-			loading.show();
-		} else {
-			loading.hide();
-		}
 
 	}
 
@@ -173,9 +158,38 @@ public class LoginView extends Composite implements KeyUpHandler, LoginActivity.
 		return this;
 	}
 
-	interface LoginViewUiBinder extends UiBinder<VerticalPanel, LoginView> {
+	interface LoginViewUiBinder extends UiBinder<FlowPanel, LoginView> {
 	}
 
-	private static LoginViewUiBinder binder = GWT.create(LoginViewUiBinder.class);
+	private static LoginViewUiBinder binder = GWT
+			.create(LoginViewUiBinder.class);
+
+	Css css = HupaResources.INSTANCE.stylesheet();
+	@UiField
+	FlowPanel mainContainer;
+	@UiField
+	FlowPanel innerBox;
+	@UiField
+	Button loginButton;
+	private SubmitButton submitButton;
+	@UiField
+	FlexTable flexTable;
+	@UiField
+	FlowPanel boxBottom;
+	@UiField
+	FlowPanel messageBox;
+	@UiField
+	FlowPanel bottomLine;
+	PPanel buttonBar = new PPanel();
+	// We wrap login/password boxes with a form which must be in the html
+	// document,
+	// in this way, the browser knows that we are sending a login form and
+	// offers the save password dialog to the user
+	private TextBox usernameTextBox = TextBox.wrap(DOM.getElementById("email"));
+	private PasswordTextBox passwordTextBox = PasswordTextBox.wrap(DOM
+			.getElementById("password"));
+	// wrap the form after inputs so as they are in the dom when are wrapped
+	@UiField
+	FormPanel formPanel;
 
 }

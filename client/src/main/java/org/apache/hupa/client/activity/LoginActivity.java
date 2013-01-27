@@ -60,11 +60,6 @@ public class LoginActivity extends AppBaseActivity {
 						  // page
 			}
 		}));
-		registerHandler(display.getResetClick().addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				doReset();
-			}
-		}));
 		eventBus.addHandler(SessionExpireEvent.TYPE, new SessionExpireEventHandler() {
 			public void onSessionExpireEvent(SessionExpireEvent event) {
 				eventBus.fireEvent(new FlashEvent(constants.sessionTimedOut(), 4000));
@@ -113,7 +108,6 @@ public class LoginActivity extends AppBaseActivity {
 
 	public interface Displayable extends WidgetDisplayable {
 		public HasClickHandlers getLoginClick();
-		public HasClickHandlers getResetClick();
 		public HasValue<String> getUserNameValue();
 		public HasValue<String> getPasswordValue();
 		public Focusable getUserNameFocus();

@@ -22,6 +22,19 @@ body, table td, select, * {
     font-family:  arial, 'comic sans ms', sans-serif, helvetica, verdana;
     font-size: 12px;
 }
+body {
+    font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #333;
+    background: url(images/linen.jpg) repeat #d1d5d8;
+    margin: 0;
+}
+
+body.noscroll {
+    /* also avoids bounce effect in Chrome and Safari */
+    overflow: hidden;
+}
+
 
 /************[ widget: MyDialogBox ]****************/
 .hupa-dialog-box td.dialogMiddleCenter  {
@@ -357,9 +370,7 @@ table.hupa-contacts {
 }
 
 /**** HTML5 shadows and gradients ****/
-body {
-    background: #eaeaea;
-}
+
 .hupa-rounded {
     box-shadow: 0 1px 4px grey;
 }
