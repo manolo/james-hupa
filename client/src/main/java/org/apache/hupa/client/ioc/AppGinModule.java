@@ -38,8 +38,8 @@ import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
 import org.apache.hupa.client.ui.AppLayoutImpl;
 import org.apache.hupa.client.ui.FoldersTreeViewModel;
-import org.apache.hupa.client.ui.HupaLayout;
-import org.apache.hupa.client.ui.HupaLayoutView;
+import org.apache.hupa.client.ui.HupaLayoutable;
+import org.apache.hupa.client.ui.HupaOverallLayout;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
 import org.apache.hupa.client.ui.LoginView;
@@ -68,7 +68,7 @@ public class AppGinModule extends AbstractGinModule {
 	@Override
 	protected void configure() {
 		// Views
-		bind(HupaLayout.class).to(HupaLayoutView.class).in(Singleton.class);
+		bind(HupaLayoutable.class).to(HupaOverallLayout.class).in(Singleton.class);
 
 		// Activities
 		bind(LoginActivity.Displayable.class).to(LoginView.class);

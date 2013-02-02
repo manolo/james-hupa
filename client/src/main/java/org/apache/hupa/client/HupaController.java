@@ -26,7 +26,7 @@ import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
-import org.apache.hupa.client.ui.HupaLayout;
+import org.apache.hupa.client.ui.HupaLayoutable;
 
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.shared.EventBus;
@@ -41,7 +41,7 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 public class HupaController {
 
 	@Inject private PlaceHistoryHandler placeHistoryHandler;
-	@Inject private HupaLayout hupaLayout;
+	@Inject private HupaLayoutable hupaLayout;
 	@Inject private PlaceController placeController;
 	@Inject private HupaRequestFactory requestFactory;
 	private Place currentPlace;
