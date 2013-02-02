@@ -17,21 +17,42 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ioc;
+package org.apache.hupa.client;
 
-import org.apache.hupa.client.HupaController;
-import org.apache.hupa.client.evo.AppController;
+import org.apache.hupa.client.ioc.AppGinjector;
 
-import com.google.gwt.inject.client.GinModules;
-import com.google.gwt.inject.client.Ginjector;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.RootPanel;
 
-/**
- * This is the application ginjector.
- * It defines the method our EntryPoint will use to initialize GIN dependecy graph
- * and the GIN module where binding is defined
- */
-@GinModules(AppGinModule.class)
-public interface AppGinjector extends Ginjector {
-  AppController getAppController();
-  HupaController getHupaController();
+public class Hupa implements EntryPoint {
+	@Override
+	public void onModuleLoad() {
+		handleExceptionsAsync();
+		initApp();
+	}
+
+	private void initApp() {
+		replaceLoading();
+		HupaController hupaController = injector.getHupaController();
+		hupaController.start();
+	}
+
+	private void handleExceptionsAsync() {
+		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			public void onUncaughtException(Throwable e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	private void replaceLoading() {
+		DOM.removeChild(RootPanel.getBodyElement(),
+				DOM.getElementById("loading"));
+	}
+
+	private final AppGinjector injector = GWT.create(AppGinjector.class);
+
 }

@@ -21,6 +21,7 @@ package org.apache.hupa.client.ioc;
 
 import java.util.logging.Logger;
 
+import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
 import org.apache.hupa.client.activity.LoginActivity;
@@ -37,6 +38,8 @@ import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
 import org.apache.hupa.client.ui.AppLayoutImpl;
 import org.apache.hupa.client.ui.FoldersTreeViewModel;
+import org.apache.hupa.client.ui.HupaLayout;
+import org.apache.hupa.client.ui.HupaLayoutView;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
 import org.apache.hupa.client.ui.LoginView;
@@ -65,7 +68,7 @@ public class AppGinModule extends AbstractGinModule {
 	@Override
 	protected void configure() {
 		// Views
-		bind(AppLayout.class).to(AppLayoutImpl.class).in(Singleton.class);
+		bind(HupaLayout.class).to(HupaLayoutView.class).in(Singleton.class);
 
 		// Activities
 		bind(LoginActivity.Displayable.class).to(LoginView.class);
@@ -92,7 +95,8 @@ public class AppGinModule extends AbstractGinModule {
 		bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
 
 		// Application Controller
-		bind(AppController.class).in(Singleton.class);
+//		bind(AppController.class).in(Singleton.class);
+		bind(HupaController.class).in(Singleton.class);
 
 		// bind(ExceptionHandler.class).to(DefaultExceptionHandler.class);
 	}

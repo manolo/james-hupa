@@ -17,14 +17,16 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.evo;
+package org.apache.hupa.client;
 
 import org.apache.hupa.client.bundles.HupaResources;
+import org.apache.hupa.client.evo.ActivityManagerInitializer;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.AppLayout;
+import org.apache.hupa.client.ui.HupaLayout;
 
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.shared.EventBus;
@@ -36,26 +38,28 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
-public class AppController {
+public class HupaController {
 
 	@Inject private PlaceHistoryHandler placeHistoryHandler;
-	@Inject private AppLayout appPanelView;
+	@Inject private HupaLayout hupaLayout;
 	@Inject private PlaceController placeController;
 	@Inject private HupaRequestFactory requestFactory;
 	private Place currentPlace;
 
 	@Inject
-	public AppController(EventBus eventBus, ActivityManagerInitializer initializeActivityManagerByGin) {
-		eventBus.addHandler(PlaceChangeEvent.TYPE, new PlaceLayoutHandler());
+	public HupaController(EventBus eventBus) {
+		eventBus.addHandler(PlaceChangeEvent.TYPE, new PlaceChangHandler());
 	}
 
 	public void start() {
-	    StyleInjector.inject(HupaResources.INSTANCE.stylesheet().getText());
-		RootLayoutPanel.get().add(appPanelView.getAppLayoutPanel());
+		StyleInjector.inject(HupaResources.INSTANCE.stylesheet().getText());// TODO
+																			// need
+																			// this?
+		RootLayoutPanel.get().add(hupaLayout.get());
 		placeHistoryHandler.handleCurrentHistory();
 	}
 
-	private final class PlaceLayoutHandler implements PlaceChangeEvent.Handler {
+	private final class PlaceChangHandler implements PlaceChangeEvent.Handler {
 		@Override
 		public void onPlaceChange(PlaceChangeEvent event) {
 			if (placeChange(event)) {
@@ -68,9 +72,9 @@ public class AppController {
 			Place newPlace = event.getNewPlace();
 			if (newPlace != currentPlace) {
 				if (isAuth(newPlace, currentPlace)) {
-					appPanelView.setDefaultLayout();
+					// appPanelView.setDefaultLayout();
 				} else if (newPlace instanceof DefaultPlace) {
-					appPanelView.setLoginLayout();
+					// appPanelView.setLoginLayout();
 				}
 				currentPlace = newPlace;
 			}
@@ -82,18 +86,22 @@ public class AppController {
 				@Override
 				public void onSuccess(Boolean sessionValid) {
 					if (!sessionValid) {
-						AppController.this.placeController.goTo(new DefaultPlace());
+						HupaController.this.placeController
+								.goTo(new DefaultPlace());
 					}
 				}
 			});
 		}
 
 		private boolean placeChange(PlaceChangeEvent event) {
-			return currentPlace != null && !(currentPlace instanceof DefaultPlace) && event.getNewPlace() != currentPlace;
+			return currentPlace != null
+					&& !(currentPlace instanceof DefaultPlace)
+					&& event.getNewPlace() != currentPlace;
 		}
 
 		private boolean isAuth(Place newPlace, Place currentPlace) {
-			return (newPlace instanceof MailFolderPlace) && !(currentPlace instanceof MailFolderPlace);
+			return (newPlace instanceof MailFolderPlace)
+					&& !(currentPlace instanceof MailFolderPlace);
 		}
 	}
 

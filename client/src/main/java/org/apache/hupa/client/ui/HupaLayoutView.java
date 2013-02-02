@@ -17,21 +17,23 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ioc;
+package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.HupaController;
-import org.apache.hupa.client.evo.AppController;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.LayoutPanel;
 
-import com.google.gwt.inject.client.GinModules;
-import com.google.gwt.inject.client.Ginjector;
+public class HupaLayoutView implements HupaLayout {
 
-/**
- * This is the application ginjector.
- * It defines the method our EntryPoint will use to initialize GIN dependecy graph
- * and the GIN module where binding is defined
- */
-@GinModules(AppGinModule.class)
-public interface AppGinjector extends Ginjector {
-  AppController getAppController();
-  HupaController getHupaController();
+	@Override
+	public LayoutPanel get() {
+		return binder.createAndBindUi(this);
+	}
+
+	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayoutView> {
+	}
+
+	private static HupaLayoutUiBinder binder = GWT
+			.create(HupaLayoutUiBinder.class);
+
 }
