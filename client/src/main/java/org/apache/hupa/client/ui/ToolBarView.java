@@ -19,11 +19,20 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+public class ToolBarView extends Composite {
 
-	SimplePanel getLoginView();
+	public ToolBarView() {
+		initWidget(binder.createAndBindUi(this));
+	}
+
+	interface ToolBarUiBinder extends UiBinder<FlowPanel, ToolBarView> {
+	}
+
+	private static ToolBarUiBinder binder = GWT.create(ToolBarUiBinder.class);
+
 }

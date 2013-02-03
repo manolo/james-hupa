@@ -19,11 +19,20 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+public class MessageListFooterView extends Composite {
 
-	SimplePanel getLoginView();
+	public MessageListFooterView() {
+		initWidget(binder.createAndBindUi(this));
+	}
+
+	interface MessageListFooterUiBinder extends UiBinder<HTMLPanel, MessageListFooterView> {
+	}
+
+	private static MessageListFooterUiBinder binder = GWT.create(MessageListFooterUiBinder.class);
+
 }

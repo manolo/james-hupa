@@ -19,11 +19,20 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+public class FolderListView extends Composite {
 
-	SimplePanel getLoginView();
+	public FolderListView() {
+		initWidget(binder.createAndBindUi(this));
+	}
+
+	interface FolderListUiBinder extends UiBinder<SimplePanel, FolderListView> {
+	}
+
+	private static FolderListUiBinder binder = GWT.create(FolderListUiBinder.class);
+
 }

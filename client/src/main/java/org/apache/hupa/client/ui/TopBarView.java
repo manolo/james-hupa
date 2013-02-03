@@ -19,11 +19,20 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+public class TopBarView extends Composite {
 
-	SimplePanel getLoginView();
+	public TopBarView() {
+		initWidget(binder.createAndBindUi(this));
+	}
+
+	interface TopBarUiBinder extends UiBinder<DockLayoutPanel, TopBarView> {
+	}
+
+	private static TopBarUiBinder binder = GWT.create(TopBarUiBinder.class);
+
 }

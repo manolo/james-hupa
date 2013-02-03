@@ -19,11 +19,20 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+public class StatusView extends Composite {
 
-	SimplePanel getLoginView();
+	public StatusView() {
+		initWidget(binder.createAndBindUi(this));
+	}
+
+	interface StatusUiBinder extends UiBinder<HTMLPanel, StatusView> {
+	}
+
+	private static StatusUiBinder binder = GWT.create(StatusUiBinder.class);
+
 }

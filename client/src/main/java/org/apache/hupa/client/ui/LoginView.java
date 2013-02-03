@@ -19,7 +19,6 @@
 
 package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.activity.LoginActivity;
 import org.apache.hupa.client.bundles.HupaResources;
 import org.apache.hupa.client.bundles.HupaResources.Css;
@@ -53,19 +52,17 @@ public class LoginView extends Composite implements KeyUpHandler,
 		LoginActivity.Displayable {
 
 	@Inject
-	public LoginView(HupaConstants constants) {
+	public LoginView() {
 		initWidget(binder.createAndBindUi(this));
 		mainContainer.addStyleName(css.loginForm());
 		innerBox.addStyleName(css.boxInner());
 		formPanel = FormPanel.wrap(DOM.getElementById("loginForm"), true);
-		submitButton = new SubmitButton(constants.loginButton());
+		submitButton = new SubmitButton("Login");
 		submitButton.setStyleName(css.submitButton());
-		boxBottom.addStyleName(css.boxBottom());
-		messageBox.addStyleName(css.messageBox());
 		bottomLine.addStyleName(css.bottomLine());
 		buttonBar.add(submitButton);
 		buttonBar.addStyleName(css.pFormbuttons());
-		createLoginPrompt(constants);
+		createLoginPrompt();
 		flexTable.getFlexCellFormatter().setColSpan(2, 0, 2);
 		flexTable.setWidget(2, 0, buttonBar);
 
@@ -94,9 +91,9 @@ public class LoginView extends Composite implements KeyUpHandler,
 		loginButton.setVisible(false);
 	}
 
-	private void createLoginPrompt(HupaConstants constants) {
-		Label userNameLabel = new Label(constants.usernameLabel());
-		Label passWordLabel = new Label(constants.passwordLabel());
+	private void createLoginPrompt() {
+		Label userNameLabel = new Label("username");
+		Label passWordLabel = new Label("password");
 		userNameLabel.addStyleName(css.tdTitle());
 		passWordLabel.addStyleName(css.tdTitle());
 		flexTable.setWidget(0, 0, userNameLabel);

@@ -19,11 +19,20 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+public class NavigationView extends Composite {
 
-	SimplePanel getLoginView();
+	public NavigationView() {
+		initWidget(binder.createAndBindUi(this));
+	}
+
+	interface NavigationUiBinder extends UiBinder<DockLayoutPanel, NavigationView> {
+	}
+
+	private static NavigationUiBinder binder = GWT.create(NavigationUiBinder.class);
+
 }

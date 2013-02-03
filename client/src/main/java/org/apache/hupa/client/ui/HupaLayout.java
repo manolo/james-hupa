@@ -19,8 +19,30 @@
 
 package org.apache.hupa.client.ui;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-public interface HupaLayout {
-	LayoutPanel get();
+public class HupaLayout implements HupaLayoutable {
+
+	@UiField SimplePanel loginView;
+
+	@Override
+	public LayoutPanel get() {
+		return binder.createAndBindUi(this);
+	}
+
+	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayout> {
+	}
+
+	private static HupaLayoutUiBinder binder = GWT
+			.create(HupaLayoutUiBinder.class);
+	
+	@Override
+	public SimplePanel getLoginView(){
+		return loginView;
+	}
+
 }

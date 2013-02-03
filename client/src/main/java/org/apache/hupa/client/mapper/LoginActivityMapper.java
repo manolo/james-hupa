@@ -17,13 +17,26 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.mapper;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.apache.hupa.client.activity.LoginActivity;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-	SimplePanel getLoginView();
+public class LoginActivityMapper implements ActivityMapper {
+	private final Provider<LoginActivity> loginActivityProvider;
+
+	@Inject
+	public LoginActivityMapper(Provider<LoginActivity> loginActivityProvider) {
+		this.loginActivityProvider = loginActivityProvider;
+	}
+
+	@Override
+	public Activity getActivity(Place place) {
+		return loginActivityProvider.get();
+	}
 }

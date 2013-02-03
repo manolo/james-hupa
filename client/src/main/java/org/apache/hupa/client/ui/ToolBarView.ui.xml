@@ -1,0 +1,133 @@
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	you under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:image field="buttons" src="res/buttons.png"/>
+	<ui:style>
+		.bar {
+			position: absolute;
+			top: -6px;
+			right: 390px;
+			left: 0;
+			height: 40px;
+			white-space: nowrap;
+			z-index: 10;
+		}
+		
+		@sprite .button {
+			gwt-image: 'buttons';
+			text-align: center;
+			font-size: 10px;
+			color: #555;
+			min-width: 50px;
+			max-width: 75px;
+			height: 13px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			padding: 24px 2px 0 2px;
+			text-shadow: 0px 1px 1px #EEE;
+			box-shadow: none;
+			-webkit-box-shadow: none;
+			background-position: -100px 0;
+			border: 0;
+			display: inline-block;
+			margin: 0 2px;
+			border-radius: 4px;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		
+		.checkMail {
+			background-position: center -1180px;
+		}
+		
+		.compose {
+			background-position: center -534px;
+		}
+		
+		.spacer {
+			display: inline-block;
+			width: 24px;
+			height: 36px;
+			padding: 0;
+		}
+		
+		.reply {
+			background-position: center -574px;
+		}
+		
+		.dropButton {
+			display: inline-block;
+			position: relative;
+		}
+		
+		.dropButton .button {
+			margin-left: 0;
+			padding-left: 0;
+			margin-right: 0;
+			padding-right: 0;
+		}
+		
+		.replyAll {
+			min-width: 64px;
+			background-position: left -614px;
+		}
+		
+		@sprite .dropButton .dropButtonTip {
+			gwt-image: 'buttons';
+			display: block;
+			position: absolute;
+			right: 0;
+			top: 0;
+			height: 42px;
+			width: 18px;
+			background-position: 0 -1259px;
+			cursor: pointer;
+		}
+		
+		.forward {
+			min-width: 64px;
+			background-position: left -654px;
+		}
+		
+		.delete {
+			background-position: center -694px;
+		}
+		
+		.mark {
+			background-position: center -1098px;
+		}
+		
+		.more {
+			background-position: center -854px;
+		}
+	</ui:style>
+
+	<g:FlowPanel addStyleNames="{style.bar}" ui:field="ToolBar">
+		<g:Anchor addStyleNames="{style.button} {style.checkMail}">Refresh</g:Anchor>
+		<g:Anchor addStyleNames="{style.button} {style.compose}">Compose</g:Anchor>
+		<g:HTMLPanel tag="span" addStyleNames="{style.spacer}"></g:HTMLPanel>
+		<g:Anchor addStyleNames="{style.button} {style.reply}">Reply</g:Anchor>
+		<g:HTMLPanel tag="span" addStyleNames="{style.dropButton}">
+			<g:Anchor addStyleNames="{style.button} {style.replyAll}">Reply all</g:Anchor>
+			<g:HTMLPanel tag="span" addStyleNames="{style.dropButtonTip}"></g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel tag="span" addStyleNames="{style.dropButton}">
+			<g:Anchor addStyleNames="{style.button} {style.forward}">Forward</g:Anchor>
+			<g:HTMLPanel tag="span" addStyleNames="{style.dropButtonTip}"></g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:Anchor addStyleNames="{style.button} {style.delete}">Delete</g:Anchor>
+		<g:Anchor addStyleNames="{style.button} {style.mark}">Mark</g:Anchor>
+		<g:Anchor addStyleNames="{style.button} {style.more}">More</g:Anchor>
+	</g:FlowPanel>
+</ui:UiBinder>

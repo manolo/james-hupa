@@ -17,13 +17,24 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.apache.hupa.client.ui.HupaLayoutable;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+import com.google.gwt.activity.shared.ActivityManager;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
-	SimplePanel getLoginView();
+/**
+ * This class is responsible for ActivityManager instantiations through GIN, it
+ * also associate every ActivityManager with the corresponding display region
+ */
+public class HupaActivityManagerInitializer {
+
+	@Inject
+	public HupaActivityManagerInitializer(HupaLayoutable layout,
+			@Named("LoginPage") ActivityManager loginActivityManager) {
+		loginActivityManager.setDisplay(layout.getLoginView());
+	}
+
 }

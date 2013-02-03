@@ -20,12 +20,10 @@
 package org.apache.hupa.client;
 
 import org.apache.hupa.client.bundles.HupaResources;
-import org.apache.hupa.client.evo.ActivityManagerInitializer;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
-import org.apache.hupa.client.ui.AppLayout;
 import org.apache.hupa.client.ui.HupaLayoutable;
 
 import com.google.gwt.dom.client.StyleInjector;
@@ -47,7 +45,8 @@ public class HupaController {
 	private Place currentPlace;
 
 	@Inject
-	public HupaController(EventBus eventBus) {
+	public HupaController(EventBus eventBus,
+			HupaActivityManagerInitializer initializeActivityManagerByGin) {
 		eventBus.addHandler(PlaceChangeEvent.TYPE, new PlaceChangHandler());
 	}
 

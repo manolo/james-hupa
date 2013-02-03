@@ -21,6 +21,7 @@ package org.apache.hupa.client.ioc;
 
 import java.util.logging.Logger;
 
+import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
@@ -28,18 +29,16 @@ import org.apache.hupa.client.activity.LoginActivity;
 import org.apache.hupa.client.activity.MessageSendActivity;
 import org.apache.hupa.client.activity.TopActivity;
 import org.apache.hupa.client.activity.WestActivity;
-import org.apache.hupa.client.evo.AppController;
 import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
 import org.apache.hupa.client.mapper.CachingTopActivityMapper;
+import org.apache.hupa.client.mapper.LoginActivityMapper;
 import org.apache.hupa.client.mapper.MainContentActivityMapper;
 import org.apache.hupa.client.mapper.WestActivityMapper;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
-import org.apache.hupa.client.ui.AppLayout;
-import org.apache.hupa.client.ui.AppLayoutImpl;
 import org.apache.hupa.client.ui.FoldersTreeViewModel;
+import org.apache.hupa.client.ui.HupaLayout;
 import org.apache.hupa.client.ui.HupaLayoutable;
-import org.apache.hupa.client.ui.HupaOverallLayout;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
 import org.apache.hupa.client.ui.LoginView;
@@ -68,7 +67,7 @@ public class AppGinModule extends AbstractGinModule {
 	@Override
 	protected void configure() {
 		// Views
-		bind(HupaLayoutable.class).to(HupaOverallLayout.class).in(Singleton.class);
+		bind(HupaLayoutable.class).to(HupaLayout.class).in(Singleton.class);
 
 		// Activities
 		bind(LoginActivity.Displayable.class).to(LoginView.class);
@@ -100,7 +99,14 @@ public class AppGinModule extends AbstractGinModule {
 
 		// bind(ExceptionHandler.class).to(DefaultExceptionHandler.class);
 	}
-
+	
+	@Provides
+	@Singleton
+	@Named("LoginPage")
+	public ActivityManager getLoginActivityMapper(LoginActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+	
 	@Provides
 	@Singleton
 	@Named("TopRegion")

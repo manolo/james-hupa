@@ -19,11 +19,20 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public interface HupaLayoutable {
-	LayoutPanel get();
+public class LogoView extends Composite {
 
-	SimplePanel getLoginView();
+	public LogoView() {
+		initWidget(binder.createAndBindUi(this));
+	}
+
+	interface LogoUiBinder extends UiBinder<SimplePanel, LogoView> {
+	}
+
+	private static LogoUiBinder binder = GWT.create(LogoUiBinder.class);
+
 }
