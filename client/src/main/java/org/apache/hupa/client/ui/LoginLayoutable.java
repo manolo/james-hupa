@@ -19,6 +19,8 @@
 
 package org.apache.hupa.client.ui;
 
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public interface HupaLayoutable extends Layoutable{
+public interface LoginLayoutable extends Layoutable{
+	AcceptsOneWidget getLoginView();
 }

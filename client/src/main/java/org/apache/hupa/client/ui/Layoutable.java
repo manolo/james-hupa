@@ -19,6 +19,8 @@
 
 package org.apache.hupa.client.ui;
 
+import com.google.gwt.user.client.ui.LayoutPanel;
 
-public interface HupaLayoutable extends Layoutable{
+public interface Layoutable {
+	LayoutPanel get();
 }

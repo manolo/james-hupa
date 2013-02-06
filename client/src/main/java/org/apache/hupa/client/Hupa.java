@@ -36,8 +36,7 @@ public class Hupa implements EntryPoint {
 
 	private void initApp() {
 		replaceLoading();
-		HupaController hupaController = injector.getHupaController();
-		hupaController.start();
+		injector.getHupaController().start();
 	}
 
 	private void handleExceptionsAsync() {

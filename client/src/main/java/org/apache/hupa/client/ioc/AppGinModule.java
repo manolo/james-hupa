@@ -21,7 +21,6 @@ package org.apache.hupa.client.ioc;
 
 import java.util.logging.Logger;
 
-import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
@@ -41,6 +40,8 @@ import org.apache.hupa.client.ui.HupaLayout;
 import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
+import org.apache.hupa.client.ui.LoginLayout;
+import org.apache.hupa.client.ui.LoginLayoutable;
 import org.apache.hupa.client.ui.LoginView;
 import org.apache.hupa.client.ui.MessageSendView;
 import org.apache.hupa.client.ui.MessagesCellTable;
@@ -68,6 +69,7 @@ public class AppGinModule extends AbstractGinModule {
 	protected void configure() {
 		// Views
 		bind(HupaLayoutable.class).to(HupaLayout.class).in(Singleton.class);
+		bind(LoginLayoutable.class).to(LoginLayout.class).in(Singleton.class);
 
 		// Activities
 		bind(LoginActivity.Displayable.class).to(LoginView.class);
