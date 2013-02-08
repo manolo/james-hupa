@@ -73,12 +73,12 @@ public class MultiValueSuggestArea extends Composite implements HasText, Focusab
         // this methods in the the box implementation
         @Override
         public String getValue() {
-            return DOM.getElementProperty(getTextBox().getElement(), "value");
+            return DOM.getElementProperty(getValueBox().getElement(), "value");
         }
 
         @Override
         public void setValue(String text) {
-            DOM.setElementProperty(getTextBox().getElement(), "value", text);
+            DOM.setElementProperty(getValueBox().getElement(), "value", text);
         }
     }
 

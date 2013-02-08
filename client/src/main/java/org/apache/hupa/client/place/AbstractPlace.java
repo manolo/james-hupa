@@ -17,47 +17,16 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.place;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.place.shared.Place;
 
-public class LoginLayout implements LoginLayoutable {
-
-	@UiField SimplePanel loginContainer;
-
-	private LayoutPanel loginMainPanel;
-
-	public LoginLayout() {
-		this.loginMainPanel = binder.createAndBindUi(this);
-	}
+public class AbstractPlace extends Place {
 
 	@Override
-	public AcceptsOneWidget getLoginView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				loginContainer.add(Widget.asWidgetOrNull(w));
-			}
-		};
-
+	public String toString() {
+		return getClass().getName().substring(
+				getClass().getName().lastIndexOf("."));
 	}
-
-	@Override
-	public LayoutPanel get() {
-		return loginMainPanel;
-	}
-
-	interface LoginLayoutUiBinder extends UiBinder<LayoutPanel, LoginLayout> {
-	}
-
-	private static LoginLayoutUiBinder binder = GWT
-			.create(LoginLayoutUiBinder.class);
 
 }

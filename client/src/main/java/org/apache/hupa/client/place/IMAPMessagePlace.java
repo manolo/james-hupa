@@ -24,11 +24,10 @@ import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.MessageDetails;
 import org.apache.hupa.shared.domain.User;
 
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
-public class IMAPMessagePlace extends Place {
+public class IMAPMessagePlace extends AbstractPlace {
 
 	private Message message;
 	private MessageDetails messageDetails;
@@ -63,10 +62,6 @@ public class IMAPMessagePlace extends Place {
 		public String getToken(IMAPMessagePlace place) {
 			return String.valueOf(place.getMessage().getUid());
 		}
-	}
-
-	public String toString() {
-		return this.getClass().getName() + "->[IMAPMessage]";
 	}
 
 	public IMAPMessagePlace with(User user, ImapFolder folder, Message message, MessageDetails messageDetails) {

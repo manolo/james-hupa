@@ -19,6 +19,8 @@
 
 package org.apache.hupa.client;
 
+import java.util.logging.Logger;
+
 import org.apache.hupa.client.bundles.HupaResources;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.place.MailFolderPlace;
@@ -45,8 +47,11 @@ public class HupaController {
 	@Inject private PlaceController placeController;
 	@Inject private HupaRequestFactory requestFactory;
 	private Place currentPlace;
-	
+
 	@Inject private LoginLayoutable loginLayout;
+
+	private static final Logger log = Logger.getLogger(HupaController.class
+			.getName());
 
 	@Inject
 	public HupaController(EventBus eventBus,
@@ -68,7 +73,7 @@ public class HupaController {
 	private final class PlaceChangHandler implements PlaceChangeEvent.Handler {
 		@Override
 		public void onPlaceChange(PlaceChangeEvent event) {
-			
+			log.fine("place changed to " + event.getNewPlace());
 			if (placeChange(event)) {
 				checkSession();
 			}
@@ -86,21 +91,22 @@ public class HupaController {
 				currentPlace = newPlace;
 			}
 		}
-//
-//		private void checkSession() {
-//			CheckSessionRequest checkSession = requestFactory.sessionRequest();
-//			checkSession.isValid().fire(new Receiver<Boolean>() {
-//				@Override
-//				public void onSuccess(Boolean sessionValid) {
-//					if (!sessionValid) {
-//						RootLayoutPanel.get().add(loginLayout.get());//
-//						HupaController.this.placeController
-//								.goTo(new DefaultPlace());
-//						// this?
-//					}
-//				}
-//			});
-//		}
+
+		//
+		// private void checkSession() {
+		// CheckSessionRequest checkSession = requestFactory.sessionRequest();
+		// checkSession.isValid().fire(new Receiver<Boolean>() {
+		// @Override
+		// public void onSuccess(Boolean sessionValid) {
+		// if (!sessionValid) {
+		// RootLayoutPanel.get().add(loginLayout.get());//
+		// HupaController.this.placeController
+		// .goTo(new DefaultPlace());
+		// // this?
+		// }
+		// }
+		// });
+		// }
 
 		private boolean placeChange(PlaceChangeEvent event) {
 			return currentPlace != null
@@ -120,18 +126,18 @@ public class HupaController {
 			@Override
 			public void onSuccess(Boolean sessionValid) {
 				RootLayoutPanel.get().clear();
-				RootLayoutPanel.get().add(loginLayout.get());//
+				RootLayoutPanel.get().add(hupaLayout.get());//
 				if (!sessionValid) {
-//					RootLayoutPanel.get().clear();
-//					RootLayoutPanel.get().add(loginLayout.get());//
-//					HupaController.this.placeController
-//							.goTo(new DefaultPlace());
+					// RootLayoutPanel.get().clear();
+					// RootLayoutPanel.get().add(loginLayout.get());//
+					// HupaController.this.placeController
+					// .goTo(new DefaultPlace());
 					// this?
 				}
 			}
-			
+
 			@Override
-			public void onFailure(ServerFailure error){
+			public void onFailure(ServerFailure error) {
 				RootLayoutPanel.get().clear();
 				RootLayoutPanel.get().add(loginLayout.get());
 			}

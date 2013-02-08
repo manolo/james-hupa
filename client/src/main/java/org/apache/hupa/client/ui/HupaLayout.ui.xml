@@ -67,16 +67,22 @@
 		<g:layer left='0' right='0' top='0' height='92px'>
 			<g:DockLayoutPanel unit="PX" ui:field="Header">
 				<g:north size="23">
-					<hupa:TopBarView ui:field="topBarView"/>
+					<g:SimplePanel>
+						<hupa:TopBarView ui:field="topBarView" />
+					</g:SimplePanel>
 				</g:north>
 				<g:center>
 					<g:LayoutPanel addStyleNames="{style.feature}"
 						ui:field="HupaFeature">
 						<g:layer width="177px" left="10px">
-							<hupa:LogoView ui:field="logoView"/>
+							<g:SimplePanel>
+								<hupa:LogoView ui:field="logoView" />
+							</g:SimplePanel>
 						</g:layer>
 						<g:layer width="301px" right="0">
-							<hupa:NavigationView ui:field="navigationView"/>
+							<g:SimplePanel>
+								<hupa:NavigationView ui:field="navigationView" />
+							</g:SimplePanel>
 						</g:layer>
 					</g:LayoutPanel>
 				</g:center>
@@ -85,7 +91,9 @@
 		<g:layer left='10px' right='10px' top='88px' bottom="20px">
 			<g:DockLayoutPanel ui:field="MainBox">
 				<g:north size="40">
-					<hupa:ToolBarView ui:field="toolBarView"/>
+					<g:SimplePanel>
+						<hupa:ToolBarView ui:field="toolBarView" />
+					</g:SimplePanel>
 				</g:north>
 				<g:center>
 					<g:SplitLayoutPanel ui:field="MessageSpace">
@@ -93,7 +101,9 @@
 							<g:LayoutPanel ui:field="LeftBox"
 								addStyleNames="{style.folderList}  {style.box}  {style.listBox}">
 								<g:layer top="0" height="100%">
-									<hupa:FolderListView ui:field="folderListView"/>
+									<g:SimplePanel>
+										<hupa:FolderListView ui:field="folderListView" />
+									</g:SimplePanel>
 								</g:layer>
 								<g:layer bottom="0" height="41px">
 									<g:SimplePanel styleName="{style.boxFooter}">
@@ -111,10 +121,15 @@
 											<g:LayoutPanel addStyleNames="{style.box}"
 												ui:field="MessageListBox">
 												<g:layer>
-													<hupa:MessageListView ui:field="messageView"/>
+													<g:SimplePanel>
+														<hupa:MessageListView ui:field="messageView" />
+													</g:SimplePanel>
 												</g:layer>
 												<g:layer bottom="0" height="25px">
-													<hupa:MessageListFooterView ui:field="messageListFooterView"/>
+													<g:SimplePanel>
+														<hupa:MessageListFooterView
+															ui:field="messageListFooterView" />
+													</g:SimplePanel>
 												</g:layer>
 											</g:LayoutPanel>
 										</g:north>
@@ -122,10 +137,14 @@
 											<g:LayoutPanel addStyleNames="{style.box}"
 												ui:field="MessageContentBox">
 												<g:layer>
-													<hupa:MessageContentView ui:field="messageContentView"/>
+													<g:SimplePanel>
+														<hupa:MessageContentView ui:field="messageContentView" />
+													</g:SimplePanel>
 												</g:layer>
 												<g:layer bottom="0" height="25px">
-													<hupa:StatusView ui:field="statusView"/>
+													<g:SimplePanel>
+														<hupa:StatusView ui:field="statusView" />
+													</g:SimplePanel>
 												</g:layer>
 											</g:LayoutPanel>
 										</g:center>

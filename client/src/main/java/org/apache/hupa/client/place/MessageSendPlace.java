@@ -29,7 +29,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
-public class MessageSendPlace extends Place {
+public class MessageSendPlace extends AbstractPlace {
 
 	
 	private User user ;
@@ -51,10 +51,6 @@ public class MessageSendPlace extends Place {
 		public String getToken(MessageSendPlace place) {
 			return place.getForward().toString();
 		}
-	}
-
-	public String toString() {
-		return this.getClass().getName() + "->[MessageSend]";
 	}
 
 	public Place with(User user, ImapFolder folder, Message message, MessageDetails messageDetails, Type forward) {
