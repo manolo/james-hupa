@@ -19,12 +19,15 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.ToolBarActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class ToolBarView extends Composite {
+public class ToolBarView extends Composite implements
+		ToolBarActivity.Displayable {
 
 	public ToolBarView() {
 		initWidget(binder.createAndBindUi(this));

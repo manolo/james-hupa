@@ -19,12 +19,15 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.MessageListActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-public class MessageListView extends Composite {
+public class MessageListView extends Composite implements
+		MessageListActivity.Displayable {
 
 	public MessageListView() {
 		initWidget(binder.createAndBindUi(this));
@@ -33,6 +36,7 @@ public class MessageListView extends Composite {
 	interface MessageListUiBinder extends UiBinder<HTMLPanel, MessageListView> {
 	}
 
-	private static MessageListUiBinder binder = GWT.create(MessageListUiBinder.class);
+	private static MessageListUiBinder binder = GWT
+			.create(MessageListUiBinder.class);
 
 }

@@ -19,12 +19,14 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.StatusActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-public class StatusView extends Composite {
+public class StatusView extends Composite implements StatusActivity.Displayable {
 
 	public StatusView() {
 		initWidget(binder.createAndBindUi(this));

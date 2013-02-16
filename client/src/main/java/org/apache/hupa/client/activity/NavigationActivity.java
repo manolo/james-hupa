@@ -17,46 +17,22 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.activity;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
+import org.apache.hupa.client.ui.WidgetDisplayable;
+
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
-public class LoginLayout implements LoginLayoutable {
-
-	@UiField SimplePanel loginContainer;
-
-	private LayoutPanel loginMainPanel;
-
-	public LoginLayout() {
-		this.loginMainPanel = binder.createAndBindUi(this);
-	}
+public class NavigationActivity extends AppBaseActivity {
 
 	@Override
-	public AcceptsOneWidget getLoginView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				loginContainer.setWidget(Widget.asWidgetOrNull(w));
-			}
-		};
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
 	}
 
-	@Override
-	public LayoutPanel get() {
-		return loginMainPanel;
-	}
-
-	interface LoginLayoutUiBinder extends UiBinder<LayoutPanel, LoginLayout> {
-	}
-
-	private static LoginLayoutUiBinder binder = GWT
-			.create(LoginLayoutUiBinder.class);
-
+	@Inject private Displayable display;
+	
+	public interface Displayable extends WidgetDisplayable {}
 }

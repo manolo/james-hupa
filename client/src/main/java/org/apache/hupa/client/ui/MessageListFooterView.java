@@ -19,20 +19,25 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.MessageListFooterActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-public class MessageListFooterView extends Composite {
+public class MessageListFooterView extends Composite implements
+		MessageListFooterActivity.Displayable {
 
 	public MessageListFooterView() {
 		initWidget(binder.createAndBindUi(this));
 	}
 
-	interface MessageListFooterUiBinder extends UiBinder<HTMLPanel, MessageListFooterView> {
+	interface MessageListFooterUiBinder extends
+			UiBinder<HTMLPanel, MessageListFooterView> {
 	}
 
-	private static MessageListFooterUiBinder binder = GWT.create(MessageListFooterUiBinder.class);
+	private static MessageListFooterUiBinder binder = GWT
+			.create(MessageListFooterUiBinder.class);
 
 }

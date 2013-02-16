@@ -17,46 +17,25 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.mapper;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.apache.hupa.client.activity.ToolBarActivity;
 
-public class LoginLayout implements LoginLayoutable {
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-	@UiField SimplePanel loginContainer;
+public class ToolBarActivityMapper implements ActivityMapper {
+	private final Provider<ToolBarActivity> toolBarActivityProvider;
 
-	private LayoutPanel loginMainPanel;
-
-	public LoginLayout() {
-		this.loginMainPanel = binder.createAndBindUi(this);
+	@Inject
+	public ToolBarActivityMapper(Provider<ToolBarActivity> topActivityProvider) {
+		this.toolBarActivityProvider = topActivityProvider;
 	}
 
-	@Override
-	public AcceptsOneWidget getLoginView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				loginContainer.setWidget(Widget.asWidgetOrNull(w));
-			}
-		};
+	public Activity getActivity(Place place) {
+		return toolBarActivityProvider.get();
 	}
-
-	@Override
-	public LayoutPanel get() {
-		return loginMainPanel;
-	}
-
-	interface LoginLayoutUiBinder extends UiBinder<LayoutPanel, LoginLayout> {
-	}
-
-	private static LoginLayoutUiBinder binder = GWT
-			.create(LoginLayoutUiBinder.class);
-
 }

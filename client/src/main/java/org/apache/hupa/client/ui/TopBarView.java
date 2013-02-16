@@ -19,12 +19,14 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.TopBarActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 
-public class TopBarView extends Composite {
+public class TopBarView extends Composite implements TopBarActivity.Displayable{
 
 	public TopBarView() {
 		initWidget(binder.createAndBindUi(this));

@@ -22,6 +22,7 @@ package org.apache.hupa.client.activity;
 import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.LoginUserRequest;
+import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.domain.ImapFolder;
@@ -39,12 +40,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class LoginActivity extends AppBaseActivity {
+	
+
+	@Inject private HupaLayoutable hupaLayout;
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
@@ -77,8 +82,10 @@ public class LoginActivity extends AppBaseActivity {
 		loginRequest.login(user, pass).fire(new Receiver<User>() {
 			@Override
 			public void onSuccess(User response) {
-				placeController.goTo(new MailFolderPlace().with(response, useDefaultInboxFolder(response), null));
-				eventBus.fireEvent(new LoginEvent(response));
+				RootLayoutPanel.get().clear();
+				RootLayoutPanel.get().add(hupaLayout.get());
+//				placeController.goTo(new MailFolderPlace().with(response, useDefaultInboxFolder(response), null));
+//				eventBus.fireEvent(new LoginEvent(response));
 			}
 			@Override
 			public void onFailure(ServerFailure error) {

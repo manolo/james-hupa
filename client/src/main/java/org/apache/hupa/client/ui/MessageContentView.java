@@ -19,20 +19,25 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.MessageContentActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-public class MessageContentView extends Composite {
+public class MessageContentView extends Composite implements
+		MessageContentActivity.Displayable {
 
 	public MessageContentView() {
 		initWidget(binder.createAndBindUi(this));
 	}
 
-	interface MessageContentUiBinder extends UiBinder<HTMLPanel, MessageContentView> {
+	interface MessageContentUiBinder extends
+			UiBinder<HTMLPanel, MessageContentView> {
 	}
 
-	private static MessageContentUiBinder binder = GWT.create(MessageContentUiBinder.class);
+	private static MessageContentUiBinder binder = GWT
+			.create(MessageContentUiBinder.class);
 
 }

@@ -48,11 +48,11 @@
 		}
 		
 		.checkMail {
-			background-position: center -1180px;
+			background-position: center -1176px;
 		}
 		
 		.compose {
-			background-position: center -534px;
+			background-position: center -530px;
 		}
 		
 		.spacer {
@@ -63,7 +63,7 @@
 		}
 		
 		.reply {
-			background-position: center -574px;
+			background-position: center -570px;
 		}
 		
 		.dropButton {
@@ -80,7 +80,7 @@
 		
 		.replyAll {
 			min-width: 64px;
-			background-position: left -614px;
+			background-position: left -610px;
 		}
 		
 		@sprite .dropButton .dropButtonTip {
@@ -91,25 +91,25 @@
 			top: 0;
 			height: 42px;
 			width: 18px;
-			background-position: 0 -1259px;
+			background-position: 0 -1255px;
 			cursor: pointer;
 		}
 		
 		.forward {
 			min-width: 64px;
-			background-position: left -654px;
+			background-position: left -650px;
 		}
 		
 		.delete {
-			background-position: center -694px;
+			background-position: center -690px;
 		}
 		
 		.mark {
-			background-position: center -1098px;
+			background-position: center -1094px;
 		}
 		
 		.more {
-			background-position: center -854px;
+			background-position: center -850px;
 		}
 	</ui:style>
 

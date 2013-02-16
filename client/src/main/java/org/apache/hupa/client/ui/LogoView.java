@@ -19,12 +19,14 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.LogoActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class LogoView extends Composite {
+public class LogoView extends Composite implements LogoActivity.Displayable {
 
 	public LogoView() {
 		initWidget(binder.createAndBindUi(this));

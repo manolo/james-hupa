@@ -21,13 +21,37 @@ package org.apache.hupa.client.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class HupaLayout implements HupaLayoutable {
 
+	@UiField SimplePanel topBarContainer;
+	@UiField SimplePanel logoContainer;
+	
+	// TODO why can not be SimplePanel here? can not display
+	@UiField LayoutPanel navigationContainer;
+												
+	@UiField SimplePanel toolBarContainer;
+	@UiField SimplePanel folderListContainer;
+	@UiField SimplePanel messageListContainer;
+	@UiField SimplePanel messageListFooterContainer;
+	@UiField SimplePanel messageContentContainer;
+	@UiField SimplePanel statusContainer;
+
+	private LayoutPanel hupaMainPanel;
+
+	public HupaLayout() {
+		hupaMainPanel = binder.createAndBindUi(this);
+	}
+
 	@Override
 	public LayoutPanel get() {
-		return binder.createAndBindUi(this);
+		return hupaMainPanel;
 	}
 
 	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayout> {
@@ -35,6 +59,99 @@ public class HupaLayout implements HupaLayoutable {
 
 	private static HupaLayoutUiBinder binder = GWT
 			.create(HupaLayoutUiBinder.class);
-	
+
+	@Override
+	public AcceptsOneWidget getTopBarView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				topBarContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getLogoView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				logoContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getNavigationView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				Widget widget = Widget.asWidgetOrNull(w);
+				if (navigationContainer.getWidgetCount() > 0)
+					navigationContainer.remove(0);
+				if (widget != null)
+					navigationContainer.add(widget);
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getToolBarView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				toolBarContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getFolderListView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				folderListContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getMessageListView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				messageListContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getMessageListFooterView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				messageListFooterContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getMessageContentView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				messageContentContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	@Override
+	public AcceptsOneWidget getStatusView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				statusContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
 
 }

@@ -19,12 +19,14 @@
 
 package org.apache.hupa.client.ui;
 
+import org.apache.hupa.client.activity.NavigationActivity;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 
-public class NavigationView extends Composite {
+public class NavigationView extends Composite implements NavigationActivity.Displayable{
 
 	public NavigationView() {
 		initWidget(binder.createAndBindUi(this));
