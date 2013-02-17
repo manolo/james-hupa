@@ -22,21 +22,30 @@ package org.apache.hupa.client.ui;
 import org.apache.hupa.client.activity.FolderListActivity;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.inject.Inject;
 
-public class FolderListView extends Composite implements
-		FolderListActivity.Displayable {
+public class FolderListView extends Composite implements FolderListActivity.Displayable {
 
-	public FolderListView() {
+	@UiField(provided = true)
+	FoldersCellTree cellTree;
+
+	@Inject
+	public FolderListView(final FoldersTreeViewModel viewModel, final EventBus eventBus) {
+		CellTree.Resources res = GWT.create(CellTree.BasicResources.class);
+		cellTree = new FoldersCellTree(viewModel, res);
+		cellTree.setAnimationEnabled(true);
 		initWidget(binder.createAndBindUi(this));
 	}
 
 	interface FolderListUiBinder extends UiBinder<SimplePanel, FolderListView> {
 	}
 
-	private static FolderListUiBinder binder = GWT
-			.create(FolderListUiBinder.class);
+	private static FolderListUiBinder binder = GWT.create(FolderListUiBinder.class);
 
 }
