@@ -75,7 +75,7 @@
 						<g:layer width="177px" left="10px">
 							<g:SimplePanel ui:field="logoContainer"/>
 						</g:layer>
-						<g:layer width="301px" right="0">
+						<g:layer width="287px" right="0">
 							<g:LayoutPanel ui:field="navigationContainer"/><!-- why can not be SimplePanel here -->
 						</g:layer>
 					</g:LayoutPanel>

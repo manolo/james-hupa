@@ -222,7 +222,7 @@ public class AppGinModule extends AbstractGinModule {
 			StatusActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
-
+/*
 	@Provides
 	@Singleton
 	@Named("TopRegion")
@@ -246,7 +246,7 @@ public class AppGinModule extends AbstractGinModule {
 			MainContentActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
-
+*/
 	@Provides
 	@Singleton
 	public PlaceController getPlaceController(EventBus eventBus) {

@@ -32,6 +32,6 @@ import com.google.gwt.inject.client.Ginjector;
  */
 @GinModules(AppGinModule.class)
 public interface AppGinjector extends Ginjector {
-  AppController getAppController();
+//  AppController getAppController();
   HupaController getHupaController();
 }

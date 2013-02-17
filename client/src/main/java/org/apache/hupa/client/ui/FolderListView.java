@@ -33,12 +33,12 @@ import com.google.inject.Inject;
 public class FolderListView extends Composite implements FolderListActivity.Displayable {
 
 	@UiField(provided = true)
-	FoldersCellTree cellTree;
+	CellTree cellTree;
 
 	@Inject
 	public FolderListView(final FoldersTreeViewModel viewModel, final EventBus eventBus) {
 		CellTree.Resources res = GWT.create(CellTree.BasicResources.class);
-		cellTree = new FoldersCellTree(viewModel, res);
+		cellTree = new CellTree(viewModel, null, res);
 		cellTree.setAnimationEnabled(true);
 		initWidget(binder.createAndBindUi(this));
 	}

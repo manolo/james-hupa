@@ -41,7 +41,7 @@ public abstract class AbstractService {
 
         User user = (User) httpSessionProvider.get().getAttribute(SConsts.USER_SESS_ATTR);
         if (user == null) {
-            throw new InvalidSessionException("User not found in session with id " + httpSessionProvider.get().getId());
+            throw new InvalidSessionException(getClass()+"User not found in session with id " + httpSessionProvider.get().getId());
         } else {
             return user;
         }
