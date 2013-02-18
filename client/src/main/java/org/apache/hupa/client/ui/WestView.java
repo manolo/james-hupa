@@ -43,10 +43,10 @@ import com.google.inject.Inject;
 public class WestView extends Composite implements WestActivity.Displayable {
 
 	protected User user;
-	private FoldersCellTree cellTree;
+	private CellTree cellTree;
 
 	@Inject
-	public WestView(final FoldersTreeViewModel viewModel, final EventBus eventBus) {
+	public WestView(final EventBus eventBus) {
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -58,7 +58,7 @@ public class WestView extends Composite implements WestActivity.Displayable {
 //		viewModel.setSelectionModel(selectionModel);
 
 		CellTree.Resources res = GWT.create(CellTree.BasicResources.class);
-//		cellTree = new FoldersCellTree(viewModel, res);
+		cellTree = new CellTree(null, res);
 		cellTree.setAnimationEnabled(true);
 		initWidget(cellTree);
 
