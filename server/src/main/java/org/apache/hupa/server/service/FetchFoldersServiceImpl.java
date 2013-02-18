@@ -60,15 +60,16 @@ public class FetchFoldersServiceImpl extends AbstractService implements FetchFol
 	 * 
 	 * @param folder Current folder
 	 * @return imapFolder Created IMAPFolder
+	 * @throws HupaException 
 	 * @throws Exception If an error occurs
 	 * @throws MessagingException If an error occurs
 	 */
-	private ImapFolder createImapFolder(Folder folder) {
+	private ImapFolder createImapFolder(Folder folder) throws HupaException {
 		String fullName = folder.getFullName();
 		String delimiter;
 		ImapFolder iFolder = null;
 		try {
-			System.out.println("Creating folder: " + fullName + " for user: ");
+			System.out.println("Creating folder2: " + fullName + " for user: " + this.getUser());
 			delimiter = String.valueOf(folder.getSeparator());
 			iFolder = new ImapFolderImpl(fullName);
 			iFolder.setDelimiter(delimiter);
