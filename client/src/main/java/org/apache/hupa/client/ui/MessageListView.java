@@ -24,7 +24,7 @@ import org.apache.hupa.client.activity.MessageListActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class MessageListView extends Composite implements
 		MessageListActivity.Displayable {
@@ -33,7 +33,7 @@ public class MessageListView extends Composite implements
 		initWidget(binder.createAndBindUi(this));
 	}
 
-	interface MessageListUiBinder extends UiBinder<HTMLPanel, MessageListView> {
+	interface MessageListUiBinder extends UiBinder<SimplePanel, MessageListView> {
 	}
 
 	private static MessageListUiBinder binder = GWT

@@ -11,6 +11,8 @@
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-	<g:HTMLPanel>MessageList
-	</g:HTMLPanel>
+	<g:SimplePanel>
+		<g:HTMLPanel>MessageList
+		</g:HTMLPanel>
+	</g:SimplePanel>
 </ui:UiBinder>
