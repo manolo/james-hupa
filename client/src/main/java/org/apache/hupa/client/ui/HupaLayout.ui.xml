@@ -23,7 +23,7 @@
 			top: 0;
 			left: 0;
 			width: 100%;
-            min-width: 144px;
+			min-width: 144px;
 			bottom: 0;
 			overflow-x: hidden;
 			overflow-y: auto;
@@ -68,16 +68,17 @@
 		<g:layer left='0' right='0' top='0' height='92px'>
 			<g:DockLayoutPanel unit="PX" ui:field="Header">
 				<g:north size="23">
-					<g:SimplePanel ui:field="topBarContainer"/>
+					<g:SimplePanel ui:field="topBarContainer" />
 				</g:north>
 				<g:center>
 					<g:LayoutPanel addStyleNames="{style.feature}"
 						ui:field="HupaFeature">
 						<g:layer width="177px" left="10px">
-							<g:SimplePanel ui:field="logoContainer"/>
+							<g:SimplePanel ui:field="logoContainer" />
 						</g:layer>
 						<g:layer width="287px" right="0">
-							<g:LayoutPanel ui:field="navigationContainer"/><!-- why can not be SimplePanel here -->
+							<g:LayoutPanel ui:field="navigationContainer" /><!-- 
+								why can not be SimplePanel here -->
 						</g:layer>
 					</g:LayoutPanel>
 				</g:center>
@@ -86,7 +87,7 @@
 		<g:layer left='10px' right='10px' top='88px' bottom="20px">
 			<g:DockLayoutPanel ui:field="MainBox">
 				<g:north size="40">
-					<g:SimplePanel ui:field="toolBarContainer"/>
+					<g:SimplePanel ui:field="toolBarContainer" />
 				</g:north>
 				<g:center>
 					<g:SplitLayoutPanel ui:field="MessageSpace">
@@ -94,7 +95,7 @@
 							<g:LayoutPanel ui:field="LeftBox"
 								addStyleNames="{style.folderList}  {style.box}  {style.listBox}">
 								<g:layer top="0" height="100%">
-									<g:SimplePanel ui:field="folderListContainer"/>
+									<g:SimplePanel ui:field="folderListContainer" />
 								</g:layer>
 								<g:layer bottom="0" height="41px">
 									<g:SimplePanel styleName="{style.boxFooter}">
@@ -112,10 +113,10 @@
 											<g:LayoutPanel addStyleNames="{style.box}"
 												ui:field="MessageListBox">
 												<g:layer>
-													<g:SimplePanel ui:field="messageListContainer"/>
+													<g:LayoutPanel ui:field="messageListContainer"/>
 												</g:layer>
 												<g:layer bottom="0" height="25px">
-													<g:SimplePanel ui:field="messageListFooterContainer"/>
+													<g:SimplePanel ui:field="messageListFooterContainer" />
 												</g:layer>
 											</g:LayoutPanel>
 										</g:north>

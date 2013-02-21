@@ -86,7 +86,7 @@ public class LoginActivity extends AppBaseActivity {
 				RootLayoutPanel.get().add(hupaLayout.get());
 				placeController.goTo(new MailFolderPlace());
 //				placeController.goTo(new MailFolderPlace().with(response, useDefaultInboxFolder(response), null));
-//				eventBus.fireEvent(new LoginEvent(response));
+				eventBus.fireEvent(new LoginEvent(response));
 			}
 			@Override
 			public void onFailure(ServerFailure error) {

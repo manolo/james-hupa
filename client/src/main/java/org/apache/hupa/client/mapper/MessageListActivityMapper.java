@@ -20,6 +20,8 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageListActivity;
+import org.apache.hupa.client.place.DefaultPlace;
+import org.apache.hupa.client.place.MailFolderPlace;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -36,6 +38,8 @@ public class MessageListActivityMapper implements ActivityMapper {
 	}
 
 	public Activity getActivity(Place place) {
+		if(place instanceof DefaultPlace)return null;
+		else if (place instanceof MailFolderPlace) messageListActivityProvider.get();
 		return messageListActivityProvider.get();
 	}
 }

@@ -23,21 +23,29 @@ import org.apache.hupa.client.activity.MessageListFooterActivity;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.inject.Inject;
 
-public class MessageListFooterView extends Composite implements
-		MessageListFooterActivity.Displayable {
+public class MessageListFooterView extends Composite implements MessageListFooterActivity.Displayable {
 
-	public MessageListFooterView() {
+	@UiField(provided = true)
+	SimplePager simplePager;
+
+	@Inject
+	public MessageListFooterView(final MessagesCellTable table) {
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		simplePager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+		simplePager.setDisplay(table);
 		initWidget(binder.createAndBindUi(this));
 	}
 
-	interface MessageListFooterUiBinder extends
-			UiBinder<HTMLPanel, MessageListFooterView> {
+	interface MessageListFooterUiBinder extends UiBinder<SimplePanel, MessageListFooterView> {
 	}
 
-	private static MessageListFooterUiBinder binder = GWT
-			.create(MessageListFooterUiBinder.class);
+	private static MessageListFooterUiBinder binder = GWT.create(MessageListFooterUiBinder.class);
 
 }
