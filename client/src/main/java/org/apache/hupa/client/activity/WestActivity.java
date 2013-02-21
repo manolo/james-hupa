@@ -122,8 +122,8 @@ public class WestActivity extends AppBaseActivity {
 						 * TODO if (decreaseUnseen) { eventBus.fireEvent(new
 						 * DecreaseUnseenEvent(user, folder)); }
 						 */
-						placeController.goTo(messagePlaceProvider.get().with(user, f, message,
-						        response.getMessageDetails()));
+//						placeController.goTo(messagePlaceProvider.get().with(user, f, message,
+//						        response.getMessageDetails()));
 					}
 				});
 			}
@@ -231,7 +231,7 @@ public class WestActivity extends AppBaseActivity {
 
 	@Inject private Displayable display;
 	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
-	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
+//	@Inject private Provider<IMAPMessagePlace> messagePlaceProvider;
 	private User user;
 	private ImapFolder folder;
 	private IMAPTreeItem tItem;
