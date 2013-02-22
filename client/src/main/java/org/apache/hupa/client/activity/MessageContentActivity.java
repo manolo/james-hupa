@@ -19,20 +19,33 @@
 
 package org.apache.hupa.client.activity;
 
+import org.apache.hupa.client.place.IMAPMessagePlace;
 import org.apache.hupa.client.ui.WidgetDisplayable;
+import org.apache.hupa.shared.domain.MessageDetails;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 
 public class MessageContentActivity extends AppBaseActivity {
+	
+	MessageDetails messageDetails;
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		display.fillMessageContent(messageDetails.getText());
+		System.out.println("+++"+messageDetails.getText());
 		container.setWidget(display.asWidget());
 	}
 
 	@Inject private Displayable display;
 	
-	public interface Displayable extends WidgetDisplayable {}
+	public interface Displayable extends WidgetDisplayable {
+		void fillMessageContent(String messageContent);
+	}
+	
+	public MessageContentActivity with(IMAPMessagePlace messageContentPlace){
+		messageDetails = messageContentPlace.getMessageDetails();
+		return this;
+	}
 }

@@ -34,15 +34,19 @@ public class MessageContentActivityMapper implements ActivityMapper {
 	private final Provider<MessageContentActivity> messageContentActivityProvider;
 
 	@Inject
-	public MessageContentActivityMapper(
-			Provider<MessageContentActivity> messageContentActivityProvider) {
+	public MessageContentActivityMapper(Provider<MessageContentActivity> messageContentActivityProvider) {
 		this.messageContentActivityProvider = messageContentActivityProvider;
 	}
 
 	public Activity getActivity(Place place) {
-		if(place instanceof DefaultPlace)return null;
-		else if (place instanceof MailFolderPlace) return null;
-		else if (place instanceof IMAPMessagePlace) return messageContentActivityProvider.get();
-		return messageContentActivityProvider.get();
+		if (place instanceof DefaultPlace)
+			return null;
+		else if (place instanceof MailFolderPlace)
+			return null;
+		else if (place instanceof IMAPMessagePlace) {
+			System.out.println("+++___+_+_+_"+((IMAPMessagePlace) place).getMessageDetails().getText());
+			return messageContentActivityProvider.get().with((IMAPMessagePlace) place);
+		}
+		return null;
 	}
 }
