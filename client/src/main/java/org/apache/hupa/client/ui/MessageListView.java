@@ -153,7 +153,7 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 		});
 	}
 
-	interface MessageListUiBinder extends UiBinder<LayoutPanel, MessageListView> {
+	interface MessageListUiBinder extends UiBinder<MessagesCellTable, MessageListView> {
 	}
 
 	private static MessageListUiBinder binder = GWT.create(MessageListUiBinder.class);

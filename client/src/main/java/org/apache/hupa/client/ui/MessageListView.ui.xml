@@ -10,10 +10,6 @@
 	language governing permissions and limitations under the License. -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:hupa='urn:import:org.apache.hupa.client.ui'>
-	<g:LayoutPanel>
-		<g:layer>
-			<hupa:MessagesCellTable ui:field="table" />
-		</g:layer>
-	</g:LayoutPanel>
+	xmlns:hupa='urn:import:org.apache.hupa.client.ui'>
+	<hupa:MessagesCellTable ui:field="table" />
 </ui:UiBinder>
