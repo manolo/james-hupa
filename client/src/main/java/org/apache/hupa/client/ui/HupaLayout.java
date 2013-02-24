@@ -62,6 +62,7 @@ public class HupaLayout implements HupaLayoutable {
 		messageSpace.setWidgetMinSize(folderArea, 144);
 		messageArea.setWidgetMinSize(messageListBox, 72);
 		messageArea.setWidgetHidden(contactBox, true);
+		messageArea.setWidgetMinSize(messageListBox, 130);
 	}
 
 	@Override

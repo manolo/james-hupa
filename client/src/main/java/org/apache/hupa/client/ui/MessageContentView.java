@@ -26,7 +26,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Inject;
 
 public class MessageContentView extends Composite implements MessageContentActivity.Displayable {
@@ -39,7 +39,7 @@ public class MessageContentView extends Composite implements MessageContentActiv
 		initWidget(binder.createAndBindUi(this));
 	}
 
-	interface MessageContentUiBinder extends UiBinder<ScrollPanel, MessageContentView> {
+	interface MessageContentUiBinder extends UiBinder<SimplePanel, MessageContentView> {
 	}
 
 	private static MessageContentUiBinder binder = GWT.create(MessageContentUiBinder.class);
