@@ -10,6 +10,6 @@
 	language governing permissions and limitations under the License. -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:hupa='urn:import:org.apache.hupa.client.ui'>
-	<hupa:MessagesCellTable ui:field="table" />
+	xmlns:hupa='urn:import:org.apache.hupa.client.ui' xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
+	<c:DataGrid ui:field="table" />
 </ui:UiBinder>

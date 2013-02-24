@@ -40,8 +40,8 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.CellPreviewEvent.Handler;
 import com.google.gwt.view.client.RangeChangeEvent;
@@ -52,7 +52,7 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 public class MessageListView extends Composite implements MessageListActivity.Displayable {
 
 	@UiField(provided = true)
-	MessagesCellTable table;
+	DataGrid<Message> table;
 	private HupaRequestFactory requestFactory;
 	private EventBus eventBus;
 	private ImapFolder folder;
@@ -67,20 +67,20 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 		this.eventBus = eventBus;
 		this.table = table;
 		initWidget(binder.createAndBindUi(this));
-		table.addCellPreviewHandler(new Handler<Message>() {
-			@Override
-			public void onCellPreview(CellPreviewEvent<Message> event) {
-				if (hasClickedButFirstCol(event)) {
-					eventBus.fireEvent(new ExpandMessageEvent(user, folder, event.getValue()));
-				}
-			}
-
-			private boolean hasClickedButFirstCol(CellPreviewEvent<Message> event) {
-				return "click".equals(event.getNativeEvent().getType()) && 0 != event.getColumn();
-			}
-
-		});
-		table.addRangeChangeHandler(new RangeChangeEvent.Handler() {
+//		this.table.addCellPreviewHandler(new Handler<Message>() {
+//			@Override
+//			public void onCellPreview(CellPreviewEvent<Message> event) {
+//				if (hasClickedButFirstCol(event)) {
+//					eventBus.fireEvent(new ExpandMessageEvent(user, folder, event.getValue()));
+//				}
+//			}
+//
+//			private boolean hasClickedButFirstCol(CellPreviewEvent<Message> event) {
+//				return "click".equals(event.getNativeEvent().getType()) && 0 != event.getColumn();
+//			}
+//
+//		});
+		this.table.addRangeChangeHandler(new RangeChangeEvent.Handler() {
 			@Override
 			public void onRangeChange(RangeChangeEvent event) {
 				fetch(event.getNewRange().getStart());
@@ -153,7 +153,7 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 		});
 	}
 
-	interface MessageListUiBinder extends UiBinder<MessagesCellTable, MessageListView> {
+	interface MessageListUiBinder extends UiBinder<DataGrid, MessageListView> {
 	}
 
 	private static MessageListUiBinder binder = GWT.create(MessageListUiBinder.class);
