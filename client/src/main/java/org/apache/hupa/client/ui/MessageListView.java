@@ -19,6 +19,8 @@
 
 package org.apache.hupa.client.ui;
 
+import java.util.List;
+
 import org.apache.hupa.client.activity.MessageListActivity;
 import org.apache.hupa.client.rf.FetchMessagesRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
@@ -49,10 +51,10 @@ import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
-public class MessageListView extends Composite implements MessageListActivity.Displayable {
+public class MessageListView extends Composite implements
+		MessageListActivity.Displayable {
 
-	@UiField(provided = true)
-	DataGrid<Message> table;
+	@UiField(provided = true) DataGrid<Message> table;
 	private HupaRequestFactory requestFactory;
 	private EventBus eventBus;
 	private ImapFolder folder;
@@ -61,7 +63,8 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 	private boolean pending;
 
 	@Inject
-	public MessageListView(final EventBus eventBus, final HupaRequestFactory requestFactory,
+	public MessageListView(final EventBus eventBus,
+			final HupaRequestFactory requestFactory,
 			final MessagesCellTable table) {
 		this.requestFactory = requestFactory;
 		this.eventBus = eventBus;
@@ -71,12 +74,21 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 			@Override
 			public void onCellPreview(CellPreviewEvent<Message> event) {
 				if (hasClickedButFirstCol(event)) {
-					eventBus.fireEvent(new ExpandMessageEvent(user, folder, event.getValue()));
+					List<Message> displayedItems = table.getVisibleItems();
+					for (Message msg : displayedItems) {
+						table.getSelectionModel().setSelected(msg, false);
+					}
+					table.getSelectionModel().setSelected(event.getValue(),
+							true);
+					eventBus.fireEvent(new ExpandMessageEvent(user, folder,
+							event.getValue()));
 				}
 			}
 
-			private boolean hasClickedButFirstCol(CellPreviewEvent<Message> event) {
-				return "click".equals(event.getNativeEvent().getType()) && 0 != event.getColumn();
+			private boolean hasClickedButFirstCol(
+					CellPreviewEvent<Message> event) {
+				return "click".equals(event.getNativeEvent().getType())
+						&& 0 != event.getColumn();
 			}
 
 		});
@@ -86,19 +98,22 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 				fetch(event.getNewRange().getStart());
 			}
 		});
-		eventBus.addHandler(LoadMessagesEvent.TYPE, new LoadMessagesEventHandler() {
-			public void onLoadMessagesEvent(LoadMessagesEvent loadMessagesEvent) {
-				user = loadMessagesEvent.getUser();
-				folder = loadMessagesEvent.getFolder();
-				searchValue = loadMessagesEvent.getSearchValue();
-				fetch(0);
+		eventBus.addHandler(LoadMessagesEvent.TYPE,
+				new LoadMessagesEventHandler() {
+					public void onLoadMessagesEvent(
+							LoadMessagesEvent loadMessagesEvent) {
+						user = loadMessagesEvent.getUser();
+						folder = loadMessagesEvent.getFolder();
+						searchValue = loadMessagesEvent.getSearchValue();
+						fetch(0);
 
-			}
-		});
+					}
+				});
 		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
 			public void onLogin(LoginEvent event) {
 				user = event.getUser();
-				folder = new ImapFolderImpl(user.getSettings().getInboxFolderName());
+				folder = new ImapFolderImpl(user.getSettings()
+						.getInboxFolderName());
 				searchValue = null;
 				if (!pending) {
 					pending = true;
@@ -116,7 +131,8 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 
 	public void fetch(final int start) {
 		FetchMessagesRequest messagesRequest = requestFactory.messagesRequest();
-		FetchMessagesAction action = messagesRequest.create(FetchMessagesAction.class);
+		FetchMessagesAction action = messagesRequest
+				.create(FetchMessagesAction.class);
 		final ImapFolder folder1 = messagesRequest.create(ImapFolder.class);
 		folder1.setChildren(folder.getChildren());
 		folder1.setDelimiter(folder.getDelimiter());
@@ -148,7 +164,8 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 				table.setRowData(start, result.getMessages());
 
 				// pager.setPageStart(start);
-//				eventBus.fireEvent(new MessagesReceivedEvent(folder1, result.getMessages()));
+				// eventBus.fireEvent(new MessagesReceivedEvent(folder1,
+				// result.getMessages()));
 			}
 		});
 	}
@@ -156,6 +173,7 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 	interface MessageListUiBinder extends UiBinder<DataGrid, MessageListView> {
 	}
 
-	private static MessageListUiBinder binder = GWT.create(MessageListUiBinder.class);
+	private static MessageListUiBinder binder = GWT
+			.create(MessageListUiBinder.class);
 
 }
