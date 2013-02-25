@@ -22,20 +22,31 @@ package org.apache.hupa.client.ui;
 import org.apache.hupa.client.activity.ToolBarActivity;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ToolBarView extends Composite implements
 		ToolBarActivity.Displayable {
 
+	@UiField Anchor reply;
+	@UiField Style style;
+
 	public ToolBarView() {
 		initWidget(binder.createAndBindUi(this));
+		reply.addStyleName(style.disabledButton());
 	}
 
 	interface ToolBarUiBinder extends UiBinder<FlowPanel, ToolBarView> {
 	}
 
 	private static ToolBarUiBinder binder = GWT.create(ToolBarUiBinder.class);
+
+	interface Style extends CssResource {
+		String disabledButton();
+	}
 
 }
