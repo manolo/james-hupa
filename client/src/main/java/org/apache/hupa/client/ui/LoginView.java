@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
@@ -39,6 +40,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -50,6 +52,12 @@ import com.google.inject.Inject;
 
 public class LoginView extends Composite implements KeyUpHandler,
 		LoginActivity.Displayable {
+
+	@UiField Style style;
+
+	interface Style extends CssResource {
+		String loading();
+	}
 
 	@Inject
 	public LoginView() {
@@ -147,7 +155,11 @@ public class LoginView extends Composite implements KeyUpHandler,
 
 	@Override
 	public void setLoading(boolean load) {
-
+		if (load) {
+			message.addStyleName(style.loading());
+		} else {
+			message.removeStyleName(style.loading());
+		}
 	}
 
 	@Override
@@ -180,5 +192,6 @@ public class LoginView extends Composite implements KeyUpHandler,
 			.getElementById("password"));
 	// wrap the form after inputs so as they are in the dom when are wrapped
 	@UiField FormPanel formPanel;
+	@UiField HTMLPanel message;
 
 }

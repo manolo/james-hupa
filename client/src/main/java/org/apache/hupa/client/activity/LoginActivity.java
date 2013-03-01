@@ -91,6 +91,7 @@ public class LoginActivity extends AppBaseActivity {
 			@Override
 			public void onFailure(ServerFailure error) {
 				Window.alert(error.getMessage());// TODO a more gentle way
+				
 				display.setLoading(false);
 				doReset();
 				// placeController.goTo(new DefaultPlace());
