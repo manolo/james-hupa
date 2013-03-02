@@ -21,30 +21,34 @@ package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageContentActivity;
 import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.place.IMAPMessagePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.rf.HupaRequestFactory;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class MessageContentActivityMapper implements ActivityMapper {
+
+	@Inject protected PlaceController placeController;
+	@Inject protected HupaRequestFactory requestFactory;
 	private final Provider<MessageContentActivity> messageContentActivityProvider;
 
 	@Inject
-	public MessageContentActivityMapper(Provider<MessageContentActivity> messageContentActivityProvider) {
+	public MessageContentActivityMapper(
+			Provider<MessageContentActivity> messageContentActivityProvider) {
 		this.messageContentActivityProvider = messageContentActivityProvider;
 	}
 
 	public Activity getActivity(Place place) {
 		if (place instanceof DefaultPlace)
 			return null;
-		else if (place instanceof MailFolderPlace)
-			return null;
-		else if (place instanceof IMAPMessagePlace) {
-			return messageContentActivityProvider.get().with((IMAPMessagePlace) place);
+		else if (place instanceof MailFolderPlace) {
+			return messageContentActivityProvider.get().with(
+					(MailFolderPlace) place);
 		}
 		return null;
 	}

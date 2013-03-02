@@ -49,7 +49,7 @@ public class TopBarActivity extends AppBaseActivity {
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
-		bindTo(eventBus);
+		bindTo(this.eventBus);
 	}
 
 	private void bindTo(EventBus eventBus) {

@@ -38,6 +38,10 @@ public class IMAPMessagePlace extends AbstractPlace {
 	public IMAPMessagePlace(String token) {
 		this.messageId = token;
 	}
+	
+	public IMAPMessagePlace(MessageDetails messageDetails){
+		this.messageDetails = messageDetails;
+	}
 
 	public Message getMessage() {
 		return message;
@@ -65,10 +69,7 @@ public class IMAPMessagePlace extends AbstractPlace {
 
 		@Override
 		public String getToken(IMAPMessagePlace place) {
-			return place.getMessageId();
-//			System.out.println(place);
-//			System.out.println(place.getMessage());
-//			return String.valueOf(place.getMessage().getUid());
+			return place.getMessageDetails().getMessageId();
 		}
 	}
 
@@ -78,10 +79,6 @@ public class IMAPMessagePlace extends AbstractPlace {
 		this.folder = folder;
 		this.user = user;
 		return this;
-	}
-
-	public String getMessageId() {
-		return messageId;
 	}
 
 }

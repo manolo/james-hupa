@@ -22,15 +22,18 @@ package org.apache.hupa.client.ui;
 import java.util.List;
 
 import org.apache.hupa.client.activity.MessageListActivity;
+import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.FetchMessagesRequest;
+import org.apache.hupa.client.rf.GetMessageDetailsRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
+import org.apache.hupa.shared.domain.GetMessageDetailsAction;
+import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.User;
-import org.apache.hupa.shared.events.ExpandMessageEvent;
 import org.apache.hupa.shared.events.LoadMessagesEvent;
 import org.apache.hupa.shared.events.LoadMessagesEventHandler;
 import org.apache.hupa.shared.events.LoginEvent;
@@ -40,6 +43,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.DataGrid;
@@ -56,7 +60,6 @@ public class MessageListView extends Composite implements
 
 	@UiField(provided = true) DataGrid<Message> grid;
 	private HupaRequestFactory requestFactory;
-	private EventBus eventBus;
 	private ImapFolder folder;
 	private String searchValue;
 	private User user;
@@ -65,14 +68,13 @@ public class MessageListView extends Composite implements
 	@Inject
 	public MessageListView(final EventBus eventBus,
 			final HupaRequestFactory requestFactory,
-			final MessagesCellTable table) {
+			final PlaceController placeController, final MessagesCellTable table) {
 		this.requestFactory = requestFactory;
-		this.eventBus = eventBus;
 		grid = table;
 		initWidget(binder.createAndBindUi(this));
 		grid.addCellPreviewHandler(new Handler<Message>() {
 			@Override
-			public void onCellPreview(CellPreviewEvent<Message> event) {
+			public void onCellPreview(final CellPreviewEvent<Message> event) {
 				if (hasClickedButFirstCol(event)) {
 					List<Message> displayedItems = table.getVisibleItems();
 					for (Message msg : displayedItems) {
@@ -80,9 +82,26 @@ public class MessageListView extends Composite implements
 					}
 					table.getSelectionModel().setSelected(event.getValue(),
 							true);
-					MessageListView.this.eventBus
-							.fireEvent(new ExpandMessageEvent(user, folder,
-									event.getValue()));
+					GetMessageDetailsRequest req = requestFactory
+							.messageDetailsRequest();
+					GetMessageDetailsAction action = req
+							.create(GetMessageDetailsAction.class);
+					final ImapFolder f = req.create(ImapFolder.class);
+					f.setFullName(folder.getFullName());
+					action.setFolder(f);
+					action.setUid(event.getValue().getUid());
+					req.get(action).fire(
+							new Receiver<GetMessageDetailsResult>() {
+								@Override
+								public void onSuccess(
+										GetMessageDetailsResult response) {
+									placeController.goTo(new MailFolderPlace(f
+											.getFullName()
+											+ "/"
+											+ event.getValue().getUid()));
+
+								}
+							});
 				}
 			}
 
@@ -134,39 +153,26 @@ public class MessageListView extends Composite implements
 		FetchMessagesRequest messagesRequest = requestFactory.messagesRequest();
 		FetchMessagesAction action = messagesRequest
 				.create(FetchMessagesAction.class);
-		final ImapFolder folder1 = messagesRequest.create(ImapFolder.class);
-		// folder1.setChildren(folder.getChildren());
-		// folder1.setDelimiter(folder.getDelimiter());
-		folder1.setFullName(folder.getFullName());
-		// folder1.setMessageCount(folder.getMessageCount());
-		// folder1.setName(folder.getName());
-		// folder1.setSubscribed(folder.getSubscribed());
-		// folder1.setUnseenMessageCount(folder.getUnseenMessageCount());
-		action.setFolder(folder1);
+		final ImapFolder f = messagesRequest.create(ImapFolder.class);
+		f.setFullName(folder.getFullName());
+		action.setFolder(f);
 		action.setOffset(grid.getPageSize());
 		action.setSearchString(searchValue);
 		action.setStart(start);
 		messagesRequest.fetch(action).fire(new Receiver<FetchMessagesResult>() {
 
 			@Override
+			public void onSuccess(final FetchMessagesResult result) {
+				assert result != null;
+				grid.setRowCount(result.getRealCount());
+				grid.setRowData(start, result.getMessages());
+			}
+
+			@Override
 			public void onFailure(ServerFailure error) {
 				if (error.isFatal()) {
 					throw new RuntimeException(error.getMessage());
 				}
-			}
-
-			@Override
-			public void onSuccess(final FetchMessagesResult result) {
-				assert result != null;
-				// folder.setMessageCount(result.getRealCount());// TODO if do
-				// this, there will be auto bean has been frozen.
-				// folder.setUnseenMessageCount(result.getRealUnreadCount());
-				grid.setRowCount(result.getRealCount());
-				grid.setRowData(start, result.getMessages());
-
-				// pager.setPageStart(start);
-				// eventBus.fireEvent(new MessagesReceivedEvent(folder1,
-				// result.getMessages()));
 			}
 		});
 	}

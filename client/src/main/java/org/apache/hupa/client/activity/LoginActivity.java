@@ -84,7 +84,7 @@ public class LoginActivity extends AppBaseActivity {
 			public void onSuccess(User response) {
 				RootLayoutPanel.get().clear();
 				RootLayoutPanel.get().add(hupaLayout.get());
-				placeController.goTo(new MailFolderPlace());
+				placeController.goTo(new MailFolderPlace(response.getSettings().getDraftsFolderName()));
 				eventBus.fireEvent(new LoginEvent(response));
 			}
 			@Override
