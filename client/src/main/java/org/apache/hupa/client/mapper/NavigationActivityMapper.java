@@ -23,19 +23,32 @@ import org.apache.hupa.client.activity.NavigationActivity;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class NavigationActivityMapper implements ActivityMapper {
 	private final Provider<NavigationActivity> navigationActivityProvider;
-	
+
 	@Inject
-	public NavigationActivityMapper(Provider<NavigationActivity> navigationActivityProvider) {
+	public NavigationActivityMapper(
+			Provider<NavigationActivity> navigationActivityProvider) {
 		this.navigationActivityProvider = navigationActivityProvider;
 	}
 
 	public Activity getActivity(Place place) {
-		return navigationActivityProvider.get();
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
+
+			@Override
+			protected Activity createInstance() {
+				return navigationActivityProvider.get();
+			}
+		};
 	}
 }

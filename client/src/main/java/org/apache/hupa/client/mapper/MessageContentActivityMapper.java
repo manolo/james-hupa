@@ -25,6 +25,8 @@ import org.apache.hupa.client.rf.HupaRequestFactory;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.inject.Inject;
@@ -42,10 +44,20 @@ public class MessageContentActivityMapper implements ActivityMapper {
 		this.messageContentActivityProvider = messageContentActivityProvider;
 	}
 
-	public Activity getActivity(Place place) {
+	public Activity getActivity(final Place place) {
 		if (place instanceof MailFolderPlace) {
-			return messageContentActivityProvider.get().with(
-					(MailFolderPlace) place);
+			return new ActivityAsyncProxy() {
+				@Override
+				protected void doAsync(RunAsyncCallback callback) {
+					GWT.runAsync(callback);
+				}
+
+				@Override
+				protected Activity createInstance() {
+					return messageContentActivityProvider.get().with(
+							(MailFolderPlace) place);
+				}
+			};
 		}
 		return null;
 	}

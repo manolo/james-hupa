@@ -23,6 +23,8 @@ import org.apache.hupa.client.activity.LogoActivity;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,6 +38,16 @@ public class LogoActivityMapper implements ActivityMapper {
 	}
 
 	public Activity getActivity(Place place) {
-		return logoActivityProvider.get();
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
+
+			@Override
+			protected Activity createInstance() {
+				return logoActivityProvider.get();
+			}
+		};
 	}
 }

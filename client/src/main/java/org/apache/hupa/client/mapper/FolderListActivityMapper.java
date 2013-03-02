@@ -20,11 +20,12 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,13 +34,26 @@ public class FolderListActivityMapper implements ActivityMapper {
 	private final Provider<FolderListActivity> folderListActivityProvider;
 
 	@Inject
-	public FolderListActivityMapper(Provider<FolderListActivity> folderListActivityProvider) {
+	public FolderListActivityMapper(
+			Provider<FolderListActivity> folderListActivityProvider) {
 		this.folderListActivityProvider = folderListActivityProvider;
 	}
 
 	public Activity getActivity(Place place) {
-		if(place instanceof DefaultPlace)return null;
-		else if (place instanceof MailFolderPlace) folderListActivityProvider.get();
-		return folderListActivityProvider.get();
+		if (place instanceof MailFolderPlace) {
+			return new ActivityAsyncProxy() {
+				@Override
+				protected void doAsync(RunAsyncCallback callback) {
+					GWT.runAsync(callback);
+				}
+
+				@Override
+				protected Activity createInstance() {
+					return folderListActivityProvider.get();
+				}
+			};
+
+		}
+		return null;
 	}
 }
