@@ -24,8 +24,6 @@ import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.LoginUserRequest;
 import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.WidgetDisplayable;
-import org.apache.hupa.shared.data.ImapFolderImpl;
-import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.FlashEvent;
 import org.apache.hupa.shared.events.LoginEvent;
@@ -93,13 +91,8 @@ public class LoginActivity extends AppBaseActivity {
 				
 				display.setLoading(false);
 				doReset();
-				// placeController.goTo(new DefaultPlace());
 			}
 		});
-	}
-
-	private ImapFolder useDefaultInboxFolder(User user) {
-		return new ImapFolderImpl(user.getSettings().getInboxFolderName());
 	}
 
 	/**

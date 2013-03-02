@@ -19,11 +19,7 @@
 
 package org.apache.hupa.client;
 
-import java.util.logging.Logger;
-
 import org.apache.hupa.client.bundles.HupaResources;
-import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.HupaLayoutable;
@@ -31,7 +27,6 @@ import org.apache.hupa.client.ui.LoginLayoutable;
 
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceChangeEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
@@ -46,12 +41,7 @@ public class HupaController {
 	@Inject private HupaLayoutable hupaLayout;
 	@Inject private PlaceController placeController;
 	@Inject private HupaRequestFactory requestFactory;
-	private Place currentPlace;
-
 	@Inject private LoginLayoutable loginLayout;
-
-	private static final Logger log = Logger.getLogger(HupaController.class
-			.getName());
 
 	@Inject
 	public HupaController(EventBus eventBus,
@@ -73,60 +63,6 @@ public class HupaController {
 	private final class PlaceChangHandler implements PlaceChangeEvent.Handler {
 		@Override
 		public void onPlaceChange(PlaceChangeEvent event) {
-//			log.fine("place changed to " + event.getNewPlace());
-			// if (placeChange(event)) {
-			// checkSession();
-			// }
-			// refreshActivities(event);
-		}
-
-		private void refreshActivities(PlaceChangeEvent event) {
-			Place newPlace = event.getNewPlace();
-			if (newPlace != currentPlace) {
-				if (isAuth(newPlace, currentPlace)) {
-					// appPanelView.setDefaultLayout();
-					if (!(RootLayoutPanel.get().getLayoutData() instanceof HupaLayoutable)) {
-						RootLayoutPanel.get().clear();
-						RootLayoutPanel.get().add(hupaLayout.get());
-
-					}
-				} else if (newPlace instanceof DefaultPlace) {
-					// appPanelView.setLoginLayout();
-
-					if (!(RootLayoutPanel.get().getLayoutData() instanceof LoginLayoutable)) {
-						RootLayoutPanel.get().clear();
-						RootLayoutPanel.get().add(loginLayout.get());
-					}
-				}
-				currentPlace = newPlace;
-			}
-		}
-
-		//
-		// private void checkSession() {
-		// CheckSessionRequest checkSession = requestFactory.sessionRequest();
-		// checkSession.isValid().fire(new Receiver<Boolean>() {
-		// @Override
-		// public void onSuccess(Boolean sessionValid) {
-		// if (!sessionValid) {
-		// RootLayoutPanel.get().add(loginLayout.get());//
-		// HupaController.this.placeController
-		// .goTo(new DefaultPlace());
-		// // this?
-		// }
-		// }
-		// });
-		// }
-
-		private boolean placeChange(PlaceChangeEvent event) {
-			return currentPlace != null
-					&& !(currentPlace instanceof DefaultPlace)
-					&& event.getNewPlace() != currentPlace;
-		}
-
-		private boolean isAuth(Place newPlace, Place currentPlace) {
-			return (newPlace instanceof MailFolderPlace)
-					&& !(currentPlace instanceof MailFolderPlace);
 		}
 	}
 
@@ -138,14 +74,9 @@ public class HupaController {
 				if (!sessionValid) {
 					RootLayoutPanel.get().clear();
 					RootLayoutPanel.get().add(loginLayout.get());
-//					log.fine("session invalid");
-//					HupaController.this.placeController
-//							.goTo(new DefaultPlace());
-
 				} else {
 					RootLayoutPanel.get().clear();
 					RootLayoutPanel.get().add(hupaLayout.get());
-
 				}
 			}
 

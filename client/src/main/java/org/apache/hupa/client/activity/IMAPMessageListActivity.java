@@ -304,9 +304,9 @@ public class IMAPMessageListActivity extends AppBaseActivity {
         display.getTable().setVisibleRangeAndClearData(display.getTable().getVisibleRange(), true);
     }
 	public IMAPMessageListActivity with(MailFolderPlace place) {
-		this.user = place.getUser();
+//		this.user = place.getUser();
 //		this.folder = place.getFolder();
-		this.searchValue = place.getSearchValue();
+//		this.searchValue = place.getSearchValue();
 		return this;
 	}
 

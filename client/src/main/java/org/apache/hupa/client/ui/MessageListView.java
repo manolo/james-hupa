@@ -20,6 +20,8 @@
 package org.apache.hupa.client.ui;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.hupa.client.activity.MessageListActivity;
 import org.apache.hupa.client.place.MailFolderPlace;
@@ -58,6 +60,9 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 public class MessageListView extends Composite implements
 		MessageListActivity.Displayable {
 
+	private static final Logger log = Logger.getLogger(MessageListView.class
+			.getName());
+	
 	@UiField(provided = true) DataGrid<Message> grid;
 	private HupaRequestFactory requestFactory;
 	private ImapFolder folder;
@@ -100,6 +105,18 @@ public class MessageListView extends Composite implements
 											+ "/"
 											+ event.getValue().getUid()));
 
+								}
+
+								@Override
+								public void onFailure(ServerFailure error) {
+									if (error.isFatal()) {
+										log.log(Level.SEVERE,
+												error.getMessage());
+										// TODO write the error message to
+										// status bar.
+										throw new RuntimeException(error
+												.getMessage());
+									}
 								}
 							});
 				}

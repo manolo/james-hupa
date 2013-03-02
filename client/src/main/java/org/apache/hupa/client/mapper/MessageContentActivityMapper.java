@@ -20,7 +20,6 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageContentActivity;
-import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 
@@ -44,9 +43,7 @@ public class MessageContentActivityMapper implements ActivityMapper {
 	}
 
 	public Activity getActivity(Place place) {
-		if (place instanceof DefaultPlace)
-			return null;
-		else if (place instanceof MailFolderPlace) {
+		if (place instanceof MailFolderPlace) {
 			return messageContentActivityProvider.get().with(
 					(MailFolderPlace) place);
 		}

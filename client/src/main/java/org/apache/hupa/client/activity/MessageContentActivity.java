@@ -19,6 +19,9 @@
 
 package org.apache.hupa.client.activity;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;
@@ -30,15 +33,20 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class MessageContentActivity extends AppBaseActivity {
 
+	private static final Logger log = Logger
+			.getLogger(MessageContentActivity.class.getName());
+
+	@Inject private Displayable display;
 	private String fullName;
 	private String uid;
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		if (uid != null && uid.matches("\\d+")) {
+		if (isUidSet()) {
 			GetMessageDetailsRequest req = requestFactory
 					.messageDetailsRequest();
 			GetMessageDetailsAction action = req
@@ -52,14 +60,24 @@ public class MessageContentActivity extends AppBaseActivity {
 				public void onSuccess(GetMessageDetailsResult response) {
 					display.fillMessageContent(response.getMessageDetails()
 							.getText());
+				}
 
+				@Override
+				public void onFailure(ServerFailure error) {
+					if (error.isFatal()) {
+						log.log(Level.SEVERE, error.getMessage());
+						// TODO write the error message to status bar.
+						// throw new RuntimeException(error.getMessage());
+					}
 				}
 			});
 		}
 		container.setWidget(display.asWidget());
 	}
 
-	@Inject private Displayable display;
+	private boolean isUidSet() {
+		return uid != null && uid.matches("\\d+");
+	}
 
 	public interface Displayable extends WidgetDisplayable {
 		void fillMessageContent(String messageContent);
@@ -67,7 +85,7 @@ public class MessageContentActivity extends AppBaseActivity {
 
 	public MessageContentActivity with(MailFolderPlace place) {
 		this.fullName = place.getFullName();
-		this.uid = place.getMessageId();
+		this.uid = place.getUid();
 		return this;
 	}
 }
