@@ -29,4 +29,5 @@ public class AbstractPlace extends Place {
 				getClass().getName().lastIndexOf("."));
 	}
 
+
 }

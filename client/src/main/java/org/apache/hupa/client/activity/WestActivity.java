@@ -212,7 +212,7 @@ public class WestActivity extends AppBaseActivity {
 		this.searchValue = searchValue;
 
 		// FIXME goto?
-		placeController.goTo(new MailFolderPlace().with(user, folder, searchValue));
+//		placeController.goTo(new MailFolderPlace().with(user, folder, searchValue));
 	}
 
 	private void showNewMessage() {

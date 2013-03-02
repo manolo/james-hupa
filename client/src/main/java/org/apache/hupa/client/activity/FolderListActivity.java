@@ -27,12 +27,13 @@ import com.google.inject.Inject;
 
 public class FolderListActivity extends AppBaseActivity {
 
+	@Inject private Displayable display;
+
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
 	}
 
-	@Inject private Displayable display;
-	
-	public interface Displayable extends WidgetDisplayable {}
+	public interface Displayable extends WidgetDisplayable {
+	}
 }
