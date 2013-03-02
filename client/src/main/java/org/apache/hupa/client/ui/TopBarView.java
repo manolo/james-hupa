@@ -22,14 +22,31 @@ package org.apache.hupa.client.ui;
 import org.apache.hupa.client.activity.TopBarActivity;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
-public class TopBarView extends Composite implements TopBarActivity.Displayable{
+public class TopBarView extends Composite implements TopBarActivity.Displayable {
+
+	@UiField Anchor logout;
+	@UiField HTMLPanel userLabel;
 
 	public TopBarView() {
 		initWidget(binder.createAndBindUi(this));
+	}
+
+	@Override
+	public HasClickHandlers getLogoutClick() {
+		return logout;
+	}
+
+	@Override
+	public HTMLPanel getUserLabel() {
+		return userLabel;
 	}
 
 	interface TopBarUiBinder extends UiBinder<DockLayoutPanel, TopBarView> {

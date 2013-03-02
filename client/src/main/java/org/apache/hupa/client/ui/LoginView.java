@@ -57,6 +57,8 @@ public class LoginView extends Composite implements KeyUpHandler,
 
 	interface Style extends CssResource {
 		String loading();
+		String hidden();
+		String display();
 	}
 
 	@Inject
@@ -157,8 +159,10 @@ public class LoginView extends Composite implements KeyUpHandler,
 	public void setLoading(boolean load) {
 		if (load) {
 			message.addStyleName(style.loading());
+			message.addStyleName(style.display());
 		} else {
 			message.removeStyleName(style.loading());
+			message.removeStyleName(style.hidden());
 		}
 	}
 
