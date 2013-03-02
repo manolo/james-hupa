@@ -99,6 +99,7 @@ public class LoginView extends Composite implements KeyUpHandler,
 		// loginButton must be in the document to handle the click() method
 		innerBox.add(loginButton);
 		loginButton.setVisible(false);
+		setLoading(false);
 	}
 
 	private void createLoginPrompt() {
@@ -162,7 +163,8 @@ public class LoginView extends Composite implements KeyUpHandler,
 			message.addStyleName(style.display());
 		} else {
 			message.removeStyleName(style.loading());
-			message.removeStyleName(style.hidden());
+			message.removeStyleName(style.display());
+			message.addStyleName(style.hidden());
 		}
 	}
 

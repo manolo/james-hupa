@@ -55,7 +55,6 @@
 		
 		@sprite .loading {
 			gwt-image: 'loading';
-			background-position: 2px 6px;
 		}
 	</ui:style>
 	<g:FlowPanel ui:field="mainContainer">
