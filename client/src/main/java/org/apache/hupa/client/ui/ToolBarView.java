@@ -20,19 +20,26 @@
 package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.ToolBarActivity;
+import org.apache.hupa.client.place.ComposePlace;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.inject.Inject;
 
 public class ToolBarView extends Composite implements
 		ToolBarActivity.Displayable {
 
+	@Inject PlaceController placeController;
+	
 	@UiField Style style;
 
 	@UiField Anchor refresh;
@@ -45,6 +52,11 @@ public class ToolBarView extends Composite implements
 	@UiField Anchor delete;
 	@UiField Anchor mark;
 	@UiField Anchor more;
+
+	@UiHandler("compose")
+	void handleClick(ClickEvent e) {
+		placeController.goTo(new ComposePlace());
+	}
 
 	public ToolBarView() {
 		initWidget(binder.createAndBindUi(this));

@@ -46,13 +46,15 @@
 			border-collapse: separate;
 			border-spacing: 2px;
 			border-color: gray;
+			width: 99%;
+			margin: 4px 0;
 		}
 	</ui:style>
 	<g:DockLayoutPanel ui:field="thisPanel" unit="PX"
 		addStyleNames="{style.box}">
 		<g:north size="135">
 			<g:SimplePanel ui:field="composeHeader" addStyleNames="{style.composeHeader}">
-				<g:FlexTable ui:field="headerTable" addStyleNames="{style.headerTable}"></g:FlexTable>
+				<g:FlexTable ui:field="headerTable" addStyleNames="{style.headerTable}" />
 			</g:SimplePanel>
 		</g:north>
 		<g:center>

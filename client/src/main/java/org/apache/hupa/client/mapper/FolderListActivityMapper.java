@@ -20,6 +20,7 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.FolderListActivity;
+import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 
 import com.google.gwt.activity.shared.Activity;
@@ -40,7 +41,7 @@ public class FolderListActivityMapper implements ActivityMapper {
 	}
 
 	public Activity getActivity(final Place place) {
-		if (place instanceof MailFolderPlace) {
+		if (place instanceof MailFolderPlace || place instanceof ComposePlace) {
 			return new ActivityAsyncProxy() {
 				@Override
 				protected void doAsync(RunAsyncCallback callback) {
