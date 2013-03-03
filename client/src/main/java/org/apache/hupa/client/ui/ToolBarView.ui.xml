@@ -15,10 +15,11 @@
 	<ui:style type="org.apache.hupa.client.ui.ToolBarView.Style">
 		.bar {
 			position: absolute;
+			display: block;
 			top: -2px;
 			right: 390px;
 			left: 0;
-			height: 36px;
+			height: 40px;
 			white-space: nowrap;
 			z-index: 10;
 		}
