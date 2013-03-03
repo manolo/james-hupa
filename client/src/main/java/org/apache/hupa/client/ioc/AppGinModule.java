@@ -77,12 +77,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.gwt.inject.client.assistedinject.GinFactoryModuleBuilder;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
 
 @SuppressWarnings("deprecation")
@@ -102,12 +104,14 @@ public class AppGinModule extends AbstractGinModule {
 		bind(LogoActivity.Displayable.class).to(LogoView.class);
 		bind(NavigationActivity.Displayable.class).to(NavigationView.class);
 		bind(ToolBarActivity.Displayable.class).to(ToolBarView.class);
-		bind(FolderListActivity.Displayable.class).to(FolderListView.class);
+//		bind(FolderListActivity.Displayable.class).to(FolderListView.class);
 		bind(MessageListActivity.Displayable.class).to(MessageListView.class);
-		bind(MessageListFooterActivity.Displayable.class).to(MessageListFooterView.class);
-		bind(MessageContentActivity.Displayable.class).to(MessageContentView.class);
+		bind(MessageListFooterActivity.Displayable.class).to(
+				MessageListFooterView.class);
+		bind(MessageContentActivity.Displayable.class).to(
+				MessageContentView.class);
 		bind(StatusActivity.Displayable.class).to(StatusView.class);
-		
+
 		bind(LoginActivity.class).in(Singleton.class);
 		bind(TopBarActivity.class).in(Singleton.class);
 		bind(LogoActivity.class).in(Singleton.class);
@@ -115,11 +119,9 @@ public class AppGinModule extends AbstractGinModule {
 		bind(ToolBarActivity.class).in(Singleton.class);
 		bind(FolderListActivity.class).in(Singleton.class);
 		bind(MessageListActivity.class).in(Singleton.class);
-//		bind(MessageListFooterActivity.class).in(Singleton.class);
-//		bind(MessageContentActivity.class).in(Singleton.class);
-//		bind(StatusActivity.class).in(Singleton.class);
-		
-		
+		// bind(MessageListFooterActivity.class).in(Singleton.class);
+		// bind(MessageContentActivity.class).in(Singleton.class);
+		// bind(StatusActivity.class).in(Singleton.class);
 
 		bind(TopActivity.Displayable.class).to(TopView.class);
 		bind(WestActivity.Displayable.class).to(WestView.class).in(
@@ -149,6 +151,9 @@ public class AppGinModule extends AbstractGinModule {
 		// bind(AppController.class).in(Singleton.class);
 		bind(HupaController.class).in(Singleton.class);
 
+		install(new GinFactoryModuleBuilder().implement(
+				FolderListActivity.Displayable.class, FolderListView.class)
+				.build(FolderListFactory.class));
 		// bind(ExceptionHandler.class).to(DefaultExceptionHandler.class);
 	}
 
@@ -231,31 +236,7 @@ public class AppGinModule extends AbstractGinModule {
 			StatusActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
-/*
-	@Provides
-	@Singleton
-	@Named("TopRegion")
-	public ActivityManager getTopRegionActivityMapper(
-			CachingTopActivityMapper activityMapper, EventBus eventBus) {
-		return new ActivityManager(activityMapper, eventBus);
-	}
 
-	@Provides
-	@Singleton
-	@Named("WestRegion")
-	public ActivityManager getWestRegionActivityMapper(
-			WestActivityMapper activityMapper, EventBus eventBus) {
-		return new ActivityManager(activityMapper, eventBus);
-	}
-
-	@Provides
-	@Singleton
-	@Named("MainContentRegion")
-	public ActivityManager getMainContentRegionActivityMapper(
-			MainContentActivityMapper activityMapper, EventBus eventBus) {
-		return new ActivityManager(activityMapper, eventBus);
-	}
-*/
 	@Provides
 	@Singleton
 	public PlaceController getPlaceController(EventBus eventBus) {

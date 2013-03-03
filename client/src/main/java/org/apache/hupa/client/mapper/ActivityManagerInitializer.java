@@ -17,7 +17,7 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client;
+package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.LoginLayoutable;
@@ -30,10 +30,10 @@ import com.google.inject.name.Named;
  * This class is responsible for ActivityManager instantiations through GIN, it
  * also associate every ActivityManager with the corresponding display region
  */
-public class HupaActivityManagerInitializer {
+public class ActivityManagerInitializer {
 
 	@Inject
-	public HupaActivityManagerInitializer(LoginLayoutable loginLayout,
+	public ActivityManagerInitializer(LoginLayoutable loginLayout,
 			HupaLayoutable hupaLayout,
 			@Named("LoginPage") ActivityManager loginActivityManager,
 			@Named("TopBarRegion") ActivityManager topBarActivityManager,

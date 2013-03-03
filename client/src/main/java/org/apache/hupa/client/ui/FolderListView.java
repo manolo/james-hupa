@@ -20,27 +20,36 @@
 package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.FolderListActivity;
+import org.apache.hupa.client.place.MailFolderPlace;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 public class FolderListView extends Composite implements
 		FolderListActivity.Displayable {
 
 	@UiField(provided = true) CellTree cellTree;
 
-	@Inject
+	@AssistedInject
 	public FolderListView(final FoldersTreeViewModel viewModel,
-			final EventBus eventBus) {
-		cellTree = new CellTree(viewModel, null, Resources.INSTANCE);
-		cellTree.setAnimationEnabled(true);
+			final EventBus eventBus, @Assisted Place place) {
+		System.out.println(place);
+		if (place instanceof MailFolderPlace) {
+			cellTree = new CellTree(viewModel, null, Resources.INSTANCE);
+			cellTree.setAnimationEnabled(true);
+		} else {
+			cellTree = new CellTree(viewModel, null);
+			cellTree.setAnimationEnabled(true);
+		}
 		initWidget(binder.createAndBindUi(this));
 	}
 

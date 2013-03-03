@@ -19,6 +19,7 @@
 
 package org.apache.hupa.client;
 
+import org.apache.hupa.client.mapper.ActivityManagerInitializer;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.HupaLayoutable;
@@ -45,7 +46,7 @@ public class HupaController {
 
 	@Inject
 	public HupaController(EventBus eventBus,
-			HupaActivityManagerInitializer initializeActivityManagerByGin) {
+			ActivityManagerInitializer initializeActivityManagerByGin) {
 		eventBus.addHandler(PlaceChangeEvent.TYPE, new PlaceChangHandler());
 	}
 

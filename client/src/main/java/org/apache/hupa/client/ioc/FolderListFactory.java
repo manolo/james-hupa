@@ -17,43 +17,12 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.ioc;
 
 import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.MailFolderPlace;
 
-import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 
-public class FolderListActivityMapper implements ActivityMapper {
-	private final Provider<FolderListActivity> folderListActivityProvider;
-	
-	@Inject
-	public FolderListActivityMapper(
-			Provider<FolderListActivity> folderListActivityProvider) {
-		this.folderListActivityProvider = folderListActivityProvider;
-	}
-
-	public Activity getActivity(final Place place) {
-		if (place instanceof MailFolderPlace) {
-			return new ActivityAsyncProxy() {
-				@Override
-				protected void doAsync(RunAsyncCallback callback) {
-					GWT.runAsync(callback);
-				}
-
-				@Override
-				protected Activity createInstance() {
-					return folderListActivityProvider.get().with(place);
-				}
-			};
-
-		}
-		return null;
-	}
+public interface FolderListFactory {
+	FolderListActivity.Displayable create(Place place);
 }
