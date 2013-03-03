@@ -19,11 +19,11 @@
 
 package org.apache.hupa.client;
 
-import org.apache.hupa.client.bundles.HupaResources;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.LoginLayoutable;
+import org.apache.hupa.client.ui.LoginView;
 
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.shared.EventBus;
@@ -57,7 +57,7 @@ public class HupaController {
 
 	private void bindCss() {
 		// TODO:replace with a more gentle approach
-		StyleInjector.inject(HupaResources.INSTANCE.stylesheet().getText());
+		StyleInjector.inject(LoginView.Resources.INSTANCE.stylesheet().getText());
 	}
 
 	private final class PlaceChangHandler implements PlaceChangeEvent.Handler {

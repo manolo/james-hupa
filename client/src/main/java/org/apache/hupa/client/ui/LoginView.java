@@ -20,8 +20,6 @@
 package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.LoginActivity;
-import org.apache.hupa.client.bundles.HupaResources;
-import org.apache.hupa.client.bundles.HupaResources.Css;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -29,7 +27,9 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
@@ -53,12 +53,68 @@ import com.google.inject.Inject;
 public class LoginView extends Composite implements KeyUpHandler,
 		LoginActivity.Displayable {
 
-	@UiField Style style;
-
-	interface Style extends CssResource {
+	/*
+	 * invoke style lived in ui.xml should use this unique name, otherwise
+	 * define by ourselves
+	 */
+	public interface Style extends CssResource {
 		String loading();
+
 		String hidden();
+
 		String display();
+	}
+
+	@UiField Style style;
+	@UiField FlowPanel mainContainer;
+	@UiField FlowPanel innerBox;
+	@UiField Button loginButton;
+	@UiField FlexTable flexTable;
+	@UiField FlowPanel boxBottom;
+	@UiField FlowPanel messageBox;
+	@UiField FlowPanel bottomLine;
+	@UiField FormPanel formPanel;
+	@UiField HTMLPanel message;
+	Resources.Css css = Resources.INSTANCE.stylesheet();
+	private SubmitButton submitButton;
+	PPanel buttonBar = new PPanel();
+
+	/*
+	 * We wrap login/password boxes with a form which must be in the html
+	 * document, in this way, the browser knows that we are sending a login form
+	 * and offers the save password dialog to the user
+	 */
+	private TextBox usernameTextBox = TextBox.wrap(DOM.getElementById("email"));
+	private PasswordTextBox passwordTextBox = PasswordTextBox.wrap(DOM
+			.getElementById("password"));
+
+	public interface Resources extends ClientBundle {
+
+		Resources INSTANCE = GWT.create(Resources.class);
+
+		@NotStrict
+		@Source("res/CssLoginView.css")
+		public Css stylesheet();
+
+		public interface Css extends CssResource {
+			String loginForm();
+
+			String boxInner();
+
+			String tdTitle();
+
+			String tdInput();
+
+			String pFormbuttons();
+
+			String submitButton();
+
+			String boxBottom();
+
+			String messageBox();
+
+			String bottomLine();
+		}
 	}
 
 	@Inject
@@ -83,10 +139,11 @@ public class LoginView extends Composite implements KeyUpHandler,
 		usernameTextBox.setFocus(true);
 		passwordTextBox.addKeyUpHandler(this);
 
-		// The user submits the form so as the browser detect it and displays
-		// the save password dialog. Then we click on the hidden loginButton
-		// which
-		// stores the presenter clickHandler.
+		/*
+		 * The user submits the form so as the browser detect it and displays
+		 * the save password dialog. Then we click on the hidden loginButton
+		 * which stores the presenter clickHandler.
+		 */
 		formPanel.addSubmitHandler(new FormPanel.SubmitHandler() {
 			public void onSubmit(SubmitEvent event) {
 				if (!usernameTextBox.getValue().trim().isEmpty()
@@ -96,7 +153,6 @@ public class LoginView extends Composite implements KeyUpHandler,
 				// event.cancel();
 			}
 		});
-		// loginButton must be in the document to handle the click() method
 		innerBox.add(loginButton);
 		loginButton.setVisible(false);
 		setLoading(false);
@@ -156,6 +212,7 @@ public class LoginView extends Composite implements KeyUpHandler,
 		return usernameTextBox;
 	}
 
+	// FIXME the ajax loader will not hidden after normal logout
 	@Override
 	public void setLoading(boolean load) {
 		if (load) {
@@ -178,26 +235,5 @@ public class LoginView extends Composite implements KeyUpHandler,
 
 	private static LoginViewUiBinder binder = GWT
 			.create(LoginViewUiBinder.class);
-
-	Css css = HupaResources.INSTANCE.stylesheet();
-	@UiField FlowPanel mainContainer;
-	@UiField FlowPanel innerBox;
-	@UiField Button loginButton;
-	private SubmitButton submitButton;
-	@UiField FlexTable flexTable;
-	@UiField FlowPanel boxBottom;
-	@UiField FlowPanel messageBox;
-	@UiField FlowPanel bottomLine;
-	PPanel buttonBar = new PPanel();
-	// We wrap login/password boxes with a form which must be in the html
-	// document,
-	// in this way, the browser knows that we are sending a login form and
-	// offers the save password dialog to the user
-	private TextBox usernameTextBox = TextBox.wrap(DOM.getElementById("email"));
-	private PasswordTextBox passwordTextBox = PasswordTextBox.wrap(DOM
-			.getElementById("password"));
-	// wrap the form after inputs so as they are in the dom when are wrapped
-	@UiField FormPanel formPanel;
-	@UiField HTMLPanel message;
 
 }

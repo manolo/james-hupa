@@ -4,10 +4,10 @@
 	width: 580px;
 	margin: 20ex auto 2ex auto;
 }
-
+/* images should be under project root, why jpg cannot use like png by relative path */
 .loginForm .boxInner {
-	width: 430px;
 	background: url(images/linen_login.jpg) top left no-repeat #5c5c5c;
+    width: 430px;
 	margin: 0 50px;
 	padding: 10px 24px 24px 24px;
 	border: 1px solid #333;
@@ -19,7 +19,7 @@
 }
 
 .loginForm .boxBottom {
-	background: url(images/login_shadow.png) top center no-repeat;
+	background: url(loginShadow.png) top center no-repeat;
 	margin-top: -3px;
 	padding-top: 10px;
 }
