@@ -23,98 +23,88 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HupaLayout implements HupaLayoutable {
+public class CenterPanel extends Composite {
 
-	@UiField SimplePanel topBarContainer;
+	@UiField SplitLayoutPanel centerPanel;
+	@UiField DockLayoutPanel folderArea;
 
-	@UiField SimplePanel logoContainer;
-	@UiField SimpleLayoutPanel navigationContainer;
+	@UiField SplitLayoutPanel messageArea;
+	@UiField ScrollPanel folderListContainer;
+	@UiField DockLayoutPanel messageListBox;
+	@UiField SimpleLayoutPanel messageListContainer;
+	@UiField SimplePanel messageListFooterContainer;
+	@UiField ScrollPanel messageContentContainer;
+	@UiField SimplePanel statusContainer;
 
-	@UiField ToolPanel toolPanel;
+	@UiField HTMLPanel contactBox;
 
-	@UiField CenterPanel centerPanel;
-
-	private LayoutPanel hupaMainPanel;
-
-	public HupaLayout() {
-		hupaMainPanel = binder.createAndBindUi(this);
+	public CenterPanel() {
+		initWidget(binder.createAndBindUi(this));
+		centerPanel.setWidgetMinSize(folderArea, 144);
+		messageArea.setWidgetHidden(contactBox, true);
+		messageArea.setWidgetMinSize(messageListBox, 130);
 	}
 
-	@Override
-	public LayoutPanel get() {
-		return hupaMainPanel;
-	}
-
-	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayout> {
-	}
-
-	private static HupaLayoutUiBinder binder = GWT
-			.create(HupaLayoutUiBinder.class);
-
-	@Override
-	public AcceptsOneWidget getTopBarView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				topBarContainer.setWidget(Widget.asWidgetOrNull(w));
-			}
-		};
-	}
-
-	@Override
-	public AcceptsOneWidget getLogoView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				logoContainer.setWidget(Widget.asWidgetOrNull(w));
-			}
-		};
-	}
-
-	@Override
-	public AcceptsOneWidget getNavigationView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				navigationContainer.setWidget(Widget.asWidgetOrNull(w));
-			}
-		};
-	}
-
-	@Override
-	public AcceptsOneWidget getToolBarView() {
-		return toolPanel.getToolBarView();
-	}
-
-	@Override
 	public AcceptsOneWidget getFolderListView() {
-		return centerPanel.getFolderListView();
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				folderListContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
 	}
 
-	@Override
 	public AcceptsOneWidget getMessageListView() {
-		return centerPanel.getMessageListView();
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				messageListContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
 	}
 
-	@Override
 	public AcceptsOneWidget getMessageListFooterView() {
-		return centerPanel.getMessageListFooterView();
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				messageListFooterContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
 	}
 
-	@Override
 	public AcceptsOneWidget getMessageContentView() {
-		return centerPanel.getMessageContentView();
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				messageContentContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
 	}
 
-	@Override
 	public AcceptsOneWidget getStatusView() {
-		return centerPanel.getStatusView();
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				statusContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
 	}
+
+	interface CenterPanelUiBinder extends
+			UiBinder<SplitLayoutPanel, CenterPanel> {
+	}
+
+	private static CenterPanelUiBinder binder = GWT
+			.create(CenterPanelUiBinder.class);
 
 }
