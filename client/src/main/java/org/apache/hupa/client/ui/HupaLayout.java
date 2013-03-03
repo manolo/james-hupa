@@ -36,9 +36,9 @@ public class HupaLayout implements HupaLayoutable {
 	@UiField SimplePanel logoContainer;
 	@UiField SimpleLayoutPanel navigationContainer;
 
-	@UiField ToolPanel toolPanel;
+	@UiField _ToolPanel toolPanel;
 
-	@UiField CenterPanel centerPanel;
+	@UiField _CenterPanel centerPanel;
 
 	private LayoutPanel hupaMainPanel;
 
