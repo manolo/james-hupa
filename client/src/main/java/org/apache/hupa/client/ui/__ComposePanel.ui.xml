@@ -11,7 +11,32 @@
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:hupa='urn:import:org.apache.hupa.client.ui'>
-	<ui:style>
+	<ui:image field="buttons" src="res/buttons.png" />
+	<ui:style type="org.apache.hupa.client.ui.__ComposePanel.Style">
+		@sprite .iconlink {
+			gwt-image: 'buttons';
+			background-position: -1000px 0;
+			width: auto;
+			height: auto;
+			display: inline-block;
+			color: #888;
+			text-decoration: none;
+			white-space: nowrap;
+			padding: 2px 8px 2px 20px;
+		}
+		
+		.add {
+			background-position: -7px -357px;
+		}
+		
+		.formlinks {
+			padding: 0 4px;
+		}
+		
+		.hiddenInput {
+			display: none
+		}
+		
 		.box {
 			border: 1px solid #A3A3A3;
 			border-radius: 4px;
@@ -49,10 +74,19 @@
 			width: 99%;
 			margin: 4px 0;
 		}
+		
+		.composeHeader td {
+			padding: 1px 8px;
+		}
+		
+		.headerTable td {
+			color: #666;
+			cursor: default;
+		}
 	</ui:style>
 	<g:DockLayoutPanel ui:field="thisPanel" unit="PX"
 		addStyleNames="{style.box}">
-		<g:north size="135">
+		<g:north size="143">
 			<g:SimplePanel ui:field="composeHeader" addStyleNames="{style.composeHeader}">
 				<g:FlexTable ui:field="headerTable" addStyleNames="{style.headerTable}" />
 			</g:SimplePanel>

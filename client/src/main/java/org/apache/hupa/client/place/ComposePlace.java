@@ -24,18 +24,28 @@ import com.google.gwt.place.shared.Prefix;
 
 public class ComposePlace extends AbstractPlace {
 
-  @Prefix("compose")
-  public static class Tokenizer implements PlaceTokenizer<ComposePlace> {
+	private String token;
 
-    @Override
-    public ComposePlace getPlace(String token) {
-      return new ComposePlace();
-    }
+	public ComposePlace(String token) {
+		this.token = token;
+	}
 
-    @Override
-    public String getToken(ComposePlace place) {
-      return "compose";
-    }
-  }
+	public String getToken() {
+		return token;
+	}
+
+	@Prefix("compose")
+	public static class Tokenizer implements PlaceTokenizer<ComposePlace> {
+
+		@Override
+		public ComposePlace getPlace(String token) {
+			return new ComposePlace(token);
+		}
+
+		@Override
+		public String getToken(ComposePlace place) {
+			return place.getToken();
+		}
+	}
 
 }

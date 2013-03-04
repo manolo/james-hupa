@@ -39,7 +39,7 @@ public class ToolBarView extends Composite implements
 		ToolBarActivity.Displayable {
 
 	@Inject PlaceController placeController;
-	
+
 	@UiField Style style;
 
 	@UiField Anchor refresh;
@@ -55,7 +55,7 @@ public class ToolBarView extends Composite implements
 
 	@UiHandler("compose")
 	void handleClick(ClickEvent e) {
-		placeController.goTo(new ComposePlace());
+		placeController.goTo(new ComposePlace("new"));
 	}
 
 	public ToolBarView() {
