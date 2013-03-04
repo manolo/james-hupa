@@ -25,8 +25,21 @@
 			padding: 2px 8px 2px 20px;
 		}
 		
+		.left {
+			float: left;
+		}
+		
+		.right {
+			float: right;
+		}
+		
+		.operation {
+			margin: 0 -1px;
+		}
+		
 		.add {
 			background-position: -7px -357px;
+			margin-right: 6px;
 		}
 		
 		.formlinks {
@@ -76,7 +89,7 @@
 		}
 		
 		.composeHeader td {
-			padding: 1px 8px;
+			padding: 3px 8px;
 		}
 		
 		.headerTable td {
@@ -86,7 +99,7 @@
 	</ui:style>
 	<g:DockLayoutPanel ui:field="thisPanel" unit="PX"
 		addStyleNames="{style.box}">
-		<g:north size="143">
+		<g:north size="135">
 			<g:SimplePanel ui:field="composeHeader" addStyleNames="{style.composeHeader}">
 				<g:FlexTable ui:field="headerTable" addStyleNames="{style.headerTable}" />
 			</g:SimplePanel>
