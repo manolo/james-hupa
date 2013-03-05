@@ -19,6 +19,8 @@
 
 package org.apache.hupa.client.ui;
 
+import java.util.logging.Logger;
+
 import org.apache.hupa.client.activity.FolderListActivity;
 import org.apache.hupa.client.place.ComposePlace;
 
@@ -36,7 +38,8 @@ import com.google.inject.assistedinject.AssistedInject;
 
 public class FolderListView extends Composite implements
 		FolderListActivity.Displayable {
-
+	private static final Logger log = Logger.getLogger(FolderListView.class
+			.getName());
 	@UiField(provided = true) CellTree cellTree;
 
 	@AssistedInject
@@ -45,8 +48,10 @@ public class FolderListView extends Composite implements
 		if (place instanceof ComposePlace) {
 			// TODO this viewModel should be contacts
 			cellTree = new CellTree(viewModel, null);
+			log.fine("+++>swith to compose");
 		} else {
 			cellTree = new CellTree(viewModel, null, Resources.INSTANCE);
+			log.fine("--->swith to other place");
 		}
 		cellTree.setAnimationEnabled(true);
 		initWidget(binder.createAndBindUi(this));
