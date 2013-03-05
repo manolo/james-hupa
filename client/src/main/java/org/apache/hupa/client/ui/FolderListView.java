@@ -19,8 +19,6 @@
 
 package org.apache.hupa.client.ui;
 
-import java.util.logging.Logger;
-
 import org.apache.hupa.client.activity.FolderListActivity;
 import org.apache.hupa.client.place.ComposePlace;
 
@@ -41,7 +39,8 @@ public class FolderListView extends Composite implements
 		FolderListActivity.Displayable {
 	@UiField SimplePanel thisView;
 	private CellTree cellTree;
-	// FIXME here we can not support another cell tree, since both of their style
+	// FIXME here we can not support another cell tree, since both of their
+	// style
 	// would not be cleared.
 	private HTMLPanel contactPanel;
 
