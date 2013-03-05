@@ -20,6 +20,7 @@
 package org.apache.hupa.client;
 
 import org.apache.hupa.client.mapper.ActivityManagerInitializer;
+import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.HupaLayoutable;
@@ -28,6 +29,7 @@ import org.apache.hupa.client.ui.LoginView;
 
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceChangeEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
@@ -58,12 +60,23 @@ public class HupaController {
 
 	private void bindCss() {
 		// TODO:replace with a more gentle approach
-		StyleInjector.inject(LoginView.Resources.INSTANCE.stylesheet().getText());
+		StyleInjector.inject(LoginView.Resources.INSTANCE.stylesheet()
+				.getText());
 	}
 
 	private final class PlaceChangHandler implements PlaceChangeEvent.Handler {
 		@Override
 		public void onPlaceChange(PlaceChangeEvent event) {
+			adjustLayout(event);
+		}
+	}
+
+	private void adjustLayout(PlaceChangeEvent event) {
+		Place place = event.getNewPlace();
+		if (place instanceof ComposePlace) {
+			hupaLayout.switchToCompose();
+		} else {
+			hupaLayout.switchToMessage();
 		}
 	}
 

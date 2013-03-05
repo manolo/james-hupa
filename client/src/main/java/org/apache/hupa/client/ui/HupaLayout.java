@@ -117,4 +117,22 @@ public class HupaLayout implements HupaLayoutable {
 		return centerPanel.getStatusView();
 	}
 
+	@Override
+	public void switchToCompose() {
+		if (centerPanel.thisPanel.getWidgetIndex(centerPanel.contentPanel) >= 0) {
+			centerPanel.thisPanel.remove(centerPanel.contentPanel);
+			centerPanel.thisPanel.add(centerPanel.composePanel);
+		}
+	}
+
+	@Override
+	public void switchToMessage() {
+		if (centerPanel.thisPanel.getWidgetIndex(centerPanel.contentPanel) >= 0)
+			return;
+		if (centerPanel.thisPanel.getWidgetIndex(centerPanel.composePanel) >= 0) {
+			centerPanel.thisPanel.remove(centerPanel.composePanel);
+			centerPanel.thisPanel.add(centerPanel.contentPanel);
+		}
+	}
+
 }
