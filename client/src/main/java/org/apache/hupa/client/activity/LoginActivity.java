@@ -84,11 +84,11 @@ public class LoginActivity extends AppBaseActivity {
 				RootLayoutPanel.get().add(hupaLayout.get());
 				placeController.goTo(new MailFolderPlace(response.getSettings().getDraftsFolderName()));
 				eventBus.fireEvent(new LoginEvent(response));
+				display.setLoading(false);
 			}
 			@Override
 			public void onFailure(ServerFailure error) {
 				Window.alert(error.getMessage());// TODO a more gentle way
-				
 				display.setLoading(false);
 				doReset();
 			}

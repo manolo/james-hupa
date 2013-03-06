@@ -250,7 +250,7 @@ public class AppGinModule extends AbstractGinModule {
 			EventBus eventBus) {
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(
 				historyMapper);
-		historyHandler.register(placeController, eventBus, new DefaultPlace());
+		historyHandler.register(placeController, eventBus, new DefaultPlace("@"));
 		return historyHandler;
 	}
 

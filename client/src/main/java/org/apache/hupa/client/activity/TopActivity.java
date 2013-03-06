@@ -130,7 +130,7 @@ public class TopActivity extends AppBaseActivity {
 
 	private void showLogin(String username) {
 		display.showTopNavigation(false);
-		placeController.goTo(new DefaultPlace());
+//		placeController.goTo(new DefaultPlace());
 	}
 
 	private void showContacts() {

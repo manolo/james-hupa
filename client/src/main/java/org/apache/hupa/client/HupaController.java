@@ -54,8 +54,8 @@ public class HupaController {
 
 	public void start() {
 		bindCss();
-		checkSession();
 		placeHistoryHandler.handleCurrentHistory();
+		checkSession();
 	}
 
 	private void bindCss() {

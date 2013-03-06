@@ -40,18 +40,14 @@ public abstract class AppBaseActivity extends AbstractActivity {
 
 	@Override
 	public void onStop() {
-		for (HandlerRegistration registration : registrations) {
-			registration.removeHandler();
-		}
-		registrations.clear();
+//		for (HandlerRegistration registration : registrations) {
+//			registration.removeHandler();
+//		}
+//		registrations.clear();
 	}
 
 	protected void registerHandler(HandlerRegistration handlerRegistration) {
 		registrations.add(handlerRegistration);
-	}
-
-	public String mayStop() {
-		return null;
 	}
 
 	public void onCancel() {
