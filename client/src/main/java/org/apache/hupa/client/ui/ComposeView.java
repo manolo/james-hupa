@@ -37,10 +37,18 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class __ComposePanel extends Composite {
+public class ComposeView extends Composite {
 
 	@UiField FlexTable headerTable;
 	@UiField Style style;
+	private static final int ROW_FROM = 0;
+	private static final int ROW_TO = 1;
+	private static final int ROW_CC = 2;
+	private static final int ROW_BCC = 3;
+	private static final int ROW_REPLY = 4;
+	private static final int ROW_FOLLOWUP = 5;
+	private static final int ROW_SWITCH = 6;
+	private static final int ROW_SUBJECT = 7;
 
 	interface Style extends CssResource {
 		String hiddenInput();
@@ -50,8 +58,11 @@ public class __ComposePanel extends Composite {
 		String iconlink();
 
 		String formlinks();
+
 		String left();
+
 		String right();
+
 		String operation();
 	}
 
@@ -67,7 +78,7 @@ public class __ComposePanel extends Composite {
 		}
 	}
 
-	public __ComposePanel() {
+	public ComposeView() {
 		initWidget(binder.createAndBindUi(this));
 		FlexCellFormatter cellFormatter = headerTable.getFlexCellFormatter();
 		RowFormatter rowFormatter = headerTable.getRowFormatter();
@@ -76,15 +87,15 @@ public class __ComposePanel extends Composite {
 		// cellFormatter.setHorizontalAlignment(0, 1,
 		// HasHorizontalAlignment.ALIGN_RIGHT);
 
-		headerTable.setWidget(0, 0, new Label("From"));
+		headerTable.setWidget(ROW_FROM, 0, new Label("From"));
 
-		headerTable.setWidget(1, 0, new Label("To"));
-		headerTable.setWidget(2, 0, new Label("Cc"));
-		headerTable.setWidget(3, 0, new Label("Bcc"));
-		headerTable.setWidget(4, 0, new Label("Reply-To"));
-		headerTable.setWidget(5, 0, new Label("Followup-To"));
-		headerTable.setWidget(6, 0, new Label(""));
-		headerTable.setWidget(7, 0, new Label("Subject"));
+		headerTable.setWidget(ROW_TO, 0, new Label("To"));
+		headerTable.setWidget(ROW_CC, 0, new Label("Cc"));
+		headerTable.setWidget(ROW_BCC, 0, new Label("Bcc"));
+		headerTable.setWidget(ROW_REPLY, 0, new Label("Reply-To"));
+		headerTable.setWidget(ROW_FOLLOWUP, 0, new Label("Followup-To"));
+		headerTable.setWidget(ROW_SWITCH, 0, new Label(""));
+		headerTable.setWidget(ROW_SUBJECT, 0, new Label("Subject"));
 		// cellFormatter.setColSpan(0, 0, 2);
 
 		// Add a button that will add more rows to the table
@@ -97,7 +108,7 @@ public class __ComposePanel extends Composite {
 		FlowPanel operationPanel = new FlowPanel();
 		FlowPanel contactPanel = new FlowPanel();
 		FlowPanel buttonPanel = new FlowPanel();
-		
+
 		contactPanel.add(lb);
 		contactPanel.addStyleName(style.left());
 		// buttonPanel.add(new Anchor("Edit identities"));
@@ -108,13 +119,18 @@ public class __ComposePanel extends Composite {
 		operationPanel.add(contactPanel);
 		operationPanel.add(buttonPanel);
 		operationPanel.addStyleName(style.operation());
-		headerTable.setWidget(0, 1, operationPanel);
-		headerTable.setWidget(1, 1, create());
+		headerTable.setWidget(ROW_FROM, 1, operationPanel);
+		
 
-		headerTable.setWidget(2, 1, create());
-		headerTable.setWidget(3, 1, create());
-		headerTable.setWidget(4, 1, create());
-		headerTable.setWidget(5, 1, create());
+		TextBox to = new TextBox();
+		to.setWidth("100%");
+		to.setFocus(true);
+		headerTable.setWidget(ROW_TO, 1, to);
+
+		headerTable.setWidget(ROW_CC, 1, create());
+		headerTable.setWidget(ROW_BCC, 1, create());
+		headerTable.setWidget(ROW_REPLY, 1, create());
+		headerTable.setWidget(ROW_FOLLOWUP, 1, create());
 
 		FlowPanel linkPanel = new FlowPanel();
 		Anchor cc = new Anchor("Add Cc");
@@ -133,14 +149,14 @@ public class __ComposePanel extends Composite {
 		linkPanel.add(bcc);
 		linkPanel.add(replyTo);
 		linkPanel.add(followupTo);
-		headerTable.setWidget(6, 1, linkPanel);
-		cellFormatter.addStyleName(6, 1, style.formlinks());
-		headerTable.setWidget(7, 1, create());
+		headerTable.setWidget(ROW_SWITCH, 1, linkPanel);
+		cellFormatter.addStyleName(ROW_SWITCH, 1, style.formlinks());
+		headerTable.setWidget(ROW_SUBJECT, 1, create());
 
-		rowFormatter.addStyleName(2, style.hiddenInput());
-		rowFormatter.addStyleName(3, style.hiddenInput());
-		rowFormatter.addStyleName(4, style.hiddenInput());
-		rowFormatter.addStyleName(5, style.hiddenInput());
+		rowFormatter.addStyleName(ROW_CC, style.hiddenInput());
+		rowFormatter.addStyleName(ROW_BCC, style.hiddenInput());
+		rowFormatter.addStyleName(ROW_REPLY, style.hiddenInput());
+		rowFormatter.addStyleName(ROW_FOLLOWUP, style.hiddenInput());
 
 		// cellFormatter
 		// .setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
@@ -160,7 +176,7 @@ public class __ComposePanel extends Composite {
 	}
 
 	interface __ComposePanelUiBinder extends
-			UiBinder<DockLayoutPanel, __ComposePanel> {
+			UiBinder<DockLayoutPanel, ComposeView> {
 	}
 
 	private static __ComposePanelUiBinder binder = GWT

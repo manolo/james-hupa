@@ -31,14 +31,14 @@ public class _CenterPanel extends Composite {
 	@UiField SplitLayoutPanel thisPanel;
 	@UiField __OutlinePanel outlinePanel;
 	@UiField __ContentPanel contentPanel;
-	@UiField __ComposePanel composePanel;
+	@UiField ComposeView composeView;
 
 	public _CenterPanel() {
 		initWidget(binder.createAndBindUi(this));
 		thisPanel.setWidgetMinSize(outlinePanel, 144);
-		thisPanel.setWidgetHidden(composePanel, true);
-//		thisPanel.remove(contentPanel);
-//		thisPanel.add(composePanel);
+		thisPanel.setWidgetHidden(composeView, true);
+		// thisPanel.remove(contentPanel);
+		// thisPanel.add(composePanel);
 	}
 
 	public AcceptsOneWidget getFolderListView() {

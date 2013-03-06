@@ -12,7 +12,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:hupa='urn:import:org.apache.hupa.client.ui'>
 	<ui:image field="buttons" src="res/buttons.png" />
-	<ui:style type="org.apache.hupa.client.ui.__ComposePanel.Style">
+	<ui:style type="org.apache.hupa.client.ui.ComposeView.Style">
 		@sprite .iconlink {
 			gwt-image: 'buttons';
 			background-position: -1000px 0;
