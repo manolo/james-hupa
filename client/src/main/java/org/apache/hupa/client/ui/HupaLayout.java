@@ -51,11 +51,47 @@ public class HupaLayout implements HupaLayoutable {
 		return hupaMainPanel;
 	}
 
-	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayout> {
+	@Override
+	public void switchToCompose() {
+		if (isMessageOccupied()) {
+			changeToCompose();
+		}
 	}
 
-	private static HupaLayoutUiBinder binder = GWT
-			.create(HupaLayoutUiBinder.class);
+	@Override
+	public void switchToMessage() {
+		System.out.println("compose=====1"+(centerPanel.thisPanel.getWidgetIndex(centerPanel.composePanel)));
+		System.out.println("content-----1"+(centerPanel.thisPanel.getWidgetIndex(centerPanel.contentPanel)));
+		if (isMessageOccupied())
+			return;
+		if (isComposeOccupied()) {
+			changeToMessage();
+		}
+		System.out.println("compose====="+(centerPanel.thisPanel.getWidgetIndex(centerPanel.composePanel)));
+		System.out.println("content-----"+(centerPanel.thisPanel.getWidgetIndex(centerPanel.contentPanel)));
+	}
+
+	private void changeToCompose() {
+		centerPanel.thisPanel.remove(centerPanel.contentPanel);
+		centerPanel.thisPanel.add(centerPanel.composePanel);
+		toolPanel.toggleToCompose(true);
+		centerPanel.temporarilyHiddenTheUnimplementedContactPanel(true);
+	}
+
+	private boolean isMessageOccupied() {
+		return centerPanel.thisPanel.getWidgetIndex(centerPanel.contentPanel) >= 0;
+	}
+
+	private void changeToMessage() {
+		centerPanel.thisPanel.remove(centerPanel.composePanel);
+		centerPanel.thisPanel.add(centerPanel.contentPanel);
+		toolPanel.toggleToCompose(false);
+		centerPanel.temporarilyHiddenTheUnimplementedContactPanel(false);
+	}
+
+	private boolean isComposeOccupied() {
+		return centerPanel.thisPanel.getWidgetIndex(centerPanel.composePanel) >= 0;
+	}
 
 	@Override
 	public AcceptsOneWidget getTopBarView() {
@@ -93,6 +129,11 @@ public class HupaLayout implements HupaLayoutable {
 	}
 
 	@Override
+	public AcceptsOneWidget getComposeToolBarView() {
+		return toolPanel.getComposeToolBarView();
+	}
+
+	@Override
 	public AcceptsOneWidget getFolderListView() {
 		return centerPanel.getFolderListView();
 	}
@@ -116,56 +157,25 @@ public class HupaLayout implements HupaLayoutable {
 	public AcceptsOneWidget getStatusView() {
 		return centerPanel.getStatusView();
 	}
-	
+
 	@Override
-	public AcceptsOneWidget getComposeHeader(){
+	public AcceptsOneWidget getComposeHeader() {
 		return centerPanel.getComposeHeader();
 	}
-	
+
 	@Override
-	public AcceptsOneWidget getComposeContent(){
+	public AcceptsOneWidget getComposeContent() {
 		return centerPanel.getComposeContent();
 	}
-	
+
 	@Override
-	public AcceptsOneWidget getComposeStatus(){
+	public AcceptsOneWidget getComposeStatus() {
 		return centerPanel.getComposeStatus();
 	}
 
-	@Override
-	public void switchToCompose() {
-		if (isMessageOccupied()) {
-			changeToCompose();
-		}
+	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayout> {
 	}
 
-	private void changeToCompose() {
-		centerPanel.thisPanel.remove(centerPanel.contentPanel);
-		centerPanel.thisPanel.add(centerPanel.composePanel);
-		centerPanel.temporarilyHiddenTheUnimplementedContactPanel(true);
-	}
-
-	private boolean isMessageOccupied() {
-		return centerPanel.thisPanel.getWidgetIndex(centerPanel.contentPanel) >= 0;
-	}
-
-	@Override
-	public void switchToMessage() {
-		if (isMessageOccupied())
-			return;
-		if (isComposeOccupied()) {
-			changeToMessage();
-		}
-	}
-
-	private void changeToMessage() {
-		centerPanel.thisPanel.remove(centerPanel.composePanel);
-		centerPanel.thisPanel.add(centerPanel.contentPanel);
-		centerPanel.temporarilyHiddenTheUnimplementedContactPanel(false);
-	}
-
-	private boolean isComposeOccupied() {
-		return centerPanel.thisPanel.getWidgetIndex(centerPanel.composePanel) >= 0;
-	}
-
+	private static HupaLayoutUiBinder binder = GWT
+			.create(HupaLayoutUiBinder.class);
 }

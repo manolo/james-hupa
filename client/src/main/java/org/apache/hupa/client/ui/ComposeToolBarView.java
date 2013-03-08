@@ -19,36 +19,37 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import org.apache.hupa.client.activity.ComposeToolBarActivity;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-	AcceptsOneWidget getLogoView();
+public class ComposeToolBarView extends Composite implements
+		ComposeToolBarActivity.Displayable {
 
-	AcceptsOneWidget getNavigationView();
+	@UiField Anchor attach;
 
-	AcceptsOneWidget getToolBarView();
+	@UiHandler("attach")
+	void handleClick(ClickEvent e) {
+		Window.alert("//TODO this should be a model window for attachments.");
+	}
 
-	AcceptsOneWidget getFolderListView();
+	public ComposeToolBarView() {
+		initWidget(binder.createAndBindUi(this));
+	}
 
-	AcceptsOneWidget getMessageListView();
+	interface ComposeToolBarUiBinder extends
+			UiBinder<FlowPanel, ComposeToolBarView> {
+	}
 
-	AcceptsOneWidget getMessageListFooterView();
+	private static ComposeToolBarUiBinder binder = GWT
+			.create(ComposeToolBarUiBinder.class);
 
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	void switchToCompose();
-
-	void switchToMessage();
-
-	AcceptsOneWidget getComposeHeader();
-
-	AcceptsOneWidget getComposeContent();
-
-	AcceptsOneWidget getComposeStatus();
-
-	AcceptsOneWidget getComposeToolBarView();
 }

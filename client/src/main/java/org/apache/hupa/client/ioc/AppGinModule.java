@@ -25,6 +25,7 @@ import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.activity.ComposeContentActivity;
 import org.apache.hupa.client.activity.ComposeHeaderActivity;
 import org.apache.hupa.client.activity.ComposeStatusActivity;
+import org.apache.hupa.client.activity.ComposeToolBarActivity;
 import org.apache.hupa.client.activity.FolderListActivity;
 import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
@@ -44,6 +45,7 @@ import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
 import org.apache.hupa.client.mapper.ComposeContentActivityMapper;
 import org.apache.hupa.client.mapper.ComposeHeaderActivityMapper;
 import org.apache.hupa.client.mapper.ComposeStatusActivityMapper;
+import org.apache.hupa.client.mapper.ComposeToolBarActivityMapper;
 import org.apache.hupa.client.mapper.FolderListActivityMapper;
 import org.apache.hupa.client.mapper.LoginActivityMapper;
 import org.apache.hupa.client.mapper.LogoActivityMapper;
@@ -59,6 +61,7 @@ import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.ComposeContentView;
 import org.apache.hupa.client.ui.ComposeHeaderView;
 import org.apache.hupa.client.ui.ComposeStatusView;
+import org.apache.hupa.client.ui.ComposeToolBarView;
 import org.apache.hupa.client.ui.FolderListView;
 import org.apache.hupa.client.ui.FoldersTreeViewModel;
 import org.apache.hupa.client.ui.HupaLayout;
@@ -119,6 +122,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(MessageContentActivity.Displayable.class).to(
 				MessageContentView.class);
 		bind(StatusActivity.Displayable.class).to(StatusView.class);
+		bind(ComposeToolBarActivity.Displayable.class).to(ComposeToolBarView.class);
 		bind(ComposeStatusActivity.Displayable.class).to(ComposeStatusView.class);
 		bind(ComposeHeaderActivity.Displayable.class).to(ComposeHeaderView.class);
 		bind(ComposeContentActivity.Displayable.class).to(ComposeContentView.class);
@@ -133,6 +137,7 @@ public class AppGinModule extends AbstractGinModule {
 		// bind(MessageListFooterActivity.class).in(Singleton.class);
 		// bind(MessageContentActivity.class).in(Singleton.class);
 		// bind(StatusActivity.class).in(Singleton.class);
+		bind(ComposeToolBarActivity.class).in(Singleton.class);
 		bind(ComposeHeaderActivity.class).in(Singleton.class);
 		bind(ComposeContentActivity.class).in(Singleton.class);
 		bind(ComposeStatusActivity.class).in(Singleton.class);
@@ -248,6 +253,14 @@ public class AppGinModule extends AbstractGinModule {
 	@Named("StatusRegion")
 	public ActivityManager getStatusActivityMapper(
 			StatusActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+
+	@Provides
+	@Singleton
+	@Named("ComposeToolBarRegion")
+	public ActivityManager getComposeToolBarActivityMapper(
+			ComposeToolBarActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
 
