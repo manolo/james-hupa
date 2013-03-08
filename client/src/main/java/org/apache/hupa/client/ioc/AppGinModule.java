@@ -22,6 +22,9 @@ package org.apache.hupa.client.ioc;
 import java.util.logging.Logger;
 
 import org.apache.hupa.client.HupaController;
+import org.apache.hupa.client.activity.ComposeContentActivity;
+import org.apache.hupa.client.activity.ComposeHeaderActivity;
+import org.apache.hupa.client.activity.ComposeStatusActivity;
 import org.apache.hupa.client.activity.FolderListActivity;
 import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
@@ -38,6 +41,9 @@ import org.apache.hupa.client.activity.TopActivity;
 import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.activity.WestActivity;
 import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
+import org.apache.hupa.client.mapper.ComposeContentActivityMapper;
+import org.apache.hupa.client.mapper.ComposeHeaderActivityMapper;
+import org.apache.hupa.client.mapper.ComposeStatusActivityMapper;
 import org.apache.hupa.client.mapper.FolderListActivityMapper;
 import org.apache.hupa.client.mapper.LoginActivityMapper;
 import org.apache.hupa.client.mapper.LogoActivityMapper;
@@ -50,6 +56,9 @@ import org.apache.hupa.client.mapper.ToolBarActivityMapper;
 import org.apache.hupa.client.mapper.TopBarActivityMapper;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
+import org.apache.hupa.client.ui.ComposeContentView;
+import org.apache.hupa.client.ui.ComposeHeaderView;
+import org.apache.hupa.client.ui.ComposeStatusView;
 import org.apache.hupa.client.ui.FolderListView;
 import org.apache.hupa.client.ui.FoldersTreeViewModel;
 import org.apache.hupa.client.ui.HupaLayout;
@@ -84,7 +93,6 @@ import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
 
 @SuppressWarnings("deprecation")
@@ -104,13 +112,16 @@ public class AppGinModule extends AbstractGinModule {
 		bind(LogoActivity.Displayable.class).to(LogoView.class);
 		bind(NavigationActivity.Displayable.class).to(NavigationView.class);
 		bind(ToolBarActivity.Displayable.class).to(ToolBarView.class);
-//		bind(FolderListActivity.Displayable.class).to(FolderListView.class);
+		// bind(FolderListActivity.Displayable.class).to(FolderListView.class);
 		bind(MessageListActivity.Displayable.class).to(MessageListView.class);
 		bind(MessageListFooterActivity.Displayable.class).to(
 				MessageListFooterView.class);
 		bind(MessageContentActivity.Displayable.class).to(
 				MessageContentView.class);
 		bind(StatusActivity.Displayable.class).to(StatusView.class);
+		bind(ComposeStatusActivity.Displayable.class).to(ComposeStatusView.class);
+		bind(ComposeHeaderActivity.Displayable.class).to(ComposeHeaderView.class);
+		bind(ComposeContentActivity.Displayable.class).to(ComposeContentView.class);
 
 		bind(LoginActivity.class).in(Singleton.class);
 		bind(TopBarActivity.class).in(Singleton.class);
@@ -122,6 +133,9 @@ public class AppGinModule extends AbstractGinModule {
 		// bind(MessageListFooterActivity.class).in(Singleton.class);
 		// bind(MessageContentActivity.class).in(Singleton.class);
 		// bind(StatusActivity.class).in(Singleton.class);
+		bind(ComposeHeaderActivity.class).in(Singleton.class);
+		bind(ComposeContentActivity.class).in(Singleton.class);
+		bind(ComposeStatusActivity.class).in(Singleton.class);
 
 		bind(TopActivity.Displayable.class).to(TopView.class);
 		bind(WestActivity.Displayable.class).to(WestView.class).in(
@@ -239,6 +253,30 @@ public class AppGinModule extends AbstractGinModule {
 
 	@Provides
 	@Singleton
+	@Named("ComposeHeaderRegion")
+	public ActivityManager getComposeHeaderActivityMapper(
+			ComposeHeaderActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+
+	@Provides
+	@Singleton
+	@Named("ComposeContentRegion")
+	public ActivityManager getComposeContentActivityMapper(
+			ComposeContentActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+
+	@Provides
+	@Singleton
+	@Named("ComposeStatusRegion")
+	public ActivityManager getComposeStatusActivityMapper(
+			ComposeStatusActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+
+	@Provides
+	@Singleton
 	public PlaceController getPlaceController(EventBus eventBus) {
 		return new PlaceController(eventBus);
 	}
@@ -250,7 +288,8 @@ public class AppGinModule extends AbstractGinModule {
 			EventBus eventBus) {
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(
 				historyMapper);
-		historyHandler.register(placeController, eventBus, new DefaultPlace("@"));
+		historyHandler.register(placeController, eventBus,
+				new DefaultPlace("@"));
 		return historyHandler;
 	}
 

@@ -17,36 +17,22 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.activity;
 
+import org.apache.hupa.client.ui.WidgetDisplayable;
+
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.inject.Inject;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+public class ComposeHeaderActivity extends AppBaseActivity {
 
-	AcceptsOneWidget getLogoView();
+	@Override
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
+	}
 
-	AcceptsOneWidget getNavigationView();
-
-	AcceptsOneWidget getToolBarView();
-
-	AcceptsOneWidget getFolderListView();
-
-	AcceptsOneWidget getMessageListView();
-
-	AcceptsOneWidget getMessageListFooterView();
-
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	void switchToCompose();
-
-	void switchToMessage();
-
-	AcceptsOneWidget getComposeHeader();
-
-	AcceptsOneWidget getComposeContent();
-
-	AcceptsOneWidget getComposeStatus();
+	@Inject private Displayable display;
+	
+	public interface Displayable extends WidgetDisplayable {}
 }

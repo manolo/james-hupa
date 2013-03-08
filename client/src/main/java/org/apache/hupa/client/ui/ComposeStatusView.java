@@ -19,34 +19,25 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import org.apache.hupa.client.activity.ComposeStatusActivity;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
-	AcceptsOneWidget getLogoView();
+public class ComposeStatusView extends Composite implements
+		ComposeStatusActivity.Displayable {
 
-	AcceptsOneWidget getNavigationView();
+	public ComposeStatusView() {
+		initWidget(binder.createAndBindUi(this));
+	}
 
-	AcceptsOneWidget getToolBarView();
+	interface ComposeStatusUiBinder extends
+			UiBinder<HTMLPanel, ComposeStatusView> {
+	}
 
-	AcceptsOneWidget getFolderListView();
+	private static ComposeStatusUiBinder binder = GWT
+			.create(ComposeStatusUiBinder.class);
 
-	AcceptsOneWidget getMessageListView();
-
-	AcceptsOneWidget getMessageListFooterView();
-
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	void switchToCompose();
-
-	void switchToMessage();
-
-	AcceptsOneWidget getComposeHeader();
-
-	AcceptsOneWidget getComposeContent();
-
-	AcceptsOneWidget getComposeStatus();
 }

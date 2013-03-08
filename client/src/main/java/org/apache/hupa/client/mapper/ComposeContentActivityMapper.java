@@ -17,36 +17,37 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.mapper;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import org.apache.hupa.client.activity.ComposeContentActivity;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-	AcceptsOneWidget getLogoView();
+public class ComposeContentActivityMapper implements ActivityMapper {
+	private final Provider<ComposeContentActivity> composeContentActivityProvider;
 
-	AcceptsOneWidget getNavigationView();
+	@Inject
+	public ComposeContentActivityMapper(Provider<ComposeContentActivity> composeContentActivityProvider) {
+		this.composeContentActivityProvider = composeContentActivityProvider;
+	}
 
-	AcceptsOneWidget getToolBarView();
+	public Activity getActivity(Place place) {
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
 
-	AcceptsOneWidget getFolderListView();
-
-	AcceptsOneWidget getMessageListView();
-
-	AcceptsOneWidget getMessageListFooterView();
-
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	void switchToCompose();
-
-	void switchToMessage();
-
-	AcceptsOneWidget getComposeHeader();
-
-	AcceptsOneWidget getComposeContent();
-
-	AcceptsOneWidget getComposeStatus();
+			@Override
+			protected Activity createInstance() {
+				return composeContentActivityProvider.get();
+			}
+		};
+	}
 }

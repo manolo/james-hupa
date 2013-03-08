@@ -28,17 +28,21 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 public class _CenterPanel extends Composite {
 
-	@UiField SplitLayoutPanel thisPanel;
-	@UiField __OutlinePanel outlinePanel;
-	@UiField __ContentPanel contentPanel;
-	@UiField ComposeView composeView;
+	@UiField protected SplitLayoutPanel thisPanel;
+	@UiField protected __OutlinePanel outlinePanel;
+	@UiField protected __ContentPanel contentPanel;
+	@UiField protected __ComposePanel composePanel;
 
 	public _CenterPanel() {
 		initWidget(binder.createAndBindUi(this));
 		thisPanel.setWidgetMinSize(outlinePanel, 144);
-		thisPanel.setWidgetHidden(composeView, true);
-		// thisPanel.remove(contentPanel);
-		// thisPanel.add(composePanel);
+		temporarilyHiddenTheUnimplementedContactPanel();
+		thisPanel.setWidgetHidden(composePanel, true);
+	}
+
+	// TODO make it display
+	private void temporarilyHiddenTheUnimplementedContactPanel() {
+		thisPanel.setWidgetHidden(outlinePanel, true);
 	}
 
 	public AcceptsOneWidget getFolderListView() {
@@ -67,5 +71,17 @@ public class _CenterPanel extends Composite {
 
 	private static _CenterPanelUiBinder binder = GWT
 			.create(_CenterPanelUiBinder.class);
+
+	public AcceptsOneWidget getComposeHeader() {
+		return composePanel.getComposeHeaderContainer();
+	}
+
+	public AcceptsOneWidget getComposeContent() {
+		return composePanel.getComposeContentContainer();
+	}
+
+	public AcceptsOneWidget getComposeStatus() {
+		return composePanel.getComposeStatusContainer();
+	}
 
 }
