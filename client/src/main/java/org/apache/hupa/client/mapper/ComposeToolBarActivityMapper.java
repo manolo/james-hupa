@@ -17,34 +17,38 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.activity.ComposeContentActivity;
-import org.apache.hupa.widgets.editor.Editor;
+import org.apache.hupa.client.activity.ComposeToolBarActivity;
 
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public class ComposeContentView extends Composite implements
-		ComposeContentActivity.Displayable {
-	
-	@UiField SimplePanel composeEditor;
+public class ComposeToolBarActivityMapper implements ActivityMapper {
+	private final Provider<ComposeToolBarActivity> composeToolBarActivityProvider;
 
-	public ComposeContentView() {
-		initWidget(binder.createAndBindUi(this));
-		Editor editor = new Editor();
-		composeEditor.add(editor);
+	@Inject
+	public ComposeToolBarActivityMapper(
+			Provider<ComposeToolBarActivity> composeToolBarActivityProvider) {
+		this.composeToolBarActivityProvider = composeToolBarActivityProvider;
 	}
 
-	interface ComposeContentUiBinder extends
-			UiBinder<DockLayoutPanel, ComposeContentView> {
+	public Activity getActivity(Place place) {
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
+
+			@Override
+			protected Activity createInstance() {
+				return composeToolBarActivityProvider.get();
+			}
+		};
 	}
-
-	private static ComposeContentUiBinder binder = GWT
-			.create(ComposeContentUiBinder.class);
-
 }
