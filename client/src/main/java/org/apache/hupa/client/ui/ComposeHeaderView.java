@@ -29,12 +29,12 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
+import com.google.gwt.user.client.ui.TextArea;
 
 public class ComposeHeaderView extends Composite implements
 		ComposeHeaderActivity.Displayable {
@@ -111,8 +111,7 @@ public class ComposeHeaderView extends Composite implements
 		operationPanel.addStyleName(style.operation());
 		headerTable.setWidget(ROW_FROM, 1, operationPanel);
 
-		TextBox to = new TextBox();
-		to.setWidth("100%");
+		TextArea to = new TextArea();
 		to.setFocus(true);
 		headerTable.setWidget(ROW_TO, 1, to);
 
@@ -155,12 +154,11 @@ public class ComposeHeaderView extends Composite implements
 		// addRow(headerTable);
 
 		// Return the panel
-//		headerTable.ensureDebugId("cwFlexTable");
+		// headerTable.ensureDebugId("cwFlexTable");
 	}
 
-	private TextBox create() {
-		TextBox t = new TextBox();
-		t.setWidth("100%");
+	private TextArea create() {
+		TextArea t = new TextArea();
 		return t;
 	}
 
