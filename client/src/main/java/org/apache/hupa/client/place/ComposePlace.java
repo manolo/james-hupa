@@ -19,12 +19,16 @@
 
 package org.apache.hupa.client.place;
 
+import org.apache.hupa.client.ui.ToolBarView.Parameters;
+
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
 public class ComposePlace extends AbstractPlace {
 
 	private String token;
+	private Parameters parameters;
 
 	public ComposePlace(String token) {
 		this.token = token;
@@ -46,6 +50,15 @@ public class ComposePlace extends AbstractPlace {
 		public String getToken(ComposePlace place) {
 			return place.getToken();
 		}
+	}
+
+	public Place with(Parameters parameters) {
+		this.parameters = parameters;
+		return this;
+	}
+
+	public Parameters getParameters() {
+		return parameters;
 	}
 
 }
