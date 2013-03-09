@@ -30,6 +30,9 @@ import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.MessageAttachment;
 import org.apache.hupa.shared.domain.SendMessageAction;
 import org.apache.hupa.shared.domain.SmtpMessage;
+import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.events.LoginEvent;
+import org.apache.hupa.shared.events.LoginEventHandler;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,6 +42,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
@@ -48,15 +52,22 @@ public class ComposeActivity extends AppBaseActivity {
 	private SmtpMessage message;
 	private List<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
 	private Type type = Type.NEW;
+	private User user;
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
-
 		bindTo(eventBus);
+		if (user != null)
+			display.getFromList().addItem(user.getName());
 	}
 
 	private void bindTo(EventBus eventBus) {
+		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
+			public void onLogin(LoginEvent event) {
+				user = event.getUser();
+			}
+		});
 		registerHandler(display.getSendClick().addClickHandler(sendClickHandler));
 	}
 
@@ -171,5 +182,7 @@ public class ComposeActivity extends AppBaseActivity {
 		HasText getMessageText();
 
 		HasHTML getMessageHTML();
+
+		ListBox getFromList();
 	}
 }
