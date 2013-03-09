@@ -141,7 +141,8 @@ public class SendMessageBaseServiceImpl extends AbstractService implements SendM
         message.setRecipients(RecipientType.TO, MessageUtils.getRecipients(m.getTo()));
         message.setRecipients(RecipientType.CC, MessageUtils.getRecipients(m.getCc()));
         message.setRecipients(RecipientType.BCC, MessageUtils.getRecipients(m.getBcc()));
-        message.setSubject(MessageUtils.encodeTexts(m.getSubject()));
+//        message.setSubject(MessageUtils.encodeTexts(m.getSubject()));
+        message.setSubject(m.getSubject(), "utf-8");
         updateHeaders(message, action);
         message.saveChanges();
         return message;

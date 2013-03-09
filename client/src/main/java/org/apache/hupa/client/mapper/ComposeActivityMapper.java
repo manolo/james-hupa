@@ -17,27 +17,37 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.activity.ComposeStatusActivity;
+import org.apache.hupa.client.activity.ComposeActivity;
 
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public class ComposeStatusView extends Composite implements
-		ComposeStatusActivity.Displayable {
+public class ComposeActivityMapper implements ActivityMapper {
+	private final Provider<ComposeActivity> composeActivityProvider;
 
-	public ComposeStatusView() {
-		initWidget(binder.createAndBindUi(this));
+	@Inject
+	public ComposeActivityMapper(Provider<ComposeActivity> composeActivityProvider) {
+		this.composeActivityProvider = composeActivityProvider;
 	}
 
-	interface ComposeStatusUiBinder extends
-			UiBinder<HTMLPanel, ComposeStatusView> {
+	public Activity getActivity(Place place) {
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
+
+			@Override
+			protected Activity createInstance() {
+				return composeActivityProvider.get();
+			}
+		};
 	}
-
-	private static ComposeStatusUiBinder binder = GWT
-			.create(ComposeStatusUiBinder.class);
-
 }

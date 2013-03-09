@@ -50,7 +50,6 @@ public class Editor extends FlowPanel implements HasHTML, Focusable {
 
 	public Editor(ToolbarConstants constants) {
 		area.ensureDebugId("hupa-editor-area");
-		// area.setSize("100%", "234px");
 		area.setHeight("100%");
 
 		Toolbar toolbar = new Toolbar(area, constants);
@@ -60,10 +59,12 @@ public class Editor extends FlowPanel implements HasHTML, Focusable {
 		super.add(area);
 		setWidth("100%");
 
-		// Note: rich-area is created in an iframe, so Hupa's style sheets
-		// are not available, unless we inject them to the generated iframe
-		//
-		// When body is available, we put the default style for messages:
+		/*
+		 * Note: rich-area is created in an iframe, so Hupa's style sheets are
+		 * not available, unless we inject them to the generated iframe
+		 * 
+		 * When body is available, we put the default style for messages:
+		 */
 		area.addInitializeHandler(new InitializeHandler() {
 			public void onInitialize(InitializeEvent event) {
 				setBodyStyleAttribute("fontFamily", "arial");
@@ -71,11 +72,12 @@ public class Editor extends FlowPanel implements HasHTML, Focusable {
 			}
 		});
 
-		// When the users writes in-line comments in replies, the text has to be
-		// leftIdented.
-		// Right now, I've implemented this feature only in gecko browsers, for
-		// other browsers
-		// the user has to push the leftIdent button.
+		/*
+		 * When the users writes in-line comments in replies, the text has to be
+		 * leftIdented. Right now, I've implemented this feature only in gecko
+		 * browsers, for other browsers the user has to push the leftIdent
+		 * button.
+		 */
 		if (getUA().equals("ff"))
 			addNewlineHandlersForFireFox();
 
@@ -189,8 +191,7 @@ public class Editor extends FlowPanel implements HasHTML, Focusable {
 						event.preventDefault();
 					}
 					if (!doNline
-							&& (event.getCharCode() == KeyCodes.KEY_DOWN || event
-									.getCharCode() == KeyCodes.KEY_UP)) {
+							&& (event.getCharCode() == KeyCodes.KEY_DOWN || event.getCharCode() == KeyCodes.KEY_UP)) {
 						doNline = true;
 					}
 				}

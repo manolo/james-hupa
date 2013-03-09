@@ -20,7 +20,6 @@
 package org.apache.hupa.client.ioc;
 
 import org.apache.hupa.client.HupaController;
-import org.apache.hupa.client.evo.AppController;
 
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;

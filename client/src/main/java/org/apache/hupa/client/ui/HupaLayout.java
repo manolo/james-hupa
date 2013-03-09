@@ -69,7 +69,7 @@ public class HupaLayout implements HupaLayoutable {
 
 	private void changeToCompose() {
 		centerPanel.thisPanel.remove(centerPanel.contentPanel);
-		centerPanel.thisPanel.add(centerPanel.composePanel);
+		centerPanel.thisPanel.add(centerPanel.composeContainer);
 		toolPanel.toggleToCompose(true);
 		centerPanel.temporarilyHiddenTheUnimplementedContactPanel(true);
 	}
@@ -79,14 +79,14 @@ public class HupaLayout implements HupaLayoutable {
 	}
 
 	private void changeToMessage() {
-		centerPanel.thisPanel.remove(centerPanel.composePanel);
+		centerPanel.thisPanel.remove(centerPanel.composeContainer);
 		centerPanel.thisPanel.add(centerPanel.contentPanel);
 		toolPanel.toggleToCompose(false);
 		centerPanel.temporarilyHiddenTheUnimplementedContactPanel(false);
 	}
 
 	private boolean isComposeOccupied() {
-		return centerPanel.thisPanel.getWidgetIndex(centerPanel.composePanel) >= 0;
+		return centerPanel.thisPanel.getWidgetIndex(centerPanel.composeContainer) >= 0;
 	}
 
 	@Override
@@ -123,6 +123,14 @@ public class HupaLayout implements HupaLayoutable {
 	public AcceptsOneWidget getToolBarView() {
 		return toolPanel.getToolBarView();
 	}
+	
+
+
+	@Override
+	public AcceptsOneWidget getComposeView() {
+		return centerPanel.getComposeView();
+	}
+	
 
 	@Override
 	public AcceptsOneWidget getComposeToolBarView() {
@@ -152,21 +160,6 @@ public class HupaLayout implements HupaLayoutable {
 	@Override
 	public AcceptsOneWidget getStatusView() {
 		return centerPanel.getStatusView();
-	}
-
-	@Override
-	public AcceptsOneWidget getComposeHeader() {
-		return centerPanel.getComposeHeader();
-	}
-
-	@Override
-	public AcceptsOneWidget getComposeContent() {
-		return centerPanel.getComposeContent();
-	}
-
-	@Override
-	public AcceptsOneWidget getComposeStatus() {
-		return centerPanel.getComposeStatus();
 	}
 
 	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayout> {
