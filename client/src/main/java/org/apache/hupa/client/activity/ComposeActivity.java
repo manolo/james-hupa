@@ -66,13 +66,18 @@ public class ComposeActivity extends AppBaseActivity {
 	private User user;
 	private ComposePlace place;
 
+	public Activity with(ComposePlace place) {
+		this.place = place;
+		return this;
+	}
+
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
 		bindTo(eventBus);
 
 		display.getFromList().addItem("demo");
-		if (user != null) {//FIXME
+		if (user != null) {// FIXME
 			display.getFromList().addItem(user.getName());
 		}
 	}
@@ -132,7 +137,8 @@ public class ComposeActivity extends AppBaseActivity {
 					}
 				});
 			} else if ("forward".equals(place.getToken())) {
-				//FIXME will get a NullPointerException given accessing directly from some URL like #/compose:forward
+				// FIXME will get a NullPointerException given accessing
+				// directly from some URL like #/compose:forward
 				SendForwardMessageRequest req = requestFactory.sendForwardMessageRequest();
 				SendForwardMessageAction action = req.create(SendForwardMessageAction.class);
 				action.setMessage(parseMessage(req));
@@ -148,13 +154,13 @@ public class ComposeActivity extends AppBaseActivity {
 				});
 			} else {
 				SendReplyMessageRequest replyReq = requestFactory.sendReplyMessageRequest();
-				SendReplyMessageAction replyAction = replyReq.create(SendReplyMessageAction.class);
-				replyAction.setMessage(parseMessage(replyReq));
+				SendReplyMessageAction action = replyReq.create(SendReplyMessageAction.class);
+				action.setMessage(parseMessage(replyReq));
 				ImapFolder folder = replyReq.create(ImapFolder.class);
 				folder.setFullName(place.getParameters().getFolder().getFullName());
-				replyAction.setFolder(folder);
-				replyAction.setUid(place.getParameters().getOldmessage().getUid());
-				replyReq.send(replyAction).fire(new Receiver<GenericResult>() {
+				action.setFolder(folder);
+				action.setUid(place.getParameters().getOldmessage().getUid());
+				replyReq.send(action).fire(new Receiver<GenericResult>() {
 					@Override
 					public void onSuccess(GenericResult response) {
 						afterSend(response);
@@ -229,10 +235,5 @@ public class ComposeActivity extends AppBaseActivity {
 		ListBox getFromList();
 
 		IUploader getUploader();
-	}
-
-	public Activity with(ComposePlace place) {
-		this.place = place;
-		return this;
 	}
 }
