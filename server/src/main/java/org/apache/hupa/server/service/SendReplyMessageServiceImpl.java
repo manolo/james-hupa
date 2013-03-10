@@ -60,7 +60,7 @@ public class SendReplyMessageServiceImpl extends SendMessageBaseServiceImpl impl
         }
 
         // Only original inline images have to be added to the list 
-        Message msg = folder.getMessageByUID(replyAction.getReplyMessageUid());
+        Message msg = folder.getMessageByUID(replyAction.getUid());
         try {
             items = MessageUtils.extractInlineImages(logger, msg.getContent());
             if (items.size() > 0)

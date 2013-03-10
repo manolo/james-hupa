@@ -70,8 +70,11 @@ public class ComposeActivity extends AppBaseActivity {
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
 		bindTo(eventBus);
-		if (user != null)
+
+		display.getFromList().addItem("demo");
+		if (user != null) {//FIXME
 			display.getFromList().addItem(user.getName());
+		}
 	}
 
 	private void bindTo(EventBus eventBus) {
@@ -119,7 +122,6 @@ public class ComposeActivity extends AppBaseActivity {
 				return;
 
 			if ("new".equals(place.getToken())) {
-				System.out.println("new: " + place.getParameters().getOldmessage().getUid());
 				SendMessageRequest sendReq = requestFactory.sendMessageRequest();
 				SendMessageAction sendAction = sendReq.create(SendMessageAction.class);
 				sendAction.setMessage(parseMessage(sendReq));
@@ -130,15 +132,15 @@ public class ComposeActivity extends AppBaseActivity {
 					}
 				});
 			} else if ("forward".equals(place.getToken())) {
-				System.out.println("reply: " + place.getParameters().getOldmessage().getUid());
-				SendForwardMessageRequest forwardReq = requestFactory.sendForwardMessageRequest();
-				SendForwardMessageAction forwardAction = forwardReq.create(SendForwardMessageAction.class);
-				forwardAction.setMessage(parseMessage(forwardReq));
-				ImapFolder folder = forwardReq.create(ImapFolder.class);
-				folder.setFullName(place.getParameters().getFolder().getFullName());
-				forwardAction.setFolder(folder);
-				forwardAction.setUid(place.getParameters().getOldmessage().getUid());
-				forwardReq.send(forwardAction).fire(new Receiver<GenericResult>() {
+				//FIXME will get a NullPointerException given accessing directly from some URL like #/compose:forward
+				SendForwardMessageRequest req = requestFactory.sendForwardMessageRequest();
+				SendForwardMessageAction action = req.create(SendForwardMessageAction.class);
+				action.setMessage(parseMessage(req));
+				ImapFolder f = req.create(ImapFolder.class);
+				f.setFullName(place.getParameters().getFolder().getFullName());
+				action.setFolder(f);
+				action.setUid(place.getParameters().getOldmessage().getUid());
+				req.send(action).fire(new Receiver<GenericResult>() {
 					@Override
 					public void onSuccess(GenericResult response) {
 						afterSend(response);

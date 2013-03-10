@@ -59,7 +59,7 @@ public class SendForwardMessageServiceImpl extends SendMessageBaseServiceImpl im
             folder.open(Folder.READ_ONLY);
         }
         // Put the original attachments in the list 
-        Message msg = folder.getMessageByUID(forwardAction.getReplyMessageUid());
+        Message msg = folder.getMessageByUID(forwardAction.getUid());
         try {
             items = MessageUtils.extractMessageAttachments(logger, msg.getContent());
             logger.debug("Forwarding a message, extracted: " + items.size() + " from original.");

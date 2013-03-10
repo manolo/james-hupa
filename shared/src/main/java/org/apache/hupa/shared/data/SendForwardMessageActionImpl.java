@@ -50,7 +50,7 @@ public class SendForwardMessageActionImpl extends SendMessageActionImpl implemen
 	}
 
 	@Override
-	public long getReplyMessageUid() {
+	public long getUid() {
 		return uid;
 	}
 
@@ -68,13 +68,14 @@ public class SendForwardMessageActionImpl extends SendMessageActionImpl implemen
 	public String getReferences() {
 		return references;
 	}
-	@Override
-    public void setInReplyTo(String inReplyTo) {
-		this.inReplyTo = inReplyTo;
-    }
 
 	@Override
-    public void setReferences(String references) {
+	public void setInReplyTo(String inReplyTo) {
+		this.inReplyTo = inReplyTo;
+	}
+
+	@Override
+	public void setReferences(String references) {
 		this.references = references;
-    }
+	}
 }
