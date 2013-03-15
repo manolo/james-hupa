@@ -25,6 +25,8 @@ import org.apache.hupa.shared.events.ExpandMessageEvent;
 import org.apache.hupa.shared.events.ExpandMessageEventHandler;
 import org.apache.hupa.shared.events.LoadMessagesEvent;
 import org.apache.hupa.shared.events.LoadMessagesEventHandler;
+import org.apache.hupa.shared.events.LoginEvent;
+import org.apache.hupa.shared.events.LoginEventHandler;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
@@ -42,15 +44,22 @@ public class ToolBarActivity extends AppBaseActivity {
 	}
 
 	private void bindTo(EventBus eventBus) {
+		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
+			@Override
+			public void onLogin(LoginEvent e) {
+				display.setParameters(new Parameters(e.getUser(), null, null, null));
+			}
+		});
 		eventBus.addHandler(LoadMessagesEvent.TYPE, new LoadMessagesEventHandler() {
-			public void onLoadMessagesEvent(LoadMessagesEvent loadMessagesEvent) {
+			public void onLoadMessagesEvent(LoadMessagesEvent e) {
 				display.disableMessageTools();
+				display.setParameters(new Parameters(e.getUser(), e.getFolder(), null, null));
 			}
 		});
 		eventBus.addHandler(ExpandMessageEvent.TYPE, new ExpandMessageEventHandler() {
 			public void onExpandMessage(ExpandMessageEvent event) {
 				display.enableMessageTools();
-				display.setParameters(new Parameters(event.getFolder(), event.getMessage(), null));
+				display.setParameters(new Parameters(event.getUser(), event.getFolder(), event.getMessage(), null));
 			}
 		});
 	}
