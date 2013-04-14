@@ -20,7 +20,6 @@
 package org.apache.hupa.client.activity;
 
 import org.apache.hupa.client.HupaConstants;
-import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.IdleRequest;
 import org.apache.hupa.client.rf.LogoutUserRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;

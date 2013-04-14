@@ -20,7 +20,6 @@
 package org.apache.hupa.client.activity;
 
 import org.apache.hupa.client.activity.MessageSendActivity.Type;
-import org.apache.hupa.client.place.IMAPMessagePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
