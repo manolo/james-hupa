@@ -34,6 +34,7 @@ import org.apache.hupa.shared.domain.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.resources.client.CssResource;
@@ -42,8 +43,11 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
@@ -64,6 +68,20 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	@UiField Anchor more;
 
 	@UiField Style style;
+
+	interface Style extends CssResource {
+		String disabledButton();
+		String popupMenu();
+		String activeIcon();
+		String toolBarMenu();
+		String listicon();
+		String read();
+		String unread();
+	}
+
+	private VerticalPanel popup;
+	private Anchor markRead;
+	private Anchor markUnread;
 
 	private Parameters parameters;
 
@@ -122,10 +140,6 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		}
 	}
 
-	interface Style extends CssResource {
-		String disabledButton();
-	}
-
 	@UiHandler("compose")
 	void handleClick(ClickEvent e) {
 		placeController.goTo(new ComposePlace("new").with(parameters));
@@ -169,6 +183,32 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 
 	public ToolBarView() {
 		initWidget(binder.createAndBindUi(this));
+		final DecoratedPopupPanel simplePopup = new DecoratedPopupPanel(true);
+		simplePopup.addStyleName(style.popupMenu());
+		mark.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				// Reposition the popup relative to the button
+				Widget source = (Widget) event.getSource();
+				int left = source.getAbsoluteLeft();
+				int top = source.getAbsoluteTop() + source.getOffsetHeight();
+				simplePopup.setPopupPosition(left, top);
+				// Show the popup
+				simplePopup.show();
+			}
+		});
+		popup = new VerticalPanel();
+		markRead = new Anchor("As Unread");
+		markUnread = new Anchor("As Read");
+		popup.addStyleName(style.toolBarMenu());
+		markRead.addStyleName(style.activeIcon());
+		markRead.addStyleName(style.listicon());
+		markRead.addStyleName(style.read());
+		markUnread.addStyleName(style.activeIcon());
+		markUnread.addStyleName(style.listicon());
+		markUnread.addStyleName(style.unread());
+		popup.add(markRead);
+		popup.add(markUnread);
+		simplePopup.setWidget(popup);
 	}
 
 	@Override
@@ -193,6 +233,7 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		replyAllGroup.addStyleName(style.disabledButton());
 		forwardGroup.addStyleName(style.disabledButton());
 		delete.addStyleName(style.disabledButton());
+		mark.addStyleName(style.disabledButton());
 	}
 
 	@Override
@@ -201,6 +242,7 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		replyAllGroup.removeStyleName(style.disabledButton());
 		forwardGroup.removeStyleName(style.disabledButton());
 		delete.removeStyleName(style.disabledButton());
+		mark.removeStyleName(style.disabledButton());
 	}
 
 	interface ToolBarUiBinder extends UiBinder<FlowPanel, ToolBarView> {

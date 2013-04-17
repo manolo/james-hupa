@@ -12,6 +12,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<ui:image field="buttons" src="res/buttons.png" />
+	<ui:image field="listicons" src="res/listicons.png" />
 	<ui:style type="org.apache.hupa.client.ui.ToolBarView.Style">
 		.bar {
 			position: absolute;
@@ -22,6 +23,16 @@
 			height: 40px;
 			white-space: nowrap;
 			z-index: 10;
+		}
+		
+		@sprite .listicon {
+			gwt-image: 'listicons';
+			display: block;
+			min-height: 14px;
+			padding: 4px 4px 1px 24px;
+			height: 17px;
+			background-position: -100px 0;
+			opacity: 0.99;
 		}
 		
 		@sprite .button {
@@ -117,23 +128,73 @@
 			opacity: 0.4;
 			cursor: default;
 		}
+		
+		.popupMenu {
+			width: auto;
+			background: #444;
+			border: 1px solid #999;
+			z-index: 240;
+			border-radius: 4px;
+			box-shadow: 0 2px 6px 0 #333;
+			-moz-box-shadow: 0 2px 6px 0 #333;
+			-webkit-box-shadow: 0 2px 6px 0 #333;
+			-o-box-shadow: 0 2px 6px 0 #333;
+		}
+		
+		.popupMenu td {
+			border-top: 1px solid #5a5a5a;
+			border-bottom: 1px solid #333;
+		}
+		
+		.toolBarMenu {
+			margin: 0;
+			padding: 0;
+		}
+		
+		.activeIcon {
+			display: block;
+			white-space: nowrap;
+			color: #666;
+			text-shadow: 0px 1px 1px #333;
+			text-decoration: none;
+			min-height: 14px;
+			color: #eee;
+			padding: 2px 20px;
+			cursor: default;
+		}
+		
+		.read {
+			background-position: 0 -1222px;
+		}
+		
+		.unread {
+			background-position: 0 -1198px;
+		}
 	</ui:style>
 
 	<g:FlowPanel addStyleNames="{style.bar}" ui:field="ToolBar">
 		<g:Anchor ui:field="refresh" addStyleNames="{style.button} {style.checkMail}">Refresh</g:Anchor>
 		<g:Anchor ui:field="compose" addStyleNames="{style.button} {style.compose}">Compose</g:Anchor>
 		<g:HTMLPanel tag="span" addStyleNames="{style.spacer}"></g:HTMLPanel>
-		<g:Anchor ui:field="reply" addStyleNames="{style.button} {style.reply} {style.disabledButton}">Reply</g:Anchor>
-		<g:HTMLPanel ui:field="replyAllGroup" tag="span" addStyleNames="{style.dropButton} {style.disabledButton}">
-			<g:Anchor ui:field="replyAll" addStyleNames="{style.button} {style.replyAll}">Reply all</g:Anchor>
+		<g:Anchor ui:field="reply"
+			addStyleNames="{style.button} {style.reply} {style.disabledButton}">Reply</g:Anchor>
+		<g:HTMLPanel ui:field="replyAllGroup" tag="span"
+			addStyleNames="{style.dropButton} {style.disabledButton}">
+			<g:Anchor ui:field="replyAll" addStyleNames="{style.button} {style.replyAll}">Reply all
+			</g:Anchor>
 			<g:HTMLPanel tag="span" addStyleNames="{style.dropButtonTip}"></g:HTMLPanel>
 		</g:HTMLPanel>
-		<g:HTMLPanel ui:field="forwardGroup" tag="span" addStyleNames="{style.dropButton} {style.disabledButton}">
-			<g:Anchor ui:field="forward" addStyleNames="{style.button} {style.forward}">Forward</g:Anchor>
+		<g:HTMLPanel ui:field="forwardGroup" tag="span"
+			addStyleNames="{style.dropButton} {style.disabledButton}">
+			<g:Anchor ui:field="forward" addStyleNames="{style.button} {style.forward}">Forward
+			</g:Anchor>
 			<g:HTMLPanel tag="span" addStyleNames="{style.dropButtonTip}"></g:HTMLPanel>
 		</g:HTMLPanel>
-		<g:Anchor ui:field="delete" addStyleNames="{style.button} {style.delete} {style.disabledButton}">Delete</g:Anchor>
-		<g:Anchor ui:field="mark" addStyleNames="{style.button} {style.mark} {style.disabledButton}">Mark</g:Anchor>
-		<g:Anchor ui:field="more" addStyleNames="{style.button} {style.more} {style.disabledButton}">More</g:Anchor>
+		<g:Anchor ui:field="delete"
+			addStyleNames="{style.button} {style.delete} {style.disabledButton}">Delete</g:Anchor>
+		<g:Anchor ui:field="mark"
+			addStyleNames="{style.button} {style.mark} {style.disabledButton}">Mark</g:Anchor>
+		<g:Anchor ui:field="more"
+			addStyleNames="{style.button} {style.more} {style.disabledButton}">More</g:Anchor>
 	</g:FlowPanel>
 </ui:UiBinder>

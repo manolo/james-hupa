@@ -83,7 +83,6 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 					for (Message msg : displayedItems) {
 						table.getSelectionModel().setSelected(msg, false);
 					}
-					table.getSelectionModel().setSelected(event.getValue(), true);
 					GetMessageDetailsRequest req = requestFactory.messageDetailsRequest();
 					GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
 					final ImapFolder f = req.create(ImapFolder.class);

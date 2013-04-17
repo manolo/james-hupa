@@ -12,7 +12,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<ui:image field="buttons" src="res/buttons.png" />
-	<ui:style type="org.apache.hupa.client.ui.ToolBarView.Style">
+	<ui:style>
 		.bar {
 			position: absolute;
 			display: block;
