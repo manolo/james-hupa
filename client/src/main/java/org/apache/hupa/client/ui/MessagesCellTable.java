@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.hupa.client.HupaConstants;
+import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.bundles.HupaImageBundle;
 import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
 import org.apache.hupa.shared.domain.Message;
@@ -50,6 +51,7 @@ import com.google.inject.Inject;
 public class MessagesCellTable extends DataGrid<Message> {
 
 	public static final int PAGE_SIZE = 25;
+	@Inject ToolBarActivity.Displayable display;
 
 	private HupaImageBundle imageBundle;
 	CheckboxColumn checkboxCol = new CheckboxColumn();
@@ -133,12 +135,11 @@ public class MessagesCellTable extends DataGrid<Message> {
 				return getMessageStyle(row);
 			}
 		});
-		redraw();
+//		redraw();
 		setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 		setAutoHeaderRefreshDisabled(true);
 		setSelectionModel(selectionModel, DefaultSelectionEventManager.<Message> createCheckboxManager(0));
 	}
-
 
 	private String getMessageStyle(Message row) {
 		return haveRead(row) ? getReadStyle() : getUnreadStyle();
@@ -176,6 +177,7 @@ public class MessagesCellTable extends DataGrid<Message> {
 				@Override
 				public void update(int index, Message object, Boolean value) {
 					selectionModel.setSelected(object, value);
+					display.disableMessageTools();
 				}
 			});
 		}
