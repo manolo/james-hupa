@@ -4,6 +4,7 @@ client/.classpath
 client/.project
 client/.settings/
 client/target/
+client/.gwt/
 mock/.classpath
 mock/.project
 mock/.settings/
@@ -22,3 +23,4 @@ widgets/.classpath
 widgets/.project
 widgets/.settings/
 widgets/target/
+
