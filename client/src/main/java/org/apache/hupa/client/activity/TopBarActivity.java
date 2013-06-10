@@ -52,20 +52,20 @@ public class TopBarActivity extends AppBaseActivity {
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
+			public void onLogin(LoginEvent event) {
+				user = event.getUser();
+			}
+		});
 		container.setWidget(display.asWidget());
 		bindTo(eventBus);
-		if (user != null && isOccupied()) {
+		if (user != null && !isOccupied()) {
 			display.getUserLabel().add(new HTML(user.getName()));
 		}
 	}
 
 	private void bindTo(EventBus eventBus) {
 
-		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
-			public void onLogin(LoginEvent event) {
-				user = event.getUser();
-			}
-		});
 		registerHandler(display.getLogoutClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				doLogout();

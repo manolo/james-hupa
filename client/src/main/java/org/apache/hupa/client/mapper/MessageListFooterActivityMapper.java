@@ -20,6 +20,7 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageListFooterActivity;
+import org.apache.hupa.client.place.DefaultPlace;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -39,6 +40,7 @@ public class MessageListFooterActivityMapper implements ActivityMapper {
 	}
 
 	public Activity getActivity(Place place) {
+		if(place instanceof DefaultPlace) return null;
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {

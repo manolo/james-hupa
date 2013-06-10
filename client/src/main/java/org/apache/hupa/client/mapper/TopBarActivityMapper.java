@@ -22,14 +22,13 @@ package org.apache.hupa.client.mapper;
 import org.apache.hupa.client.activity.TopBarActivity;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class TopBarActivityMapper implements ActivityMapper {
+public class TopBarActivityMapper extends AbstractActivityMapper {
 	private final Provider<TopBarActivity> topBarActivityProvider;
 
 	@Inject
@@ -37,7 +36,8 @@ public class TopBarActivityMapper implements ActivityMapper {
 		this.topBarActivityProvider = topActivityProvider;
 	}
 
-	public Activity getActivity(Place place) {
+	@Override
+	Activity getAppActivity(Place place) {
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {
