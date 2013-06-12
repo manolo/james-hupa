@@ -37,7 +37,7 @@ public class TopBarActivityMapper extends AbstractActivityMapper {
 	}
 
 	@Override
-	Activity getAppActivity(Place place) {
+	Activity getAppActivity(final Place place) {
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {

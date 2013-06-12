@@ -50,6 +50,10 @@ public abstract class AppBaseActivity extends AbstractActivity {
 		registrations.add(handlerRegistration);
 	}
 
+	public String mayStop() {
+		return null;
+	}
+
 	public void onCancel() {
 	}
 }

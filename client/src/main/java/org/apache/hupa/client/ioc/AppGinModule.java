@@ -40,6 +40,7 @@ import org.apache.hupa.client.activity.TopActivity;
 import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.activity.WestActivity;
 import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
+import org.apache.hupa.client.mapper.CachingTopBarActivityMapper;
 import org.apache.hupa.client.mapper.ComposeActivityMapper;
 import org.apache.hupa.client.mapper.ComposeToolBarActivityMapper;
 import org.apache.hupa.client.mapper.FolderListActivityMapper;
@@ -104,8 +105,8 @@ public class AppGinModule extends AbstractGinModule {
 
 		// Activities
 		bind(LoginActivity.Displayable.class).to(LoginView.class);
-		bind(TopBarActivity.Displayable.class).to(TopBarView.class);
-		bind(LogoActivity.Displayable.class).to(LogoView.class);
+		bind(TopBarActivity.Displayable.class).to(TopBarView.class).in(Singleton.class);
+		bind(LogoActivity.Displayable.class).to(LogoView.class).in(Singleton.class);
 		bind(NavigationActivity.Displayable.class).to(NavigationView.class);
 		bind(ToolBarActivity.Displayable.class).to(ToolBarView.class);
 		// bind(FolderListActivity.Displayable.class).to(FolderListView.class);
@@ -169,7 +170,7 @@ public class AppGinModule extends AbstractGinModule {
 	@Provides
 	@Singleton
 	@Named("TopBarRegion")
-	public ActivityManager getTopBarActivityMapper(TopBarActivityMapper activityMapper, EventBus eventBus) {
+	public ActivityManager getTopBarActivityMapper(CachingTopBarActivityMapper activityMapper, EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}
 

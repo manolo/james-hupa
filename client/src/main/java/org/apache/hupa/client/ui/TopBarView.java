@@ -31,6 +31,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 public class TopBarView extends Composite implements TopBarActivity.Displayable {
@@ -56,6 +57,11 @@ public class TopBarView extends Composite implements TopBarActivity.Displayable 
 	@Override
 	public HTMLPanel getUserLabel() {
 		return userLabel;
+	}
+	
+	@Override
+	public void showUserName(String userName){
+		userLabel.add(new HTML(userName));
 	}
 
 	interface TopBarUiBinder extends UiBinder<DockLayoutPanel, TopBarView> {

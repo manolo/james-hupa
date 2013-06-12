@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.hupa.client.place.ComposePlace;
+import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.SendForwardMessageRequest;
 import org.apache.hupa.client.rf.SendMessageRequest;
 import org.apache.hupa.client.rf.SendReplyMessageRequest;
@@ -67,7 +68,7 @@ import com.google.web.bindery.requestfactory.shared.RequestContext;
 public class ComposeActivity extends AppBaseActivity {
 	@Inject private Displayable display;
 	private List<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
-	static private User user;
+	private User user;
 	private ComposePlace place;
 
 	public Activity with(ComposePlace place) {
@@ -80,6 +81,24 @@ public class ComposeActivity extends AppBaseActivity {
 		container.setWidget(display.asWidget());
 		bindTo(eventBus);
 		fillHeader();
+	}
+	
+	@Override
+	public String mayStop(){
+		super.mayStop();
+		return null;
+//		return "Do you want to leave this page?";
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
+//		placeController.goTo(new DefaultPlace("@"));
+	}
+	
+	@Override
+	public void onCancel(){
+		
 	}
 
 	private void fillHeader() {

@@ -20,6 +20,7 @@
 package org.apache.hupa.client.activity;
 
 import org.apache.hupa.client.place.DefaultPlace;
+import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.LogoutUserRequest;
 import org.apache.hupa.client.ui.LoginLayoutable;
 import org.apache.hupa.client.ui.WidgetDisplayable;
@@ -52,20 +53,36 @@ public class TopBarActivity extends AppBaseActivity {
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
+		bindTo(eventBus);
+		if (isNotOccupied()) {
+			try {
+				checkSessionUser();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	private void checkSessionUser() {
+		CheckSessionRequest checkSession = requestFactory.sessionRequest();
+		checkSession.getUser().fire(new Receiver<User>() {
+			@Override
+			public void onSuccess(User user) {
+				if (user != null) {
+					display.getUserLabel().add(new HTML(user.getName()));
+					eventBus.fireEvent(new LoginEvent(user));
+				}
+			}
+		});
+	}
+	private void bindTo(EventBus eventBus) {
 		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
 			public void onLogin(LoginEvent event) {
 				user = event.getUser();
 			}
 		});
-		container.setWidget(display.asWidget());
-		bindTo(eventBus);
-		if (user != null && !isOccupied()) {
-			display.getUserLabel().add(new HTML(user.getName()));
-		}
-	}
-
-	private void bindTo(EventBus eventBus) {
-
 		registerHandler(display.getLogoutClick().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				doLogout();
@@ -95,13 +112,13 @@ public class TopBarActivity extends AppBaseActivity {
 		}
 	}
 
-	private boolean isOccupied() {
+	private boolean isNotOccupied() {
 		return display.getUserLabel().getWidgetCount() < 1;
 	}
 
 	public interface Displayable extends WidgetDisplayable {
 		HasClickHandlers getLogoutClick();
-
+		void showUserName(String userName);
 		HTMLPanel getUserLabel();
 	}
 }
