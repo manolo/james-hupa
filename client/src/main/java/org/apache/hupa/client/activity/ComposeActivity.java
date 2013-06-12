@@ -68,7 +68,6 @@ import com.google.web.bindery.requestfactory.shared.RequestContext;
 public class ComposeActivity extends AppBaseActivity {
 	@Inject private Displayable display;
 	private List<MessageAttachment> attachments = new ArrayList<MessageAttachment>();
-	private User user;
 	private ComposePlace place;
 
 	public Activity with(ComposePlace place) {
@@ -86,14 +85,22 @@ public class ComposeActivity extends AppBaseActivity {
 	@Override
 	public String mayStop(){
 		super.mayStop();
-		return null;
-//		return "Do you want to leave this page?";
+		if(noContent()){
+			return null;
+		}
+		return "Do you want to leave this page?";
 	}
 	
 	@Override
 	public void onStop(){
 		super.onStop();
-//		placeController.goTo(new DefaultPlace("@"));
+		if(!noContent()){
+			placeController.goTo(new DefaultPlace("@"));
+		}
+	}
+
+	private boolean noContent() {
+		return "".equals(display.getMessage().getText()) && "".equals(display.getSubject().getText());
 	}
 	
 	@Override
@@ -105,8 +112,8 @@ public class ComposeActivity extends AppBaseActivity {
 		if (place == null)
 			return;
 		Message oldMessage = place.getParameters().getOldmessage();
-		if (user != null)
-			display.getFromList().addItem(user.getName());
+		if (place.getParameters().getUser() != null)
+			display.getFromList().addItem(place.getParameters().getUser().getName());
 		display.getMessageHTML().setHTML(
 				wrapMessage(oldMessage, place.getParameters().getOldDetails(), place.getToken()));
 		if ("forward".equals(place.getToken())) {
@@ -136,10 +143,10 @@ public class ComposeActivity extends AppBaseActivity {
 					list.addAll(oldMessage.getTo());
 				if (oldMessage.getCc() != null)
 					list.addAll(oldMessage.getCc());
-				list = removeEmailFromList(list, user.getName());
+				list = removeEmailFromList(list, place.getParameters().getUser().getName());
 				display.getCc().setText(Util.listToString(list));
 				if (oldMessage.getTo() != null) {
-					oldMessage.getTo().remove(user.getName());
+					oldMessage.getTo().remove(place.getParameters().getUser().getName());
 				}
 				display.getTo().setText(oldMessage.getFrom());
 			}
@@ -189,12 +196,7 @@ public class ComposeActivity extends AppBaseActivity {
 		return ret;
 	}
 	private void bindTo(EventBus eventBus) {
-		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
-			@Override
-			public void onLogin(LoginEvent event) {
-				user = event.getUser();
-			}
-		});
+
 		registerHandler(display.getSendClick().addClickHandler(sendClickHandler));
 
 		registerHandler(display.getCcClick().addClickHandler(new ClickHandler() {

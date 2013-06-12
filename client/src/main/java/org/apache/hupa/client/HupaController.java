@@ -21,6 +21,8 @@ package org.apache.hupa.client;
 
 import org.apache.hupa.client.mapper.ActivityManagerInitializer;
 import org.apache.hupa.client.place.ComposePlace;
+import org.apache.hupa.client.place.DefaultPlace;
+import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.HupaLayoutable;
@@ -74,25 +76,33 @@ public class HupaController {
 	private final class PlaceChangHandler implements PlaceChangeEvent.Handler {
 		@Override
 		public void onPlaceChange(PlaceChangeEvent event) {
-			adjustLayout(event);
 			checkSession();
+			adjustLayout(event);
 		}
 	}
 
 	private void adjustLayout(PlaceChangeEvent event) {
 		Place place = event.getNewPlace();
+		
 		if (place instanceof ComposePlace) {
+			if(((ComposePlace)place).getParameters() != null){
 			hupaLayout.switchToCompose();
+			}else{
+				this.placeController.goTo(new DefaultPlace("@"));
+			}
 		} else {
 			hupaLayout.switchToMessage();
 		}
 	}
 
+	private User user;
+	
 	private void checkSession() {
 		CheckSessionRequest checkSession = requestFactory.sessionRequest();
 		checkSession.getUser().fire(new Receiver<User>() {
 			@Override
 			public void onSuccess(User user) {
+				HupaController.this.user = user;
 				if (user == null) {
 					RootLayoutPanel.get().clear();
 					RootLayoutPanel.get().add(loginLayout.get());

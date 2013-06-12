@@ -19,48 +19,34 @@
 
 package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.activity.ComposeActivity;
-import org.apache.hupa.client.place.ComposePlace;
-import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.place.MailFolderPlace;
-
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.activity.shared.CachingActivityMapper;
+import com.google.gwt.activity.shared.FilteredActivityMapper;
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
-public class ComposeActivityMapper implements ActivityMapper {
-	private final Provider<ComposeActivity> composeActivityProvider;
+public class CachingTopBarActivityMapper implements ActivityMapper {
 
-	@Inject protected PlaceController placeController;
+	private ActivityMapper filteredActivityMapper;
 
 	@Inject
-	public ComposeActivityMapper(Provider<ComposeActivity> composeActivityProvider) {
-		this.composeActivityProvider = composeActivityProvider;
+	public CachingTopBarActivityMapper(TopBarActivityMapper topBarActivityMapper) {
+
+		FilteredActivityMapper.Filter filter = new FilteredActivityMapper.Filter() {
+			@Override
+			public Place filter(Place place) {
+				return place;
+			}
+		};
+
+		CachingActivityMapper cachingActivityMapper = new CachingActivityMapper(topBarActivityMapper);
+		filteredActivityMapper = new FilteredActivityMapper(filter, cachingActivityMapper);
 	}
 
-	public Activity getActivity(final Place place) {
-		if (!(place instanceof ComposePlace))
-			return null;
-		return composeActivityProvider.get().with((ComposePlace)place);
-//		return new ActivityAsyncProxy() {
-//			@Override
-//			protected void doAsync(RunAsyncCallback callback) {
-//				GWT.runAsync(callback);
-//			}
-//
-//			@Override
-//			protected Activity createInstance() {
-//				ComposePlace composePlace = (ComposePlace) place;
-//				if (composePlace.getParameters() == null) {
-//					placeController.goTo(new MailFolderPlace(""));
-//				}
-//				return composeActivityProvider.get().with(composePlace);
-//			}
-//		};
+	@Override
+	public Activity getActivity(Place place) {
+		return filteredActivityMapper.getActivity(place);
 	}
+
 }
