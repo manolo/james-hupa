@@ -20,55 +20,29 @@
 package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.ComposePlace;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.Inject;
 
-public class FolderListView extends Composite implements
-		FolderListActivity.Displayable {
+public class FolderListView extends Composite implements FolderListActivity.Displayable {
 	@UiField SimplePanel thisView;
 	private RightCellTree cellTree;
-	// FIXME here we can not support another cell tree, since both of their
-	// style
-	// would not be cleared.
-	private HTMLPanel contactPanel;
 
-	@AssistedInject
-	public FolderListView(final FoldersTreeViewModel viewModel,
-			final EventBus eventBus, @Assisted Place place) {
+	@Inject
+	public FolderListView(final FoldersTreeViewModel viewModel) {
 		initWidget(binder.createAndBindUi(this));
-//		if (place instanceof ComposePlace) {
-//			contactPanel = new HTMLPanel("contacts list");
-//			if (thisView.getWidget() != null
-//					&& thisView.getWidget() instanceof CellTree) {
-//				thisView.remove(cellTree);
-//			}
-//			thisView.add(contactPanel);
-//		} else {
-			cellTree = new RightCellTree(viewModel);
-			cellTree.setAnimationEnabled(true);
-//			if (thisView.getWidget() != null
-//					&& thisView.getWidget() instanceof HTMLPanel) {
-//				thisView.remove(contactPanel);
-//			}
-			thisView.add(cellTree);
-//		}
+		cellTree = new RightCellTree(viewModel);
+		cellTree.setAnimationEnabled(true);
+		thisView.add(cellTree);
 	}
 
 	interface FolderListUiBinder extends UiBinder<SimplePanel, FolderListView> {
 	}
 
-	private static FolderListUiBinder binder = GWT
-			.create(FolderListUiBinder.class);
+	private static FolderListUiBinder binder = GWT.create(FolderListUiBinder.class);
 
 }

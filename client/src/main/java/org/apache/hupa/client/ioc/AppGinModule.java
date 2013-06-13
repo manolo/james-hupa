@@ -52,7 +52,6 @@ import org.apache.hupa.client.mapper.MessageListFooterActivityMapper;
 import org.apache.hupa.client.mapper.NavigationActivityMapper;
 import org.apache.hupa.client.mapper.StatusActivityMapper;
 import org.apache.hupa.client.mapper.ToolBarActivityMapper;
-import org.apache.hupa.client.mapper.TopBarActivityMapper;
 import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.ComposeToolBarView;
@@ -84,7 +83,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.gwt.inject.client.assistedinject.GinFactoryModuleBuilder;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
@@ -124,13 +122,11 @@ public class AppGinModule extends AbstractGinModule {
 		bind(ToolBarActivity.class).in(Singleton.class);
 		bind(FolderListActivity.class).in(Singleton.class);
 		bind(MessageListActivity.class).in(Singleton.class);
-		// bind(MessageListFooterActivity.class).in(Singleton.class);
-		// bind(MessageContentActivity.class).in(Singleton.class);
-		// bind(StatusActivity.class).in(Singleton.class);
 		bind(ComposeToolBarActivity.class).in(Singleton.class);
 		bind(ComposeActivity.class).in(Singleton.class);
 
 		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
+		bind(FolderListActivity.Displayable.class).to(FolderListView.class);
 		bind(WestActivity.Displayable.class).to(WestView.class).in(Singleton.class);
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);
@@ -148,16 +144,9 @@ public class AppGinModule extends AbstractGinModule {
 		// Places
 		bind(PlaceHistoryMapper.class).to(AppPlaceHistoryMapper.class).in(Singleton.class);
 
-		// Application EventBus
 		bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
 
-		// Application Controller
-		// bind(AppController.class).in(Singleton.class);
 		bind(HupaController.class).in(Singleton.class);
-
-		install(new GinFactoryModuleBuilder().implement(FolderListActivity.Displayable.class, FolderListView.class)
-				.build(FolderListFactory.class));
-		// bind(ExceptionHandler.class).to(DefaultExceptionHandler.class);
 	}
 
 	@Provides

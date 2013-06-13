@@ -19,34 +19,19 @@
 
 package org.apache.hupa.client.activity;
 
-import org.apache.hupa.client.ioc.FolderListFactory;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 
 public class FolderListActivity extends AppBaseActivity {
 
-	@Inject private FolderListFactory folderListFactory;
-	private Place place;
-	private Displayable display;
+	@Inject private Displayable display;
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		if (display == null) {
-			display = folderListFactory.create(place);
-		}
 		container.setWidget(display.asWidget());
-	}
-
-	public FolderListActivity with(Place place) {
-		if (display == null || !place.getClass().equals(this.place.getClass())) {
-			display = folderListFactory.create(place);
-			this.place = place;
-		}
-		return this;
 	}
 
 	public interface Displayable extends WidgetDisplayable {

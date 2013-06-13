@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.hupa.client.activity.MessageListActivity;
+import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.FetchMessagesRequest;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
@@ -64,6 +65,7 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 
 	@UiField(provided = true) MessagesCellTable grid;
 	private HupaRequestFactory requestFactory;
+	private PlaceController placeController;
 	private ImapFolder folder;
 	private String searchValue;
 	private User user;
@@ -73,6 +75,7 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 	public MessageListView(final EventBus eventBus, final HupaRequestFactory requestFactory,
 			final PlaceController placeController, final MessagesCellTable table) {
 		this.requestFactory = requestFactory;
+		this.placeController = placeController;
 		grid = table;
 		initWidget(binder.createAndBindUi(this));
 		grid.addCellPreviewHandler(new Handler<Message>() {
@@ -168,6 +171,7 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 
 			@Override
 			public void onFailure(ServerFailure error) {
+				placeController.goTo(new DefaultPlace("@"));
 				if (error.isFatal()) {
 					// FIXME should goto login page regarding the long time
 					// session expired.
