@@ -64,133 +64,24 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 	private static final Logger log = Logger.getLogger(MessageListView.class.getName());
 
 	@UiField(provided = true) MessagesCellTable grid;
-	private HupaRequestFactory requestFactory;
-	private PlaceController placeController;
-	private ImapFolder folder;
-	private String searchValue;
-	private User user;
-	private boolean pending;
+	
 
 	@Inject
 	public MessageListView(final EventBus eventBus, final HupaRequestFactory requestFactory,
 			final PlaceController placeController, final MessagesCellTable table) {
-		this.requestFactory = requestFactory;
-		this.placeController = placeController;
 		grid = table;
 		initWidget(binder.createAndBindUi(this));
-		grid.addCellPreviewHandler(new Handler<Message>() {
-			@Override
-			public void onCellPreview(final CellPreviewEvent<Message> event) {
-				if (hasClickedButFirstCol(event)) {
-					List<Message> displayedItems = table.getVisibleItems();
-					for (Message msg : displayedItems) {
-						table.getSelectionModel().setSelected(msg, false);
-					}
-					GetMessageDetailsRequest req = requestFactory.messageDetailsRequest();
-					GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
-					final ImapFolder f = req.create(ImapFolder.class);
-					f.setFullName(folder.getFullName());
-					action.setFolder(f);
-					action.setUid(event.getValue().getUid());
-					req.get(action).fire(new Receiver<GetMessageDetailsResult>() {
-						@Override
-						public void onSuccess(GetMessageDetailsResult response) {
-							eventBus.fireEvent(new ExpandMessageEvent(user, folder, event.getValue(), response.getMessageDetails()));
-							placeController.goTo(new MailFolderPlace(f.getFullName() + "/" + event.getValue().getUid()));
-						}
-
-						@Override
-						public void onFailure(ServerFailure error) {
-							if (error.isFatal()) {
-								log.log(Level.SEVERE, error.getMessage());
-								// TODO write the error message to
-								// status bar.
-								throw new RuntimeException(error.getMessage());
-							}
-						}
-					});
-				}
-			}
-
-			private boolean hasClickedButFirstCol(CellPreviewEvent<Message> event) {
-				return "click".equals(event.getNativeEvent().getType()) && 0 != event.getColumn();
-			}
-
-		});
-		grid.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-			@Override
-			public void onRangeChange(RangeChangeEvent event) {
-				fetch(event.getNewRange().getStart());
-			}
-		});
-		eventBus.addHandler(LoadMessagesEvent.TYPE, new LoadMessagesEventHandler() {
-			public void onLoadMessagesEvent(LoadMessagesEvent loadMessagesEvent) {
-				user = loadMessagesEvent.getUser();
-				folder = loadMessagesEvent.getFolder();
-				searchValue = loadMessagesEvent.getSearchValue();
-				fetch(0);
-
-			}
-		});
-		eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
-			public void onLogin(LoginEvent event) {
-				user = event.getUser();
-				folder = new ImapFolderImpl(user.getSettings().getInboxFolderName());
-				searchValue = null;
-				if (!pending) {
-					pending = true;
-					Scheduler.get().scheduleFinally(new ScheduledCommand() {
-						@Override
-						public void execute() {
-							pending = false;
-							fetch(0);
-						}
-					});
-				}
-			}
-		});
 	}
-
-	public void fetch(final int start) {
-		FetchMessagesRequest req = requestFactory.messagesRequest();
-		FetchMessagesAction action = req.create(FetchMessagesAction.class);
-		final ImapFolder f = req.create(ImapFolder.class);
-		f.setFullName(folder.getFullName());
-		action.setFolder(f);
-		action.setOffset(grid.getPageSize());
-		action.setSearchString(searchValue);
-		action.setStart(start);
-		req.fetch(action).fire(new Receiver<FetchMessagesResult>() {
-
-			@Override
-			public void onSuccess(final FetchMessagesResult result) {
-				assert result != null;
-				grid.setRowCount(result.getRealCount());
-				grid.setRowData(start, result.getMessages());
-			}
-
-			@Override
-			public void onFailure(ServerFailure error) {
-				placeController.goTo(new DefaultPlace("@"));
-				if (error.isFatal()) {
-					// FIXME should goto login page regarding the long time
-					// session expired.
-					throw new RuntimeException(error.getMessage());
-				}
-			}
-		});
-	}
-
 	interface MessageListUiBinder extends UiBinder<DataGrid<Message>, MessageListView> {
 	}
 
 	private static MessageListUiBinder binder = GWT.create(MessageListUiBinder.class);
 
+
 	@Override
-	public void setFolder(ImapFolder folder) {
-		this.folder = folder;
-		if (folder != null)
-			fetch(0);
+	public MessagesCellTable getGrid() {
+		return grid;
 	}
+
 
 }
