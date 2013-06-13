@@ -94,9 +94,6 @@ public class ComposeActivity extends AppBaseActivity {
 	@Override
 	public void onStop(){
 		super.onStop();
-		if(!noContent()){
-			placeController.goTo(new DefaultPlace("@"));
-		}
 	}
 
 	private boolean noContent() {
