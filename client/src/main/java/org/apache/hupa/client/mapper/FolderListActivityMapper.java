@@ -28,7 +28,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class FolderListActivityMapper extends AbstractActivityMapper {
+public class FolderListActivityMapper extends MainActivityMapper {
 	private final Provider<FolderListActivity> folderListActivityProvider;
 	
 	@Inject
@@ -38,7 +38,7 @@ public class FolderListActivityMapper extends AbstractActivityMapper {
 	}
 
 	@Override
-	Activity getAppActivity(final Place place) {
+	Activity asyncLoadActivity(final Place place) {
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {

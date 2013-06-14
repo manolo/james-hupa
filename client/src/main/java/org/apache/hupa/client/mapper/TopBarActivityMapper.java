@@ -28,7 +28,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class TopBarActivityMapper extends AbstractActivityMapper {
+public class TopBarActivityMapper extends MainActivityMapper {
 	private final Provider<TopBarActivity> topBarActivityProvider;
 
 	@Inject
@@ -37,7 +37,7 @@ public class TopBarActivityMapper extends AbstractActivityMapper {
 	}
 
 	@Override
-	Activity getAppActivity(final Place place) {
+	Activity asyncLoadActivity(final Place place) {
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {

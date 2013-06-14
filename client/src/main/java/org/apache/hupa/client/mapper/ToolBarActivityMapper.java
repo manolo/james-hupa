@@ -20,26 +20,26 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.ToolBarActivity;
-import org.apache.hupa.client.place.DefaultPlace;
+import org.apache.hupa.client.place.MailFolderPlace;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class ToolBarActivityMapper implements ActivityMapper {
+public class ToolBarActivityMapper extends MainActivityMapper {
 	private final Provider<ToolBarActivity> toolBarActivityProvider;
 
 	@Inject
 	public ToolBarActivityMapper(Provider<ToolBarActivity> toolActivityProvider) {
 		this.toolBarActivityProvider = toolActivityProvider;
 	}
-
-	public Activity getActivity(Place place) {
-		if(place instanceof DefaultPlace) return null;
+	
+	@Override
+	Activity asyncLoadActivity(Place place) {
+		final String token = ((MailFolderPlace)place).getFullName();
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {
@@ -48,7 +48,7 @@ public class ToolBarActivityMapper implements ActivityMapper {
 
 			@Override
 			protected Activity createInstance() {
-				return toolBarActivityProvider.get();
+				return toolBarActivityProvider.get().with(token);
 			}
 		};
 	}

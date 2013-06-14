@@ -28,7 +28,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class LogoActivityMapper extends AbstractActivityMapper {
+public class LogoActivityMapper extends MainActivityMapper {
 	private final Provider<LogoActivity> logoActivityProvider;
 
 	@Inject
@@ -37,7 +37,7 @@ public class LogoActivityMapper extends AbstractActivityMapper {
 	}
 
 	@Override
-	public Activity getAppActivity(Place place) {
+	public Activity asyncLoadActivity(Place place) {
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {
