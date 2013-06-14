@@ -38,8 +38,8 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 	}
 	
 	@Override
-	Activity asyncLoadActivity(Place place) {
-		final String token = ((MailFolderPlace)place).getFullName();
+	Activity asyncLoadActivity(final Place place) {
+		
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {
@@ -48,6 +48,10 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 
 			@Override
 			protected Activity createInstance() {
+				String token = null;
+				if(place instanceof MailFolderPlace){
+					token = ((MailFolderPlace)place).getFullName();
+				}
 				return toolBarActivityProvider.get().with(token);
 			}
 		};
