@@ -19,6 +19,10 @@
 
 package org.apache.hupa.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.hupa.client.activity.MessageListActivity;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.shared.domain.Message;
@@ -30,12 +34,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.inject.Inject;
 
 public class MessageListView extends Composite implements MessageListActivity.Displayable {
 
 	@UiField(provided = true) MessagesCellTable grid;
-	
 
 	@Inject
 	public MessageListView(final EventBus eventBus, final HupaRequestFactory requestFactory,
@@ -43,16 +47,40 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 		grid = table;
 		initWidget(binder.createAndBindUi(this));
 	}
+
 	interface MessageListUiBinder extends UiBinder<DataGrid<Message>, MessageListView> {
 	}
 
 	private static MessageListUiBinder binder = GWT.create(MessageListUiBinder.class);
-
 
 	@Override
 	public MessagesCellTable getGrid() {
 		return grid;
 	}
 
+	@Override
+	public List<Long> getSelectedMessagesIds() {
+		List<Long> selecteds = new ArrayList<Long>();
+		MultiSelectionModel<? super Message> selectionModel = (MultiSelectionModel<? super Message>) grid
+				.getSelectionModel();
+		selectionModel.getSelectedSet();
+		for (Message msg : getSelectedMessages()) {
+			selecteds.add(msg.getUid());
+		}
+		return selecteds;
+	}
+
+	@Override
+	public void refresh() {
+		grid.refresh();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<Message> getSelectedMessages() {
+		MultiSelectionModel<? super Message> selectionModel = (MultiSelectionModel<? super Message>) grid
+				.getSelectionModel();
+		return (Set<Message>) selectionModel.getSelectedSet();
+	}
 
 }
