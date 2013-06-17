@@ -40,7 +40,6 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceChangeEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.inject.Inject;
@@ -127,7 +126,7 @@ public class HupaController {
 		});
 	}
 
-    public void showNotice(SafeHtml html, int millis){
+    public void showNotice(String html, int millis){
     	noticeRegion.notice(html);
         if (millis > 0)
         	hideNotice.schedule(millis);

@@ -22,7 +22,6 @@ package org.apache.hupa.client.activity;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 
@@ -37,6 +36,6 @@ public class NotificationActivity extends AppBaseActivity {
 
 	public interface Displayable extends WidgetDisplayable {
 		void hideNotification();
-		void notice(SafeHtml html);
+		void notice(String html);
 	}
 }
