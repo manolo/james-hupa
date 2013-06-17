@@ -21,6 +21,7 @@
 		}
 		
 		.fontFeel {
+			z-index: 9999;
 			position: relative;
 			display: inline-block;
 			border-color: #f0c36d;

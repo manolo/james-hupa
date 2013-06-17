@@ -19,6 +19,7 @@
 
 package org.apache.hupa.client;
 
+import org.apache.hupa.client.activity.NotificationActivity;
 import org.apache.hupa.client.mapper.ActivityManagerInitializer;
 import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
@@ -39,6 +40,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceChangeEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.inject.Inject;
@@ -53,6 +55,7 @@ public class HupaController {
 	@Inject private HupaLayoutable hupaLayout;
 	@Inject private HupaRequestFactory requestFactory;
 	@Inject private LoginLayoutable loginLayout;
+	@Inject private NotificationActivity.Displayable noticeRegion;
 	private EventBus eventBus;
 
 	private Timer noopTimer = new IdleTimer();
@@ -123,6 +126,18 @@ public class HupaController {
 			}
 		});
 	}
+
+    public void showNotice(SafeHtml html, int millis){
+    	noticeRegion.notice(html);
+        if (millis > 0)
+        	hideNotice.schedule(millis);
+    }
+    
+    private final Timer hideNotice = new Timer() {
+        public void run() {
+        	noticeRegion.hideNotification();
+        }
+    };
 
 	private class IdleTimer extends Timer {
 		boolean running = false;
