@@ -19,8 +19,6 @@
 
 package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.evo.ActivityManagerInitializer;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,13 +28,13 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 
 public class HupaLayout implements HupaLayoutable {
 
 	@UiField SimplePanel topBarContainer;
 
 	@UiField SimplePanel logoContainer;
+	@UiField SimplePanel notificationContainer;
 	@UiField SimpleLayoutPanel navigationContainer;
 
 	@UiField _ToolPanel toolPanel;
@@ -113,6 +111,15 @@ public class HupaLayout implements HupaLayoutable {
 		};
 	}
 
+	@Override
+	public AcceptsOneWidget getNotificationView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				notificationContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
 	@Override
 	public AcceptsOneWidget getNavigationView() {
 		return new AcceptsOneWidget() {

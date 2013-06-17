@@ -19,73 +19,50 @@
 
 package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.activity.TopBarActivity;
+import org.apache.hupa.client.activity.NotificationActivity;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 
-public class TopBarView extends Composite implements TopBarActivity.Displayable {
+public class NotificationView extends Composite implements NotificationActivity.Displayable {
 
-	@UiField Anchor about;
-	@UiField Anchor logout;
-	@UiField HTMLPanel userLabel;
-	@UiField SimplePanel loading;
+	@UiField FlowPanel notificationContainer;
+	@UiField HTML notification;
 	
 	@UiField Style style;
+	
 
 	interface Style extends CssResource {
-		String hideLoading();
+		String hideNotification();
 	}
-
-	public TopBarView() {
+	
+	
+	@Override
+	public void notice(SafeHtml html){
+		this.notificationContainer.removeStyleName(style.hideNotification());
+		this.notification.setHTML(html);
+	}
+	
+	@Override
+	public void hideNotification(){
+		this.notification.setHTML("");
+		this.notificationContainer.addStyleName(style.hideNotification());
+	}
+	
+	
+	public NotificationView() {
 		initWidget(binder.createAndBindUi(this));
 	}
-	
-	@UiHandler("about")
-	void handleAboutClick(ClickEvent e){
-		Window.alert("// TODO show about model view");
+
+	interface NotificationUiBinder extends UiBinder<FlowPanel, NotificationView> {
 	}
 
-	@Override
-	public void showLoading(){
-		loading.removeStyleName(style.hideLoading());
-	}
-	
-	@Override
-	public void hideLoading(){
-		loading.addStyleName(style.hideLoading());
-	}
-	
-	@Override
-	public HasClickHandlers getLogoutClick() {
-		return logout;
-	}
-
-	@Override
-	public HTMLPanel getUserLabel() {
-		return userLabel;
-	}
-	
-	@Override
-	public void showUserName(String userName){
-		userLabel.add(new HTML(userName));
-	}
-
-	interface TopBarUiBinder extends UiBinder<DockLayoutPanel, TopBarView> {
-	}
-
-	private static TopBarUiBinder binder = GWT.create(TopBarUiBinder.class);
+	private static NotificationUiBinder binder = GWT.create(NotificationUiBinder.class);
 
 }

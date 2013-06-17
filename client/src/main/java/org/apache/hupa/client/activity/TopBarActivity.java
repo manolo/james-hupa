@@ -120,5 +120,7 @@ public class TopBarActivity extends AppBaseActivity {
 		HasClickHandlers getLogoutClick();
 		void showUserName(String userName);
 		HTMLPanel getUserLabel();
+		void showLoading();
+		void hideLoading();
 	}
 }

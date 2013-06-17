@@ -4,7 +4,7 @@
 	<ui:image field="originLogo" src="res/hupa-logo-original-transparent.png" />
 	<ui:style>
 		.minWidth {
-			min-width: 1150px;
+			min-width: 700px;
 		}
 		
 		.feature {
@@ -28,8 +28,12 @@
 				<g:center>
 					<g:LayoutPanel addStyleNames="{style.feature}"
 						ui:field="HupaFeature">
+						
 						<g:layer width="177px" left="10px">
 							<g:SimplePanel ui:field="logoContainer" />
+						</g:layer>
+						<g:layer>
+						  <g:SimplePanel ui:field="notificationContainer" />
 						</g:layer>
 						<g:layer width="287px" right="0">
 							<g:SimpleLayoutPanel ui:field="navigationContainer" />
