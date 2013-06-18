@@ -21,6 +21,7 @@ package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.ui.ToolBarView.Parameters;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.core.client.GWT;
@@ -36,10 +37,15 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 	public ToolBarActivityMapper(Provider<ToolBarActivity> toolActivityProvider) {
 		this.toolBarActivityProvider = toolActivityProvider;
 	}
-	
+
 	@Override
 	Activity asyncLoadActivity(final Place place) {
-		
+		final ToolBarActivity tba = toolBarActivityProvider.get();
+		if (place instanceof MailFolderPlace) { // might be from login page
+			MailFolderPlace here = (MailFolderPlace) place;
+			tba.getDisplay().setParameters(new Parameters(here.getUser(), here.getFullName(), null, null));
+		}
+
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {
@@ -49,10 +55,10 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 			@Override
 			protected Activity createInstance() {
 				String token = null;
-				if(place instanceof MailFolderPlace){
-					token = ((MailFolderPlace)place).getFullName();
+				if (place instanceof MailFolderPlace) {
+					token = ((MailFolderPlace) place).getFullName();
 				}
-				return toolBarActivityProvider.get().with(token);
+				return tba.with(token);
 			}
 		};
 	}
