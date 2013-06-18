@@ -33,10 +33,10 @@ public class IMAPMessagePlace extends AbstractPlace {
 	private MessageDetails messageDetails;
 	private ImapFolder folder;
 	private User user;
-	private String messageId;
+//	private String messageId;
 
 	public IMAPMessagePlace(String token) {
-		this.messageId = token;
+//		this.messageId = token;
 	}
 	
 	public IMAPMessagePlace(MessageDetails messageDetails){

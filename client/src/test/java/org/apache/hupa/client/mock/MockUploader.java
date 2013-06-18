@@ -118,7 +118,7 @@ public class MockUploader implements IUploader {
         // TODO Auto-generated method stub
     }
 
-    public void setValidExtensions(String[] ext) {
+    public void setValidExtensions(String... ext) {
         // TODO Auto-generated method stub
     }
 

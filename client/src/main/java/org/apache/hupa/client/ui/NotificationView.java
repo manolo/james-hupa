@@ -23,7 +23,6 @@ import org.apache.hupa.client.activity.NotificationActivity;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
