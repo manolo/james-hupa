@@ -117,7 +117,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(MessageContentActivity.Displayable.class).to(MessageContentView.class);
 		bind(StatusActivity.Displayable.class).to(StatusView.class);
 		bind(ComposeToolBarActivity.Displayable.class).to(ComposeToolBarView.class);
-		bind(ComposeActivity.Displayable.class).to(ComposeView.class);
+		bind(ComposeActivity.Displayable.class).to(ComposeView.class).in(Singleton.class);
 
 		bind(LoginActivity.class).in(Singleton.class);
 		bind(TopBarActivity.class).in(Singleton.class);
@@ -131,7 +131,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(ComposeActivity.class).in(Singleton.class);
 
 		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
-		bind(FolderListActivity.Displayable.class).to(FolderListView.class);
+		bind(FolderListActivity.Displayable.class).to(FolderListView.class).in(Singleton.class);
 		bind(WestActivity.Displayable.class).to(WestView.class).in(Singleton.class);
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);

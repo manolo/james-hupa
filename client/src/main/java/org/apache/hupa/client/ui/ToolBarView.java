@@ -22,7 +22,6 @@ package org.apache.hupa.client.ui;
 import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
-import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.MessageDetails;
 import org.apache.hupa.shared.domain.User;
@@ -92,13 +91,13 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 
 	public static class Parameters {
 		private User user;
-		private ImapFolder folder;
+		private String folderName;
 		private Message oldmessage;
 		private MessageDetails oldDetails;
 
-		public Parameters(User user, ImapFolder folder, Message oldmessage, MessageDetails oldDetails) {
+		public Parameters(User user, String folderName, Message oldmessage, MessageDetails oldDetails) {
 			this.user = user;
-			this.folder = folder;
+			this.folderName = folderName;
 			this.oldmessage = oldmessage;
 			this.oldDetails = oldDetails;
 		}
@@ -111,12 +110,12 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 			this.user = user;
 		}
 
-		public ImapFolder getFolder() {
-			return folder;
+		public String getFolderName() {
+			return folderName;
 		}
 
-		public void setFolder(ImapFolder folder) {
-			this.folder = folder;
+		public void setFolderName(String folderName) {
+			this.folderName = folderName;
 		}
 
 		public Message getOldmessage() {

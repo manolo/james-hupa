@@ -42,6 +42,7 @@ public class TopBarView extends Composite implements TopBarActivity.Displayable 
 	@UiField Anchor logout;
 	@UiField HTMLPanel userLabel;
 	@UiField SimplePanel loading;
+	@UiField HTML loadingRegion;
 	
 	@UiField Style style;
 
@@ -59,12 +60,14 @@ public class TopBarView extends Composite implements TopBarActivity.Displayable 
 	}
 
 	@Override
-	public void showLoading(){
+	public void showLoading(String message){
+		loadingRegion.setHTML(message);
 		loading.removeStyleName(style.hideLoading());
 	}
 	
 	@Override
 	public void hideLoading(){
+		loadingRegion.setHTML("");
 		loading.addStyleName(style.hideLoading());
 	}
 	

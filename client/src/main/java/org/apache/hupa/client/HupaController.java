@@ -20,6 +20,7 @@
 package org.apache.hupa.client;
 
 import org.apache.hupa.client.activity.NotificationActivity;
+import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.mapper.ActivityManagerInitializer;
 import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
@@ -55,6 +56,7 @@ public class HupaController {
 	@Inject private HupaRequestFactory requestFactory;
 	@Inject private LoginLayoutable loginLayout;
 	@Inject private NotificationActivity.Displayable noticeRegion;
+	@Inject private TopBarActivity.Displayable topBar;
 	private EventBus eventBus;
 
 	private Timer noopTimer = new IdleTimer();
@@ -90,11 +92,11 @@ public class HupaController {
 		Place place = event.getNewPlace();
 
 		if (place instanceof ComposePlace) {
-//			if (((ComposePlace) place).getParameters() != null) {
+			if (((ComposePlace) place).getParameters() != null) {
 				hupaLayout.switchToCompose();
-//			} else {
-//				this.placeController.goTo(new MailFolderPlace("Mock-Inbox"));
-//			}
+			} else {
+				this.placeController.goTo(new MailFolderPlace("Mock-Inbox"));
+			}
 		} else {
 			hupaLayout.switchToMessage();
 		}
@@ -130,6 +132,14 @@ public class HupaController {
     	noticeRegion.notice(html);
         if (millis > 0)
         	hideNotice.schedule(millis);
+    }
+    
+    public void showTopLoading(String message){
+    	topBar.showLoading(message);
+    }
+    
+    public void hideTopLoading(){
+    	topBar.hideLoading();
     }
     
     private final Timer hideNotice = new Timer() {

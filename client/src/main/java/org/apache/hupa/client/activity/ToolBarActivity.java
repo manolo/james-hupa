@@ -22,6 +22,7 @@ package org.apache.hupa.client.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.SetFlagRequest;
 import org.apache.hupa.client.ui.MessagesCellTable;
@@ -49,6 +50,7 @@ public class ToolBarActivity extends AppBaseActivity {
 	@Inject private MessagesCellTable table;
 	@Inject private MessageListActivity.Displayable messagesDisplay;
 	@Inject private MessageListActivity messageListActivity;
+	@Inject private HupaController hupaController;
 	//FIXME messagesDisplay can not be injected into ToolBarView, why?
 	private String folderName;
 
@@ -66,18 +68,17 @@ public class ToolBarActivity extends AppBaseActivity {
 	private void bindTo(EventBus eventBus) {
 		registerHandler(display.getMark().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// Reposition the popup relative to the button
 				Widget source = (Widget) event.getSource();
 				int left = source.getAbsoluteLeft();
 				int top = source.getAbsoluteTop() + source.getOffsetHeight();
 				display.getPopup().setPopupPosition(left, top);
-				// Show the popup
 				display.getPopup().show();
 			}
 		}));
 		registerHandler(display.getMarkRead().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				hupaController.showTopLoading("Loading");
 				toMarkRead(true);
 				display.getPopup().hide();
 			}
@@ -85,6 +86,7 @@ public class ToolBarActivity extends AppBaseActivity {
 		registerHandler(display.getMarkUnread().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				hupaController.showTopLoading("Loading");
 				toMarkRead(false);
 				display.getPopup().hide();
 			}
@@ -119,7 +121,9 @@ public class ToolBarActivity extends AppBaseActivity {
 		req.set(action).fire(new Receiver<GenericResult>() {
 			@Override
 			public void onSuccess(GenericResult response) {
+				hupaController.hideTopLoading();
 				table.refresh();
+				table.setStyleBaseOnTag();
 			}
 		});
 	}
