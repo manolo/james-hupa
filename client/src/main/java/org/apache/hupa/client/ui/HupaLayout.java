@@ -23,11 +23,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 public class HupaLayout implements HupaLayoutable {
 
@@ -40,11 +42,15 @@ public class HupaLayout implements HupaLayoutable {
 	@UiField _ToolPanel toolPanel;
 
 	@UiField _CenterPanel centerPanel;
+	@UiField DockLayoutPanel mainBox;
+	
+	private _CenterSettingPanel settingPanel;
 
 	private LayoutPanel hupaMainPanel;
 
-//	@Inject
-	public HupaLayout() {
+	@Inject
+	public HupaLayout(_CenterSettingPanel settingPanel) {
+		this.settingPanel = settingPanel;
 		hupaMainPanel = binder.createAndBindUi(this);
 	}
 
@@ -178,4 +184,10 @@ public class HupaLayout implements HupaLayoutable {
 
 	private static HupaLayoutUiBinder binder = GWT
 			.create(HupaLayoutUiBinder.class);
+
+	@Override
+	public void switchToSetting() {
+		centerPanel.removeFromParent();
+		mainBox.add(settingPanel);
+	}
 }

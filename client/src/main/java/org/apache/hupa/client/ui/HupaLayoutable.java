@@ -49,4 +49,6 @@ public interface HupaLayoutable extends Layoutable {
 	AcceptsOneWidget getComposeView();
 
 	AcceptsOneWidget getNotificationView();
+
+	void switchToSetting();
 }

@@ -17,41 +17,22 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.SettingPlace;
-
-import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.place.shared.Place;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 
-public class FolderListActivityMapper extends MainActivityMapper {
-	private final Provider<FolderListActivity> folderListActivityProvider;
+public class _CenterSettingPanel extends Composite {
 
-	@Inject
-	public FolderListActivityMapper(Provider<FolderListActivity> folderListActivityProvider) {
-		this.folderListActivityProvider = folderListActivityProvider;
+	public _CenterSettingPanel() {
+		initWidget(binder.createAndBindUi(this));
 	}
 
-	@Override
-	Activity asyncLoadActivity(final Place place) {
-		if (place instanceof SettingPlace)
-			return null;
-		return new ActivityAsyncProxy() {
-			@Override
-			protected void doAsync(RunAsyncCallback callback) {
-				GWT.runAsync(callback);
-			}
-
-			@Override
-			protected Activity createInstance() {
-				return folderListActivityProvider.get();
-			}
-		};
-
+	interface _CeterSettingPanelUiBinder extends UiBinder<DockLayoutPanel, _CenterSettingPanel> {
 	}
+
+	private static _CeterSettingPanelUiBinder binder = GWT.create(_CeterSettingPanelUiBinder.class);
+
 }

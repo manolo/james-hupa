@@ -25,6 +25,7 @@ import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.mapper.ActivityManagerInitializer;
 import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.SettingPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.IdleRequest;
@@ -99,6 +100,8 @@ public class HupaController {
 			} else {
 				this.placeController.goTo(new MailFolderPlace("Mock-Inbox"));
 			}
+		} else if(place instanceof SettingPlace) {
+			hupaLayout.switchToSetting();
 		} else {
 			hupaLayout.switchToMessage();
 		}
