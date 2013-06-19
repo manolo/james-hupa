@@ -136,10 +136,10 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	}
 
 	@UiHandler("compose")
-	void handleClick(ClickEvent e) {
+	void handleCompose(ClickEvent e){
 		placeController.goTo(new ComposePlace("new").with(parameters));
 	}
-
+	
 	@UiHandler("reply")
 	void handleReplyClick(ClickEvent e) {
 		placeController.goTo(new ComposePlace("reply").with(parameters));
@@ -272,5 +272,6 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	}
 
 	private static ToolBarUiBinder binder = GWT.create(ToolBarUiBinder.class);
+
 
 }

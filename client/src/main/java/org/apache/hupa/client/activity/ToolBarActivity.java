@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hupa.client.HupaController;
+import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.SetFlagRequest;
 import org.apache.hupa.client.ui.MessagesCellTable;
@@ -70,6 +71,7 @@ public class ToolBarActivity extends AppBaseActivity {
 	}
 
 	private void bindTo(EventBus eventBus) {
+
 		registerHandler(display.getMark().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Widget source = (Widget) event.getSource();
