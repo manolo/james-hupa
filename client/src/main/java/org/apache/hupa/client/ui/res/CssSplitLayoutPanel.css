@@ -1,0 +1,31 @@
+.splitLayoutPanel {
+	
+}
+
+.splitLayoutPanel .gwt-SplitLayoutPanel-HDragger {
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	position: absolute;
+	background: url(images/splitter.png) center no-repeat;
+	width: 10px;
+	height: 100%;
+	cursor: e-resize;
+	cursor: col-resize;
+	background-position: 0 center;
+}
+
+.splitLayoutPanel .gwt-SplitLayoutPanel-VDragger {
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	position: absolute;
+	background: url(images/splitter.png) center no-repeat;
+	height: 10px;
+	width: 100%;
+	cursor: n-resize;
+	cursor: row-resize;
+	background-position: center 0;
+}
+@external .gwt-SplitLayoutPanel-HDragger;
+@external .gwt-SplitLayoutPanel-VDragger;
