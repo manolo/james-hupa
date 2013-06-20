@@ -22,37 +22,30 @@ package org.apache.hupa.client.ui;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.hupa.client.activity.LabelListActivity;
+
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimpleLayoutPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-public class _CenterSettingPanel extends Composite {
+public class LabelListView extends Composite implements LabelListActivity.Displayable {
 
-	@UiField SplitLayoutPanel thisPanel;
+	@UiField SimplePanel thisView;
 
-	@UiField SimpleLayoutPanel settingsTab;
-	
-	@UiField ScrollPanel labelListContainer;
-
-	public _CenterSettingPanel() {
-		
+	public LabelListView() {
 		initWidget(binder.createAndBindUi(this));
-		settingsTab.setWidget(createTabList());
+		thisView.setWidget(createTabList());
 	}
-	private static final List<String> TABS = Arrays.asList("Folders");
+
+	private static final List<String> TABS = Arrays.asList("Mock-Inbox", "Mock-Junk", "Mock-Draft", "Mock-Delete");
 
 	private CellList<String> createTabList() {
 		TextCell textCell = new TextCell();
@@ -64,7 +57,7 @@ public class _CenterSettingPanel extends Composite {
 			public void onSelectionChange(SelectionChangeEvent event) {
 				String selected = selectionModel.getSelectedObject();
 				if (selected != null) {
-//					Window.alert("You selected: " + selected);
+					// Window.alert("You selected: " + selected);
 				}
 			}
 		});
@@ -75,18 +68,9 @@ public class _CenterSettingPanel extends Composite {
 		return cellList;
 	}
 
-	interface _CeterSettingPanelUiBinder extends UiBinder<SplitLayoutPanel, _CenterSettingPanel> {
+	interface LabelListUiBinder extends UiBinder<SimplePanel, LabelListView> {
 	}
 
-	private static _CeterSettingPanelUiBinder binder = GWT.create(_CeterSettingPanelUiBinder.class);
-
-	public AcceptsOneWidget getLabelListView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				labelListContainer.setWidget(Widget.asWidgetOrNull(w));
-			}
-		};
-	}
+	private static LabelListUiBinder binder = GWT.create(LabelListUiBinder.class);
 
 }
