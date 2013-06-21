@@ -121,7 +121,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(MessageContentActivity.Displayable.class).to(MessageContentView.class);
 		bind(StatusActivity.Displayable.class).to(StatusView.class);
 		bind(ComposeToolBarActivity.Displayable.class).to(ComposeToolBarView.class);
-//		bind(ComposeActivity.Displayable.class).to(ComposeView.class).in(Singleton.class);
+		bind(ComposeActivity.Displayable.class).to(ComposeView.class);
 		
 		bind(LabelListActivity.Displayable.class).to(LabelListView.class).in(Singleton.class);
 
