@@ -24,3 +24,6 @@ widgets/.project
 widgets/.settings/
 widgets/target/
 
+client/src/main/gwt-unitCache/
+client/src/main/webapp/WEB-INF/deploy/
+client/src/main/webapp/hupa/
