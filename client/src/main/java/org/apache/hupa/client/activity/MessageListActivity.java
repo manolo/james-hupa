@@ -42,6 +42,8 @@ import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.events.DeleteClickEvent;
+import org.apache.hupa.shared.events.DeleteClickEventHandler;
 import org.apache.hupa.shared.events.ExpandMessageEvent;
 import org.apache.hupa.shared.events.LoadMessagesEvent;
 import org.apache.hupa.shared.events.LoadMessagesEventHandler;
@@ -182,6 +184,12 @@ public class MessageListActivity extends AppBaseActivity {
 
 			}
 		});
+		eventBus.addHandler(DeleteClickEvent.TYPE, new DeleteClickEventHandler(){
+			@Override
+			public void onDeleteClickEvent(DeleteClickEvent event) {
+				deleteSelectedMessages();
+			}
+		});
 
 	}
 
@@ -208,7 +216,7 @@ public class MessageListActivity extends AppBaseActivity {
 			display.getGrid().getSelectionModel().setSelected(msg, false);
 		}
 	}
-	public void deleteSelectedMessages() {
+	private void deleteSelectedMessages() {
 		MailFolderPlace currentPlace = (MailFolderPlace) placeController.getWhere();
 		final List<Long> uids = display.getSelectedMessagesIds();
 		DeleteMessageByUidRequest req = requestFactory.deleteMessageByUidRequest();

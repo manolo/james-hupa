@@ -19,7 +19,6 @@
 
 package org.apache.hupa.client.activity;
 
-import org.apache.hupa.client.ui.LabelNode;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 
 import com.google.gwt.event.shared.EventBus;
