@@ -183,6 +183,11 @@ public class HupaLayout implements HupaLayoutable {
 	public AcceptsOneWidget getLabelListView() {
 		return settingPanel.getLabelListView();
 	}
+	
+	@Override
+	public AcceptsOneWidget getLabelPropertiesView(){
+		return settingPanel.getLabelPropertiesView();
+	}
 
 	interface HupaLayoutUiBinder extends UiBinder<LayoutPanel, HupaLayout> {
 	}

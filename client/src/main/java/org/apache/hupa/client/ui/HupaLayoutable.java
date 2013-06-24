@@ -53,4 +53,6 @@ public interface HupaLayoutable extends Layoutable {
 	void switchToSetting();
 
 	AcceptsOneWidget getLabelListView();
+
+	AcceptsOneWidget getLabelPropertiesView();
 }

@@ -17,22 +17,28 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.activity;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratorPanel;
+import java.util.List;
 
-public class SettingFolderActionView extends Composite{
+import org.apache.hupa.client.ui.LabelNode;
+import org.apache.hupa.client.ui.WidgetDisplayable;
 
-	public SettingFolderActionView() {
-		initWidget(binder.createAndBindUi(this));
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.inject.Inject;
+
+public class LabelPropertiesActivity extends AppBaseActivity {
+
+	@Override
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
 	}
 
-	interface Binder extends UiBinder<DecoratorPanel, SettingFolderActionView> {
+	@Inject private Displayable display;
+
+	public interface Displayable extends WidgetDisplayable {
+
+		void cascade(LabelNode labelNode, List<LabelNode> list);
 	}
-
-	private static Binder binder = GWT.create(Binder.class);
-
 }

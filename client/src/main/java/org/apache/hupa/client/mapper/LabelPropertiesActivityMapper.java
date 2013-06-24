@@ -17,24 +17,40 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.activity;
+package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.ui.LabelNode;
-import org.apache.hupa.client.ui.WidgetDisplayable;
+import org.apache.hupa.client.activity.LabelPropertiesActivity;
+import org.apache.hupa.client.place.SettingPlace;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public class LabelListActivity extends AppBaseActivity {
+public class LabelPropertiesActivityMapper implements ActivityMapper {
+	private final Provider<LabelPropertiesActivity> labelPropertiesActivityProvider;
 
-	@Override
-	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		container.setWidget(display.asWidget());
+	@Inject
+	public LabelPropertiesActivityMapper(Provider<LabelPropertiesActivity> labelPropertiesActivityProvider) {
+		this.labelPropertiesActivityProvider = labelPropertiesActivityProvider;
 	}
 
-	@Inject private Displayable display;
+	public Activity getActivity(Place place) {
+		if (!(place instanceof SettingPlace))
+			return null;
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
 
-	public interface Displayable extends WidgetDisplayable {
+			@Override
+			protected Activity createInstance() {
+				return labelPropertiesActivityProvider.get();
+			}
+		};
 	}
 }
