@@ -38,6 +38,7 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
@@ -64,6 +65,9 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	@UiField Anchor delete;
 	@UiField Anchor mark;
 	@UiField Anchor more;
+	
+	@UiField HTMLPanel replyAllTip;
+	@UiField HTMLPanel forwardTip;
 
 	HandlerRegistration replyReg;
 	HandlerRegistration replyAllReg;
@@ -179,6 +183,12 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		replyReg = reply.addClickHandler(replyHandler);
 		replyAllReg = replyAll.addClickHandler(replyAllHandler);
 		forwardReg = forward.addClickHandler(forwardHandler);
+		enableAllTools(false);
+	}
+
+	@UiHandler("compose")
+	void handleClick(ClickEvent e) {
+		placeController.goTo(new ComposePlace("new").with(parameters));
 	}
 	private ClickHandler forwardHandler = new ClickHandler(){
 
@@ -292,6 +302,8 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		reply.addStyleName(style.disabledButton());
 		replyAllGroup.addStyleName(style.disabledButton());
 		forwardGroup.addStyleName(style.disabledButton());
+		replyAllTip.addStyleName(style.disabledButton());
+		forwardTip.addStyleName(style.disabledButton());
 		
 		replyReg.removeHandler();
 		replyAllReg.removeHandler();
@@ -302,6 +314,8 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		reply.removeStyleName(style.disabledButton());
 		replyAllGroup.removeStyleName(style.disabledButton());
 		forwardGroup.removeStyleName(style.disabledButton());
+		replyAllTip.removeStyleName(style.disabledButton());
+		forwardTip.removeStyleName(style.disabledButton());
 		
 		replyReg = reply.addClickHandler(replyHandler);
 		replyAllReg = replyAll.addClickHandler(replyAllHandler);

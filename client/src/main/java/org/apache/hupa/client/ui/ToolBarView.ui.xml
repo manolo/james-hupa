@@ -56,7 +56,6 @@
 			margin: 0 2px;
 			border-radius: 4px;
 			text-decoration: none;
-			cursor: pointer;
 		}
 		
 		.checkMail {
@@ -104,9 +103,11 @@
 			height: 42px;
 			width: 18px;
 			background-position: 0 -1255px;
-			cursor: pointer;
 		}
 		
+        .handCursor{
+            cursor: pointer;
+        }
 		.forward {
 			min-width: 64px;
 			background-position: left -650px;
@@ -179,28 +180,28 @@
 	</ui:style>
 
 	<g:FlowPanel addStyleNames="{style.bar}" ui:field="ToolBar">
-		<g:Anchor ui:field="refresh" addStyleNames="{style.button} {style.checkMail}">Refresh</g:Anchor>
-		<g:Anchor ui:field="compose" addStyleNames="{style.button} {style.compose}">Compose</g:Anchor>
+		<g:Anchor ui:field="refresh" addStyleNames="{style.button} {style.checkMail} {style.handCursor}">Refresh</g:Anchor>
+		<g:Anchor ui:field="compose" addStyleNames="{style.button} {style.compose} {style.handCursor}">Compose</g:Anchor>
 		<g:HTMLPanel tag="span" addStyleNames="{style.spacer}"></g:HTMLPanel>
 		<g:Anchor ui:field="reply"
-			addStyleNames="{style.button} {style.reply} {style.disabledButton}">Reply</g:Anchor>
+			addStyleNames="{style.button} {style.reply} {style.handCursor}">Reply</g:Anchor>
 		<g:HTMLPanel ui:field="replyAllGroup" tag="span"
-			addStyleNames="{style.dropButton} {style.disabledButton}">
+			addStyleNames="{style.dropButton} {style.handCursor}">
 			<g:Anchor ui:field="replyAll" addStyleNames="{style.button} {style.replyAll}">Reply all
 			</g:Anchor>
-			<g:HTMLPanel tag="span" addStyleNames="{style.dropButtonTip}"></g:HTMLPanel>
+			<g:HTMLPanel ui:field="replyAllTip" tag="span" addStyleNames="{style.dropButtonTip}" />
 		</g:HTMLPanel>
 		<g:HTMLPanel ui:field="forwardGroup" tag="span"
-			addStyleNames="{style.dropButton} {style.disabledButton}">
+			addStyleNames="{style.dropButton} {style.handCursor}">
 			<g:Anchor ui:field="forward" addStyleNames="{style.button} {style.forward}">Forward
 			</g:Anchor>
-			<g:HTMLPanel tag="span" addStyleNames="{style.dropButtonTip}"></g:HTMLPanel>
+			<g:HTMLPanel ui:field="forwardTip" tag="span" addStyleNames="{style.dropButtonTip}" />
 		</g:HTMLPanel>
 		<g:Anchor ui:field="delete"
-			addStyleNames="{style.button} {style.delete} {style.disabledButton}">Delete</g:Anchor>
+			addStyleNames="{style.button} {style.delete} {style.handCursor}">Delete</g:Anchor>
 		<g:Anchor ui:field="mark"
-			addStyleNames="{style.button} {style.mark} {style.disabledButton}">Mark</g:Anchor>
+			addStyleNames="{style.button} {style.mark} {style.handCursor}">Mark</g:Anchor>
 		<g:Anchor ui:field="more"
-			addStyleNames="{style.button} {style.more} {style.disabledButton}">More</g:Anchor>
+			addStyleNames="{style.button} {style.more} {style.handCursor}">More</g:Anchor>
 	</g:FlowPanel>
 </ui:UiBinder>
