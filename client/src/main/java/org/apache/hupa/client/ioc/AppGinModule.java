@@ -143,7 +143,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(LabelListActivity.class).in(Singleton.class);
 		bind(LabelPropertiesActivity.class).in(Singleton.class);
 		
-		bind(_CenterSettingPanel.class).in(Singleton.class);
+//		bind(_CenterSettingPanel.class).in(Singleton.class);
 
 		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
 		bind(FolderListActivity.Displayable.class).to(FolderListView.class).in(Singleton.class);
