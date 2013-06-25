@@ -12,7 +12,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<ui:image field="buttons" src="res/buttons.png"/>
-	<ui:style>
+	<ui:style type="org.apache.hupa.client.ui.NavigationView.Style">
 		@sprite .navigation .inner {
 			gwt-image: 'buttons';
 			display: inline-block;
@@ -36,10 +36,14 @@
 		}
 		
 		.navigation .mailInner {
-			background-position: 0 -22px;
-			color: #3cf;
-			/*background-position: 0 2px;*/
+			background-position: 0 2px;
 		}
+
+        .navigation .mailInnerSelected {
+            background-position: 0 -22px;
+            color: #3cf;
+        }
+
 		
 		.navigation mailInner:hover,.navigation .mailInner.selected {
 			background-position: 0 -22px;
@@ -58,6 +62,9 @@
 			background-position: 0 -96px;
 		}
 		
+        .navigation .settingsInnerSelected {
+            background-position: 0 -120px;
+        }
 		.navigation a.settings:hover span.inner,.navigation a.settings.selected span.inner
 			{
 			background-position: 0 -120px;
@@ -74,17 +81,17 @@
 	</ui:style>
 	<g:DockLayoutPanel unit="PX" ui:field="Navigation">
 		<g:west size="74">
-			<g:SimplePanel addStyleNames="{style.navigation} {style.selected}">
-				<g:Anchor ui:field="mail"
+			<g:SimplePanel ui:field="mailOuter" addStyleNames="{style.navigation} {style.selected}">
+				<g:Anchor  ui:field="mail"
 					addStyleNames=" 
-                                {style.mailInner} {style.inner}">
+                                {style.mailInnerSelected} {style.inner}">
 					Mail
 				</g:Anchor>
 			</g:SimplePanel>
 		</g:west>
 		<g:center>
 			<g:SimplePanel addStyleNames="{style.navigation}">
-				<g:Anchor
+				<g:Anchor  ui:field="contact"
 					addStyleNames="
                                 {style.contactInner} {style.inner}">
 					Contacts
@@ -92,7 +99,7 @@
 			</g:SimplePanel>
 		</g:center>
 		<g:east size="97">
-			<g:SimplePanel addStyleNames="{style.navigation}">
+			<g:SimplePanel ui:field="settingOuter" addStyleNames="{style.navigation}">
 				<g:Anchor ui:field="setting"
 					addStyleNames="
                                 {style.settingsInner} {style.inner}">
