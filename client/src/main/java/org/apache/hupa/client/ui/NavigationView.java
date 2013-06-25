@@ -26,12 +26,14 @@ import org.apache.hupa.client.place.SettingPlace;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Inject;
 
 public class NavigationView extends Composite implements NavigationActivity.Displayable{
@@ -39,6 +41,18 @@ public class NavigationView extends Composite implements NavigationActivity.Disp
 	@Inject PlaceController placeController; 
 	@UiField Anchor mail;
 	@UiField Anchor setting;
+	@UiField Anchor contact;
+	@UiField SimplePanel mailOuter;
+	@UiField SimplePanel settingOuter;
+	
+	@UiField Style style;
+	
+
+	interface Style extends CssResource {
+		String selected();
+		String settingsInnerSelected();
+		String mailInnerSelected();
+	}
 
 	public NavigationView() {
 		initWidget(binder.createAndBindUi(this));
@@ -46,11 +60,19 @@ public class NavigationView extends Composite implements NavigationActivity.Disp
 	
 	@UiHandler("mail")
 	public void onMailClick(ClickEvent e){
+		mailOuter.addStyleName(style.selected());
+		settingOuter.removeStyleName(style.selected());
+		mail.addStyleName(style.mailInnerSelected());
+		setting.removeStyleName(style.settingsInnerSelected());
 		placeController.goTo(new MailFolderPlace("Mock-Inbox"));
 	}
 	
 	@UiHandler("setting")
 	public void onSettingClick(ClickEvent e){
+		mailOuter.removeStyleName(style.selected());
+		settingOuter.addStyleName(style.selected());
+		mail.removeStyleName(style.mailInnerSelected());
+		setting.addStyleName(style.settingsInnerSelected());
 		placeController.goTo(new SettingPlace("folders"));
 	}
 
