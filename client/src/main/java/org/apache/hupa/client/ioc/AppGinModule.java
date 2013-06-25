@@ -27,6 +27,8 @@ import org.apache.hupa.client.activity.ComposeToolBarActivity;
 import org.apache.hupa.client.activity.FolderListActivity;
 import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
+import org.apache.hupa.client.activity.LabelListActivity;
+import org.apache.hupa.client.activity.LabelPropertiesActivity;
 import org.apache.hupa.client.activity.LoginActivity;
 import org.apache.hupa.client.activity.LogoActivity;
 import org.apache.hupa.client.activity.MessageContentActivity;
@@ -45,6 +47,8 @@ import org.apache.hupa.client.mapper.CachingTopBarActivityMapper;
 import org.apache.hupa.client.mapper.ComposeActivityMapper;
 import org.apache.hupa.client.mapper.ComposeToolBarActivityMapper;
 import org.apache.hupa.client.mapper.FolderListActivityMapper;
+import org.apache.hupa.client.mapper.LabelListActivityMapper;
+import org.apache.hupa.client.mapper.LabelPropertiesActivityMapper;
 import org.apache.hupa.client.mapper.LoginActivityMapper;
 import org.apache.hupa.client.mapper.LogoActivityMapper;
 import org.apache.hupa.client.mapper.MessageContentActivityMapper;
@@ -64,6 +68,8 @@ import org.apache.hupa.client.ui.HupaLayout;
 import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.IMAPMessageView;
+import org.apache.hupa.client.ui.LabelListView;
+import org.apache.hupa.client.ui.LabelPropertiesView;
 import org.apache.hupa.client.ui.LoginLayout;
 import org.apache.hupa.client.ui.LoginLayoutable;
 import org.apache.hupa.client.ui.LoginView;
@@ -117,7 +123,10 @@ public class AppGinModule extends AbstractGinModule {
 		bind(MessageContentActivity.Displayable.class).to(MessageContentView.class);
 		bind(StatusActivity.Displayable.class).to(StatusView.class);
 		bind(ComposeToolBarActivity.Displayable.class).to(ComposeToolBarView.class);
-		bind(ComposeActivity.Displayable.class).to(ComposeView.class).in(Singleton.class);
+		bind(ComposeActivity.Displayable.class).to(ComposeView.class);
+		
+		bind(LabelListActivity.Displayable.class).to(LabelListView.class).in(Singleton.class);
+		bind(LabelPropertiesActivity.Displayable.class).to(LabelPropertiesView.class).in(Singleton.class);
 
 		bind(LoginActivity.class).in(Singleton.class);
 		bind(TopBarActivity.class).in(Singleton.class);
@@ -129,6 +138,10 @@ public class AppGinModule extends AbstractGinModule {
 		bind(MessageListActivity.class).in(Singleton.class);
 		bind(ComposeToolBarActivity.class).in(Singleton.class);
 		bind(ComposeActivity.class).in(Singleton.class);
+		
+		bind(LabelListActivity.class).in(Singleton.class);
+		bind(LabelPropertiesActivity.class).in(Singleton.class);
+		
 
 		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
 		bind(FolderListActivity.Displayable.class).to(FolderListView.class).in(Singleton.class);
@@ -154,6 +167,23 @@ public class AppGinModule extends AbstractGinModule {
 		bind(HupaController.class).in(Singleton.class);
 	}
 
+
+	
+	@Provides
+	@Singleton
+	@Named("LabelListRegion")
+	public ActivityManager getLabelListActivityMapper(LabelListActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+	
+	@Provides
+	@Singleton
+	@Named("LabelPropertiesRegion")
+	public ActivityManager getLabelPropertiesActivityMapper(LabelPropertiesActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+	
+	
 	@Provides
 	@Singleton
 	@Named("LoginPage")

@@ -15,10 +15,10 @@
 	<g:SplitLayoutPanel ui:field="thisPanel"
 		addStyleNames="{style.splitLayoutPanel}">
 		<g:west size="220">
-			<hupa:__OutlinePanel ui:field="outlinePanel" />
+			<hupa:__OutlineComposePanel ui:field="outlinePanel" />
 		</g:west>
 		<g:center>
-			<hupa:__ContentPanel ui:field="contentPanel" />
+            <g:SimpleLayoutPanel ui:field="composeContainer" />
 		</g:center>
 	</g:SplitLayoutPanel>
 </ui:UiBinder>

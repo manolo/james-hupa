@@ -17,41 +17,28 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.activity;
 
-import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.SettingPlace;
+import java.util.List;
 
-import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.place.shared.Place;
+import org.apache.hupa.client.ui.LabelNode;
+import org.apache.hupa.client.ui.WidgetDisplayable;
+
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
-public class FolderListActivityMapper extends MainActivityMapper {
-	private final Provider<FolderListActivity> folderListActivityProvider;
-
-	@Inject
-	public FolderListActivityMapper(Provider<FolderListActivity> folderListActivityProvider) {
-		this.folderListActivityProvider = folderListActivityProvider;
-	}
+public class LabelPropertiesActivity extends AppBaseActivity {
 
 	@Override
-	Activity asyncLoadActivity(final Place place) {
-		if (place instanceof SettingPlace)
-			return null;
-		return new ActivityAsyncProxy() {
-			@Override
-			protected void doAsync(RunAsyncCallback callback) {
-				GWT.runAsync(callback);
-			}
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
+	}
 
-			@Override
-			protected Activity createInstance() {
-				return folderListActivityProvider.get();
-			}
-		};
+	@Inject private Displayable display;
 
+	public interface Displayable extends WidgetDisplayable {
+
+		void cascade(LabelNode labelNode, List<LabelNode> list);
 	}
 }

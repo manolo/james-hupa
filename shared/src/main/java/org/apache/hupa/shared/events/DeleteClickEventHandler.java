@@ -17,15 +17,11 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.server.service;
+package org.apache.hupa.shared.events;
 
-import java.util.List;
+import com.google.gwt.event.shared.EventHandler;
 
-import javax.mail.MessagingException;
+public interface DeleteClickEventHandler extends EventHandler{
 
-import org.apache.hupa.shared.domain.ImapFolder;
-import org.apache.hupa.shared.exception.HupaException;
-
-public interface FetchFoldersService {
-	List<ImapFolder> fetch(ImapFolder folder, Boolean recursive) throws MessagingException, HupaException;
+    public void onDeleteClickEvent(DeleteClickEvent event);
 }

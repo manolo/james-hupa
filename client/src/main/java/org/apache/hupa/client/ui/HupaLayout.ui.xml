@@ -28,12 +28,12 @@
 				<g:center>
 					<g:LayoutPanel addStyleNames="{style.feature}"
 						ui:field="HupaFeature">
-						
+
 						<g:layer width="177px" left="10px">
 							<g:SimplePanel ui:field="logoContainer" />
 						</g:layer>
 						<g:layer>
-						  <g:SimplePanel ui:field="notificationContainer" />
+							<g:SimplePanel ui:field="notificationContainer" />
 						</g:layer>
 						<g:layer width="287px" right="0">
 							<g:SimpleLayoutPanel ui:field="navigationContainer" />
@@ -43,12 +43,22 @@
 			</g:DockLayoutPanel>
 		</g:layer>
 		<g:layer left='10px' right='10px' top='84px' bottom="20px">
-			<g:DockLayoutPanel ui:field="mainBox">
+			<g:DockLayoutPanel>
 				<g:north size="44">
 					<hupa:_ToolPanel ui:field="toolPanel" />
 				</g:north>
 				<g:center>
-					<hupa:_CenterPanel ui:field="centerPanel" />
+					<g:LayoutPanel ui:field="mainBox">
+						<g:layer left="0%" width="100%" top="0%" height="100%">
+							<hupa:_CenterPanel ui:field="centerPanel" />
+						</g:layer>
+						<g:layer left="0%" width="0%" top="0%" height="0%">
+							<hupa:_CenterSettingPanel ui:field="settingPanel" />
+						</g:layer>
+                        <g:layer left="0%" width="0%" top="0%" height="0%">
+                            <hupa:_CenterComposePanel ui:field="composePanel" />
+                        </g:layer>
+					</g:LayoutPanel>
 				</g:center>
 			</g:DockLayoutPanel>
 		</g:layer>

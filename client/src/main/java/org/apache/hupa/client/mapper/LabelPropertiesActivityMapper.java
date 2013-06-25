@@ -19,27 +19,27 @@
 
 package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.activity.FolderListActivity;
+import org.apache.hupa.client.activity.LabelPropertiesActivity;
 import org.apache.hupa.client.place.SettingPlace;
 
 import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class FolderListActivityMapper extends MainActivityMapper {
-	private final Provider<FolderListActivity> folderListActivityProvider;
+public class LabelPropertiesActivityMapper implements ActivityMapper {
+	private final Provider<LabelPropertiesActivity> labelPropertiesActivityProvider;
 
 	@Inject
-	public FolderListActivityMapper(Provider<FolderListActivity> folderListActivityProvider) {
-		this.folderListActivityProvider = folderListActivityProvider;
+	public LabelPropertiesActivityMapper(Provider<LabelPropertiesActivity> labelPropertiesActivityProvider) {
+		this.labelPropertiesActivityProvider = labelPropertiesActivityProvider;
 	}
 
-	@Override
-	Activity asyncLoadActivity(final Place place) {
-		if (place instanceof SettingPlace)
+	public Activity getActivity(Place place) {
+		if (!(place instanceof SettingPlace))
 			return null;
 		return new ActivityAsyncProxy() {
 			@Override
@@ -49,9 +49,8 @@ public class FolderListActivityMapper extends MainActivityMapper {
 
 			@Override
 			protected Activity createInstance() {
-				return folderListActivityProvider.get();
+				return labelPropertiesActivityProvider.get();
 			}
 		};
-
 	}
 }

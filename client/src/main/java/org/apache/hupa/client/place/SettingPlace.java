@@ -17,41 +17,35 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.place;
 
-import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.SettingPlace;
+import com.google.gwt.place.shared.PlaceTokenizer;
+import com.google.gwt.place.shared.Prefix;
 
-import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.place.shared.Place;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+public class SettingPlace extends AbstractPlace {
 
-public class FolderListActivityMapper extends MainActivityMapper {
-	private final Provider<FolderListActivity> folderListActivityProvider;
+	String token;
 
-	@Inject
-	public FolderListActivityMapper(Provider<FolderListActivity> folderListActivityProvider) {
-		this.folderListActivityProvider = folderListActivityProvider;
+	public SettingPlace(String token) {
+		this.token = token;
 	}
 
-	@Override
-	Activity asyncLoadActivity(final Place place) {
-		if (place instanceof SettingPlace)
-			return null;
-		return new ActivityAsyncProxy() {
-			@Override
-			protected void doAsync(RunAsyncCallback callback) {
-				GWT.runAsync(callback);
-			}
-
-			@Override
-			protected Activity createInstance() {
-				return folderListActivityProvider.get();
-			}
-		};
-
+	public String getToken() {
+		return token;
 	}
+
+	@Prefix("settings")
+	public static class Tokenizer implements PlaceTokenizer<SettingPlace> {
+
+		@Override
+		public SettingPlace getPlace(String token) {
+			return new SettingPlace(token);
+		}
+
+		@Override
+		public String getToken(SettingPlace place) {
+			return place.getToken();
+		}
+	}
+
 }

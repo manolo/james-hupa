@@ -34,6 +34,9 @@ public class ActivityManagerInitializer {
 
 	@Inject
 	public ActivityManagerInitializer(LoginLayoutable loginLayout, HupaLayoutable hupaLayout,
+
+	@Named("LabelListRegion") ActivityManager labelListActivityManager,
+	@Named("LabelPropertiesRegion") ActivityManager labelPropertiesActivityManager,
 			@Named("LoginPage") ActivityManager loginActivityManager,
 			@Named("TopBarRegion") ActivityManager topBarActivityManager,
 			@Named("LogoRegion") ActivityManager logoActivityManager,
@@ -45,8 +48,11 @@ public class ActivityManagerInitializer {
 			@Named("MessageListFooterRegion") ActivityManager messageListFooterActivityManager,
 			@Named("MessageContentRegion") ActivityManager messageContentActivityManager,
 			@Named("StatusRegion") ActivityManager statusActivityManager,
-			@Named("ComposeToolBarRegion") ActivityManager composeToolBarActivityManager,
-			@Named("ComposeRegion") ActivityManager composeActivityManager) {
+			@Named("ComposeToolBarRegion") ActivityManager composeToolBarActivityManager
+			,@Named("ComposeRegion") ActivityManager composeActivityManager
+			) {
+		labelPropertiesActivityManager.setDisplay(hupaLayout.getLabelPropertiesView());
+		labelListActivityManager.setDisplay(hupaLayout.getLabelListView());
 		loginActivityManager.setDisplay(loginLayout.getLoginView());
 		topBarActivityManager.setDisplay(hupaLayout.getTopBarView());
 		logoActivityManager.setDisplay(hupaLayout.getLogoView());

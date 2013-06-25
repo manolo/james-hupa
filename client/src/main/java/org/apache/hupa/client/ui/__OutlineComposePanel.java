@@ -17,41 +17,40 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.SettingPlace;
-
-import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.place.shared.Place;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class FolderListActivityMapper extends MainActivityMapper {
-	private final Provider<FolderListActivity> folderListActivityProvider;
+public class __OutlineComposePanel extends Composite {
 
-	@Inject
-	public FolderListActivityMapper(Provider<FolderListActivity> folderListActivityProvider) {
-		this.folderListActivityProvider = folderListActivityProvider;
+	@UiField ScrollPanel contactListContainer;
+
+	public __OutlineComposePanel() {
+		initWidget(binder.createAndBindUi(this));
 	}
 
-	@Override
-	Activity asyncLoadActivity(final Place place) {
-		if (place instanceof SettingPlace)
-			return null;
-		return new ActivityAsyncProxy() {
+	public AcceptsOneWidget getContactListView() {
+		return new AcceptsOneWidget() {
 			@Override
-			protected void doAsync(RunAsyncCallback callback) {
-				GWT.runAsync(callback);
-			}
-
-			@Override
-			protected Activity createInstance() {
-				return folderListActivityProvider.get();
+			public void setWidget(IsWidget w) {
+				contactListContainer.setWidget(Widget.asWidgetOrNull(w));
 			}
 		};
-
 	}
+
+	interface __OutlinePanelUiBinder extends
+			UiBinder<DockLayoutPanel, __OutlineComposePanel> {
+	}
+
+	private static __OutlinePanelUiBinder binder = GWT
+			.create(__OutlinePanelUiBinder.class);
+
 }

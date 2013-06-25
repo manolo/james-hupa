@@ -39,19 +39,18 @@ public class MessageListActivityMapper implements ActivityMapper {
 	}
 
 	public Activity getActivity(final Place place) {
-		if (place instanceof MailFolderPlace) {
-			return new ActivityAsyncProxy() {
-				@Override
-				protected void doAsync(RunAsyncCallback callback) {
-					GWT.runAsync(callback);
-				}
+		if (!(place instanceof MailFolderPlace))
+			return null;
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
 
-				@Override
-				protected Activity createInstance() {
-					return messageListActivityProvider.get().with(((MailFolderPlace) place).getFullName());
-				}
-			};
-		}
-		return null;
+			@Override
+			protected Activity createInstance() {
+				return messageListActivityProvider.get().with(((MailFolderPlace) place).getFullName());
+			}
+		};
 	}
 }

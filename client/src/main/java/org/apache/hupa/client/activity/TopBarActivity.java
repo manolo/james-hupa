@@ -123,4 +123,8 @@ public class TopBarActivity extends AppBaseActivity {
 		void showLoading(String message);
 		void hideLoading();
 	}
+	
+	public User getUser(){
+		return user;
+	}
 }

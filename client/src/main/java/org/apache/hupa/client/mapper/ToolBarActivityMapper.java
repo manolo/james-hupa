@@ -21,6 +21,7 @@ package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.SettingPlace;
 import org.apache.hupa.client.ui.ToolBarView.Parameters;
 
 import com.google.gwt.activity.shared.Activity;
@@ -40,6 +41,7 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 
 	@Override
 	Activity asyncLoadActivity(final Place place) {
+		if(place instanceof SettingPlace) return null;
 		final ToolBarActivity tba = toolBarActivityProvider.get();
 		if (place instanceof MailFolderPlace) { // might be from login page
 			MailFolderPlace here = (MailFolderPlace) place;

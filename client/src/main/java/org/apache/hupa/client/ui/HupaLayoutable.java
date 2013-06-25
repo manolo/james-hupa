@@ -40,13 +40,16 @@ public interface HupaLayoutable extends Layoutable {
 
 	AcceptsOneWidget getStatusView();
 
-	void switchToCompose();
-
-	void switchToMessage();
-
 	AcceptsOneWidget getComposeToolBarView();
 
 	AcceptsOneWidget getComposeView();
 
 	AcceptsOneWidget getNotificationView();
+
+	AcceptsOneWidget getLabelListView();
+	AcceptsOneWidget getContactListView();
+
+	AcceptsOneWidget getLabelPropertiesView();
+
+	void switchTo(int layout);
 }

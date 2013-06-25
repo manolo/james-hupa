@@ -52,12 +52,13 @@ public class Editor extends FlowPanel implements HasHTML, Focusable {
 		area.ensureDebugId("hupa-editor-area");
 		area.setHeight("100%");
 
-		Toolbar toolbar = new Toolbar(area, constants);
-		toolbar.ensureDebugId("hupa-editor-toolbar");
+//		Toolbar toolbar = new Toolbar(area, constants);
+//		toolbar.ensureDebugId("hupa-editor-toolbar");
 
-		super.add(toolbar);
+//		super.add(toolbar);
 		super.add(area);
 		setWidth("100%");
+		setHeight("100%");
 
 		/*
 		 * Note: rich-area is created in an iframe, so Hupa's style sheets are
@@ -82,6 +83,10 @@ public class Editor extends FlowPanel implements HasHTML, Focusable {
 			addNewlineHandlersForFireFox();
 
 	}
+	
+	public RichTextArea getArea(){
+		return area;
+	}
 
 	@Override
 	public void setSize(String width, String height) {
@@ -90,11 +95,13 @@ public class Editor extends FlowPanel implements HasHTML, Focusable {
 
 	@Override
 	public void setWidth(String width) {
+		super.setWidth(width);
 		area.setWidth(width);
 	}
 
 	@Override
 	public void setHeight(String height) {
+		super.setHeight(height);
 		area.setHeight(height);
 	}
 

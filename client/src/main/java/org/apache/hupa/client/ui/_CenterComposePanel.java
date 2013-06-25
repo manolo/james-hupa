@@ -17,41 +17,49 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.ui;
 
-import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.place.SettingPlace;
-
-import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.place.shared.Place;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class FolderListActivityMapper extends MainActivityMapper {
-	private final Provider<FolderListActivity> folderListActivityProvider;
+public class _CenterComposePanel extends Composite {
 
-	@Inject
-	public FolderListActivityMapper(Provider<FolderListActivity> folderListActivityProvider) {
-		this.folderListActivityProvider = folderListActivityProvider;
+	@UiField protected SplitLayoutPanel thisPanel;
+	@UiField protected __OutlineComposePanel outlinePanel;
+	@UiField protected SimpleLayoutPanel composeContainer;
+
+	public _CenterComposePanel() {
+		initWidget(binder.createAndBindUi(this));
+		thisPanel.setWidgetMinSize(outlinePanel, 144);
 	}
 
-	@Override
-	Activity asyncLoadActivity(final Place place) {
-		if (place instanceof SettingPlace)
-			return null;
-		return new ActivityAsyncProxy() {
-			@Override
-			protected void doAsync(RunAsyncCallback callback) {
-				GWT.runAsync(callback);
-			}
+	public AcceptsOneWidget getContactListView() {
+		return outlinePanel.getContactListView();
+	}
 
+
+	interface _CenterPanelUiBinder extends
+			UiBinder<SplitLayoutPanel, _CenterComposePanel> {
+	}
+
+	private static _CenterPanelUiBinder binder = GWT
+			.create(_CenterPanelUiBinder.class);
+
+
+	public AcceptsOneWidget getComposeView() {
+		return new AcceptsOneWidget() {
 			@Override
-			protected Activity createInstance() {
-				return folderListActivityProvider.get();
+			public void setWidget(IsWidget w) {
+				composeContainer.setWidget(Widget.asWidgetOrNull(w));
 			}
 		};
-
 	}
+
 }
