@@ -30,11 +30,14 @@ import org.apache.hupa.shared.domain.ImapFolder;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
@@ -49,6 +52,9 @@ public class LabelListView extends Composite implements LabelListActivity.Displa
 
 	@UiField SimplePanel thisView;
 
+	@UiField Button add;
+	@UiField Button delete;
+
 	@Inject
 	public LabelListView(HupaRequestFactory rf, final LabelPropertiesActivity.Displayable labelProperties) {
 		initWidget(binder.createAndBindUi(this));
@@ -62,6 +68,11 @@ public class LabelListView extends Composite implements LabelListActivity.Displa
 		});
 		data.addDataDisplay(cellList);
 		thisView.setWidget(cellList);
+	}
+	
+	@Override
+	public SingleSelectionModel<LabelNode> getSelectionModel(){
+		return this.selectionModel;
 	}
 
 	public final SingleSelectionModel<LabelNode> selectionModel = new SingleSelectionModel<LabelNode>(
@@ -153,9 +164,19 @@ public class LabelListView extends Composite implements LabelListActivity.Displa
 
 	}
 
-	interface LabelListUiBinder extends UiBinder<SimplePanel, LabelListView> {
+	interface LabelListUiBinder extends UiBinder<DockLayoutPanel, LabelListView> {
 	}
 
 	private static LabelListUiBinder binder = GWT.create(LabelListUiBinder.class);
+
+	@Override
+	public HasClickHandlers getAdd() {
+		return add;
+	}
+
+	@Override
+	public HasClickHandlers getDelete() {
+		return delete;
+	}
 
 }
