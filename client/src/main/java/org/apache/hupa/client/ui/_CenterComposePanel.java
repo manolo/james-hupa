@@ -24,68 +24,42 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class _ToolPanel extends Composite {
+public class _CenterComposePanel extends Composite {
 
-	@UiField protected DockLayoutPanel thisPanel;
-	@UiField protected SimplePanel toolBarContainer;
-	@UiField protected SimplePanel composeToolBarContainer;
-	@UiField protected HTMLPanel searchFilterContainer;
+	@UiField protected SplitLayoutPanel thisPanel;
+	@UiField protected __OutlineComposePanel outlinePanel;
+	@UiField protected SimpleLayoutPanel composeContainer;
 
-	public _ToolPanel() {
+	public _CenterComposePanel() {
 		initWidget(binder.createAndBindUi(this));
+		thisPanel.setWidgetMinSize(outlinePanel, 144);
 	}
 
-	void toggleTo(int layout) {
-		switch (layout) {
-		case HupaLayout.LAYOUT_MESSAGE:
-			this.toggleToCompose(false);break;
-		case HupaLayout.LAYOUT_COMPOSE:
-			this.toggleToCompose(true);break;
-			//TODO compose button should be shown when setting
-		default:
-			hideAll();
-		}
+	public AcceptsOneWidget getContactListView() {
+		return outlinePanel.getContactListView();
 	}
 
-	private void hideAll() {
-		toolBarContainer.setVisible(false);
-		searchFilterContainer.setVisible(false);
-		composeToolBarContainer.setVisible(false);
+
+	interface _CenterPanelUiBinder extends
+			UiBinder<SplitLayoutPanel, _CenterComposePanel> {
 	}
 
-	protected void toggleToCompose(boolean visible) {
-		toolBarContainer.setVisible(!visible);
-		searchFilterContainer.setVisible(!visible);
-		composeToolBarContainer.setVisible(visible);
-	}
+	private static _CenterPanelUiBinder binder = GWT
+			.create(_CenterPanelUiBinder.class);
 
-	public AcceptsOneWidget getToolBarView() {
+
+	public AcceptsOneWidget getComposeView() {
 		return new AcceptsOneWidget() {
 			@Override
 			public void setWidget(IsWidget w) {
-				toolBarContainer.setWidget(Widget.asWidgetOrNull(w));
+				composeContainer.setWidget(Widget.asWidgetOrNull(w));
 			}
 		};
 	}
-
-	public AcceptsOneWidget getComposeToolBarView() {
-		return new AcceptsOneWidget() {
-			@Override
-			public void setWidget(IsWidget w) {
-				composeToolBarContainer.setWidget(Widget.asWidgetOrNull(w));
-			}
-		};
-	}
-
-	interface _ToolPanelUiBinder extends UiBinder<DockLayoutPanel, _ToolPanel> {
-	}
-
-	private static _ToolPanelUiBinder binder = GWT.create(_ToolPanelUiBinder.class);
 
 }

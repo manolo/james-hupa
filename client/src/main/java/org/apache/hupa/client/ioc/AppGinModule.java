@@ -86,7 +86,6 @@ import org.apache.hupa.client.ui.ToolBarView;
 import org.apache.hupa.client.ui.TopBarView;
 import org.apache.hupa.client.ui.TopView;
 import org.apache.hupa.client.ui.WestView;
-import org.apache.hupa.client.ui._CenterSettingPanel;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
@@ -143,7 +142,6 @@ public class AppGinModule extends AbstractGinModule {
 		bind(LabelListActivity.class).in(Singleton.class);
 		bind(LabelPropertiesActivity.class).in(Singleton.class);
 		
-//		bind(_CenterSettingPanel.class).in(Singleton.class);
 
 		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
 		bind(FolderListActivity.Displayable.class).to(FolderListView.class).in(Singleton.class);

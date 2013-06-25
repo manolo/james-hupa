@@ -21,7 +21,6 @@ package org.apache.hupa.client.ui;
 
 import java.util.List;
 
-import org.apache.hupa.client.activity.LabelListActivity;
 import org.apache.hupa.client.activity.LabelPropertiesActivity;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.rf.RenameFolderRequest;
