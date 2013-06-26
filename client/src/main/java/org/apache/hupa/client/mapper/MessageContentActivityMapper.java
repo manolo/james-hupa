@@ -20,6 +20,7 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageContentActivity;
+import org.apache.hupa.client.place.IMAPMessagePlace;
 import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 
@@ -45,7 +46,7 @@ public class MessageContentActivityMapper implements ActivityMapper {
 	}
 
 	public Activity getActivity(final Place place) {
-		if (place instanceof MailFolderPlace) {
+		if (place instanceof IMAPMessagePlace) {
 			return new ActivityAsyncProxy() {
 				@Override
 				protected void doAsync(RunAsyncCallback callback) {
@@ -54,8 +55,7 @@ public class MessageContentActivityMapper implements ActivityMapper {
 
 				@Override
 				protected Activity createInstance() {
-					return messageContentActivityProvider.get().with(
-							(MailFolderPlace) place);
+					return messageContentActivityProvider.get().with(((IMAPMessagePlace)place).getToken());
 				}
 			};
 		}

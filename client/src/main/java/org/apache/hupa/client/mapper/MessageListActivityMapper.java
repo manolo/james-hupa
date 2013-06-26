@@ -21,16 +21,16 @@ package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageListActivity;
 import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.SettingPlace;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class MessageListActivityMapper implements ActivityMapper {
+public class MessageListActivityMapper extends MainActivityMapper {
 	private final Provider<MessageListActivity> messageListActivityProvider;
 
 	@Inject
@@ -38,8 +38,9 @@ public class MessageListActivityMapper implements ActivityMapper {
 		this.messageListActivityProvider = messageListActivityProvider;
 	}
 
-	public Activity getActivity(final Place place) {
-		if (!(place instanceof MailFolderPlace))
+	@Override
+	Activity asyncLoadActivity(final Place place) {
+		if (place instanceof SettingPlace)
 			return null;
 		return new ActivityAsyncProxy() {
 			@Override
@@ -49,7 +50,7 @@ public class MessageListActivityMapper implements ActivityMapper {
 
 			@Override
 			protected Activity createInstance() {
-				return messageListActivityProvider.get().with(((MailFolderPlace) place).getFullName());
+				return messageListActivityProvider.get();
 			}
 		};
 	}

@@ -203,7 +203,7 @@
 					</g:east>
 					<g:center>
 						<g:DockLayoutPanel>
-							<g:north size="37">
+							<g:north size="23">
 								<g:SimplePanel ui:field="editorToolBar" />
 							</g:north>
 							<g:center>

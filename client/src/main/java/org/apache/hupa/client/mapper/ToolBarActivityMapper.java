@@ -45,7 +45,7 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 		final ToolBarActivity tba = toolBarActivityProvider.get();
 		if (place instanceof MailFolderPlace) { // might be from login page
 			MailFolderPlace here = (MailFolderPlace) place;
-			tba.getDisplay().setParameters(new Parameters(here.getUser(), here.getFullName(), null, null));
+			tba.getDisplay().setParameters(new Parameters(null, here.getToken(), null, null));
 		}
 
 		return new ActivityAsyncProxy() {
@@ -58,7 +58,7 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 			protected Activity createInstance() {
 				String token = null;
 				if (place instanceof MailFolderPlace) {
-					token = ((MailFolderPlace) place).getFullName();
+					token = ((MailFolderPlace) place).getToken();
 				}
 				return tba.with(token);
 			}

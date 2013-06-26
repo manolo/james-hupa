@@ -38,6 +38,8 @@ import org.apache.hupa.shared.domain.IdleResult;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.LoginEvent;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -146,7 +148,12 @@ public class HupaController {
 	}
 
 	public void hideTopLoading() {
-		topBar.hideLoading();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				topBar.hideLoading();
+			}
+		});
 	}
 
 	private final Timer hideNotice = new Timer() {

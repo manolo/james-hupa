@@ -35,5 +35,6 @@ public class FolderListActivity extends AppBaseActivity {
 	}
 
 	public interface Displayable extends WidgetDisplayable {
+		void refresh();
 	}
 }

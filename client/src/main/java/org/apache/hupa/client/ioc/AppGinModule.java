@@ -25,7 +25,6 @@ import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.activity.ComposeActivity;
 import org.apache.hupa.client.activity.ComposeToolBarActivity;
 import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.activity.IMAPMessageActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
 import org.apache.hupa.client.activity.LabelListActivity;
 import org.apache.hupa.client.activity.LabelPropertiesActivity;
@@ -67,7 +66,6 @@ import org.apache.hupa.client.ui.FoldersTreeViewModel;
 import org.apache.hupa.client.ui.HupaLayout;
 import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.IMAPMessageListView;
-import org.apache.hupa.client.ui.IMAPMessageView;
 import org.apache.hupa.client.ui.LabelListView;
 import org.apache.hupa.client.ui.LabelPropertiesView;
 import org.apache.hupa.client.ui.LoginLayout;
@@ -148,13 +146,11 @@ public class AppGinModule extends AbstractGinModule {
 		bind(WestActivity.Displayable.class).to(WestView.class).in(Singleton.class);
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);
-		bind(IMAPMessageActivity.Displayable.class).to(IMAPMessageView.class);
 
 		bind(TopActivity.class).in(Singleton.class);
 		bind(WestActivity.class).in(Singleton.class);
 		bind(IMAPMessageListActivity.class).in(Singleton.class);
 		bind(MessageSendActivity.class).in(Singleton.class);
-		bind(IMAPMessageActivity.class).in(Singleton.class);
 
 		bind(MessagesCellTable.class).in(Singleton.class);
 		bind(FoldersTreeViewModel.class).in(Singleton.class);

@@ -19,44 +19,13 @@
 
 package org.apache.hupa.client.place;
 
-import org.apache.hupa.shared.domain.ImapFolder;
-import org.apache.hupa.shared.domain.Message;
-import org.apache.hupa.shared.domain.MessageDetails;
-import org.apache.hupa.shared.domain.User;
-
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
 public class IMAPMessagePlace extends AbstractPlace {
-
-	private Message message;
-	private MessageDetails messageDetails;
-	private ImapFolder folder;
-	private User user;
-//	private String messageId;
-
-	public IMAPMessagePlace(String token) {
-//		this.messageId = token;
-	}
-	
-	public IMAPMessagePlace(MessageDetails messageDetails){
-		this.messageDetails = messageDetails;
-	}
-
-	public Message getMessage() {
-		return message;
-	}
-
-	public MessageDetails getMessageDetails() {
-		return messageDetails;
-	}
-
-	public ImapFolder getFolder() {
-		return folder;
-	}
-
-	public User getUser() {
-		return user;
+	String token;
+	public IMAPMessagePlace(String token){
+		this.token = token;
 	}
 
 	@Prefix("message")
@@ -69,16 +38,12 @@ public class IMAPMessagePlace extends AbstractPlace {
 
 		@Override
 		public String getToken(IMAPMessagePlace place) {
-			return place.getMessageDetails().getMessageId();
+			return place.getToken();
 		}
 	}
 
-	public IMAPMessagePlace with(User user, ImapFolder folder, Message message, MessageDetails messageDetails) {
-		this.message = message;
-		this.messageDetails = messageDetails;
-		this.folder = folder;
-		this.user = user;
-		return this;
+	public String getToken() {
+		return token;
 	}
 
 }
