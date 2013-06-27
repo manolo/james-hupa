@@ -20,7 +20,7 @@
 package org.apache.hupa.client.activity;
 
 import org.apache.hupa.client.HupaConstants;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.rf.LoginUserRequest;
 import org.apache.hupa.client.ui.HupaLayoutable;
 import org.apache.hupa.client.ui.WidgetDisplayable;
@@ -82,8 +82,7 @@ public class LoginActivity extends AppBaseActivity {
 			public void onSuccess(User response) {
 				RootLayoutPanel.get().clear();
 				RootLayoutPanel.get().add(hupaLayout.get());
-//				placeController.goTo(new MailFolderPlace(response.getSettings().getDraftsFolderName()));
-				placeController.goTo(new MailFolderPlace(response));
+				placeController.goTo(new FolderPlace(response.getSettings().getInboxFolderName()));
 				eventBus.fireEvent(new LoginEvent(response));
 				display.setLoading(false);
 			}

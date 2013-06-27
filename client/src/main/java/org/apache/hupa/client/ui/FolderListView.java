@@ -20,26 +20,46 @@
 package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.FolderListActivity;
+import org.apache.hupa.client.ui.RightCellTree.Css;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Inject;
 
 public class FolderListView extends Composite implements FolderListActivity.Displayable {
 	@UiField SimplePanel thisView;
-	private RightCellTree cellTree;
+	private CellTree cellTree;
+	private FoldersTreeViewModel viewModel; 
 
 	@Inject
 	public FolderListView(final FoldersTreeViewModel viewModel) {
 		initWidget(binder.createAndBindUi(this));
-		cellTree = new RightCellTree(viewModel);
+		this.viewModel = viewModel;
+		cellTree = new CellTree(viewModel,null,Resources.INSTANCE);
 		cellTree.setAnimationEnabled(true);
 		thisView.add(cellTree);
 	}
+	public interface Resources extends CellTree.Resources {
 
+		Resources INSTANCE = GWT.create(Resources.class);
+
+		@Source("res/CssFolderListView.css")
+		public Css cellTreeStyle();
+
+		@Source("res/listicons.png")
+		public ImageResource listicons();
+	}
+	
+	@Override
+	public void refresh(){
+		viewModel.refresh();
+	}
+	
 	interface FolderListUiBinder extends UiBinder<SimplePanel, FolderListView> {
 	}
 

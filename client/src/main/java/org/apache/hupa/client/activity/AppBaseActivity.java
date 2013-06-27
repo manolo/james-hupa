@@ -22,6 +22,7 @@ package org.apache.hupa.client.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -33,6 +34,7 @@ import com.google.inject.Inject;
 public abstract class AppBaseActivity extends AbstractActivity {
 
 	@Inject protected EventBus eventBus;
+	@Inject protected HupaController hc;
 	@Inject protected PlaceController placeController;
 	@Inject protected HupaRequestFactory requestFactory;
 
@@ -41,7 +43,9 @@ public abstract class AppBaseActivity extends AbstractActivity {
 	@Override
 	public void onStop() {
 		for (HandlerRegistration registration : registrations) {
-			registration.removeHandler();
+			if(registration != null){
+				registration.removeHandler();	
+			}
 		}
 		registrations.clear();
 	}

@@ -20,7 +20,7 @@
 package org.apache.hupa.client.activity;
 
 import org.apache.hupa.client.activity.MessageSendActivity.Type;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;
@@ -72,7 +72,7 @@ public class WestActivity extends AppBaseActivity {
 		this.currentPlace = place;
 	}
 
-	public WestActivity with(MailFolderPlace place) {
+	public WestActivity with(FolderPlace place) {
 		this.currentPlace = place;
 //		this.user = place.getUser();
 		this.folder = new ImapFolderImpl(user.getSettings().getInboxFolderName());

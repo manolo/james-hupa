@@ -28,7 +28,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class NotificationActivityMapper extends MainActivityMapper {
+public class NotificationActivityMapper extends _HupaActivityMapper {
 	private final Provider<NotificationActivity> notificationActivityProvider;
 
 	@Inject

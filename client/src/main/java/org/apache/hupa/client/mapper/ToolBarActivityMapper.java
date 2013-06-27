@@ -20,7 +20,8 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.ToolBarActivity;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
+import org.apache.hupa.client.place.MessagePlace;
 import org.apache.hupa.client.place.SettingPlace;
 import org.apache.hupa.client.ui.ToolBarView.Parameters;
 
@@ -31,7 +32,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class ToolBarActivityMapper extends MainActivityMapper {
+public class ToolBarActivityMapper extends _HupaActivityMapper {
 	private final Provider<ToolBarActivity> toolBarActivityProvider;
 
 	@Inject
@@ -43,9 +44,12 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 	Activity asyncLoadActivity(final Place place) {
 		if(place instanceof SettingPlace) return null;
 		final ToolBarActivity tba = toolBarActivityProvider.get();
-		if (place instanceof MailFolderPlace) { // might be from login page
-			MailFolderPlace here = (MailFolderPlace) place;
-			tba.getDisplay().setParameters(new Parameters(here.getUser(), here.getFullName(), null, null));
+		if (place instanceof FolderPlace) { // might be from login page
+			FolderPlace here = (FolderPlace) place;
+			tba.getDisplay().setParameters(new Parameters(null, here.getToken(), null, null));
+		}
+		if(place instanceof MessagePlace){
+			return tba.with(((MessagePlace)place).getTokenWrapper().getFolder());
 		}
 
 		return new ActivityAsyncProxy() {
@@ -57,8 +61,10 @@ public class ToolBarActivityMapper extends MainActivityMapper {
 			@Override
 			protected Activity createInstance() {
 				String token = null;
-				if (place instanceof MailFolderPlace) {
-					token = ((MailFolderPlace) place).getFullName();
+				if (place instanceof FolderPlace) {
+					token = ((FolderPlace) place).getToken();
+				}else if(place instanceof MessagePlace){
+					token = ((MessagePlace)place).getTokenWrapper().getFolder();
 				}
 				return tba.with(token);
 			}

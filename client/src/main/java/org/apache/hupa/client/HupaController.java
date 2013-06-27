@@ -24,7 +24,8 @@ import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.mapper.ActivityManagerInitializer;
 import org.apache.hupa.client.place.ComposePlace;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
+import org.apache.hupa.client.place.HupaPlace;
 import org.apache.hupa.client.place.SettingPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
@@ -38,6 +39,8 @@ import org.apache.hupa.shared.domain.IdleResult;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.LoginEvent;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -100,11 +103,11 @@ public class HupaController {
 				hupaLayout.switchTo(HupaLayout.LAYOUT_COMPOSE);
 			} else {
 				//FIXME when gmail mode
-				this.placeController.goTo(new MailFolderPlace("Mock-Inbox"));
+				this.placeController.goTo(new FolderPlace("Mock-Inbox"));
 			}
 		} else if (place instanceof SettingPlace) {
 			hupaLayout.switchTo(HupaLayout.LAYOUT_SETTING);
-		} else {
+		} else if(place instanceof HupaPlace){
 			hupaLayout.switchTo(HupaLayout.LAYOUT_MESSAGE);
 		}
 	}
@@ -146,7 +149,12 @@ public class HupaController {
 	}
 
 	public void hideTopLoading() {
-		topBar.hideLoading();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				topBar.hideLoading();
+			}
+		});
 	}
 
 	private final Timer hideNotice = new Timer() {

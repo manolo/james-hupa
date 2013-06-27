@@ -23,12 +23,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.AbstractPlace;
+import org.apache.hupa.client.place.FolderPlace;
+import org.apache.hupa.client.place.MessagePlace;
 import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
 import org.apache.hupa.client.rf.FetchMessagesRequest;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
-import org.apache.hupa.client.rf.HupaRequestFactory;
+import org.apache.hupa.client.ui.HasRefresh;
 import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.ToolBarView;
 import org.apache.hupa.client.ui.WidgetDisplayable;
@@ -45,17 +46,13 @@ import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.DeleteClickEvent;
 import org.apache.hupa.shared.events.DeleteClickEventHandler;
 import org.apache.hupa.shared.events.ExpandMessageEvent;
-import org.apache.hupa.shared.events.LoadMessagesEvent;
-import org.apache.hupa.shared.events.LoadMessagesEventHandler;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.CellPreviewEvent.Handler;
-import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
@@ -63,20 +60,17 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 public class MessageListActivity extends AppBaseActivity {
 
 	@Inject private Displayable display;
-	@Inject private HupaRequestFactory requestFactory;
-	@Inject private PlaceController placeController;
 	@Inject private ToolBarActivity.Displayable toolBar;
 	@Inject private TopBarActivity.Displayable topBar;
 	private String folderName;
 	private String searchValue;
 	private User user;
-	private boolean pending;
 
 	@Override
 	public void start(AcceptsOneWidget container, final EventBus eventBus) {
 		container.setWidget(display.asWidget());
 		bindTo(eventBus);
-		display.getGrid().addCellPreviewHandler(new Handler<Message>() {
+		this.registerHandler(display.getGrid().addCellPreviewHandler(new Handler<Message>() {
 			@Override
 			public void onCellPreview(final CellPreviewEvent<Message> event) {
 				if (hasClickedButFirstCol(event)) {
@@ -97,8 +91,7 @@ public class MessageListActivity extends AppBaseActivity {
 							ToolBarView.Parameters p = new ToolBarView.Parameters(user, folderName, event.getValue(),
 									response.getMessageDetails());
 							toolBar.setParameters(p);
-							MailFolderPlace place = new MailFolderPlace(f.getFullName() + "/"
-									+ event.getValue().getUid());
+							MessagePlace place = new MessagePlace(folderName+AbstractPlace.SPLITTER+event.getValue().getUid());
 							placeController.goTo(place);
 						}
 
@@ -116,75 +109,72 @@ public class MessageListActivity extends AppBaseActivity {
 				}
 			}
 
-		});
-		display.getGrid().addRangeChangeHandler(new RangeChangeEvent.Handler() {
-			@Override
-			public void onRangeChange(RangeChangeEvent event) {
-				fetch(event.getNewRange().getStart());
-			}
-		});
-		if (!pending) {
-			pending = true;
-			Scheduler.get().scheduleFinally(new ScheduledCommand() {
+		}));
+		dataProvider = new MessageListDataProvider();
+		dataProvider.addDataDisplay(display.getGrid());
+	}
+	
+	public void refresh(){
+		dataProvider.refresh();
+	}
+
+	private MessageListDataProvider dataProvider;
+	public class MessageListDataProvider extends AsyncDataProvider<Message> implements HasRefresh{
+
+		HasData<Message> display;
+		
+		@Override
+		public void addDataDisplay(HasData<Message> display) {
+			super.addDataDisplay(display);
+			this.display = display;
+		}
+		
+
+		@Override
+		public void refresh() {
+			this.onRangeChanged(display);
+		}
+
+		@Override
+		protected void onRangeChanged(HasData<Message> display) {
+			FetchMessagesRequest req = requestFactory.messagesRequest();
+			FetchMessagesAction action = req.create(FetchMessagesAction.class);
+			final ImapFolder f = req.create(ImapFolder.class);
+			f.setFullName(folderName);
+			action.setFolder(f);
+			action.setOffset(display.getVisibleRange().getLength());
+			action.setSearchString(searchValue);
+			action.setStart(display.getVisibleRange().getStart());
+			req.fetch(action).fire(new Receiver<FetchMessagesResult>() {
 				@Override
-				public void execute() {
-					pending = false;
-					fetch(0);
+				public void onSuccess(final FetchMessagesResult response) {
+					if (response == null || response.getRealCount()== 0) {
+						updateRowCount(-1, true);
+					} else {
+						updateRowData(0, response.getMessages());
+					}
+					hc.hideTopLoading();
+				}
+
+				@Override
+				public void onFailure(ServerFailure error) {
+					if (error.isFatal()) {
+						throw new RuntimeException(error.getMessage());
+					}
+					hc.hideTopLoading();
 				}
 			});
+
 		}
+		
 	}
 
 	private boolean hasClickedButFirstCol(CellPreviewEvent<Message> event) {
 		return "click".equals(event.getNativeEvent().getType()) && 0 != event.getColumn();
 	}
-	public void fetch(final int start) {
-		FetchMessagesRequest req = requestFactory.messagesRequest();
-		FetchMessagesAction action = req.create(FetchMessagesAction.class);
-		final ImapFolder f = req.create(ImapFolder.class);
-		f.setFullName(folderName);
-		action.setFolder(f);
-		action.setOffset(display.getGrid().getPageSize());
-		action.setSearchString(searchValue);
-		action.setStart(start);
-		req.fetch(action).fire(new Receiver<FetchMessagesResult>() {
-
-			@Override
-			public void onSuccess(final FetchMessagesResult result) {
-				assert result != null;
-				display.getGrid().setRowCount(result.getRealCount());
-				display.getGrid().setRowData(start, result.getMessages());
-				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-					@Override
-					public void execute() {
-						topBar.hideLoading();
-					}
-				});
-			}
-
-			@Override
-			public void onFailure(ServerFailure error) {
-				placeController.goTo(new DefaultPlace("@"));
-				if (error.isFatal()) {
-					// FIXME should goto login page regarding the long time
-					// session expired.
-					throw new RuntimeException(error.getMessage());
-				}
-			}
-		});
-	}
 
 	private void bindTo(EventBus eventBus) {
-		eventBus.addHandler(LoadMessagesEvent.TYPE, new LoadMessagesEventHandler() {
-			public void onLoadMessagesEvent(LoadMessagesEvent loadMessagesEvent) {
-				user = loadMessagesEvent.getUser();
-				folderName = loadMessagesEvent.getFolder().getFullName();
-				searchValue = loadMessagesEvent.getSearchValue();
-				fetch(0);
-
-			}
-		});
-		eventBus.addHandler(DeleteClickEvent.TYPE, new DeleteClickEventHandler(){
+		eventBus.addHandler(DeleteClickEvent.TYPE, new DeleteClickEventHandler() {
 			@Override
 			public void onDeleteClickEvent(DeleteClickEvent event) {
 				deleteSelectedMessages();
@@ -217,20 +207,24 @@ public class MessageListActivity extends AppBaseActivity {
 		}
 	}
 	private void deleteSelectedMessages() {
-		MailFolderPlace currentPlace = (MailFolderPlace) placeController.getWhere();
+		String fullName= null;
+		if(placeController.getWhere() instanceof FolderPlace){
+			fullName=((FolderPlace) placeController.getWhere()).getToken();
+		}else{
+			fullName=((MessagePlace) placeController.getWhere()).getTokenWrapper().getFolder();
+		}
 		final List<Long> uids = display.getSelectedMessagesIds();
 		DeleteMessageByUidRequest req = requestFactory.deleteMessageByUidRequest();
 		DeleteMessageByUidAction action = req.create(DeleteMessageByUidAction.class);
 		ImapFolder f = req.create(ImapFolder.class);
-		f.setFullName(currentPlace.getFullName());
+		f.setFullName(fullName);
 		action.setMessageUids(uids);
 		action.setFolder(f);
 		req.delete(action).fire(new Receiver<DeleteMessageResult>() {
 			@Override
 			public void onSuccess(DeleteMessageResult response) {
-				fetch(0);
 				antiSelectMessages(display.getSelectedMessages());
-				display.refresh();
+				refresh();
 			}
 		});
 	}

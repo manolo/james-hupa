@@ -22,13 +22,14 @@ package org.apache.hupa.client.activity;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.MessagePlace.TokenWrapper;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
 import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.domain.GetMessageDetailsAction;
 import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 
+import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
@@ -83,9 +84,9 @@ public class MessageContentActivity extends AppBaseActivity {
 		void fillMessageContent(String messageContent);
 	}
 
-	public MessageContentActivity with(MailFolderPlace place) {
-		this.fullName = place.getFullName();
-		this.uid = place.getUid();
+	public Activity with(TokenWrapper tokenWrapper) {
+		fullName= tokenWrapper.getFolder();
+		uid = tokenWrapper.getUid();
 		return this;
 	}
 }

@@ -17,24 +17,37 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.activity;
+package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.ui.WidgetDisplayable;
+import org.apache.hupa.client.place.MessagePlace;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.activity.shared.CachingActivityMapper;
+import com.google.gwt.activity.shared.FilteredActivityMapper;
+import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 
-public class FolderListActivity extends AppBaseActivity {
+public class CachingMessageListActivityMapper implements ActivityMapper {
 
-	@Inject private Displayable display;
+	private ActivityMapper filteredActivityMapper;
+
+	@Inject
+	public CachingMessageListActivityMapper(MessageListActivityMapper messageListActivityMapper) {
+
+		FilteredActivityMapper.Filter filter = new FilteredActivityMapper.Filter() {
+			@Override
+			public Place filter(Place place) {
+				return place instanceof MessagePlace ? Place.NOWHERE : place;
+			}
+		};
+
+		filteredActivityMapper = new FilteredActivityMapper(filter, new CachingActivityMapper(messageListActivityMapper));
+	}
 
 	@Override
-	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		container.setWidget(display.asWidget());
+	public Activity getActivity(Place place) {
+		return filteredActivityMapper.getActivity(place);
 	}
 
-	public interface Displayable extends WidgetDisplayable {
-		void refresh();
-	}
 }

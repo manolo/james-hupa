@@ -28,7 +28,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class LogoActivityMapper extends MainActivityMapper {
+public class LogoActivityMapper extends _HupaActivityMapper {
 	private final Provider<LogoActivity> logoActivityProvider;
 
 	@Inject

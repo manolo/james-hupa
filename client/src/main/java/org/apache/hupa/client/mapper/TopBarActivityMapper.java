@@ -28,7 +28,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class TopBarActivityMapper extends MainActivityMapper {
+public class TopBarActivityMapper extends _HupaActivityMapper {
 	private final Provider<TopBarActivity> topBarActivityProvider;
 
 	@Inject

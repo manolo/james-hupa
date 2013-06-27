@@ -47,20 +47,21 @@ public class ToolBarActivity extends AppBaseActivity {
 
 	@Inject private Displayable display;
 	@Inject private MessagesCellTable table;
-	@Inject private MessageListActivity.Displayable messagesDisplay;
+	@Inject private MessageListActivity messagesDisplay;
+	@Inject private FolderListActivity.Displayable folderListDisplay;
 	@Inject private HupaController hupaController;
-	//FIXME messagesDisplay can not be injected into ToolBarView, why?
+	// FIXME messagesDisplay can not be injected into ToolBarView, why?
 	private String folderName;
-	
-	@Override
-	public void onStop(){
-		//for tool bar work as expected, not to unbind event handlers
-	}
-	
+
+//	@Override
+//	public void onStop() {
+//		// for tool bar work as expected, not to unbind event handlers
+//	}
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
+//		display.enableAllTools(false);
 		bindTo(eventBus);
 	}
 
@@ -68,8 +69,8 @@ public class ToolBarActivity extends AppBaseActivity {
 		this.folderName = folder;
 		return this;
 	}
-	
-	public Displayable getDisplay(){
+
+	public Displayable getDisplay() {
 		return display;
 	}
 
@@ -91,15 +92,13 @@ public class ToolBarActivity extends AppBaseActivity {
 				display.getPopup().hide();
 			}
 		}));
-		
+
 		registerHandler(display.getDeleteReg());
 		registerHandler(display.getMarkReg());
 		registerHandler(display.getReplyReg());
 		registerHandler(display.getReplyAllReg());
 		registerHandler(display.getForwardReg());
 	}
-
-	
 
 	protected void toMarkRead(boolean read) {
 		List<Long> uids = new ArrayList<Long>();
@@ -120,11 +119,14 @@ public class ToolBarActivity extends AppBaseActivity {
 		req.set(action).fire(new Receiver<GenericResult>() {
 			@Override
 			public void onSuccess(GenericResult response) {
-				hupaController.hideTopLoading();
 				table.refresh();
-				table.setStyleBaseOnTag();
+//				table.setStyleBaseOnTag();
+				folderListDisplay.refresh();
+				messagesDisplay.refresh();
+				hupaController.hideTopLoading();
 			}
 		});
+
 	}
 
 	public interface Displayable extends WidgetDisplayable {

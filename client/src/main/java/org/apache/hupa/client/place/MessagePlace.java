@@ -19,66 +19,55 @@
 
 package org.apache.hupa.client.place;
 
-import org.apache.hupa.shared.domain.ImapFolder;
-import org.apache.hupa.shared.domain.Message;
-import org.apache.hupa.shared.domain.MessageDetails;
-import org.apache.hupa.shared.domain.User;
-
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
-public class IMAPMessagePlace extends AbstractPlace {
+public class MessagePlace extends HupaPlace {
 
-	private Message message;
-	private MessageDetails messageDetails;
-	private ImapFolder folder;
-	private User user;
-//	private String messageId;
+	public static class TokenWrapper {
+		String folder;
+		String uid;
 
-	public IMAPMessagePlace(String token) {
-//		this.messageId = token;
-	}
-	
-	public IMAPMessagePlace(MessageDetails messageDetails){
-		this.messageDetails = messageDetails;
-	}
-
-	public Message getMessage() {
-		return message;
-	}
-
-	public MessageDetails getMessageDetails() {
-		return messageDetails;
+		public TokenWrapper(String folder, String uid) {
+			this.folder = folder;
+			this.uid = uid;
+		}
+		public String getUid() {
+			return uid;
+		}
+		public String getFolder() {
+			return folder;
+		}
+		@Override
+		public String toString() {
+			return folder + SPLITTER + uid;
+		}
 	}
 
-	public ImapFolder getFolder() {
-		return folder;
+	TokenWrapper tokenWrapper;
+
+	public TokenWrapper getTokenWrapper() {
+		return tokenWrapper;
 	}
 
-	public User getUser() {
-		return user;
+	public MessagePlace(String token) {
+		String[] params = token.split(SPLITTER);
+		this.tokenWrapper = new TokenWrapper(params[0], params[1]);
 	}
 
 	@Prefix("message")
-	public static class Tokenizer implements PlaceTokenizer<IMAPMessagePlace> {
+	public static class Tokenizer implements PlaceTokenizer<MessagePlace> {
 
 		@Override
-		public IMAPMessagePlace getPlace(String token) {
-			return new IMAPMessagePlace(token);
+		public MessagePlace getPlace(String token) {
+			return new MessagePlace(token);
 		}
 
 		@Override
-		public String getToken(IMAPMessagePlace place) {
-			return place.getMessageDetails().getMessageId();
+		public String getToken(MessagePlace place) {
+			String token = place.getTokenWrapper().getFolder() + SPLITTER + place.getTokenWrapper().getUid();
+			return token;
 		}
-	}
-
-	public IMAPMessagePlace with(User user, ImapFolder folder, Message message, MessageDetails messageDetails) {
-		this.message = message;
-		this.messageDetails = messageDetails;
-		this.folder = folder;
-		this.user = user;
-		return this;
 	}
 
 }

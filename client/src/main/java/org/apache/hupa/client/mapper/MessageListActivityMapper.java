@@ -20,17 +20,17 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageListActivity;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
+import org.apache.hupa.client.place.MessagePlace;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class MessageListActivityMapper implements ActivityMapper {
+public class MessageListActivityMapper extends _MessageActivityMapper {
 	private final Provider<MessageListActivity> messageListActivityProvider;
 
 	@Inject
@@ -38,9 +38,8 @@ public class MessageListActivityMapper implements ActivityMapper {
 		this.messageListActivityProvider = messageListActivityProvider;
 	}
 
-	public Activity getActivity(final Place place) {
-		if (!(place instanceof MailFolderPlace))
-			return null;
+	@Override
+	protected Activity lazyLoadActivity(final Place place) {
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {
@@ -49,7 +48,12 @@ public class MessageListActivityMapper implements ActivityMapper {
 
 			@Override
 			protected Activity createInstance() {
-				return messageListActivityProvider.get().with(((MailFolderPlace) place).getFullName());
+				if (place instanceof FolderPlace) {
+					return messageListActivityProvider.get().with(((FolderPlace) place).getToken());
+				} else if(place instanceof MessagePlace){
+					return messageListActivityProvider.get().with(((MessagePlace) place).getTokenWrapper().getFolder());
+				}
+				return messageListActivityProvider.get();
 			}
 		};
 	}

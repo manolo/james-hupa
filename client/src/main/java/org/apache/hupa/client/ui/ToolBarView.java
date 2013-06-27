@@ -21,7 +21,6 @@ package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.place.ComposePlace;
-import org.apache.hupa.client.place.MailFolderPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.MessageDetails;
@@ -218,8 +217,6 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 
 		@Override
 		public void onClick(ClickEvent event) {		
-			if (!(placeController.getWhere() instanceof MailFolderPlace))
-				return;
 			eventBus.fireEvent(new DeleteClickEvent());
 		}
 	};
@@ -304,10 +301,11 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		forwardGroup.addStyleName(style.disabledButton());
 		replyAllTip.addStyleName(style.disabledButton());
 		forwardTip.addStyleName(style.disabledButton());
-		
-		replyReg.removeHandler();
-		replyAllReg.removeHandler();
-		forwardReg.removeHandler();
+		if(replyReg != null){
+			replyReg.removeHandler();
+			replyAllReg.removeHandler();
+			forwardReg.removeHandler();	
+		}
 	}
 
 	private void removeSendingDisableds() {
@@ -329,8 +327,10 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		delete.addStyleName(style.disabledButton());
 		mark.addStyleName(style.disabledButton());
 		
-		deleteReg.removeHandler();
-		markReg.removeHandler();
+		if(deleteReg != null){
+			deleteReg.removeHandler();
+			markReg.removeHandler();
+		}
 	}
 
 	private void removeDealingDisableds() {

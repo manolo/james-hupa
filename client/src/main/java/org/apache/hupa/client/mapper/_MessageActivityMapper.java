@@ -17,24 +17,25 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.activity;
+package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.ui.WidgetDisplayable;
+import org.apache.hupa.client.place.ComposePlace;
+import org.apache.hupa.client.place.SettingPlace;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.inject.Inject;
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.place.shared.Place;
 
-public class FolderListActivity extends AppBaseActivity {
-
-	@Inject private Displayable display;
-
+/**
+ * mappers in the messages panel could facility
+ */
+abstract class _MessageActivityMapper extends _HupaActivityMapper {
 	@Override
-	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		container.setWidget(display.asWidget());
+	Activity asyncLoadActivity(Place place) {
+		if (place instanceof SettingPlace)
+			return null;
+		if (place instanceof ComposePlace)
+			return null;
+		return lazyLoadActivity(place);
 	}
-
-	public interface Displayable extends WidgetDisplayable {
-		void refresh();
-	}
+	abstract protected Activity lazyLoadActivity(Place place);
 }

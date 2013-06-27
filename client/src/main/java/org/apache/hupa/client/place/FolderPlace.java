@@ -17,24 +17,34 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.activity;
+package org.apache.hupa.client.place;
 
-import org.apache.hupa.client.ui.WidgetDisplayable;
+import com.google.gwt.place.shared.PlaceTokenizer;
+import com.google.gwt.place.shared.Prefix;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.inject.Inject;
+public class FolderPlace extends HupaPlace {
 
-public class FolderListActivity extends AppBaseActivity {
+	private String token;
 
-	@Inject private Displayable display;
-
-	@Override
-	public void start(AcceptsOneWidget container, EventBus eventBus) {
-		container.setWidget(display.asWidget());
+	public FolderPlace(String token) {
+		this.token = token;
 	}
 
-	public interface Displayable extends WidgetDisplayable {
-		void refresh();
+	public String getToken() {
+		return token;
+	}
+
+	@Prefix("folder")
+	public static class Tokenizer implements PlaceTokenizer<FolderPlace> {
+
+		@Override
+		public FolderPlace getPlace(String token) {
+			return new FolderPlace(token);
+		}
+
+		@Override
+		public String getToken(FolderPlace place) {
+			return place.getToken();
+		}
 	}
 }
