@@ -20,7 +20,7 @@
 package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.NavigationActivity;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.place.SettingPlace;
 
 import com.google.gwt.core.client.GWT;
@@ -65,7 +65,7 @@ public class NavigationView extends Composite implements NavigationActivity.Disp
 		mail.addStyleName(style.mailInnerSelected());
 		setting.removeStyleName(style.settingsInnerSelected());
 		//FIXME need the default one
-		placeController.goTo(new MailFolderPlace("Mock-Inbox"));
+		placeController.goTo(new FolderPlace("Mock-Inbox"));
 	}
 	
 	@UiHandler("setting")

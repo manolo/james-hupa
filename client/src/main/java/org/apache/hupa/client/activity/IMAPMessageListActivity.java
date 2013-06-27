@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.hupa.client.activity.MessageSendActivity.Type;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.DeleteMessageAllRequest;
 import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
@@ -303,7 +303,7 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 	private void redrawTable() {
         display.getTable().setVisibleRangeAndClearData(display.getTable().getVisibleRange(), true);
     }
-	public IMAPMessageListActivity with(MailFolderPlace place) {
+	public IMAPMessageListActivity with(FolderPlace place) {
 //		this.user = place.getUser();
 //		this.folder = place.getFolder();
 //		this.searchValue = place.getSearchValue();

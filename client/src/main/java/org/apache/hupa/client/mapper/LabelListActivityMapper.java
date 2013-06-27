@@ -29,7 +29,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class LabelListActivityMapper extends MainActivityMapper {
+public class LabelListActivityMapper extends _HupaActivityMapper {
 	private final Provider<LabelListActivity> labelListActivityProvider;
 
 	@Inject

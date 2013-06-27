@@ -24,7 +24,8 @@ import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.mapper.ActivityManagerInitializer;
 import org.apache.hupa.client.place.ComposePlace;
-import org.apache.hupa.client.place.MailFolderPlace;
+import org.apache.hupa.client.place.FolderPlace;
+import org.apache.hupa.client.place.HupaPlace;
 import org.apache.hupa.client.place.SettingPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.HupaRequestFactory;
@@ -102,11 +103,11 @@ public class HupaController {
 				hupaLayout.switchTo(HupaLayout.LAYOUT_COMPOSE);
 			} else {
 				//FIXME when gmail mode
-				this.placeController.goTo(new MailFolderPlace("Mock-Inbox"));
+				this.placeController.goTo(new FolderPlace("Mock-Inbox"));
 			}
 		} else if (place instanceof SettingPlace) {
 			hupaLayout.switchTo(HupaLayout.LAYOUT_SETTING);
-		} else {
+		} else if(place instanceof HupaPlace){
 			hupaLayout.switchTo(HupaLayout.LAYOUT_MESSAGE);
 		}
 	}

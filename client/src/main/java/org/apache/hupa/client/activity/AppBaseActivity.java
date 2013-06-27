@@ -43,7 +43,9 @@ public abstract class AppBaseActivity extends AbstractActivity {
 	@Override
 	public void onStop() {
 		for (HandlerRegistration registration : registrations) {
-			registration.removeHandler();
+			if(registration != null){
+				registration.removeHandler();	
+			}
 		}
 		registrations.clear();
 	}

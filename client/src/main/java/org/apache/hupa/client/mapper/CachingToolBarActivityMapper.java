@@ -17,19 +17,38 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.place;
+package org.apache.hupa.client.mapper;
 
+import org.apache.hupa.client.place.MessagePlace;
+
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.activity.shared.CachingActivityMapper;
+import com.google.gwt.activity.shared.FilteredActivityMapper;
 import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
 
-public class AbstractPlace extends Place {
+public class CachingToolBarActivityMapper implements ActivityMapper {
 
-	public static final String SPLITTER = ":";
+	private ActivityMapper filteredActivityMapper;
 
-	@Override
-	public String toString() {
-		return getClass().getName().substring(
-				getClass().getName().lastIndexOf("."));
+	@Inject
+	public CachingToolBarActivityMapper(ToolBarActivityMapper toolBarActivityMapper) {
+
+		FilteredActivityMapper.Filter filter = new FilteredActivityMapper.Filter() {
+			@Override
+			public Place filter(Place place) {
+				return place instanceof MessagePlace ? Place.NOWHERE : place;
+			}
+		};
+
+		CachingActivityMapper cachingActivityMapper = new CachingActivityMapper(toolBarActivityMapper);
+		filteredActivityMapper = new FilteredActivityMapper(filter, cachingActivityMapper);
 	}
 
+	@Override
+	public Activity getActivity(Place place) {
+		return filteredActivityMapper.getActivity(place);
+	}
 
 }

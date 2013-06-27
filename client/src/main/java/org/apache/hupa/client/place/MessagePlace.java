@@ -22,28 +22,52 @@ package org.apache.hupa.client.place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
-public class IMAPMessagePlace extends AbstractPlace {
-	String token;
-	public IMAPMessagePlace(String token){
-		this.token = token;
+public class MessagePlace extends HupaPlace {
+
+	public static class TokenWrapper {
+		String folder;
+		String uid;
+
+		public TokenWrapper(String folder, String uid) {
+			this.folder = folder;
+			this.uid = uid;
+		}
+		public String getUid() {
+			return uid;
+		}
+		public String getFolder() {
+			return folder;
+		}
+		@Override
+		public String toString() {
+			return folder + SPLITTER + uid;
+		}
+	}
+
+	TokenWrapper tokenWrapper;
+
+	public TokenWrapper getTokenWrapper() {
+		return tokenWrapper;
+	}
+
+	public MessagePlace(String token) {
+		String[] params = token.split(SPLITTER);
+		this.tokenWrapper = new TokenWrapper(params[0], params[1]);
 	}
 
 	@Prefix("message")
-	public static class Tokenizer implements PlaceTokenizer<IMAPMessagePlace> {
+	public static class Tokenizer implements PlaceTokenizer<MessagePlace> {
 
 		@Override
-		public IMAPMessagePlace getPlace(String token) {
-			return new IMAPMessagePlace(token);
+		public MessagePlace getPlace(String token) {
+			return new MessagePlace(token);
 		}
 
 		@Override
-		public String getToken(IMAPMessagePlace place) {
-			return place.getToken();
+		public String getToken(MessagePlace place) {
+			String token = place.getTokenWrapper().getFolder() + SPLITTER + place.getTokenWrapper().getUid();
+			return token;
 		}
-	}
-
-	public String getToken() {
-		return token;
 	}
 
 }

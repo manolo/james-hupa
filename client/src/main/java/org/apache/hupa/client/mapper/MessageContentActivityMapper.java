@@ -20,45 +20,38 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageContentActivity;
-import org.apache.hupa.client.place.IMAPMessagePlace;
-import org.apache.hupa.client.place.MailFolderPlace;
-import org.apache.hupa.client.rf.HupaRequestFactory;
+import org.apache.hupa.client.place.MessagePlace;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class MessageContentActivityMapper implements ActivityMapper {
-
-	@Inject protected PlaceController placeController;
-	@Inject protected HupaRequestFactory requestFactory;
+public class MessageContentActivityMapper extends _MessageActivityMapper {
 	private final Provider<MessageContentActivity> messageContentActivityProvider;
 
 	@Inject
-	public MessageContentActivityMapper(
-			Provider<MessageContentActivity> messageContentActivityProvider) {
+	public MessageContentActivityMapper(Provider<MessageContentActivity> messageContentActivityProvider) {
 		this.messageContentActivityProvider = messageContentActivityProvider;
 	}
 
-	public Activity getActivity(final Place place) {
-		if (place instanceof IMAPMessagePlace) {
-			return new ActivityAsyncProxy() {
-				@Override
-				protected void doAsync(RunAsyncCallback callback) {
-					GWT.runAsync(callback);
-				}
+	@Override
+	protected Activity lazyLoadActivity(final Place place) {
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
 
-				@Override
-				protected Activity createInstance() {
-					return messageContentActivityProvider.get().with(((IMAPMessagePlace)place).getToken());
+			@Override
+			protected Activity createInstance() {
+				if (place instanceof MessagePlace) {
+					return messageContentActivityProvider.get().with(((MessagePlace) place).getTokenWrapper());
 				}
-			};
-		}
-		return null;
+				return messageContentActivityProvider.get();
+			}
+		};
 	}
 }

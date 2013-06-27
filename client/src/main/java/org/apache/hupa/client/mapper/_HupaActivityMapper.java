@@ -17,35 +17,28 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.place;
+package org.apache.hupa.client.mapper;
 
-import com.google.gwt.place.shared.PlaceTokenizer;
-import com.google.gwt.place.shared.Prefix;
+import org.apache.hupa.client.place.DefaultPlace;
 
-public class MailFolderPlace extends AbstractPlace {
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.place.shared.Place;
+/**
+ * almost all of the activities could extends this activity<p>
+ * except the Login one.
+ */
+abstract class _HupaActivityMapper implements ActivityMapper{
 
-	private String token;
-
-	public MailFolderPlace(String token) {
-		this.token = token;
+	@Override
+	public Activity getActivity(Place place) {
+		if(place instanceof DefaultPlace)return null;
+		return asyncLoadActivity(place);
 	}
+	
+	/**
+	 * code splitting
+	 */
+	abstract Activity asyncLoadActivity(final Place place);
 
-	// the main place use empty string such that colon'd disappear
-	@Prefix("folder")
-	public static class Tokenizer implements PlaceTokenizer<MailFolderPlace> {
-
-		@Override
-		public MailFolderPlace getPlace(String token) {
-			return new MailFolderPlace(token);
-		}
-
-		@Override
-		public String getToken(MailFolderPlace place) {
-			return place.getToken();
-		}
-	}
-
-	public String getToken() {
-		return token;
-	}
 }

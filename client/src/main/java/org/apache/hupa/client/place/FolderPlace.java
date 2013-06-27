@@ -19,17 +19,32 @@
 
 package org.apache.hupa.client.place;
 
-import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceTokenizer;
+import com.google.gwt.place.shared.Prefix;
 
-public class AbstractPlace extends Place {
+public class FolderPlace extends HupaPlace {
 
-	public static final String SPLITTER = ":";
+	private String token;
 
-	@Override
-	public String toString() {
-		return getClass().getName().substring(
-				getClass().getName().lastIndexOf("."));
+	public FolderPlace(String token) {
+		this.token = token;
 	}
 
+	public String getToken() {
+		return token;
+	}
 
+	@Prefix("folder")
+	public static class Tokenizer implements PlaceTokenizer<FolderPlace> {
+
+		@Override
+		public FolderPlace getPlace(String token) {
+			return new FolderPlace(token);
+		}
+
+		@Override
+		public String getToken(FolderPlace place) {
+			return place.getToken();
+		}
+	}
 }

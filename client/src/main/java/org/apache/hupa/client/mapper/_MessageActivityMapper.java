@@ -19,26 +19,23 @@
 
 package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.place.DefaultPlace;
+import org.apache.hupa.client.place.ComposePlace;
+import org.apache.hupa.client.place.SettingPlace;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
+
 /**
- * almost all of the activities could extends this activity<p>
- * except the Login one.
+ * mappers in the messages panel could facility
  */
-abstract class MainActivityMapper implements ActivityMapper{
-
+abstract class _MessageActivityMapper extends _HupaActivityMapper {
 	@Override
-	public Activity getActivity(Place place) {
-		if(place instanceof DefaultPlace)return null;
-		return asyncLoadActivity(place);
+	Activity asyncLoadActivity(Place place) {
+		if (place instanceof SettingPlace)
+			return null;
+		if (place instanceof ComposePlace)
+			return null;
+		return lazyLoadActivity(place);
 	}
-	
-	/**
-	 * code splitting
-	 */
-	abstract Activity asyncLoadActivity(final Place place);
-
+	abstract protected Activity lazyLoadActivity(Place place);
 }
