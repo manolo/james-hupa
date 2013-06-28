@@ -112,7 +112,7 @@ public class TopActivity extends AppBaseActivity {
 
 	private void doLogout() {
 		if (user != null) {
-			LogoutUserRequest req = requestFactory.logoutRequest();
+			LogoutUserRequest req = rf.logoutRequest();
 			req.logout().fire(new Receiver<LogoutUserResult>() {
 				@Override
 				public void onSuccess(LogoutUserResult response) {
@@ -163,7 +163,7 @@ public class TopActivity extends AppBaseActivity {
 		public void run() {
 			if (!running) {
 				running = true;
-				IdleRequest req = requestFactory.idleRequest();
+				IdleRequest req = rf.idleRequest();
 				IdleAction action = req.create(IdleAction.class);
 				req.idle(action).fire(new Receiver<IdleResult>() {
 

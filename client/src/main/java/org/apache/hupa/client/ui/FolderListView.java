@@ -41,7 +41,7 @@ public class FolderListView extends Composite implements FolderListActivity.Disp
 		initWidget(binder.createAndBindUi(this));
 		this.viewModel = viewModel;
 		cellTree = new CellTree(viewModel,null,Resources.INSTANCE);
-		cellTree.setAnimationEnabled(true);
+//		cellTree.setAnimationEnabled(true);
 		thisView.add(cellTree);
 	}
 	public interface Resources extends CellTree.Resources {

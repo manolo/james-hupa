@@ -118,7 +118,7 @@ public class MessageSendActivity extends AppBaseActivity {
 	protected ClickHandler sendClickHandler = new ClickHandler() {
 		public void onClick(ClickEvent event) {
 			if (validate()) {
-				sendReq = requestFactory.sendMessageRequest();
+				sendReq = rf.sendMessageRequest();
 				message = sendReq.create(SmtpMessage.class);
 				List<MessageAttachment> attaches = new ArrayList<MessageAttachment>();
 				for(MessageAttachment attach : attachments){// we must use this, else console will complain a NullPointerException
@@ -148,7 +148,7 @@ public class MessageSendActivity extends AppBaseActivity {
 						}
 					});
 				} else if (type == Type.FORWARD) {
-					SendForwardMessageRequest forwardReq = requestFactory.sendForwardMessageRequest();
+					SendForwardMessageRequest forwardReq = rf.sendForwardMessageRequest();
 					SendForwardMessageAction forwardAction = forwardReq.create(SendForwardMessageAction.class);
 					forwardAction.setMessage(message);
 					forwardAction.setFolder(folder);
@@ -160,7 +160,7 @@ public class MessageSendActivity extends AppBaseActivity {
 						}
 					});
 				} else {
-					SendReplyMessageRequest replyReq = requestFactory.sendReplyMessageRequest();
+					SendReplyMessageRequest replyReq = rf.sendReplyMessageRequest();
 					SendReplyMessageAction replyAction = replyReq.create(SendReplyMessageAction.class);
 					replyAction.setMessage(message);
 					replyAction.setFolder(folder);

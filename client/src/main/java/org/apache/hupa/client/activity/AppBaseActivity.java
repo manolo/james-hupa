@@ -35,8 +35,8 @@ public abstract class AppBaseActivity extends AbstractActivity {
 
 	@Inject protected EventBus eventBus;
 	@Inject protected HupaController hc;
-	@Inject protected PlaceController placeController;
-	@Inject protected HupaRequestFactory requestFactory;
+	@Inject protected PlaceController pc;
+	@Inject protected HupaRequestFactory rf;
 
 	protected List<HandlerRegistration> registrations = new ArrayList<HandlerRegistration>();
 

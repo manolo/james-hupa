@@ -10,6 +10,6 @@
 	language governing permissions and limitations under the License. -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<g:SimplePanel ui:field="thisView" />
 </ui:UiBinder>

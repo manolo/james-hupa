@@ -40,6 +40,11 @@ public class MessageListActivityMapper extends _MessageActivityMapper {
 
 	@Override
 	protected Activity lazyLoadActivity(final Place place) {
+		if (place instanceof FolderPlace) {
+			return messageListActivityProvider.get().with(((FolderPlace) place).getToken());
+		} else if(place instanceof MessagePlace){
+			return messageListActivityProvider.get().with(((MessagePlace) place).getTokenWrapper().getFolder());
+		}
 		return new ActivityAsyncProxy() {
 			@Override
 			protected void doAsync(RunAsyncCallback callback) {

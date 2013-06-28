@@ -19,6 +19,7 @@
 
 package org.apache.hupa.client.mapper;
 
+import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.place.MessagePlace;
 
 import com.google.gwt.activity.shared.Activity;
@@ -38,11 +39,13 @@ public class CachingMessageListActivityMapper implements ActivityMapper {
 		FilteredActivityMapper.Filter filter = new FilteredActivityMapper.Filter() {
 			@Override
 			public Place filter(Place place) {
-				return place instanceof MessagePlace ? Place.NOWHERE : place;
+				return place instanceof MessagePlace ? new FolderPlace(((MessagePlace) place).getTokenWrapper()
+						.getFolder()) : place;
 			}
 		};
 
-		filteredActivityMapper = new FilteredActivityMapper(filter, new CachingActivityMapper(messageListActivityMapper));
+		filteredActivityMapper = new FilteredActivityMapper(filter,
+				new CachingActivityMapper(messageListActivityMapper));
 	}
 
 	@Override
