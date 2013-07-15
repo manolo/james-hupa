@@ -182,7 +182,6 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		replyReg = reply.addClickHandler(replyHandler);
 		replyAllReg = replyAll.addClickHandler(replyAllHandler);
 		forwardReg = forward.addClickHandler(forwardHandler);
-		enableAllTools(false);
 	}
 
 	@UiHandler("compose")
@@ -305,6 +304,9 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 			replyReg.removeHandler();
 			replyAllReg.removeHandler();
 			forwardReg.removeHandler();	
+			replyReg = null;
+			replyAllReg = null;
+			forwardReg = null;
 		}
 	}
 
@@ -314,7 +316,12 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		forwardGroup.removeStyleName(style.disabledButton());
 		replyAllTip.removeStyleName(style.disabledButton());
 		forwardTip.removeStyleName(style.disabledButton());
-		
+
+		if(replyReg != null){
+			replyReg.removeHandler();
+			replyAllReg.removeHandler();
+			forwardReg.removeHandler();	
+		}
 		replyReg = reply.addClickHandler(replyHandler);
 		replyAllReg = replyAll.addClickHandler(replyAllHandler);
 		forwardReg = forward.addClickHandler(forwardHandler);
@@ -330,13 +337,19 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		if(deleteReg != null){
 			deleteReg.removeHandler();
 			markReg.removeHandler();
+			deleteReg = null;
+			markReg = null;
 		}
 	}
 
 	private void removeDealingDisableds() {
 		delete.removeStyleName(style.disabledButton());
 		mark.removeStyleName(style.disabledButton());
-		
+
+		if(markReg != null){
+			deleteReg.removeHandler();
+			markReg.removeHandler();
+		}
 		markReg = mark.addClickHandler(markHandler);
 		deleteReg = delete.addClickHandler(deleteHandler);
 	}

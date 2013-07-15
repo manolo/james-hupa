@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hupa.client.HupaController;
+import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.rf.SetFlagRequest;
 import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.ToolBarView.Parameters;
@@ -32,6 +33,7 @@ import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.SetFlagAction;
+import org.apache.hupa.shared.events.RefreshUnreadEvent;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -48,7 +50,6 @@ public class ToolBarActivity extends AppBaseActivity {
 	@Inject private Displayable display;
 	@Inject private MessagesCellTable table;
 	@Inject private MessageListActivity.Displayable messagesDisplay;
-	@Inject private FolderListActivity.Displayable folderListDisplay;
 	@Inject private HupaController hupaController;
 	private String folderName;
 
@@ -56,6 +57,9 @@ public class ToolBarActivity extends AppBaseActivity {
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
 		bindTo(eventBus);
+		if(pc.getWhere() instanceof FolderPlace){
+			display.enableAllTools(false);
+		}
 	}
 
 	public ToolBarActivity with(String folder) {
@@ -84,11 +88,11 @@ public class ToolBarActivity extends AppBaseActivity {
 				display.getPopup().hide();
 			}
 		}));
-		registerHandler(display.getDeleteReg());
-		registerHandler(display.getMarkReg());
-		registerHandler(display.getReplyReg());
-		registerHandler(display.getReplyAllReg());
-		registerHandler(display.getForwardReg());
+//		registerHandler(display.getDeleteReg());
+//		registerHandler(display.getMarkReg());
+//		registerHandler(display.getReplyReg());
+//		registerHandler(display.getReplyAllReg());
+//		registerHandler(display.getForwardReg());
 	}
 
 	protected void toMarkRead(boolean read) {
@@ -110,7 +114,7 @@ public class ToolBarActivity extends AppBaseActivity {
 		req.set(action).fire(new Receiver<GenericResult>() {
 			@Override
 			public void onSuccess(GenericResult response) {
-				folderListDisplay.refresh();
+				eventBus.fireEvent(new RefreshUnreadEvent());
 				messagesDisplay.refresh();
 				hupaController.hideTopLoading();
 			}
