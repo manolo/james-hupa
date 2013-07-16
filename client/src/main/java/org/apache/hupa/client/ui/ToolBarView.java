@@ -300,14 +300,14 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		forwardGroup.addStyleName(style.disabledButton());
 		replyAllTip.addStyleName(style.disabledButton());
 		forwardTip.addStyleName(style.disabledButton());
-		if(replyReg != null){
-			replyReg.removeHandler();
-			replyAllReg.removeHandler();
-			forwardReg.removeHandler();	
-			replyReg = null;
-			replyAllReg = null;
-			forwardReg = null;
-		}
+//		if(replyReg != null){
+//			replyReg.removeHandler();
+//			replyAllReg.removeHandler();
+//			forwardReg.removeHandler();	
+//			replyReg = null;
+//			replyAllReg = null;
+//			forwardReg = null;
+//		}
 	}
 
 	private void removeSendingDisableds() {
@@ -317,14 +317,14 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		replyAllTip.removeStyleName(style.disabledButton());
 		forwardTip.removeStyleName(style.disabledButton());
 
-		if(replyReg != null){
-			replyReg.removeHandler();
-			replyAllReg.removeHandler();
-			forwardReg.removeHandler();	
-		}
-		replyReg = reply.addClickHandler(replyHandler);
-		replyAllReg = replyAll.addClickHandler(replyAllHandler);
-		forwardReg = forward.addClickHandler(forwardHandler);
+//		if(replyReg != null){
+//			replyReg.removeHandler();
+//			replyAllReg.removeHandler();
+//			forwardReg.removeHandler();	
+//		}
+//		replyReg = reply.addClickHandler(replyHandler);
+//		replyAllReg = replyAll.addClickHandler(replyAllHandler);
+//		forwardReg = forward.addClickHandler(forwardHandler);
 		
 	}
 	
@@ -334,24 +334,24 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		delete.addStyleName(style.disabledButton());
 		mark.addStyleName(style.disabledButton());
 		
-		if(deleteReg != null){
-			deleteReg.removeHandler();
-			markReg.removeHandler();
-			deleteReg = null;
-			markReg = null;
-		}
+//		if(deleteReg != null){
+//			deleteReg.removeHandler();
+//			markReg.removeHandler();
+//			deleteReg = null;
+//			markReg = null;
+//		}
 	}
 
 	private void removeDealingDisableds() {
 		delete.removeStyleName(style.disabledButton());
 		mark.removeStyleName(style.disabledButton());
 
-		if(markReg != null){
-			deleteReg.removeHandler();
-			markReg.removeHandler();
-		}
-		markReg = mark.addClickHandler(markHandler);
-		deleteReg = delete.addClickHandler(deleteHandler);
+//		if(markReg != null){
+//			deleteReg.removeHandler();
+//			markReg.removeHandler();
+//		}
+//		markReg = mark.addClickHandler(markHandler);
+//		deleteReg = delete.addClickHandler(deleteHandler);
 	}
 
 	interface ToolBarUiBinder extends UiBinder<FlowPanel, ToolBarView> {
