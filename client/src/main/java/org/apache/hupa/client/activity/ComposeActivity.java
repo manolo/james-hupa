@@ -314,7 +314,7 @@ public class ComposeActivity extends AppBaseActivity {
 			hupaController.showTopLoading("Sending...");
 
 			if ("new".equals(place.getToken())) {
-				SendMessageRequest sendReq = requestFactory.sendMessageRequest();
+				SendMessageRequest sendReq = rf.sendMessageRequest();
 				SendMessageAction sendAction = sendReq.create(SendMessageAction.class);
 				sendAction.setMessage(parseMessage(sendReq));
 				sendReq.send(sendAction).fire(new Receiver<GenericResult>() {
@@ -326,7 +326,7 @@ public class ComposeActivity extends AppBaseActivity {
 			} else if ("forward".equals(place.getToken())) {
 				// FIXME will get a NullPointerException given accessing
 				// directly from some URL like #/compose:forward
-				SendForwardMessageRequest req = requestFactory.sendForwardMessageRequest();
+				SendForwardMessageRequest req = rf.sendForwardMessageRequest();
 				SendForwardMessageAction action = req.create(SendForwardMessageAction.class);
 				action.setMessage(parseMessage(req));
 				ImapFolder f = req.create(ImapFolder.class);
@@ -340,7 +340,7 @@ public class ComposeActivity extends AppBaseActivity {
 					}
 				});
 			} else {
-				SendReplyMessageRequest replyReq = requestFactory.sendReplyMessageRequest();
+				SendReplyMessageRequest replyReq = rf.sendReplyMessageRequest();
 				SendReplyMessageAction action = replyReq.create(SendReplyMessageAction.class);
 				action.setMessage(parseMessage(replyReq));
 				ImapFolder folder = replyReq.create(ImapFolder.class);

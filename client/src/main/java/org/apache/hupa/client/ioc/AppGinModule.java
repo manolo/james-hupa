@@ -42,6 +42,7 @@ import org.apache.hupa.client.activity.TopActivity;
 import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.activity.WestActivity;
 import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
+import org.apache.hupa.client.mapper.CachingMessageListActivityMapper;
 import org.apache.hupa.client.mapper.CachingTopBarActivityMapper;
 import org.apache.hupa.client.mapper.ComposeActivityMapper;
 import org.apache.hupa.client.mapper.ComposeToolBarActivityMapper;

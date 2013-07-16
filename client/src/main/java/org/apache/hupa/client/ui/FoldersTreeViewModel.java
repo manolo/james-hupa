@@ -22,17 +22,18 @@ package org.apache.hupa.client.ui;
 import java.util.List;
 
 import org.apache.hupa.client.HupaController;
+import org.apache.hupa.client.activity.MessageListActivity;
 import org.apache.hupa.client.activity.NotificationActivity;
 import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.shared.domain.ImapFolder;
+import org.apache.hupa.shared.events.RefreshUnreadEvent;
+import org.apache.hupa.shared.events.RefreshUnreadEventHandler;
 
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.ValueUpdater;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.view.client.AsyncDataProvider;
@@ -52,9 +53,10 @@ public class FoldersTreeViewModel implements TreeViewModel {
 	@Inject private PlaceController placeController;
 	@Inject private NotificationActivity.Displayable notice;
 	@Inject private ToolBarActivity.Displayable toolBar;
+	@Inject private MessageListActivity.Displayable msgListDisplay;
 
 	@Inject
-	public FoldersTreeViewModel() {
+	public FoldersTreeViewModel(final EventBus eventBus) {
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -63,6 +65,14 @@ public class FoldersTreeViewModel implements TreeViewModel {
 				SingleSelectionModel<ImapFolder> selectionModel = (SingleSelectionModel<ImapFolder>) event.getSource();
 				toolBar.enableAllTools(false);
 				placeController.goTo(new FolderPlace(selectionModel.getSelectedObject().getFullName()));
+				msgListDisplay.refresh();
+			}
+		});
+
+		eventBus.addHandler(RefreshUnreadEvent.TYPE, new RefreshUnreadEventHandler() {
+			@Override
+			public void onRefreshEvent(RefreshUnreadEvent event) {
+				refresh();
 			}
 		});
 	}
@@ -109,13 +119,13 @@ public class FoldersTreeViewModel implements TreeViewModel {
 		}
 
 		// TODO is this a click event?
-		@Override
-		public void onBrowserEvent(Context context, Element parent, ImapFolder value, NativeEvent event,
-				ValueUpdater<ImapFolder> valueUpdater) {
-			super.onBrowserEvent(context, parent, value, event, valueUpdater);
-				placeController.goTo(new FolderPlace(value.getFullName()));
-
-		}
+//		@Override
+//		public void onBrowserEvent(Context context, Element parent, ImapFolder value, NativeEvent event,
+//				ValueUpdater<ImapFolder> valueUpdater) {
+//			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+//				placeController.goTo(new FolderPlace(value.getFullName()));
+//
+//		}
 
 	}
 

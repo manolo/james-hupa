@@ -107,7 +107,7 @@ public class WestActivity extends AppBaseActivity {
 //					decreaseUnseen = false;
 				}
 
-				GetMessageDetailsRequest req = requestFactory.messageDetailsRequest();
+				GetMessageDetailsRequest req = rf.messageDetailsRequest();
 				GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
 				final ImapFolder f = req.create(ImapFolder.class);
 //				event.getFolder().setFolderTo(f);
@@ -215,16 +215,16 @@ public class WestActivity extends AppBaseActivity {
 	}
 
 	private void showNewMessage() {
-		placeController.goTo(this.messageSendPlaceProvider.get().with(user, null, null, null, Type.NEW));
+		pc.goTo(this.messageSendPlaceProvider.get().with(user, null, null, null, Type.NEW));
 	}
 
 	private void showForwardMessage(ForwardMessageEvent event) {
-		placeController.goTo(this.messageSendPlaceProvider.get().with(event.getUser(), event.getFolder(),
+		pc.goTo(this.messageSendPlaceProvider.get().with(event.getUser(), event.getFolder(),
 		        event.getMessage(), event.getMessageDetails(), Type.FORWARD));
 	}
 
 	private void showReplyMessage(ReplyMessageEvent event) {
-		placeController.goTo(this.messageSendPlaceProvider.get().with(event.getUser(), event.getFolder(),
+		pc.goTo(this.messageSendPlaceProvider.get().with(event.getUser(), event.getFolder(),
 		        event.getMessage(), event.getMessageDetails(), event.getReplyAll() ? Type.REPLY_ALL : Type.REPLY));
 	}
 

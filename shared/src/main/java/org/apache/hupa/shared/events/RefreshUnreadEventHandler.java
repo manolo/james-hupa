@@ -17,47 +17,11 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.activity;
+package org.apache.hupa.shared.events;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.event.shared.EventHandler;
 
-import org.apache.hupa.client.HupaController;
-import org.apache.hupa.client.rf.HupaRequestFactory;
+public interface RefreshUnreadEventHandler extends EventHandler{
 
-import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.place.shared.PlaceController;
-import com.google.inject.Inject;
-
-public abstract class AppBaseActivity extends AbstractActivity {
-
-	@Inject protected EventBus eventBus;
-	@Inject protected HupaController hc;
-	@Inject protected PlaceController pc;
-	@Inject protected HupaRequestFactory rf;
-
-	protected List<HandlerRegistration> registrations = new ArrayList<HandlerRegistration>();
-
-	@Override
-	public void onStop() {
-		for (HandlerRegistration registration : registrations) {
-			if(registration != null){
-				registration.removeHandler();	
-			}
-		}
-		registrations.clear();
-	}
-
-	protected void registerHandler(HandlerRegistration handlerRegistration) {
-		registrations.add(handlerRegistration);
-	}
-
-	public String mayStop() {
-		return null;
-	}
-
-	public void onCancel() {
-	}
+    public void onRefreshEvent(RefreshUnreadEvent event);
 }
