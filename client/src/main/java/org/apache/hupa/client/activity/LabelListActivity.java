@@ -28,6 +28,8 @@ import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.events.DeleteFolderEvent;
 import org.apache.hupa.shared.events.DeleteFolderEventHandler;
+import org.apache.hupa.shared.events.RefreshLabelListEvent;
+import org.apache.hupa.shared.events.RefreshLabelListEventHandler;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -68,6 +70,12 @@ public class LabelListActivity extends AppBaseActivity {
 				deleteSelected();
 			}
 		});
+		eventBus.addHandler(RefreshLabelListEvent.TYPE, new RefreshLabelListEventHandler(){
+			@Override
+			public void onRefreshEvent(RefreshLabelListEvent event) {
+				display.refresh();
+			}
+		});
 	}
 
 	public interface Displayable extends WidgetDisplayable {
@@ -76,6 +84,7 @@ public class LabelListActivity extends AppBaseActivity {
 		SingleSelectionModel<LabelNode> getSelectionModel();
 		HasClickHandlers getAdd();
 		HasClickHandlers getDelete();
+		void refresh();
 	}
 
 	public void deleteSelected() {
@@ -91,6 +100,7 @@ public class LabelListActivity extends AppBaseActivity {
 			@Override
 			public void onSuccess(GenericResult response) {
 				hupaController.hideTopLoading();
+				display.refresh();
 				hupaController.showNotice("The label \"" + f.getFullName() + "\" was deleted.", 10000);
 			}
 			@Override

@@ -31,10 +31,12 @@ import org.apache.hupa.shared.domain.CreateFolderAction;
 import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.RenameFolderAction;
+import org.apache.hupa.shared.events.RefreshLabelListEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -53,7 +55,8 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 
 	@Inject HupaRequestFactory rf;
 	@Inject HupaController hc;
-
+	@Inject EventBus eventBus;
+	
 	@UiField TextBox name;
 	@UiField ListBox parent;
 	@UiField Button save;
@@ -79,6 +82,7 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 				@Override
 				public void onSuccess(GenericResult response) {
 					hc.hideTopLoading();
+					eventBus.fireEvent(new RefreshLabelListEvent());
 					hc.showNotice("The label \"" + f.getFullName() + "\" has been renamed to "+name.getText(), 10000);
 				}
 				@Override
@@ -97,6 +101,7 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 				@Override
 				public void onSuccess(GenericResult response) {
 					hc.hideTopLoading();
+					eventBus.fireEvent(new RefreshLabelListEvent());
 					hc.showNotice("The label \"" + f.getFullName() + "\" was created.", 10000);
 				}
 				@Override
