@@ -3,10 +3,16 @@ package org.apache.hupa.client.ui;
 import org.apache.hupa.shared.domain.ImapFolder;
 
 public class LabelNode implements Comparable<LabelNode> {
+	
+	public static LabelNode ROOT = new LabelNode("---"); 
+	
 	private ImapFolder folder;
 	private String name;
 	private String path;
 	private LabelNode parent;
+	
+	public LabelNode(){}
+	public LabelNode(String name){this.name = name;}
 
 	public ImapFolder getFolder() {
 		return folder;
@@ -33,9 +39,10 @@ public class LabelNode implements Comparable<LabelNode> {
 		this.parent = parent;
 	}
 	@Override
-	public int compareTo(LabelNode arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(LabelNode o) {
+		if(name == null) return -1;
+		if(o == null) return 1;
+		return name.compareTo(o.name);
 	}
 
 }
