@@ -15,11 +15,54 @@
 		.messageContent {
 			display: block;
 			background-color: white;
-			width:100%;
-			height:100%;
+			width: 100%;
+			height: 100%;
+		}
+		
+		.previewheader {
+			position: relative;
+			height: auto;
+			min-height: 52px;
+			padding: 0 0 3px 26px;
+		}
+		
+		.messageheader {
+			position: relative;
+			padding: 3px 0;
+			background: #f9f9f9;
+			background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff),
+				color-stop(100%, #f0f0f0) );
+			background: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+			background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+			background: linear-gradient(top, #fff 0%, #f0f0f0 100%);
+			border-bottom: 1px solid #dfdfdf;
+		}
+		
+		.attachBox {
+			float: right;
+			width: 230px;
+			margin: 8px;
+			min-height: 200px;
+			background: #f0f0f0;
+			padding: 8px;
 		}
 	</ui:style>
-	<g:SimplePanel addStyleNames="{style.messageContent}">
-		<g:HTML ui:field="messageContent" />
-	</g:SimplePanel>
+	<g:DockLayoutPanel unit="PX">
+		<g:north size="56">
+			<g:HTMLPanel addStyleNames="{style.previewheader} {style.messageheader}">
+			</g:HTMLPanel>
+		</g:north>
+		<g:center>
+			<g:DockLayoutPanel unit="PX">
+				<g:center>
+					<g:HTML ui:field="messageContent" addStyleNames="{style.messageContent}" />
+				</g:center>
+				<g:east size="216">
+					<g:FlowPanel ui:field="attachments" addStyleNames="{style.attachBox}">
+					</g:FlowPanel>
+				</g:east>
+			</g:DockLayoutPanel>
+		</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder>
