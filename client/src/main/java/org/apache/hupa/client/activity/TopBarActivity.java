@@ -23,7 +23,6 @@ import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.CheckSessionRequest;
 import org.apache.hupa.client.rf.LogoutUserRequest;
 import org.apache.hupa.client.ui.LoginLayoutable;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.domain.LogoutUserResult;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.LoginEvent;
@@ -38,6 +37,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -116,7 +116,7 @@ public class TopBarActivity extends AppBaseActivity {
 		return display.getUserLabel().getWidgetCount() < 1;
 	}
 
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		HasClickHandlers getLogoutClick();
 		void showUserName(String userName);
 		HTMLPanel getUserLabel();

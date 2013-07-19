@@ -23,7 +23,6 @@ import org.apache.hupa.client.HupaConstants;
 import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.rf.LoginUserRequest;
 import org.apache.hupa.client.ui.HupaLayoutable;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.FlashEvent;
 import org.apache.hupa.shared.events.LoginEvent;
@@ -38,6 +37,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -107,7 +107,7 @@ public class LoginActivity extends AppBaseActivity {
 	@Inject private Displayable display;
 	@Inject private HupaConstants constants;
 
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		public HasClickHandlers getLoginClick();
 		public HasValue<String> getUserNameValue();
 		public HasValue<String> getPasswordValue();

@@ -31,7 +31,6 @@ import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
 import org.apache.hupa.client.rf.MoveMessageRequest;
 import org.apache.hupa.client.rf.SetFlagRequest;
 import org.apache.hupa.client.ui.MessagesCellTable;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.client.widgets.HasDialog;
 import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
 import org.apache.hupa.shared.domain.DeleteMessageAllAction;
@@ -65,6 +64,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -337,7 +337,7 @@ public class IMAPMessageListActivity extends AppBaseActivity {
 	@Inject private Displayable display;
 	@Inject private Provider<MessageSendPlace> messageSendPlaceProvider;
 	
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		public void setPostFetchMessageCount(int count);
 		public void fillSearchOracle(List<Message> messages);
 		public void setExpandLoading(boolean expanding);

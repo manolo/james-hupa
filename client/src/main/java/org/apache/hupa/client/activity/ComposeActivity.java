@@ -34,7 +34,6 @@ import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.rf.SendForwardMessageRequest;
 import org.apache.hupa.client.rf.SendMessageRequest;
 import org.apache.hupa.client.rf.SendReplyMessageRequest;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.client.validation.EmailListValidator;
 import org.apache.hupa.shared.Util;
 import org.apache.hupa.shared.data.MessageAttachmentImpl;
@@ -60,6 +59,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -402,7 +402,7 @@ public class ComposeActivity extends AppBaseActivity {
 		History.back();
 	}
 
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		String getFromText();
 		void showCc();
 		void hideCc();

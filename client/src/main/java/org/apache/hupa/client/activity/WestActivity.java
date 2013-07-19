@@ -23,7 +23,6 @@ import org.apache.hupa.client.activity.MessageSendActivity.Type;
 import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.client.widgets.IMAPTreeItem;
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
@@ -56,6 +55,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -238,7 +238,7 @@ public class WestActivity extends AppBaseActivity {
 	private String searchValue;
 	private Place currentPlace;
 
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 	}
 
 }

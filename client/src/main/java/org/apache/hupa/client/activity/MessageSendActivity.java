@@ -32,7 +32,6 @@ import org.apache.hupa.client.place.MessageSendPlace;
 import org.apache.hupa.client.rf.SendForwardMessageRequest;
 import org.apache.hupa.client.rf.SendMessageRequest;
 import org.apache.hupa.client.rf.SendReplyMessageRequest;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.client.validation.EmailListValidator;
 import org.apache.hupa.shared.Util;
 import org.apache.hupa.shared.data.MessageAttachmentImpl;
@@ -66,6 +65,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
@@ -379,7 +379,7 @@ public class MessageSendActivity extends AppBaseActivity {
 	private User user;
 	private SendMessageRequest sendReq;
 	
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		public HasText getFromText();
 		public HasText getToText();
 		public HasText getCcText();

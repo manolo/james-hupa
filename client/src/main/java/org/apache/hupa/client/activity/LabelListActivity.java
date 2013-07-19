@@ -22,7 +22,6 @@ package org.apache.hupa.client.activity;
 import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.rf.DeleteFolderRequest;
 import org.apache.hupa.client.ui.LabelNode;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.domain.DeleteFolderAction;
 import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
@@ -37,6 +36,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -78,7 +78,7 @@ public class LabelListActivity extends AppBaseActivity {
 		});
 	}
 
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		final int CASCADE_TYPE_ADD = 0x01;
 		final int CASCADE_TYPE_RENAME = 0x02;
 		SingleSelectionModel<LabelNode> getSelectionModel();

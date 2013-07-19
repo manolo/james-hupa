@@ -27,17 +27,12 @@ import org.apache.hupa.client.place.AbstractPlace;
 import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.place.MessagePlace;
 import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
-import org.apache.hupa.client.rf.FetchMessagesRequest;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
-import org.apache.hupa.client.ui.HasRefresh;
 import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.ToolBarView;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.domain.DeleteMessageByUidAction;
 import org.apache.hupa.shared.domain.DeleteMessageResult;
-import org.apache.hupa.shared.domain.FetchMessagesAction;
-import org.apache.hupa.shared.domain.FetchMessagesResult;
 import org.apache.hupa.shared.domain.GetMessageDetailsAction;
 import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
@@ -50,10 +45,9 @@ import org.apache.hupa.shared.events.RefreshUnreadEvent;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.view.client.AsyncDataProvider;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.CellPreviewEvent.Handler;
-import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
@@ -140,7 +134,7 @@ public class MessageListActivity extends AppBaseActivity {
 		return this;
 	}
 
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		MessagesCellTable getGrid();
 
 		void refresh();

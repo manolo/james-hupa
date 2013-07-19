@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 
 import org.apache.hupa.client.place.MessagePlace.TokenWrapper;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
-import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.domain.GetMessageDetailsAction;
 import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
@@ -34,6 +33,7 @@ import org.apache.hupa.shared.domain.MessageAttachment;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
@@ -79,7 +79,7 @@ public class MessageContentActivity extends AppBaseActivity {
 		return uid != null && uid.matches("\\d+");
 	}
 
-	public interface Displayable extends WidgetDisplayable {
+	public interface Displayable extends IsWidget {
 		void fillMessageContent(String messageContent);
 		void setAttachments(List<MessageAttachment> attachements, String folder, long uid);
 	}
