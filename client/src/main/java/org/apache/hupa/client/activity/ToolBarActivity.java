@@ -27,6 +27,7 @@ import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.rf.SetFlagRequest;
 import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.ToolBarView.Parameters;
+import org.apache.hupa.client.ui.WidgetDisplayable;
 import org.apache.hupa.shared.data.MessageImpl.IMAPFlag;
 import org.apache.hupa.shared.domain.GenericResult;
 import org.apache.hupa.shared.domain.ImapFolder;
@@ -40,7 +41,6 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -121,7 +121,13 @@ public class ToolBarActivity extends AppBaseActivity {
 		});
 	}
 
-	public interface Displayable extends IsWidget {
+
+	// FIXME: for some reason if we extend WidgetDisplayable we get the error
+	// ToolBarActivity.java:[124,38] error: cannot find symbol
+	public interface Displayable /*extends WidgetDisplayable*/ {
+	    // FIXME: added this method until we fix the problem with inheritance
+	    com.google.gwt.user.client.ui.Widget asWidget();
+
 		void enableSendingTools(boolean is);
 		HandlerRegistration getForwardReg();
 		HandlerRegistration getReplyAllReg();
