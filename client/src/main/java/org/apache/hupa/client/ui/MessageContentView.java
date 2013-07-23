@@ -42,13 +42,14 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.inject.Inject;
 
 public class MessageContentView extends Composite implements MessageContentActivity.Displayable {
+	@UiField ScrollPanel messageContent;
+	HTML messageContentHTML = new HTML();
 
-	@UiField HTML messageContent;
-
-	@UiField FlowPanel attachments;
+	@UiField ScrollPanel attachments;
 
 	@Inject
 	public MessageContentView() {
@@ -62,7 +63,8 @@ public class MessageContentView extends Composite implements MessageContentActiv
 
 	@Override
 	public void fillMessageContent(String messageDetail) {
-		messageContent.setHTML(messageDetail);
+		messageContentHTML.setHTML(messageDetail);
+		messageContent.add(messageContentHTML);
 	}
 
 	@Override
