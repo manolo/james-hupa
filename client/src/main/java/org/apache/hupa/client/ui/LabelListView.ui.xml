@@ -13,7 +13,7 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<g:DockLayoutPanel>
 		<g:center>
-			<g:SimplePanel ui:field="thisView" />
+			<g:ScrollPanel ui:field="thisView" />
 		</g:center>
 		<g:south size="43">
 			<g:FlowPanel ui:field="folderOpButtons">
