@@ -58,7 +58,7 @@ public class MessageListActivity extends AppBaseActivity {
 	@Inject private ToolBarActivity.Displayable toolBar;
 	@Inject private TopBarActivity.Displayable topBar;
 	private String folderName;
-	private String searchValue;
+//	private String searchValue;
 	private User user;
 
 	@Override

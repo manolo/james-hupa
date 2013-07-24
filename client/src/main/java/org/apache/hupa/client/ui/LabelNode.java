@@ -8,12 +8,20 @@ public class LabelNode implements Comparable<LabelNode> {
 	
 	private ImapFolder folder;
 	private String name;
+	private String nameForDisplay;
 	private String path;
 	private LabelNode parent;
 	
 	public LabelNode(){}
 	public LabelNode(String name){this.name = name;}
 
+	
+	public String getNameForDisplay() {
+		return nameForDisplay;
+	}
+	public void setNameForDisplay(String nameForDisplay) {
+		this.nameForDisplay = nameForDisplay;
+	}
 	public ImapFolder getFolder() {
 		return folder;
 	}
