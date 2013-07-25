@@ -31,11 +31,12 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.inject.Inject;
 
-public class MessageListView extends Composite implements MessageListActivity.Displayable {
+public class MessageListView extends Composite implements MessageListActivity.Displayable, RequiresResize {
 
 	@UiField SimpleLayoutPanel thisView;
 	private MessagesCellTable grid;
@@ -81,5 +82,10 @@ public class MessageListView extends Composite implements MessageListActivity.Di
 				.getSelectionModel();
 		return (Set<Message>) selectionModel.getSelectedSet();
 	}
+
+    @Override
+    public void onResize() {
+        grid.onResize();
+    }
 
 }
