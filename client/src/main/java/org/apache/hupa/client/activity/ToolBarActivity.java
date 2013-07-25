@@ -38,7 +38,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.inject.Inject;
@@ -128,11 +127,6 @@ public class ToolBarActivity extends AppBaseActivity {
 	    com.google.gwt.user.client.ui.Widget asWidget();
 
 		void enableSendingTools(boolean is);
-		HandlerRegistration getForwardReg();
-		HandlerRegistration getReplyAllReg();
-		HandlerRegistration getReplyReg();
-		HandlerRegistration getMarkReg();
-		HandlerRegistration getDeleteReg();
 		void enableDealingTools(boolean is);
 		void enableAllTools(boolean is);
 		HasClickHandlers getReply();

@@ -32,7 +32,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -67,12 +66,6 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	
 	@UiField HTMLPanel replyAllTip;
 	@UiField HTMLPanel forwardTip;
-
-	HandlerRegistration replyReg;
-	HandlerRegistration replyAllReg;
-	HandlerRegistration forwardReg;
-	HandlerRegistration deleteReg;
-	HandlerRegistration markReg;
 
 	@UiField Style style;
 
@@ -177,11 +170,11 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		popup.add(markUnread);
 		simplePopup.setWidget(popup);
 
-		markReg = mark.addClickHandler(markHandler);
-		deleteReg = delete.addClickHandler(deleteHandler);
-		replyReg = reply.addClickHandler(replyHandler);
-		replyAllReg = replyAll.addClickHandler(replyAllHandler);
-		forwardReg = forward.addClickHandler(forwardHandler);
+		mark.addClickHandler(markHandler);
+		delete.addClickHandler(deleteHandler);
+		reply.addClickHandler(replyHandler);
+		replyAll.addClickHandler(replyAllHandler);
+		forward.addClickHandler(forwardHandler);
 	}
 
 	@UiHandler("compose")
@@ -300,14 +293,6 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		forwardGroup.addStyleName(style.disabledButton());
 		replyAllTip.addStyleName(style.disabledButton());
 		forwardTip.addStyleName(style.disabledButton());
-//		if(replyReg != null){
-//			replyReg.removeHandler();
-//			replyAllReg.removeHandler();
-//			forwardReg.removeHandler();	
-//			replyReg = null;
-//			replyAllReg = null;
-//			forwardReg = null;
-//		}
 	}
 
 	private void removeSendingDisableds() {
@@ -316,16 +301,6 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 		forwardGroup.removeStyleName(style.disabledButton());
 		replyAllTip.removeStyleName(style.disabledButton());
 		forwardTip.removeStyleName(style.disabledButton());
-
-//		if(replyReg != null){
-//			replyReg.removeHandler();
-//			replyAllReg.removeHandler();
-//			forwardReg.removeHandler();	
-//		}
-//		replyReg = reply.addClickHandler(replyHandler);
-//		replyAllReg = replyAll.addClickHandler(replyAllHandler);
-//		forwardReg = forward.addClickHandler(forwardHandler);
-		
 	}
 	
 	
@@ -333,56 +308,15 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	private void addDealingDisableds() {
 		delete.addStyleName(style.disabledButton());
 		mark.addStyleName(style.disabledButton());
-		
-//		if(deleteReg != null){
-//			deleteReg.removeHandler();
-//			markReg.removeHandler();
-//			deleteReg = null;
-//			markReg = null;
-//		}
 	}
 
 	private void removeDealingDisableds() {
 		delete.removeStyleName(style.disabledButton());
 		mark.removeStyleName(style.disabledButton());
-
-//		if(markReg != null){
-//			deleteReg.removeHandler();
-//			markReg.removeHandler();
-//		}
-//		markReg = mark.addClickHandler(markHandler);
-//		deleteReg = delete.addClickHandler(deleteHandler);
 	}
 
 	interface ToolBarUiBinder extends UiBinder<FlowPanel, ToolBarView> {
 	}
 
 	private static ToolBarUiBinder binder = GWT.create(ToolBarUiBinder.class);
-
-	@Override
-	public HandlerRegistration getForwardReg() {
-		return forwardReg;
-	}
-
-	@Override
-	public HandlerRegistration getReplyAllReg() {
-		return replyAllReg;
-	}
-
-	@Override
-	public HandlerRegistration getReplyReg() {
-		return replyReg;
-	}
-
-	@Override
-	public HandlerRegistration getMarkReg() {
-		return markReg;
-	}
-
-	@Override
-	public HandlerRegistration getDeleteReg() {
-		return deleteReg;
-	}
-
-
 }

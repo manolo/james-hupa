@@ -19,6 +19,9 @@
 
 package org.apache.hupa.client.activity;
 
+import org.apache.hupa.shared.events.RefreshUnreadEvent;
+import org.apache.hupa.shared.events.RefreshUnreadEventHandler;
+
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -31,6 +34,17 @@ public class FolderListActivity extends AppBaseActivity {
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		container.setWidget(display.asWidget());
+		bindTo(eventBus);
+	}
+
+	private void bindTo(EventBus eventBus) {
+
+		eventBus.addHandler(RefreshUnreadEvent.TYPE, new RefreshUnreadEventHandler() {
+			@Override
+			public void onRefreshEvent(RefreshUnreadEvent event) {
+				display.refresh();
+			}
+		});
 	}
 
 	public interface Displayable extends IsWidget {
