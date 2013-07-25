@@ -37,6 +37,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -48,7 +49,8 @@ public class MessageContentView extends Composite implements MessageContentActiv
 	@UiField ScrollPanel messageContent;
 	HTML messageContentHTML = new HTML();
 
-	@UiField ScrollPanel attachments;
+	//TODO should use a scrolled panel which can contain multiple children
+	@UiField FlowPanel attachments;
 
 	@Inject
 	public MessageContentView() {
