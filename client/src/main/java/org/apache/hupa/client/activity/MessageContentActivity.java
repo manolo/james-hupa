@@ -29,6 +29,8 @@ import org.apache.hupa.shared.domain.GetMessageDetailsAction;
 import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.MessageAttachment;
+import org.apache.hupa.shared.events.DeleteClickEvent;
+import org.apache.hupa.shared.events.DeleteClickEventHandler;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
@@ -48,6 +50,7 @@ public class MessageContentActivity extends AppBaseActivity {
 
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		bindTo(eventBus);
 		if (isUidSet()) {
 			GetMessageDetailsRequest req = rf.messageDetailsRequest();
 			GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
@@ -75,12 +78,22 @@ public class MessageContentActivity extends AppBaseActivity {
 		container.setWidget(display.asWidget());
 	}
 
+	private void bindTo(EventBus eventBus) {
+		eventBus.addHandler(DeleteClickEvent.TYPE, new DeleteClickEventHandler() {
+			@Override
+			public void onDeleteClickEvent(DeleteClickEvent event) {
+				display.clearContent();
+			}
+		});
+	}
+
 	private boolean isUidSet() {
 		return uid != null && uid.matches("\\d+");
 	}
 
 	public interface Displayable extends IsWidget {
 		void fillMessageContent(String messageContent);
+		void clearContent();
 		void setAttachments(List<MessageAttachment> attachements, String folder, long uid);
 	}
 

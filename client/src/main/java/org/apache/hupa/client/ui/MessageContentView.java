@@ -106,4 +106,9 @@ public class MessageContentView extends Composite implements MessageContentActiv
 				+ "=" + uid + (inline ? "&" + SConsts.PARAM_MODE + "=inline" : "");
 	}
 
+	@Override
+	public void clearContent() {
+		messageContentHTML.setHTML("");
+	}
+
 }
