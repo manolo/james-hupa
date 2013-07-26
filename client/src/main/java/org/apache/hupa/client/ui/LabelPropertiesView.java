@@ -56,14 +56,16 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 	@Inject HupaRequestFactory rf;
 	@Inject HupaController hc;
 	@Inject EventBus eventBus;
-	
+
 	@UiField TextBox name;
+	private String path;
+	
 	@UiField ListBox parent;
 	@UiField Button save;
-	
+
 	@UiField VerticalPanel propContainer;
 	@UiField CaptionPanel information;
-	
+
 	private int state;
 
 	ImapFolder folder;
@@ -71,38 +73,19 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 	@UiHandler("save")
 	void handleSave(ClickEvent e) {
 		hc.showTopLoading("Saving...");
-		if(state == LabelListActivity.Displayable.CASCADE_TYPE_RENAME){
+		if (state == LabelListActivity.Displayable.CASCADE_TYPE_RENAME) {
 			RenameFolderRequest req = rf.renameFolderRequest();
 			RenameFolderAction action = req.create(RenameFolderAction.class);
 			final ImapFolder f = req.create(ImapFolder.class);
 			f.setFullName(folder.getFullName());
 			action.setFolder(f);
-			action.setNewName(name.getText());
+			action.setNewName(parent.getValue(parent.getSelectedIndex()) + "/" + name.getText());
 			req.rename(action).fire(new Receiver<GenericResult>() {
 				@Override
 				public void onSuccess(GenericResult response) {
 					hc.hideTopLoading();
 					eventBus.fireEvent(new RefreshLabelListEvent());
-					hc.showNotice("The label \"" + f.getFullName() + "\" has been renamed to "+name.getText(), 10000);
-				}
-				@Override
-				public void onFailure(ServerFailure error) {
-					hc.hideTopLoading();
-					hc.showNotice(error.getMessage(), 10000);
-				}
-			});	
-		} else if (state == LabelListActivity.Displayable.CASCADE_TYPE_ADD){
-			CreateFolderRequest req = rf.createFolderRequest();
-			CreateFolderAction action = req.create(CreateFolderAction.class);
-			final ImapFolder f = req.create(ImapFolder.class);
-			f.setFullName(folder.getFullName()+"/"+name.getText());
-			action.setFolder(f);
-			req.create(action).fire(new Receiver<GenericResult>(){
-				@Override
-				public void onSuccess(GenericResult response) {
-					hc.hideTopLoading();
-					eventBus.fireEvent(new RefreshLabelListEvent());
-					hc.showNotice("The label \"" + f.getFullName() + "\" was created.", 10000);
+					hc.showNotice("The label \"" + f.getFullName() + "\" has been renamed to " + name.getText(), 10000);
 				}
 				@Override
 				public void onFailure(ServerFailure error) {
@@ -110,7 +93,26 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 					hc.showNotice(error.getMessage(), 10000);
 				}
 			});
-			
+		} else if (state == LabelListActivity.Displayable.CASCADE_TYPE_ADD) {
+			CreateFolderRequest req = rf.createFolderRequest();
+			CreateFolderAction action = req.create(CreateFolderAction.class);
+			final ImapFolder f = req.create(ImapFolder.class);
+			f.setFullName(path + "/" + name.getText());
+			action.setFolder(f);
+			req.create(action).fire(new Receiver<GenericResult>() {
+				@Override
+				public void onSuccess(GenericResult response) {
+					hc.hideTopLoading();
+					eventBus.fireEvent(new RefreshLabelListEvent());
+					hc.showNotice("The label \"" + f.getName() + "\" was created.", 10000);
+				}
+				@Override
+				public void onFailure(ServerFailure error) {
+					hc.hideTopLoading();
+					hc.showNotice(error.getMessage(), 10000);
+				}
+			});
+
 		}
 	}
 	public LabelPropertiesView() {
@@ -129,10 +131,12 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 		case LabelListActivity.Displayable.CASCADE_TYPE_ADD:
 			makeParentList(labelNode, true, wholeList);
 			name.setText("");
+			path = labelNode.getPath();
 			information.setVisible(false);
 			break;
 		case LabelListActivity.Displayable.CASCADE_TYPE_RENAME:
 			name.setText(labelNode.getName());
+			path = labelNode.getPath();
 			makeParentList(labelNode, false, wholeList);
 			information.setVisible(true);
 			break;
@@ -150,10 +154,29 @@ public class LabelPropertiesView extends Composite implements LabelPropertiesAct
 		parent.clear();
 		parent.addItem("---", "root");
 		for (LabelNode folderNode : wholeList) {
-			parent.addItem(folderNode.getName(), folderNode.getPath());
+			if (isItself(labelNode, isParent, folderNode) || isItsDecendant(labelNode, isParent, folderNode)) {
+				continue;
+			}
+			parent.addItem(folderNode.getNameForDisplay().replace("&nbsp;&nbsp;", ". "), folderNode.getPath());
 		}
+
 		int parentIndex = wholeList.indexOf(isParent ? labelNode : labelNode.getParent());
 		parent.setSelectedIndex(parentIndex < 0 ? 0 : parentIndex + 1);
+	}
+	private boolean isItself(LabelNode labelNode, boolean isParent, LabelNode folderNode) {
+		return !isParent && labelNode.compareTo(folderNode) == 0;
+	}
+	private boolean isItsDecendant(LabelNode labelNode, boolean isParent, LabelNode folderNode) {
+		return !isParent && isKinship(labelNode, folderNode);
+	}
+
+	private boolean isKinship(LabelNode labelNode, LabelNode folderNode) {
+		if(folderNode == null){
+			return false;
+		}
+		if (labelNode.compareTo(folderNode.getParent()) == 0)
+			return true;
+		return isKinship(labelNode, folderNode.getParent());
 	}
 	@Override
 	public HasClickHandlers getSave() {
