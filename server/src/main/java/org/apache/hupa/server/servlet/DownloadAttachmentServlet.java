@@ -80,9 +80,10 @@ public class DownloadAttachmentServlet extends HttpServlet {
         String attachmentName = request.getParameter(SConsts.PARAM_NAME);
         String folderName = request.getParameter(SConsts.PARAM_FOLDER);
         String mode = request.getParameter(SConsts.PARAM_MODE);
-        if (!"inline".equals(mode)) {
-	        response.setHeader("Content-disposition", "attachment; filename="
-	                + attachmentName + "");
+        boolean inline = "inline".equals(mode);
+        if (!inline) {
+	    response.setHeader("Content-disposition", "attachment; filename="
+	        + attachmentName + "");
         }
         InputStream in = null;
         OutputStream out = response.getOutputStream();
@@ -105,7 +106,11 @@ public class DownloadAttachmentServlet extends HttpServlet {
 
             in = part.getInputStream();
             if (in != null) {
-                response.setContentLength(part.getSize());
+                // FIXME: for some reason Chrome does not display inline images when they have the content-length
+                // it's like the size reported in server is different than the received bytes.
+                if (!inline) {
+                    response.setContentLength(part.getSize());
+                }
                 IOUtils.copy(in, out);
             } else {
                 response.setContentLength(0);
