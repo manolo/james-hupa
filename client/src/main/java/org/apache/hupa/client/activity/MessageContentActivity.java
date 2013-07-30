@@ -23,17 +23,21 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.place.MessagePlace.TokenWrapper;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
+import org.apache.hupa.client.ui.ToolBarView.Parameters;
 import org.apache.hupa.shared.domain.GetMessageDetailsAction;
 import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.MessageAttachment;
 import org.apache.hupa.shared.events.DeleteClickEvent;
 import org.apache.hupa.shared.events.DeleteClickEventHandler;
+import org.apache.hupa.shared.events.MailToEvent;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
@@ -62,7 +66,8 @@ public class MessageContentActivity extends AppBaseActivity {
 				@Override
 				public void onSuccess(GetMessageDetailsResult response) {
 					display.fillMessageContent(response.getMessageDetails().getText());
-					display.setAttachments(response.getMessageDetails().getMessageAttachments(), fullName, Long.parseLong(uid));
+					display.setAttachments(response.getMessageDetails().getMessageAttachments(), fullName,
+							Long.parseLong(uid));
 				}
 
 				@Override
@@ -76,6 +81,7 @@ public class MessageContentActivity extends AppBaseActivity {
 			});
 		}
 		container.setWidget(display.asWidget());
+		exportJSMethods(this);
 	}
 
 	private void bindTo(EventBus eventBus) {
@@ -102,4 +108,30 @@ public class MessageContentActivity extends AppBaseActivity {
 		uid = tokenWrapper.getUid();
 		return this;
 	}
+
+	public void openLink(String url) {
+		Window.open(url, "_blank", "");
+	}
+
+
+	public void mailTo(String mailto) {
+		pc.goTo(new ComposePlace("new").with(new Parameters(null, null, null, null)));
+		eventBus.fireEvent(new MailToEvent(mailto));
+	}
+
+	private native void exportJSMethods(MessageContentActivity activity)
+	/*-{
+       $wnd.openLink = function(url) {
+       try {
+       activity.@org.apache.hupa.client.activity.MessageContentActivity::openLink(Ljava/lang/String;) (url);
+       } catch(e) {}
+       return false;
+       };
+       $wnd.mailTo = function(mail) {
+       try {
+       activity.@org.apache.hupa.client.activity.MessageContentActivity::mailTo(Ljava/lang/String;) (mail);
+       } catch(e) {}
+       return false;
+       };
+       }-*/;
 }

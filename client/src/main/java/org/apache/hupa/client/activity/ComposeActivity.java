@@ -49,6 +49,8 @@ import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.LoginEvent;
 import org.apache.hupa.shared.events.LoginEventHandler;
+import org.apache.hupa.shared.events.MailToEvent;
+import org.apache.hupa.shared.events.MailToEventHandler;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -264,6 +266,14 @@ public class ComposeActivity extends AppBaseActivity {
 		registerHandler(display.getUploader().addOnStatusChangedHandler(onStatusChangedHandler));
 		registerHandler(display.getUploader().addOnFinishUploadHandler(onFinishUploadHandler));
 		registerHandler(display.getUploader().addOnCancelUploadHandler(onCancelUploadHandler));
+
+		eventBus.addHandler(MailToEvent.TYPE, new MailToEventHandler(){
+
+			@Override
+			public void onMailTo(MailToEvent event) {
+				display.getTo().setText(event.getMailto());
+			}});
+		
 	}
 
 	private OnFinishUploaderHandler onFinishUploadHandler = new OnFinishUploaderHandler() {
