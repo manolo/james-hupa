@@ -68,6 +68,7 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	@UiField HTMLPanel forwardTip;
 
 	@UiField Style style;
+	
 
 	interface Style extends CssResource {
 		String disabledButton();
@@ -319,4 +320,9 @@ public class ToolBarView extends Composite implements ToolBarActivity.Displayabl
 	}
 
 	private static ToolBarUiBinder binder = GWT.create(ToolBarUiBinder.class);
+
+	@Override
+	public HasClickHandlers getRefresh() {
+		return refresh;
+	}
 }
