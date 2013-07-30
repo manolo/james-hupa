@@ -17,27 +17,29 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.activity;
 
-import org.apache.hupa.client.place.ComposePlace;
-import org.apache.hupa.client.place.ContactPlace;
-import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.place.MessagePlace;
-import org.apache.hupa.client.place.FolderPlace;
-import org.apache.hupa.client.place.MessageSendPlace;
-import org.apache.hupa.client.place.SettingPlace;
+import java.util.List;
 
-import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.place.shared.WithTokenizers;
+import org.apache.hupa.client.ui.LabelNode;
 
-@WithTokenizers({
-    DefaultPlace.Tokenizer.class,
-    FolderPlace.Tokenizer.class,
-    MessageSendPlace.Tokenizer.class,
-    MessagePlace.Tokenizer.class,
-    ComposePlace.Tokenizer.class,
-    SettingPlace.Tokenizer.class,
-    ContactPlace.Tokenizer.class
-})
-public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.inject.Inject;
+
+public class ContactPropertiesActivity extends AppBaseActivity {
+
+	@Override
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
+	}
+
+	@Inject private Displayable display;
+
+	public interface Displayable extends IsWidget {
+		void cascade(LabelNode labelNode, List<LabelNode> list, int cascadeTypeAdd);
+		HasClickHandlers getSave();
+	}
 }

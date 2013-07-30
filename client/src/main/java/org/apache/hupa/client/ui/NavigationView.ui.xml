@@ -52,6 +52,9 @@
 		.navigation .contactInner {
 			background-position: 0 -48px;
 		}
+        .navigation .contactInnerSelected {
+            background-position: 0 -72px;
+        }
 		
 		.navigation a.contact:hover span.inner,.navigation a.contact.selected span.inner
 			{
@@ -90,7 +93,7 @@
 			</g:SimplePanel>
 		</g:west>
 		<g:center>
-			<g:SimplePanel addStyleNames="{style.navigation}">
+			<g:SimplePanel ui:field="contactOuter" addStyleNames="{style.navigation}">
 				<g:Anchor  ui:field="contact"
 					addStyleNames="
                                 {style.contactInner} {style.inner}">

@@ -20,6 +20,7 @@
 package org.apache.hupa.client.ui;
 
 import org.apache.hupa.client.activity.NavigationActivity;
+import org.apache.hupa.client.place.ContactPlace;
 import org.apache.hupa.client.place.FolderPlace;
 import org.apache.hupa.client.place.SettingPlace;
 
@@ -42,6 +43,7 @@ public class NavigationView extends Composite implements NavigationActivity.Disp
 	@UiField Anchor mail;
 	@UiField Anchor setting;
 	@UiField Anchor contact;
+	@UiField SimplePanel contactOuter;
 	@UiField SimplePanel mailOuter;
 	@UiField SimplePanel settingOuter;
 	
@@ -52,6 +54,7 @@ public class NavigationView extends Composite implements NavigationActivity.Disp
 		String selected();
 		String settingsInnerSelected();
 		String mailInnerSelected();
+		String contactInnerSelected();
 	}
 
 	public NavigationView() {
@@ -61,21 +64,45 @@ public class NavigationView extends Composite implements NavigationActivity.Disp
 	@UiHandler("mail")
 	public void onMailClick(ClickEvent e){
 		mailOuter.addStyleName(style.selected());
-		settingOuter.removeStyleName(style.selected());
 		mail.addStyleName(style.mailInnerSelected());
+		
+		settingOuter.removeStyleName(style.selected());
 		setting.removeStyleName(style.settingsInnerSelected());
+		
+		contactOuter.removeStyleName(style.selected());
+		contact.removeStyleName(style.contactInnerSelected());
 		//FIXME need the default one
-		placeController.goTo(new FolderPlace("Mock-Inbox"));
+		placeController.goTo(new FolderPlace("INBOX"));
 	}
+	
+	
 	
 	@UiHandler("setting")
 	public void onSettingClick(ClickEvent e){
 		mailOuter.removeStyleName(style.selected());
-		settingOuter.addStyleName(style.selected());
 		mail.removeStyleName(style.mailInnerSelected());
+		contactOuter.removeStyleName(style.selected());
+		contact.removeStyleName(style.contactInnerSelected());
+		
+		settingOuter.addStyleName(style.selected());
 		setting.addStyleName(style.settingsInnerSelected());
 		placeController.goTo(new SettingPlace("folders"));
 	}
+	
+
+	@UiHandler("contact")
+	public void onContactClick(ClickEvent e){
+		mailOuter.removeStyleName(style.selected());
+		mail.removeStyleName(style.mailInnerSelected());
+		contactOuter.addStyleName(style.selected());
+		contact.addStyleName(style.contactInnerSelected());
+		
+		settingOuter.removeStyleName(style.selected());
+		setting.removeStyleName(style.settingsInnerSelected());
+		placeController.goTo(new ContactPlace("contacts"));
+	}
+	
+	
 
 	interface NavigationUiBinder extends UiBinder<DockLayoutPanel, NavigationView> {
 	}

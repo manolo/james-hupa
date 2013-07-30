@@ -19,25 +19,39 @@
 
 package org.apache.hupa.client.mapper;
 
-import org.apache.hupa.client.place.ComposePlace;
+import org.apache.hupa.client.activity.ContactsListActivity;
 import org.apache.hupa.client.place.ContactPlace;
-import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.place.MessagePlace;
-import org.apache.hupa.client.place.FolderPlace;
-import org.apache.hupa.client.place.MessageSendPlace;
-import org.apache.hupa.client.place.SettingPlace;
 
-import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.place.shared.WithTokenizers;
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-@WithTokenizers({
-    DefaultPlace.Tokenizer.class,
-    FolderPlace.Tokenizer.class,
-    MessageSendPlace.Tokenizer.class,
-    MessagePlace.Tokenizer.class,
-    ComposePlace.Tokenizer.class,
-    SettingPlace.Tokenizer.class,
-    ContactPlace.Tokenizer.class
-})
-public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
+public class ContactsListActivityMapper extends _HupaActivityMapper {
+	private final Provider<ContactsListActivity> contactsListActivityProvider;
+
+	@Inject
+	public ContactsListActivityMapper(Provider<ContactsListActivity> contactsListActivityProvider) {
+		this.contactsListActivityProvider = contactsListActivityProvider;
+	}
+
+	@Override
+	Activity asyncLoadActivity(final Place place) {
+		if (!(place instanceof ContactPlace))
+			return null;
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
+
+			@Override
+			protected Activity createInstance() {
+				return contactsListActivityProvider.get();
+			}
+		};
+
+	}
 }
