@@ -24,6 +24,8 @@ import java.util.logging.Logger;
 import org.apache.hupa.client.HupaController;
 import org.apache.hupa.client.activity.ComposeActivity;
 import org.apache.hupa.client.activity.ComposeToolBarActivity;
+import org.apache.hupa.client.activity.ContactPropertiesActivity;
+import org.apache.hupa.client.activity.ContactsListActivity;
 import org.apache.hupa.client.activity.FolderListActivity;
 import org.apache.hupa.client.activity.IMAPMessageListActivity;
 import org.apache.hupa.client.activity.LabelListActivity;
@@ -45,6 +47,8 @@ import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
 import org.apache.hupa.client.mapper.CachingTopBarActivityMapper;
 import org.apache.hupa.client.mapper.ComposeActivityMapper;
 import org.apache.hupa.client.mapper.ComposeToolBarActivityMapper;
+import org.apache.hupa.client.mapper.ContactPropertiesActivityMapper;
+import org.apache.hupa.client.mapper.ContactsListActivityMapper;
 import org.apache.hupa.client.mapper.FolderListActivityMapper;
 import org.apache.hupa.client.mapper.LabelListActivityMapper;
 import org.apache.hupa.client.mapper.LabelPropertiesActivityMapper;
@@ -61,6 +65,8 @@ import org.apache.hupa.client.place.DefaultPlace;
 import org.apache.hupa.client.rf.HupaRequestFactory;
 import org.apache.hupa.client.ui.ComposeToolBarView;
 import org.apache.hupa.client.ui.ComposeView;
+import org.apache.hupa.client.ui.ContactPropertiesView;
+import org.apache.hupa.client.ui.ContactsListView;
 import org.apache.hupa.client.ui.FolderListView;
 import org.apache.hupa.client.ui.FoldersTreeViewModel;
 import org.apache.hupa.client.ui.HupaLayout;
@@ -125,6 +131,8 @@ public class AppGinModule extends AbstractGinModule {
 		
 		bind(LabelListActivity.Displayable.class).to(LabelListView.class).in(Singleton.class);
 		bind(LabelPropertiesActivity.Displayable.class).to(LabelPropertiesView.class).in(Singleton.class);
+		bind(ContactsListActivity.Displayable.class).to(ContactsListView.class).in(Singleton.class);
+		bind(ContactPropertiesActivity.Displayable.class).to(ContactPropertiesView.class).in(Singleton.class);
 
 		bind(LoginActivity.class).in(Singleton.class);
 		bind(TopBarActivity.class).in(Singleton.class);
@@ -139,6 +147,8 @@ public class AppGinModule extends AbstractGinModule {
 		
 		bind(LabelListActivity.class).in(Singleton.class);
 		bind(LabelPropertiesActivity.class).in(Singleton.class);
+		bind(ContactsListActivity.class).in(Singleton.class);
+		bind(ContactPropertiesActivity.class).in(Singleton.class);
 		
 
 		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
@@ -164,6 +174,20 @@ public class AppGinModule extends AbstractGinModule {
 	}
 
 
+	
+	@Provides
+	@Singleton
+	@Named("ContactsListRegion")
+	public ActivityManager getContactsListActivityMapper(ContactsListActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+	
+	@Provides
+	@Singleton
+	@Named("ContactPropertiesRegion")
+	public ActivityManager getContactPropertiesActivityMapper(ContactPropertiesActivityMapper activityMapper, EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
 	
 	@Provides
 	@Singleton

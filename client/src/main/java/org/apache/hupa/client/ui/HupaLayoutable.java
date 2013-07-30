@@ -52,4 +52,8 @@ public interface HupaLayoutable extends Layoutable {
 	AcceptsOneWidget getLabelPropertiesView();
 
 	void switchTo(int layout);
+
+	AcceptsOneWidget getContactPropertiesView();
+
+	AcceptsOneWidget getContactsListView();
 }

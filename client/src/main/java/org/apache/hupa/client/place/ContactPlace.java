@@ -17,27 +17,35 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.mapper;
+package org.apache.hupa.client.place;
 
-import org.apache.hupa.client.place.ComposePlace;
-import org.apache.hupa.client.place.ContactPlace;
-import org.apache.hupa.client.place.DefaultPlace;
-import org.apache.hupa.client.place.MessagePlace;
-import org.apache.hupa.client.place.FolderPlace;
-import org.apache.hupa.client.place.MessageSendPlace;
-import org.apache.hupa.client.place.SettingPlace;
+import com.google.gwt.place.shared.PlaceTokenizer;
+import com.google.gwt.place.shared.Prefix;
 
-import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.place.shared.WithTokenizers;
+public class ContactPlace extends AbstractPlace {
 
-@WithTokenizers({
-    DefaultPlace.Tokenizer.class,
-    FolderPlace.Tokenizer.class,
-    MessageSendPlace.Tokenizer.class,
-    MessagePlace.Tokenizer.class,
-    ComposePlace.Tokenizer.class,
-    SettingPlace.Tokenizer.class,
-    ContactPlace.Tokenizer.class
-})
-public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
+	String token;
+
+	public ContactPlace(String token) {
+		this.token = token;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	@Prefix("contacts")
+	public static class Tokenizer implements PlaceTokenizer<ContactPlace> {
+
+		@Override
+		public ContactPlace getPlace(String token) {
+			return new ContactPlace(token);
+		}
+
+		@Override
+		public String getToken(ContactPlace place) {
+			return place.getToken();
+		}
+	}
+
 }
