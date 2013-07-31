@@ -130,6 +130,7 @@ public class MessageListActivity extends AppBaseActivity {
 		eventBus.addHandler(RefreshMessagesEvent.TYPE, new RefreshMessagesEventHandler(){
 			@Override
 			public void onRefresh(RefreshMessagesEvent event) {
+				display.setSearchValue(event.getSearchValue());
 				display.refresh();
 			}
 		});
@@ -149,6 +150,8 @@ public class MessageListActivity extends AppBaseActivity {
 		List<Long> getSelectedMessagesIds();
 
 		Set<Message> getSelectedMessages();
+
+		void setSearchValue(String searchValue);
 	}
 
 	private void antiSelectMessages(Collection<Message> c) {

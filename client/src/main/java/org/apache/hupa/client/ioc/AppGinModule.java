@@ -38,6 +38,7 @@ import org.apache.hupa.client.activity.MessageListFooterActivity;
 import org.apache.hupa.client.activity.MessageSendActivity;
 import org.apache.hupa.client.activity.NavigationActivity;
 import org.apache.hupa.client.activity.NotificationActivity;
+import org.apache.hupa.client.activity.SearchBoxActivity;
 import org.apache.hupa.client.activity.StatusActivity;
 import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.activity.TopActivity;
@@ -59,6 +60,7 @@ import org.apache.hupa.client.mapper.MessageListActivityMapper;
 import org.apache.hupa.client.mapper.MessageListFooterActivityMapper;
 import org.apache.hupa.client.mapper.NavigationActivityMapper;
 import org.apache.hupa.client.mapper.NotificationActivityMapper;
+import org.apache.hupa.client.mapper.SearchBoxActivityMapper;
 import org.apache.hupa.client.mapper.StatusActivityMapper;
 import org.apache.hupa.client.mapper.ToolBarActivityMapper;
 import org.apache.hupa.client.place.DefaultPlace;
@@ -85,6 +87,7 @@ import org.apache.hupa.client.ui.MessageSendView;
 import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.NavigationView;
 import org.apache.hupa.client.ui.NotificationView;
+import org.apache.hupa.client.ui.SearchBoxView;
 import org.apache.hupa.client.ui.StatusView;
 import org.apache.hupa.client.ui.ToolBarView;
 import org.apache.hupa.client.ui.TopBarView;
@@ -128,6 +131,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(StatusActivity.Displayable.class).to(StatusView.class);
 		bind(ComposeToolBarActivity.Displayable.class).to(ComposeToolBarView.class);
 		bind(ComposeActivity.Displayable.class).to(ComposeView.class);
+		bind(SearchBoxActivity.Displayable.class).to(SearchBoxView.class);
 		
 		bind(LabelListActivity.Displayable.class).to(LabelListView.class).in(Singleton.class);
 		bind(LabelPropertiesActivity.Displayable.class).to(LabelPropertiesView.class).in(Singleton.class);
@@ -144,6 +148,7 @@ public class AppGinModule extends AbstractGinModule {
 		bind(MessageListActivity.class).in(Singleton.class);
 		bind(ComposeToolBarActivity.class).in(Singleton.class);
 		bind(ComposeActivity.class).in(Singleton.class);
+		bind(SearchBoxActivity.class).in(Singleton.class);
 		
 		bind(LabelListActivity.class).in(Singleton.class);
 		bind(LabelPropertiesActivity.class).in(Singleton.class);
@@ -293,6 +298,14 @@ public class AppGinModule extends AbstractGinModule {
 	@Singleton
 	@Named("ComposeToolBarRegion")
 	public ActivityManager getComposeToolBarActivityMapper(ComposeToolBarActivityMapper activityMapper,
+			EventBus eventBus) {
+		return new ActivityManager(activityMapper, eventBus);
+	}
+
+	@Provides
+	@Singleton
+	@Named("SearchBoxRegion")
+	public ActivityManager getSearchBoxActivityMapper(SearchBoxActivityMapper activityMapper,
 			EventBus eventBus) {
 		return new ActivityManager(activityMapper, eventBus);
 	}

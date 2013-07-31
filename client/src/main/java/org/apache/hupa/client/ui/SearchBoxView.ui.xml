@@ -11,16 +11,6 @@
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-	<g:DockLayoutPanel unit="PX" ui:field="thisPanel">
-		<g:west size="518">
-			<g:SimplePanel ui:field="toolBarContainer" />
-		</g:west>
-		<g:center>
-			<g:SimplePanel ui:field="composeToolBarContainer" />
-		</g:center>
-		<g:east size="200">
-			<g:SimplePanel ui:field="searchBoxContainer">
-			</g:SimplePanel>
-		</g:east>
-	</g:DockLayoutPanel>
+	<g:HorizontalPanel ui:field="thisPanel">
+	</g:HorizontalPanel>
 </ui:UiBinder>
