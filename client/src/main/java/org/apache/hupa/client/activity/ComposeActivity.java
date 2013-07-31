@@ -34,6 +34,7 @@ import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.rf.SendForwardMessageRequest;
 import org.apache.hupa.client.rf.SendMessageRequest;
 import org.apache.hupa.client.rf.SendReplyMessageRequest;
+import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.validation.EmailListValidator;
 import org.apache.hupa.shared.Util;
 import org.apache.hupa.shared.data.MessageAttachmentImpl;
@@ -47,6 +48,8 @@ import org.apache.hupa.shared.domain.SendMessageAction;
 import org.apache.hupa.shared.domain.SendReplyMessageAction;
 import org.apache.hupa.shared.domain.SmtpMessage;
 import org.apache.hupa.shared.domain.User;
+import org.apache.hupa.shared.events.ContactsUpdatedEvent;
+import org.apache.hupa.shared.events.ContactsUpdatedEventHandler;
 import org.apache.hupa.shared.events.LoginEvent;
 import org.apache.hupa.shared.events.LoginEventHandler;
 import org.apache.hupa.shared.events.MailToEvent;
@@ -57,6 +60,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasHTML;
@@ -274,6 +278,18 @@ public class ComposeActivity extends AppBaseActivity {
 				display.getTo().setText(event.getMailto());
 			}});
 		
+		fillSuggestList();
+		
+	}
+
+	private void fillSuggestList() {
+		Storage contactStore = Storage.getLocalStorageIfSupported();
+		if(contactStore != null){
+			String contactsString = contactStore.getItem(MessagesCellTable.CONTACTS_STORE);
+			if(contactsString != null){
+				display.fillContactList(contactsString.replace("[", "").replace("]", "").trim().split(","));	
+			}	
+		}
 	}
 
 	private OnFinishUploaderHandler onFinishUploadHandler = new OnFinishUploaderHandler() {
@@ -441,5 +457,6 @@ public class ComposeActivity extends AppBaseActivity {
 		HasHTML getMessageHTML();
 		ListBox getFromList();
 		IUploader getUploader();
+		void fillContactList(String[] contacts);
 	}
 }
