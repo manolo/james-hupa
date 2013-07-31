@@ -37,6 +37,7 @@ import org.apache.hupa.shared.domain.FetchMessagesAction;
 import org.apache.hupa.shared.domain.FetchMessagesResult;
 import org.apache.hupa.shared.domain.ImapFolder;
 import org.apache.hupa.shared.domain.Message;
+import org.apache.hupa.shared.events.MessagesReceivedEvent;
 
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -194,6 +195,7 @@ public class MessagesCellTable extends DataGrid<Message> {
 					Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 						public void execute() {
 							cacheContacts(response.getMessages());
+							eventBus.fireEvent(new MessagesReceivedEvent(f, response.getMessages()));
 						}
 					});
 				}
@@ -209,6 +211,10 @@ public class MessagesCellTable extends DataGrid<Message> {
 
 		}
 
+	}
+	
+	public void setSearchValue(String searchValue){
+		this.searchValue = searchValue;
 	}
 
 	public final class CheckboxHeader extends Header<Boolean> {
