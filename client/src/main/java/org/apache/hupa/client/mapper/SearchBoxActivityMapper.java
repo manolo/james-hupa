@@ -17,45 +17,39 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.mapper;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import org.apache.hupa.client.activity.SearchBoxActivity;
+import org.apache.hupa.client.place.DefaultPlace;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-	AcceptsOneWidget getLogoView();
+public class SearchBoxActivityMapper implements ActivityMapper {
+	private final Provider<SearchBoxActivity> searchBoxActivityProvider;
 
-	AcceptsOneWidget getNavigationView();
+	@Inject
+	public SearchBoxActivityMapper(Provider<SearchBoxActivity> searchBoxActivityProvider) {
+		this.searchBoxActivityProvider = searchBoxActivityProvider;
+	}
 
-	AcceptsOneWidget getToolBarView();
+	public Activity getActivity(Place place) {
+		if(place instanceof DefaultPlace) return null;
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
 
-	AcceptsOneWidget getFolderListView();
-
-	AcceptsOneWidget getMessageListView();
-
-	AcceptsOneWidget getMessageListFooterView();
-
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	AcceptsOneWidget getComposeToolBarView();
-
-	AcceptsOneWidget getComposeView();
-
-	AcceptsOneWidget getNotificationView();
-
-	AcceptsOneWidget getLabelListView();
-	AcceptsOneWidget getContactListView();
-
-	AcceptsOneWidget getLabelPropertiesView();
-
-	void switchTo(int layout);
-
-	AcceptsOneWidget getContactPropertiesView();
-
-	AcceptsOneWidget getContactsListView();
-
-	AcceptsOneWidget getSearchBoxView();
+			@Override
+			protected Activity createInstance() {
+				return searchBoxActivityProvider.get();
+			}
+		};
+	}
 }

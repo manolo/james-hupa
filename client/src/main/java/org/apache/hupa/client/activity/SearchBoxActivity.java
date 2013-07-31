@@ -17,45 +17,33 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.activity;
 
+import java.util.List;
+
+import org.apache.hupa.shared.domain.Message;
+
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.inject.Inject;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+public class SearchBoxActivity extends AppBaseActivity {
 
-	AcceptsOneWidget getLogoView();
+	@Override
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
+	}
 
-	AcceptsOneWidget getNavigationView();
+	@Inject private Displayable display;
 
-	AcceptsOneWidget getToolBarView();
+	public interface Displayable extends IsWidget {
+		HasClickHandlers getSearchClick();
 
-	AcceptsOneWidget getFolderListView();
+		HasValue<String> getSearchValue();
 
-	AcceptsOneWidget getMessageListView();
-
-	AcceptsOneWidget getMessageListFooterView();
-
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	AcceptsOneWidget getComposeToolBarView();
-
-	AcceptsOneWidget getComposeView();
-
-	AcceptsOneWidget getNotificationView();
-
-	AcceptsOneWidget getLabelListView();
-	AcceptsOneWidget getContactListView();
-
-	AcceptsOneWidget getLabelPropertiesView();
-
-	void switchTo(int layout);
-
-	AcceptsOneWidget getContactPropertiesView();
-
-	AcceptsOneWidget getContactsListView();
-
-	AcceptsOneWidget getSearchBoxView();
+		void fillSearchOracle(List<Message> messages);
+	}
 }
