@@ -58,15 +58,15 @@ public class SearchBoxActivity extends AppBaseActivity {
 
         }));
 
-        registerHandler(eventBus.addHandler(MessagesReceivedEvent.TYPE, new MessagesReceivedEventHandler() {
-
-            public void onMessagesReceived(MessagesReceivedEvent event) {
-
-                // fill the oracle
-                display.fillSearchOracle(event.getMessages());
-            }
-
-        }));
+//        registerHandler(eventBus.addHandler(MessagesReceivedEvent.TYPE, new MessagesReceivedEventHandler() {
+//
+//            public void onMessagesReceived(MessagesReceivedEvent event) {
+//
+//                // fill the oracle
+//                display.fillSearchOracle(event.getMessages());
+//            }
+//
+//        }));
 	}
 
 	@Inject private Displayable display;

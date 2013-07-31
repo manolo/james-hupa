@@ -37,23 +37,25 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class SearchBoxView extends Composite implements SearchBoxActivity.Displayable {
 
 	private MultiWordSuggestOracle oracle = new MultiWordSuggestOracle(" ,@");
-	private SuggestBox searchBox = new SuggestBox(oracle);
+	private TextBox searchBox = new TextBox();
 	private Button searchButton = new Button("Search");
 	@UiField protected HorizontalPanel thisPanel;
 
-	@SuppressWarnings("deprecation")
+//	@SuppressWarnings("deprecation")
 	public SearchBoxView() {
 		initWidget(binder.createAndBindUi(this));
 
 //        searchBox.addStyleName(HupaCSS.C_msg_search);
         
-        searchBox.setAnimationEnabled(true);
-        searchBox.setAutoSelectEnabled(false);
-        searchBox.setLimit(20);
+//        searchBox.setAnimationEnabled(true);
+//        searchBox.setAutoSelectEnabled(false);
+//        searchBox.setLimit(20);
+		searchBox.getElement().setAttribute("type", "search");
 		searchBox.addKeyUpHandler(new KeyUpHandler() {
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
