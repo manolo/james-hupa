@@ -54,6 +54,7 @@ public class SearchBoxActivity extends AppBaseActivity {
                     searchValue = display.getSearchValue().getValue().trim();
                 }
                 eventBus.fireEvent(new RefreshMessagesEvent(searchValue));
+                hc.showTopLoading("Searching...");
             }
 
         }));
