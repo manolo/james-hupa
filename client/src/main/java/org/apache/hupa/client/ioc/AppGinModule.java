@@ -43,7 +43,6 @@ import org.apache.hupa.client.activity.StatusActivity;
 import org.apache.hupa.client.activity.ToolBarActivity;
 import org.apache.hupa.client.activity.TopActivity;
 import org.apache.hupa.client.activity.TopBarActivity;
-import org.apache.hupa.client.activity.WestActivity;
 import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
 import org.apache.hupa.client.mapper.CachingTopBarActivityMapper;
 import org.apache.hupa.client.mapper.ComposeActivityMapper;
@@ -92,7 +91,6 @@ import org.apache.hupa.client.ui.StatusView;
 import org.apache.hupa.client.ui.ToolBarView;
 import org.apache.hupa.client.ui.TopBarView;
 import org.apache.hupa.client.ui.TopView;
-import org.apache.hupa.client.ui.WestView;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
@@ -158,12 +156,10 @@ public class AppGinModule extends AbstractGinModule {
 
 		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
 		bind(FolderListActivity.Displayable.class).to(FolderListView.class).in(Singleton.class);
-		bind(WestActivity.Displayable.class).to(WestView.class).in(Singleton.class);
 		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
 		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);
 
 		bind(TopActivity.class).in(Singleton.class);
-		bind(WestActivity.class).in(Singleton.class);
 		bind(IMAPMessageListActivity.class).in(Singleton.class);
 		bind(MessageSendActivity.class).in(Singleton.class);
 

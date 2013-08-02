@@ -34,6 +34,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -99,14 +100,16 @@ public class TopBarActivity extends AppBaseActivity {
 					eventBus.fireEvent(new LogoutEvent(response.getUser()));
 					RootLayoutPanel.get().clear();
 					RootLayoutPanel.get().add(loginLayout.get());
-					TopBarActivity.this.pc.goTo(new DefaultPlace("@"));
+					pc.goTo(new DefaultPlace(""));
+					Window.Location.reload();
 				}
 
 				@Override
 				public void onFailure(ServerFailure error) {
 					RootLayoutPanel.get().clear();
 					RootLayoutPanel.get().add(loginLayout.get());
-					TopBarActivity.this.pc.goTo(new DefaultPlace("@"));
+					pc.goTo(new DefaultPlace(""));
+					Window.Location.reload();
 				}
 			});
 		}
