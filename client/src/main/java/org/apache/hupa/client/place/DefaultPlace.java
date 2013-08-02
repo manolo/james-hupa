@@ -22,6 +22,9 @@ package org.apache.hupa.client.place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
+/**
+ * login page
+ */
 public class DefaultPlace extends AbstractPlace {
 
 	String token;
@@ -34,7 +37,7 @@ public class DefaultPlace extends AbstractPlace {
 		return token;
 	}
 
-	@Prefix("!")
+	@Prefix("")
 	public static class Tokenizer implements PlaceTokenizer<DefaultPlace> {
 
 		@Override

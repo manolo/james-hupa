@@ -66,8 +66,14 @@ public class MessageContentActivity extends AppBaseActivity {
 				@Override
 				public void onSuccess(GetMessageDetailsResult response) {
 					display.fillMessageContent(response.getMessageDetails().getText());
-					display.setAttachments(response.getMessageDetails().getMessageAttachments(), fullName,
-							Long.parseLong(uid));
+					List<MessageAttachment> attaches = response.getMessageDetails().getMessageAttachments();
+					if (attaches == null || attaches.isEmpty()) {
+						display.showAttachmentPanel(false);
+					} else {
+						display.showAttachmentPanel(true);
+						display.setAttachments(response.getMessageDetails().getMessageAttachments(), fullName,
+								Long.parseLong(uid));
+					}
 				}
 
 				@Override
@@ -101,6 +107,7 @@ public class MessageContentActivity extends AppBaseActivity {
 		void fillMessageContent(String messageContent);
 		void clearContent();
 		void setAttachments(List<MessageAttachment> attachements, String folder, long uid);
+		void showAttachmentPanel(boolean is);
 	}
 
 	public Activity with(TokenWrapper tokenWrapper) {
@@ -112,7 +119,6 @@ public class MessageContentActivity extends AppBaseActivity {
 	public void openLink(String url) {
 		Window.open(url, "_blank", "");
 	}
-
 
 	public void mailTo(String mailto) {
 		pc.goTo(new ComposePlace("new").with(new Parameters(null, null, null, null)));

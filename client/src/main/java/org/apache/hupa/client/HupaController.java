@@ -40,6 +40,7 @@ import org.apache.hupa.shared.domain.IdleResult;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.LoginEvent;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.StyleInjector;
@@ -103,8 +104,12 @@ public class HupaController {
 			if (here.getParameters() != null) {
 				hupaLayout.switchTo(HupaLayout.LAYOUT_COMPOSE);
 			} else {
-				//FIXME when gmail mode
-				this.placeController.goTo(new FolderPlace("INBOX"));
+				//FIXME using configure one
+				if(GWT.isProdMode()){
+					placeController.goTo(new FolderPlace("INBOX"));
+				}else{
+					placeController.goTo(new FolderPlace("Mock-Inbox"));
+				}
 			}
 		} else if (place instanceof ContactPlace) {
 			hupaLayout.switchTo(HupaLayout.LAYOUT_CONTACT);

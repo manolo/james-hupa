@@ -30,7 +30,6 @@ import org.apache.hupa.client.rf.DeleteMessageByUidRequest;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
 import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.ToolBarView;
-import org.apache.hupa.shared.data.ImapFolderImpl;
 import org.apache.hupa.shared.domain.DeleteMessageByUidAction;
 import org.apache.hupa.shared.domain.DeleteMessageResult;
 import org.apache.hupa.shared.domain.GetMessageDetailsAction;
@@ -40,7 +39,6 @@ import org.apache.hupa.shared.domain.Message;
 import org.apache.hupa.shared.domain.User;
 import org.apache.hupa.shared.events.DeleteClickEvent;
 import org.apache.hupa.shared.events.DeleteClickEventHandler;
-import org.apache.hupa.shared.events.ExpandMessageEvent;
 import org.apache.hupa.shared.events.RefreshMessagesEvent;
 import org.apache.hupa.shared.events.RefreshMessagesEventHandler;
 import org.apache.hupa.shared.events.RefreshUnreadEvent;
@@ -83,16 +81,14 @@ public class MessageListActivity extends AppBaseActivity {
 					req.get(action).fire(new Receiver<GetMessageDetailsResult>() {
 						@Override
 						public void onSuccess(GetMessageDetailsResult response) {
-							eventBus.fireEvent(new ExpandMessageEvent(user, new ImapFolderImpl(folderName), event
-									.getValue(), response.getMessageDetails()));
+							MessagePlace place = new MessagePlace(folderName + AbstractPlace.SPLITTER
+									+ event.getValue().getUid());
+							pc.goTo(place);
 							display.getGrid().getSelectionModel().setSelected(event.getValue(), true);
 							toolBar.enableAllTools(true);
 							ToolBarView.Parameters p = new ToolBarView.Parameters(user, folderName, event.getValue(),
 									response.getMessageDetails());
 							toolBar.setParameters(p);
-							MessagePlace place = new MessagePlace(folderName + AbstractPlace.SPLITTER
-									+ event.getValue().getUid());
-							pc.goTo(place);
 							display.refresh();
 							hc.hideTopLoading();
 							eventBus.fireEvent(new RefreshUnreadEvent());
