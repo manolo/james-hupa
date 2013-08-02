@@ -27,7 +27,6 @@ import org.apache.hupa.client.activity.ComposeToolBarActivity;
 import org.apache.hupa.client.activity.ContactPropertiesActivity;
 import org.apache.hupa.client.activity.ContactsListActivity;
 import org.apache.hupa.client.activity.FolderListActivity;
-import org.apache.hupa.client.activity.IMAPMessageListActivity;
 import org.apache.hupa.client.activity.LabelListActivity;
 import org.apache.hupa.client.activity.LabelPropertiesActivity;
 import org.apache.hupa.client.activity.LoginActivity;
@@ -35,13 +34,11 @@ import org.apache.hupa.client.activity.LogoActivity;
 import org.apache.hupa.client.activity.MessageContentActivity;
 import org.apache.hupa.client.activity.MessageListActivity;
 import org.apache.hupa.client.activity.MessageListFooterActivity;
-import org.apache.hupa.client.activity.MessageSendActivity;
 import org.apache.hupa.client.activity.NavigationActivity;
 import org.apache.hupa.client.activity.NotificationActivity;
 import org.apache.hupa.client.activity.SearchBoxActivity;
 import org.apache.hupa.client.activity.StatusActivity;
 import org.apache.hupa.client.activity.ToolBarActivity;
-import org.apache.hupa.client.activity.TopActivity;
 import org.apache.hupa.client.activity.TopBarActivity;
 import org.apache.hupa.client.mapper.AppPlaceHistoryMapper;
 import org.apache.hupa.client.mapper.CachingTopBarActivityMapper;
@@ -69,10 +66,8 @@ import org.apache.hupa.client.ui.ComposeView;
 import org.apache.hupa.client.ui.ContactPropertiesView;
 import org.apache.hupa.client.ui.ContactsListView;
 import org.apache.hupa.client.ui.FolderListView;
-import org.apache.hupa.client.ui.FoldersTreeViewModel;
 import org.apache.hupa.client.ui.HupaLayout;
 import org.apache.hupa.client.ui.HupaLayoutable;
-import org.apache.hupa.client.ui.IMAPMessageListView;
 import org.apache.hupa.client.ui.LabelListView;
 import org.apache.hupa.client.ui.LabelPropertiesView;
 import org.apache.hupa.client.ui.LoginLayout;
@@ -82,7 +77,6 @@ import org.apache.hupa.client.ui.LogoView;
 import org.apache.hupa.client.ui.MessageContentView;
 import org.apache.hupa.client.ui.MessageListFooterView;
 import org.apache.hupa.client.ui.MessageListView;
-import org.apache.hupa.client.ui.MessageSendView;
 import org.apache.hupa.client.ui.MessagesCellTable;
 import org.apache.hupa.client.ui.NavigationView;
 import org.apache.hupa.client.ui.NotificationView;
@@ -90,7 +84,6 @@ import org.apache.hupa.client.ui.SearchBoxView;
 import org.apache.hupa.client.ui.StatusView;
 import org.apache.hupa.client.ui.ToolBarView;
 import org.apache.hupa.client.ui.TopBarView;
-import org.apache.hupa.client.ui.TopView;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
@@ -154,17 +147,9 @@ public class AppGinModule extends AbstractGinModule {
 		bind(ContactPropertiesActivity.class).in(Singleton.class);
 		
 
-		bind(TopActivity.Displayable.class).to(TopView.class).in(Singleton.class);
 		bind(FolderListActivity.Displayable.class).to(FolderListView.class).in(Singleton.class);
-		bind(IMAPMessageListActivity.Displayable.class).to(IMAPMessageListView.class);
-		bind(MessageSendActivity.Displayable.class).to(MessageSendView.class);
-
-		bind(TopActivity.class).in(Singleton.class);
-		bind(IMAPMessageListActivity.class).in(Singleton.class);
-		bind(MessageSendActivity.class).in(Singleton.class);
 
 		bind(MessagesCellTable.class).in(Singleton.class);
-		bind(FoldersTreeViewModel.class).in(Singleton.class);
 		bind(CellTree.Resources.class).to(CellTree.BasicResources.class);
 		// Places
 		bind(PlaceHistoryMapper.class).to(AppPlaceHistoryMapper.class).in(Singleton.class);
