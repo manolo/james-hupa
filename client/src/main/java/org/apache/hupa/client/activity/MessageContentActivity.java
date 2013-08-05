@@ -44,6 +44,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -60,7 +61,9 @@ public class MessageContentActivity extends AppBaseActivity {
 	@Override
 	public void start(AcceptsOneWidget container, EventBus eventBus) {
 		bindTo(eventBus);
+		display.getRawPanel().setVisible(false);
 		if (isUidSet()) {
+			display.getRawPanel().setVisible(true);
 			GetMessageDetailsRequest req = rf.messageDetailsRequest();
 			GetMessageDetailsAction action = req.create(GetMessageDetailsAction.class);
 			final ImapFolder f = req.create(ImapFolder.class);
@@ -123,6 +126,7 @@ public class MessageContentActivity extends AppBaseActivity {
 		void setAttachments(List<MessageAttachment> attachements, String folder, long uid);
 		void showAttachmentPanel(boolean is);
 		HasClickHandlers getRaw();
+		HasVisibility getRawPanel();
 	}
 
 	public Activity with(TokenWrapper tokenWrapper) {

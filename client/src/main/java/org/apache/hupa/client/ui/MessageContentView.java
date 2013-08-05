@@ -40,10 +40,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Inject;
 
 public class MessageContentView extends Composite implements MessageContentActivity.Displayable {
@@ -54,6 +56,7 @@ public class MessageContentView extends Composite implements MessageContentActiv
 	@UiField FlowPanel attachments;
 	@UiField DockLayoutPanel thisPanel;
 	@UiField Anchor rawButton;
+	@UiField SimplePanel rawPanel;
 
 	@Inject
 	public MessageContentView() {
@@ -126,5 +129,10 @@ public class MessageContentView extends Composite implements MessageContentActiv
 	@Override
 	public HasClickHandlers getRaw() {
 		return rawButton;
+	}
+
+	@Override
+	public HasVisibility getRawPanel() {
+		return rawPanel;
 	}
 }
