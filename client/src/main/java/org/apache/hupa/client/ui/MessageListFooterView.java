@@ -19,7 +19,12 @@
 
 package org.apache.hupa.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.hupa.client.activity.MessageListFooterActivity;
+import org.apache.hupa.client.rf.HupaRequestFactory;
+import org.apache.hupa.shared.domain.ImapFolder;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -27,21 +32,87 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Inject;
+import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class MessageListFooterView extends Composite implements MessageListFooterActivity.Displayable {
 
-	@UiField(provided = true)
-	SimplePager simplePager;
+	@UiField(provided = true) SimplePager simplePager;
+
+	@UiField ListBox labels;
+	@UiField SimplePanel labelsPanel;
+	private List<LabelNode> folderNodes = new ArrayList<LabelNode>();
+
+	private static final String ROOT_PATH = "imap_root";
 
 	@Inject
-	public MessageListFooterView(final MessagesCellTable table) {
+	public MessageListFooterView(final MessagesCellTable table, final HupaRequestFactory rf) {
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 		simplePager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		simplePager.setDisplay(table);
-//		simplePager.setRangeLimited(false);
+		// simplePager.setRangeLimited(false);
 		initWidget(binder.createAndBindUi(this));
+
+		rf.fetchFoldersRequest().fetch(null, Boolean.TRUE).fire(new Receiver<List<ImapFolder>>() {
+
+			private String INTENTS = "&nbsp;&nbsp;&nbsp;&nbsp;";
+
+			@Override
+			public void onSuccess(List<ImapFolder> response) {
+				folderNodes.clear();
+				if (response == null || response.size() == 0) {
+				} else {
+					for (ImapFolder folder : response) {
+						fillCellList(folderNodes, folder, LabelNode.ROOT, "");
+					}
+				}
+
+				makeParentList();
+			}
+
+			private void fillCellList(List<LabelNode> folderNodes, ImapFolder curFolder, LabelNode parent,
+					String intents) {
+				LabelNode labelNode = new LabelNode();
+				labelNode.setFolder(curFolder);
+				labelNode.setName(curFolder.getName());
+				labelNode.setNameForDisplay(intents + curFolder.getName());
+				labelNode.setParent(parent);
+				labelNode.setPath(curFolder.getFullName());
+				folderNodes.add(labelNode);
+				if ("inbox".equalsIgnoreCase(curFolder.getName())) {
+					// if(selectionModel.getSelectedObject() == null){
+					// selectionModel.setSelected(labelNode, true);
+					// }
+				}
+				if (curFolder.getHasChildren()) {
+					for (ImapFolder subFolder : curFolder.getChildren()) {
+						fillCellList(folderNodes, subFolder, labelNode, intents + INTENTS);
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(ServerFailure error) {
+				if (error.isFatal()) {
+					throw new RuntimeException(error.getMessage());
+				}
+			}
+
+		});
+	}
+
+	private void makeParentList() {
+		labels.clear();
+		labels.addItem("Move to...", ROOT_PATH);
+		for (LabelNode folderNode : this.folderNodes) {
+			labels.addItem(folderNode.getNameForDisplay().replace("&nbsp;&nbsp;", ". "), folderNode.getPath());
+		}
+
 	}
 
 	interface MessageListFooterUiBinder extends UiBinder<HorizontalPanel, MessageListFooterView> {
@@ -52,6 +123,16 @@ public class MessageListFooterView extends Composite implements MessageListFoote
 	@Override
 	public SimplePager getPager() {
 		return simplePager;
+	}
+
+	@Override
+	public HasVisibility getLabelsPanel() {
+		return labelsPanel;
+	}
+
+	@Override
+	public ListBox getLabels() {
+		return labels;
 	}
 
 }
