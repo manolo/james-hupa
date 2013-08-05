@@ -27,7 +27,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.inject.Inject;
 
 public class MessageListFooterView extends Composite implements MessageListFooterActivity.Displayable {
@@ -44,7 +44,7 @@ public class MessageListFooterView extends Composite implements MessageListFoote
 		initWidget(binder.createAndBindUi(this));
 	}
 
-	interface MessageListFooterUiBinder extends UiBinder<SimplePanel, MessageListFooterView> {
+	interface MessageListFooterUiBinder extends UiBinder<HorizontalPanel, MessageListFooterView> {
 	}
 
 	private static MessageListFooterUiBinder binder = GWT.create(MessageListFooterUiBinder.class);

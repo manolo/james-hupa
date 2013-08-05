@@ -11,7 +11,17 @@
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
-	<g:SimplePanel>
+
+	<ui:style>
+		.moveMessage {
+		position:absolute;
+		right:20px;	
+		}
+	</ui:style>
+	<g:HorizontalPanel>
 		<c:SimplePager ui:field="simplePager" />
-	</g:SimplePanel>
+		<g:SimplePanel addStyleNames="{style.moveMessage}">
+			<g:HTML>Hello</g:HTML>
+		</g:SimplePanel>
+	</g:HorizontalPanel>
 </ui:UiBinder>
