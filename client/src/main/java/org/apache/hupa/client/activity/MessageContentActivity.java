@@ -27,6 +27,7 @@ import org.apache.hupa.client.place.ComposePlace;
 import org.apache.hupa.client.place.MessagePlace.TokenWrapper;
 import org.apache.hupa.client.rf.GetMessageDetailsRequest;
 import org.apache.hupa.client.ui.ToolBarView.Parameters;
+import org.apache.hupa.shared.SConsts;
 import org.apache.hupa.shared.domain.GetMessageDetailsAction;
 import org.apache.hupa.shared.domain.GetMessageDetailsResult;
 import org.apache.hupa.shared.domain.ImapFolder;
@@ -36,6 +37,10 @@ import org.apache.hupa.shared.events.DeleteClickEventHandler;
 import org.apache.hupa.shared.events.MailToEvent;
 
 import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -97,6 +102,15 @@ public class MessageContentActivity extends AppBaseActivity {
 				display.clearContent();
 			}
 		});
+		this.registerHandler(display.getRaw().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				String message_url = GWT.getModuleBaseURL() + SConsts.SERVLET_SOURCE + "?" + SConsts.PARAM_UID + "="
+						+ uid + "&" + SConsts.PARAM_FOLDER + "=" + fullName;
+				Window.open(message_url, "_blank", "");
+			}
+
+		}));
 	}
 
 	private boolean isUidSet() {
@@ -108,6 +122,7 @@ public class MessageContentActivity extends AppBaseActivity {
 		void clearContent();
 		void setAttachments(List<MessageAttachment> attachements, String folder, long uid);
 		void showAttachmentPanel(boolean is);
+		HasClickHandlers getRaw();
 	}
 
 	public Activity with(TokenWrapper tokenWrapper) {

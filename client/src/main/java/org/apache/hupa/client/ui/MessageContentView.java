@@ -30,6 +30,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
@@ -52,6 +53,7 @@ public class MessageContentView extends Composite implements MessageContentActiv
 	//TODO should use a scrolled panel which can contain multiple children
 	@UiField FlowPanel attachments;
 	@UiField DockLayoutPanel thisPanel;
+	@UiField Anchor rawButton;
 
 	@Inject
 	public MessageContentView() {
@@ -120,4 +122,9 @@ public class MessageContentView extends Composite implements MessageContentActiv
 	}
 
 	private static Binder binder = GWT.create(Binder.class);
+
+	@Override
+	public HasClickHandlers getRaw() {
+		return rawButton;
+	}
 }
