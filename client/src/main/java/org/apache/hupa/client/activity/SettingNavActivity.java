@@ -17,47 +17,41 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.activity;
 
+import org.apache.hupa.client.place.SettingPlace;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.inject.Inject;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+public class SettingNavActivity extends AppBaseActivity {
 
-	AcceptsOneWidget getLogoView();
+	@Override
+	public void start(AcceptsOneWidget container, EventBus eventBus) {
+		container.setWidget(display.asWidget());
+		bindTo(eventBus);
+	}
 
-	AcceptsOneWidget getNavigationView();
+	private void bindTo(EventBus eventBus) {
+		registerHandler(display.getLabelsAchor().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				display.singleSelect(1);
+				pc.goTo(new SettingPlace("labels"));
+			}
+		}));
+	}
 
-	AcceptsOneWidget getToolBarView();
+	@Inject private Displayable display;
 
-	AcceptsOneWidget getFolderListView();
+	public interface Displayable extends IsWidget {
+		HasClickHandlers getLabelsAchor();
 
-	AcceptsOneWidget getMessageListView();
-
-	AcceptsOneWidget getMessageListFooterView();
-
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	AcceptsOneWidget getComposeToolBarView();
-
-	AcceptsOneWidget getComposeView();
-
-	AcceptsOneWidget getNotificationView();
-
-	AcceptsOneWidget getLabelListView();
-	AcceptsOneWidget getContactListView();
-
-	AcceptsOneWidget getLabelPropertiesView();
-
-	void switchTo(int layout);
-
-	AcceptsOneWidget getContactPropertiesView();
-
-	AcceptsOneWidget getContactsListView();
-
-	AcceptsOneWidget getSearchBoxView();
-
-	AcceptsOneWidget getSettingNavView();
+		void singleSelect(int i);
+	}
 }

@@ -17,47 +17,38 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.hupa.client.ui;
+package org.apache.hupa.client.mapper;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import org.apache.hupa.client.activity.SettingNavActivity;
+import org.apache.hupa.client.place.DefaultPlace;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-	AcceptsOneWidget getLogoView();
+public class SettingNavActivityMapper extends _HupaActivityMapper {
+	private final Provider<SettingNavActivity> settingNavActivityProvider;
 
-	AcceptsOneWidget getNavigationView();
+	@Inject
+	public SettingNavActivityMapper(Provider<SettingNavActivity> settingNavActivityProvider) {
+		this.settingNavActivityProvider = settingNavActivityProvider;
+	}
+	@Override
+	Activity asyncLoadActivity(Place place) {
+		if(place instanceof DefaultPlace) return null;
+		return new ActivityAsyncProxy() {
+			@Override
+			protected void doAsync(RunAsyncCallback callback) {
+				GWT.runAsync(callback);
+			}
 
-	AcceptsOneWidget getToolBarView();
-
-	AcceptsOneWidget getFolderListView();
-
-	AcceptsOneWidget getMessageListView();
-
-	AcceptsOneWidget getMessageListFooterView();
-
-	AcceptsOneWidget getMessageContentView();
-
-	AcceptsOneWidget getStatusView();
-
-	AcceptsOneWidget getComposeToolBarView();
-
-	AcceptsOneWidget getComposeView();
-
-	AcceptsOneWidget getNotificationView();
-
-	AcceptsOneWidget getLabelListView();
-	AcceptsOneWidget getContactListView();
-
-	AcceptsOneWidget getLabelPropertiesView();
-
-	void switchTo(int layout);
-
-	AcceptsOneWidget getContactPropertiesView();
-
-	AcceptsOneWidget getContactsListView();
-
-	AcceptsOneWidget getSearchBoxView();
-
-	AcceptsOneWidget getSettingNavView();
+			@Override
+			protected Activity createInstance() {
+				return settingNavActivityProvider.get();
+			}
+		};
+	}
 }

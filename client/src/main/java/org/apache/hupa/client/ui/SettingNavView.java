@@ -19,45 +19,46 @@
 
 package org.apache.hupa.client.ui;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import org.apache.hupa.client.activity.SettingNavActivity;
 
-public interface HupaLayoutable extends Layoutable {
-	AcceptsOneWidget getTopBarView();
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
-	AcceptsOneWidget getLogoView();
+public class SettingNavView extends Composite implements SettingNavActivity.Displayable {
+	
+	@UiField Element navLabelsItem;
+	@UiField Anchor labelsAnchor;
 
-	AcceptsOneWidget getNavigationView();
+	public SettingNavView() {
+		initWidget(binder.createAndBindUi(this));
+	}
 
-	AcceptsOneWidget getToolBarView();
+	interface Binder extends UiBinder<HTMLPanel, SettingNavView> {
+	}
 
-	AcceptsOneWidget getFolderListView();
+	private static Binder binder = GWT.create(Binder.class);
 
-	AcceptsOneWidget getMessageListView();
+	@Override
+	public HasClickHandlers getLabelsAchor() {
+		return labelsAnchor;
+	}
 
-	AcceptsOneWidget getMessageListFooterView();
+	@Override
+	public void singleSelect(int i) {
+		switch(i){
+		default:selectNavLabelItem();
+		}
+	}
 
-	AcceptsOneWidget getMessageContentView();
+	private void selectNavLabelItem() {
+		String clazz = navLabelsItem.getAttribute("class");
+		navLabelsItem.setAttribute("class", clazz + " selected");
+	}
 
-	AcceptsOneWidget getStatusView();
-
-	AcceptsOneWidget getComposeToolBarView();
-
-	AcceptsOneWidget getComposeView();
-
-	AcceptsOneWidget getNotificationView();
-
-	AcceptsOneWidget getLabelListView();
-	AcceptsOneWidget getContactListView();
-
-	AcceptsOneWidget getLabelPropertiesView();
-
-	void switchTo(int layout);
-
-	AcceptsOneWidget getContactPropertiesView();
-
-	AcceptsOneWidget getContactsListView();
-
-	AcceptsOneWidget getSearchBoxView();
-
-	AcceptsOneWidget getSettingNavView();
 }

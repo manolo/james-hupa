@@ -19,19 +19,11 @@
 
 package org.apache.hupa.client.ui;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.hupa.client.ui.FolderListView.Resources;
-
-import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle.Source;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellList;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -39,25 +31,27 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 public class _CenterSettingPanel extends Composite {
+	
 
 	@UiField SplitLayoutPanel thisPanel;
 
-	@UiField SimpleLayoutPanel settingsTab;
+	@UiField SimpleLayoutPanel settingNavContainer;
 
 	@UiField SimpleLayoutPanel labelListContainer;
 	@UiField SimplePanel labelPropertiesContainer;
+	
+	@UiField protected Style style;
 
+	interface Style extends CssResource {
+		
+	}
+	
 	public _CenterSettingPanel() {
 
 		initWidget(binder.createAndBindUi(this));
-		settingsTab.setWidget(createTabList());
 	}
-
-	private static final List<String> TABS = Arrays.asList("Folders");
 
 	public interface Resources extends CellList.Resources {
 
@@ -65,41 +59,6 @@ public class _CenterSettingPanel extends Composite {
 
 		@Source("res/CssLabelListView.css")
 		public CellList.Style cellListStyle();
-	}
-	private CellList<String> createTabList() {
-		CellList<String> cellList = new CellList<String>(new SpanCell(), Resources.INSTANCE);
-		cellList.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
-		cellList.setSelectionModel(selectionModel);
-		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-			public void onSelectionChange(SelectionChangeEvent event) {
-				String selected = selectionModel.getSelectedObject();
-				if (selected != null) {
-					// Window.alert("You selected: " + selected);
-				}
-			}
-		});
-		cellList.setRowCount(TABS.size(), true);
-
-		// Push the data into the widget.
-		cellList.setRowData(0, TABS);
-		return cellList;
-	}
-
-	static class SpanCell extends AbstractCell<String> {
-
-		public SpanCell() {
-		}
-
-		@Override
-		public void render(Context context, String value, SafeHtmlBuilder sb) {
-			if (value == null) {
-				return;
-			}
-			sb.appendHtmlConstant("<span >");
-			sb.appendHtmlConstant(value);
-			sb.appendHtmlConstant("</span>");
-		}
 	}
 
 	interface _CeterSettingPanelUiBinder extends UiBinder<SplitLayoutPanel, _CenterSettingPanel> {
@@ -121,6 +80,15 @@ public class _CenterSettingPanel extends Composite {
 			@Override
 			public void setWidget(IsWidget w) {
 				labelPropertiesContainer.setWidget(Widget.asWidgetOrNull(w));
+			}
+		};
+	}
+
+	public AcceptsOneWidget getSettingNavView() {
+		return new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				settingNavContainer.setWidget(Widget.asWidgetOrNull(w));
 			}
 		};
 	}
