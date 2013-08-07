@@ -52,10 +52,11 @@
 }
 
 .cellListKeyboardSelectedItem {
-	background: #ffc;
+    background:  #c7e3ef;
 }
 
 .cellListSelectedItem {
+	background:  #c7e3ef;
     background-color: #c7e3ef;
     color: #004458;
     height: auto;
