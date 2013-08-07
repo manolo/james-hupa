@@ -20,17 +20,15 @@
 package org.apache.hupa.client.mapper;
 
 import org.apache.hupa.client.activity.MessageListFooterActivity;
-import org.apache.hupa.client.place.DefaultPlace;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class MessageListFooterActivityMapper implements ActivityMapper {
+public class MessageListFooterActivityMapper extends _MessageActivityMapper {
 	private final Provider<MessageListFooterActivity> messageListFooterActivityProvider;
 
 	@Inject
@@ -39,18 +37,16 @@ public class MessageListFooterActivityMapper implements ActivityMapper {
 		this.messageListFooterActivityProvider = messageListFooterActivityProvider;
 	}
 
-	public Activity getActivity(Place place) {
-		if(place instanceof DefaultPlace) return null;
-		return new ActivityAsyncProxy() {
-			@Override
-			protected void doAsync(RunAsyncCallback callback) {
-				GWT.runAsync(callback);
-			}
+	@Override
+	protected Activity lazyLoadActivity(Place place) {return new ActivityAsyncProxy() {
+		@Override
+		protected void doAsync(RunAsyncCallback callback) {
+			GWT.runAsync(callback);
+		}
 
-			@Override
-			protected Activity createInstance() {
-				return messageListFooterActivityProvider.get();
-			}
-		};
-	}
+		@Override
+		protected Activity createInstance() {
+			return messageListFooterActivityProvider.get();
+		}
+	};}
 }
