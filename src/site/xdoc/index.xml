@@ -32,6 +32,7 @@
 
         <section name="Releases">
             <p>
+<<<<<<< HEAD
                 Last release is Hupa 0.0.3:<br/>
                 <a href='http://repo1.maven.org/maven2/org/apache/james/hupa/hupa/0.0.3/hupa-0.0.3.war'> binary </a> : ready to run or to deploy in any servlet container.<br/>
                 <a href='http://repo1.maven.org/maven2/org/apache/james/hupa/hupa-parent/0.0.3/hupa-parent-0.0.3-source-release.zip'> sources </a>.
@@ -39,6 +40,15 @@
             <p>
                 Current trunk:<br/>
                 <a href='https://builds.apache.org/job/hupa-trunk/lastBuild/org.apache.james.hupa$hupa/artifact/org.apache.james.hupa/hupa/0.0.5-SNAPSHOT/hupa-0.0.5-SNAPSHOT.war'>
+=======
+                Last release is Hupa 0.0.2:<br/>
+                <a href='http://repo1.maven.org/maven2/org/apache/james/hupa/hupa/0.0.2/hupa-0.0.2.war'> binary </a> : ready to run or to deploy in any servlet container.<br/>
+                <a href='http://repo1.maven.org/maven2/org/apache/james/hupa/hupa-parent/0.0.2/hupa-parent-0.0.2-source-release.zip'> sources </a>.
+            </p>
+            <p>
+                Current trunk:<br/>
+                <a href='https://builds.apache.org/job/hupa-trunk/lastBuild/org.apache.james.hupa$hupa/artifact/org.apache.james.hupa/hupa/0.0.3-SNAPSHOT/hupa-0.0.3-SNAPSHOT.war'>
+>>>>>>> master
                  0.3-SNAPSHOT
                 </a>
                 from our continuous integration server.
@@ -46,7 +56,11 @@
         </section>
 
         <section name="Demo">
+<<<<<<< HEAD
             <p> There are two instances of Hupa running in the ASF infra. One is
+=======
+            <p> There are <a href='http://james.zones.apache.org/index.html'>two</a> instances of Hupa running in the ASF infra. One is
+>>>>>>> master
                 configured to use GMail IMAP and SMTP servers, so any gmail account
                 should work. The other one uses a set of messages used to test Hupa
                 with fake imap and smtp servers implementations.

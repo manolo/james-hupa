@@ -18,47 +18,22 @@
  ****************************************************************/
 package org.apache.hupa.client.rf;
 
-import com.google.web.bindery.requestfactory.shared.RequestFactory;
+import org.apache.hupa.server.rf.Subject;
 
-public interface HupaRequestFactory extends RequestFactory {
-<<<<<<< HEAD
-=======
-	SubjectRequest subjectRequest();
+import com.google.web.bindery.requestfactory.shared.EntityProxy;
+import com.google.web.bindery.requestfactory.shared.ProxyFor;
 
->>>>>>> master
-	ImapFolderRequest folderRequest();
+@ProxyFor(Subject.class)
+public interface SubjectProxy extends EntityProxy {
+  String getTitle();
 
-	CheckSessionRequest sessionRequest();
+  Long getId();
 
-	LoginUserRequest loginRequest();
+  Integer getVersion();
 
-	LogoutUserRequest logoutRequest();
+  void setTitle(String title);
 
-	FetchFoldersRequest fetchFoldersRequest();
+  void setId(Long id);
 
-	FetchMessagesRequest messagesRequest();
-
-	MoveMessageRequest moveMessageRequest();
-
-	CreateFolderRequest createFolderRequest();
-
-	DeleteFolderRequest deleteFolderRequest();
-
-	RenameFolderRequest renameFolderRequest();
-
-	DeleteMessageByUidRequest deleteMessageByUidRequest();
-
-	DeleteMessageAllRequest deleteMessageAllRequest();
-
-	GetMessageDetailsRequest messageDetailsRequest();
-
-	SendMessageRequest sendMessageRequest();
-
-	SendForwardMessageRequest sendForwardMessageRequest();
-
-	SendReplyMessageRequest sendReplyMessageRequest();
-
-	IdleRequest idleRequest();
-
-	SetFlagRequest setFlagRequest();
+  void setVersion(Integer version);
 }

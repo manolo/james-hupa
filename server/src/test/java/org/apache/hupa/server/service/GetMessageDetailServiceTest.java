@@ -79,7 +79,7 @@ public class GetMessageDetailServiceTest extends HupaGuiceTestCase {
         res = getMessageDetailsService.filterHtmlDocument(msg, "aFolder", 9999l);
         assertNotSame(msg, res);
         assertEquals("...\n...<img   \n   src='" + 
-                SConsts.HUPA + SConsts.SERVLET_DOWNLOAD + "?mode=inline&" 
+        SConsts.HUPA + SConsts.SERVLET_DOWNLOAD + "?mode=inline&" 
                 + SConsts.PARAM_FOLDER + "=aFolder&" 
                 + SConsts.PARAM_UID + "=9999&"
                 + SConsts.PARAM_NAME + "=1.1934304663@web28309.mail.ukl.yahoo.com' name='cid:1.1934304663@web28309.mail.ukl.yahoo.com' width=200\n....", res);

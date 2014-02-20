@@ -29,6 +29,11 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+<<<<<<< HEAD
+=======
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+>>>>>>> master
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
@@ -36,6 +41,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+<<<<<<< HEAD
+=======
+import com.google.gwt.user.client.ui.SuggestBox;
+>>>>>>> master
 import com.google.gwt.user.client.ui.TextBox;
 
 public class SearchBoxView extends Composite implements SearchBoxActivity.Displayable {

@@ -224,6 +224,7 @@ public class GuiceServerModule extends AbstractModule {
 		bind(Session.class).toProvider(JavaMailSessionProvider.class);
 //        bind(UserPreferencesStorage.class).to(InImapUserPreferencesStorage.class);
         bind(UserPreferencesStorage.class).to(InSessionUserPreferencesStorage.class);
+        bind(UserPreferencesStorage.class).to(InImapUserPreferencesStorage.class);
 		bind(Properties.class).toInstance(properties);
 	}
 

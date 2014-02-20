@@ -1,26 +1,22 @@
-.project
-.settings/
 client/.classpath
+client/.gwt/
 client/.project
 client/.settings/
+client/src/main/gwt-unitCache/
+client/src/main/webapp/hupa/
+client/src/main/webapp/WEB-INF/deploy/
 client/target/
-<<<<<<< HEAD
-<<<<<<< HEAD
-client/.gwt/
-=======
->>>>>>> add gitignore to ignore files by git
-=======
-client/.gwt/
->>>>>>> update git ignore
 mock/.classpath
 mock/.project
 mock/.settings/
 mock/target/
+.project
 server/.classpath
 server/.project
 server/.settings/
 server/target/
 server/war/
+.settings/
 shared/.classpath
 shared/.project
 shared/.settings/
@@ -30,20 +26,3 @@ widgets/.classpath
 widgets/.project
 widgets/.settings/
 widgets/target/
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-client/src/main/gwt-unitCache/
-client/src/main/webapp/WEB-INF/deploy/
-client/src/main/webapp/hupa/
-=======
->>>>>>> add gitignore to ignore files by git
-=======
-
-<<<<<<< HEAD
->>>>>>> update git ignore
-=======
-client/src/main/gwt-unitCache/
-client/src/main/webapp/WEB-INF/deploy/
-client/src/main/webapp/hupa/
->>>>>>> layout the label setting view

@@ -18,47 +18,23 @@
  ****************************************************************/
 package org.apache.hupa.client.rf;
 
-import com.google.web.bindery.requestfactory.shared.RequestFactory;
+import org.apache.hupa.server.rf.Subject;
 
-public interface HupaRequestFactory extends RequestFactory {
-<<<<<<< HEAD
-=======
-	SubjectRequest subjectRequest();
+import com.google.web.bindery.requestfactory.shared.InstanceRequest;
+import com.google.web.bindery.requestfactory.shared.Request;
+import com.google.web.bindery.requestfactory.shared.RequestContext;
+import com.google.web.bindery.requestfactory.shared.Service;
 
->>>>>>> master
-	ImapFolderRequest folderRequest();
+@Service(Subject.class)
+public interface SubjectRequest extends RequestContext {
 
-	CheckSessionRequest sessionRequest();
+  Request<java.lang.Long> countSubjects();
 
-	LoginUserRequest loginRequest();
+  Request<SubjectProxy> findSubject(Long id);
 
-	LogoutUserRequest logoutRequest();
+  InstanceRequest<SubjectProxy, java.lang.Void> remove();
 
-	FetchFoldersRequest fetchFoldersRequest();
+  InstanceRequest<SubjectProxy, java.lang.Void> persist();
 
-	FetchMessagesRequest messagesRequest();
-
-	MoveMessageRequest moveMessageRequest();
-
-	CreateFolderRequest createFolderRequest();
-
-	DeleteFolderRequest deleteFolderRequest();
-
-	RenameFolderRequest renameFolderRequest();
-
-	DeleteMessageByUidRequest deleteMessageByUidRequest();
-
-	DeleteMessageAllRequest deleteMessageAllRequest();
-
-	GetMessageDetailsRequest messageDetailsRequest();
-
-	SendMessageRequest sendMessageRequest();
-
-	SendForwardMessageRequest sendForwardMessageRequest();
-
-	SendReplyMessageRequest sendReplyMessageRequest();
-
-	IdleRequest idleRequest();
-
-	SetFlagRequest setFlagRequest();
+  Request<String> echo(SubjectProxy subject, String from, String to);
 }
