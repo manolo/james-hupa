@@ -102,18 +102,9 @@ public class MessageListActivity extends AppBaseActivity {
 						@Override
 						public void onFailure(ServerFailure error) {
 							if (error.isFatal()) {
-<<<<<<< HEAD
 								toolBar.enableAllTools(false);
 								hc.hideTopLoading();
 								hc.showNotice(error.getMessage(), 10000);
-=======
-								// log.log(Level.SEVERE, error.getMessage());
-								// TODO write the error message to
-								// status bar.
-								toolBar.enableAllTools(false);
-								hc.hideTopLoading();
-								throw new RuntimeException(error.getMessage());
->>>>>>> master
 							}
 						}
 					});

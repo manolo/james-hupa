@@ -52,10 +52,7 @@
 		.moreHeaders {
 			position: absolute;
 			top: 8px;
-<<<<<<< HEAD
-=======
             cursor: pointer;
->>>>>>> master
 			right: 18px;
 			width: 18em;
 			text-align: right;
@@ -70,10 +67,7 @@
 			height: 13px;
 			text-indent: 1000px;
 			overflow: hidden;
-<<<<<<< HEAD
-      cursor: pointer;
-=======
->>>>>>> master
+            cursor: pointer;
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit="PX">
@@ -99,8 +93,4 @@
 			</g:DockLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
-<<<<<<< HEAD
 </ui:UiBinder>
-=======
-</ui:UiBinder>
->>>>>>> master
