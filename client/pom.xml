@@ -122,7 +122,6 @@
     <build>
         <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
         <plugins>
-<!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
@@ -156,7 +155,6 @@
                     </execution>
                 </executions>
             </plugin>
--->
 <!--             maven-sure-fire-plugin configurations commented - Why was this needed ? -->
 <!--              - response by manolo: -->
 <!--               This is needed when running gwt tests, the gwt compiler needs to access to -->
