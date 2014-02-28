@@ -62,11 +62,10 @@ import org.apache.hupa.shared.data.MailHeaderImpl;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
 
+import org.apache.hupa.server.utils.MessageUtils;
 import org.apache.hupa.shared.data.GetMessageDetailsResultImpl;
 import org.apache.hupa.shared.data.MailHeaderImpl;
-import org.apache.hupa.shared.data.MessageAttachmentImpl;
 import org.apache.hupa.shared.data.MessageDetailsImpl;
 import org.apache.hupa.shared.domain.GetMessageDetailsAction;
 import org.apache.hupa.shared.domain.GetMessageDetailsResult;
@@ -97,7 +96,7 @@ public class GetMessageDetailsServiceImpl extends AbstractService implements Get
 
 			MimeMessage message = (MimeMessage) f.getMessageByUID(uid);
 
-			MessageDetails mDetails = mimeToDetails(message, f.getFullName(), uid);
+			MessageDetails mDetails = mimeToDetails(message, f.getFullName(), uid, user);
 
 			mDetails.setUid(uid);
 
@@ -119,7 +118,7 @@ public class GetMessageDetailsServiceImpl extends AbstractService implements Get
 		}
 	}
 
-	protected MessageDetails mimeToDetails(MimeMessage message, String folderName, long uid) throws IOException,
+	protected MessageDetails mimeToDetails(MimeMessage message, String folderName, long uid, User user) throws IOException,
 	        MessagingException, UnsupportedEncodingException {
 		MessageDetails mDetails = new MessageDetailsImpl();
 
@@ -140,7 +139,9 @@ public class GetMessageDetailsServiceImpl extends AbstractService implements Get
 
 		for (@SuppressWarnings("unchecked") Enumeration<Header> en = message.getAllHeaders(); en.hasMoreElements();) {
 			Header header = en.nextElement();
-			mDetails.setMailHeader(new MailHeaderImpl(header.getName(), header.getValue()));
+			if (header.getName().toLowerCase().matches("^(x-.*|date|from|to|subject)$")) {
+	            mDetails.getMailHeaders().add(new MailHeaderImpl(header.getName(), header.getValue()));
+			}
 		}
 
 		return mDetails;
