@@ -40,7 +40,6 @@
         <module>widgets</module>
         <module>client</module>
         <module>hupa</module>
-        <module>ecs</module>
     </modules>
     <scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/james/hupa/trunk</connection>
