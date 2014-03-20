@@ -41,13 +41,13 @@ public class MockIMAPStore extends IMAPStore{
     public final static String MOCK_TRASH_FOLDER = "Mock-Trash";
     public final static String MOCK_DRAFTS_FOLDER = "Mock-Drafts";
     public static final String MOCK_HOST = "hupa.demo";
-	public final static String MOCK_LOGIN = "demo";
+    public final static String MOCK_LOGIN = "demo";
     private Map<String, String> validLogins = new HashMap<String, String>();
     private boolean connected = false;
     private List<MockIMAPFolder> folders = new ArrayList<MockIMAPFolder>();
     private List<String> capList;
     static final URLName demoUrl = new URLName(null, MOCK_HOST, 0, null, null, null);
-    
+
     /**
      * Default constructor, it creates the folder structure and loads messages for demo
      */
@@ -55,7 +55,7 @@ public class MockIMAPStore extends IMAPStore{
     public MockIMAPStore(Properties prop) {
         this(Session.getInstance(prop), demoUrl);
     }
-    
+
     public MockIMAPStore(Session ses) {
         this(ses, demoUrl);
     }
@@ -82,7 +82,7 @@ public class MockIMAPStore extends IMAPStore{
     public static Provider getProvider() {
         return new Provider(Provider.Type.STORE,"mockimap",MockIMAPStore.class.getName(),"","");
     }
-    
+
     public synchronized boolean save(MockIMAPFolder folder) {
         for (MockIMAPFolder iFolder : folders) {
             if (iFolder.getFullName().equals(folder.getFullName())) {
@@ -91,8 +91,8 @@ public class MockIMAPStore extends IMAPStore{
         }
         folders.add(folder);
         return true;
-    } 
-    
+    }
+
     public synchronized boolean delete(MockIMAPFolder folder, boolean recursive) {
         boolean found = false;
         for (int i= 0; i < folders.size(); i++) {
@@ -105,11 +105,11 @@ public class MockIMAPStore extends IMAPStore{
             } else if (folders.get(i).getFullName().startsWith(folder.getFullName() + MockIMAPFolder.SEPARATOR)) {
                 folders.remove(i);
             }
-            
+
         }
         return found;
-    } 
-    
+    }
+
     public MockIMAPFolder getParent(MockIMAPFolder folder) {
         for (MockIMAPFolder f : folders) {
             if ((f.getFullName() + MockIMAPFolder.SEPARATOR + folder.getName()).equals(folder.getFullName())) {
@@ -118,7 +118,7 @@ public class MockIMAPStore extends IMAPStore{
         }
         return null;
     }
-    
+
     public synchronized List<MockIMAPFolder> getChilds(MockIMAPFolder folder) {
         List<MockIMAPFolder> childs = new ArrayList<MockIMAPFolder>();
         if (MockIMAPFolder.MOCK_DEFAULT_FOLDER.equals(folder.getFullName())) {
@@ -132,13 +132,13 @@ public class MockIMAPStore extends IMAPStore{
                 if (f.getFullName().startsWith(
                         folder.getFullName() + MockIMAPFolder.SEPARATOR)) {
                     childs.add(f);
-                    
+
                 }
             }
         }
         return childs;
     }
-    
+
     public synchronized void setValidLogins(Map<String,String> validLogins) {
         this.validLogins = validLogins;
     }
@@ -146,7 +146,7 @@ public class MockIMAPStore extends IMAPStore{
     public synchronized void clear() {
         folders.clear();
     }
-    
+
     @Override
     public synchronized void close() throws MessagingException {
         connected = false;
@@ -200,7 +200,7 @@ public class MockIMAPStore extends IMAPStore{
         if (pass != null && validLogins.get(user).equals(password)) {
             connect();
             return;
-        } 
+        }
         throw new AuthenticationFailedException("Invalid login, remember user demo/demo");
     }
 
@@ -209,7 +209,7 @@ public class MockIMAPStore extends IMAPStore{
         if (capList == null) return false;
         return capList.contains(capability);
     }
-    
+
     public synchronized void setCapabilities(List<String> capList) {
         this.capList = capList;
     }
